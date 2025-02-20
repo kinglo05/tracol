@@ -1,0 +1,241 @@
+/* Basic Page Styling */
+
+/* style.css */
+
+
+
+
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.hidden {
+  display: flex;
+}
+
+
+
+.containerNF {
+  display: flex;
+  /* Other container styles as needed (e.g., width, height) */
+}
+
+
+
+
+
+
+/* //////////////// Sidebar NEWFORM ONLY Styling ////////////////// */
+.sidebarNF {
+  width: 200px;
+  background-color: #f0f0f0;
+  padding: 20px;
+  height: 100vh;
+  position: fixed;
+}
+
+.sidebarNF ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebarNF li a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: #333;
+  border-bottom: 1px solid #ccc;
+}
+
+.sidebarNF li a:hover {
+  background-color: #aa3bf3;
+}
+
+
+.main-contentNF {
+  /* Takes up the remaining space */
+  flex: 1; /* Or width: calc(100% - 250px); if you don't want it to grow/shrink */
+  /* Other main content styles */
+  margin-left: 20px; /* Example: Add some space between sidebar and main content*/
+}
+
+.main-contentNF{
+  margin-left: 270px; /* Example: Add some space between sidebar and main content*/
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+th,
+td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ccc;
+}
+
+/* Form Styling */
+.payment-formNF {
+    margin-bottom: 20px;
+}
+
+label {
+    display: inline;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="date"],
+input[type="time"],
+select {
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #f8f4f4;
+    width: 150px;
+}
+
+/* Button Styling */
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+
+#edit-new-remain {
+  /* Any specific styles for the input itself, if needed */
+  border: 1px solid #20854e; /* Example: A light gray border for the input */
+}
+
+#edit-new-borrowed {
+  /* Any specific styles for the input itself, if needed */
+  border: 1px solid #4CAF50; /* Example: A light gray border for the input */
+}
+
+#checkboxClaimed {
+  /* Any specific styles for the input itself, if needed */
+  border: 1px solid #eef0ee; /* Example: A light gray border for the input */
+}
+
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .sidebar ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .sidebar li a {
+        border-bottom: none;
+    }
+}
+
+
+
+.modal {
+    display: block; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0, 0, 0, 0.4); 
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%; 
+  }
+  
+  .close-modal {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close-modal:hover,
+  .close-modal:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+
+
+
+
+  
+  /* The Close Button */
+  .close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close-button:hover,
+  .close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+
+
+
+
+
+  /* Hide the first column (ID column) */
+
+
+
+
+
+
+
+
+
+/*  for input box edit merchant inline style  */
+
+
+
+
+ 

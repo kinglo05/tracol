@@ -1,0 +1,225 @@
+/* Basic Page Styling */
+
+/* style.css */
+
+
+
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.hidden {
+    display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Main Content Styling */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    margin-left: 270px; /* Adjust based on sidebar width */
+}
+
+.page {
+    margin-bottom: 30px;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ccc;
+}
+
+/* Form Styling */
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input :hover {
+  background-color: #08eec8; /* A slightly darker gray on hover */
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="date"],
+input[type="time"],
+
+select {
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #8a8484;
+    width: 150px;
+    border-radius: 8px;   
+    background-color: #08eec8;
+}
+
+#payment-type {
+  width: 170px; /* Or any other value */
+}
+
+#user {
+  width: 170px; /* Or any other value */
+}
+
+
+
+
+
+
+
+/* Button Styling */
+
+#submit-payment {
+  background-color: #007bff; /* Blue background */
+  color: white; /* White text */
+  padding: 10px 20px; /* Padding around text */
+  border: none; /* Remove default border */
+  border-radius: 10px; /* Rounded corners */
+  cursor: pointer; /* Change cursor on hover */
+  font-size: 16px;  /* Adjust font size */
+  font-family: sans-serif; /* Example font family */
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  width: 170px;
+}
+
+#submit-payment:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+#submit-payment:active { /* Style when button is clicked */
+  background-color: #003f80;
+}
+
+
+
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around text */
+    cursor: pointer; /* Change cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+
+
+
+
+
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .sidebar ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .sidebar li a {
+        border-bottom: none;
+    }
+}
+
+ 
+#merchant-search {
+  color: rgb(15, 87, 15);
+  background-color: #f0f0f0; /* Light gray */
+  border-color: #3f3c3c; /* Slightly darker gray */
+}
+
+#merchant-search:hover {
+  background-color: #e0e0e0; /* A slightly darker gray on hover */
+}
+
+
+/* Sidebar Styling */
+.sidebar {
+  width: 200px;
+  background-color: #e5ebeb;
+  padding: 20px;
+  height: 100vh;
+  position: fixed;
+  border-radius: 8px; 
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li a {
+  display: block;
+  padding: 15px;
+  text-decoration: none;
+  color: #333;
+  border-bottom: 1px solid #8f8d8d;
+  border-radius: 8px; 
+}
+
+
+
+
+.sidebar li a:hover {
+background-color: #08eec8;
+}
+
+/*
+//////////////// FOR LI CHANGE COLOR ////////////
+*/
+
+
+li {
+background-color: white; /* Default background color */
+}
+
+li.active { /* Style for the active <li> */
+background-color: #08eec8;
+}
+
+li a {
+display: block; /* Makes the entire <li> clickable */
+padding: 10px;    /* Add some padding */
+text-decoration: none; /* Remove underlines from links */
+color: black; /* Set link color */
+}
+

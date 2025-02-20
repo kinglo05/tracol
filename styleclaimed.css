@@ -1,0 +1,487 @@
+/* Basic Page Styling */
+
+/* style.css */
+
+#eightCnew {
+  margin-top: 1px;
+  margin-right: 10px; /* If you want space after the input too */
+  background-color: #c9cfce; /* Light gray */
+  width: 5%; /* Table takes full width of its container */
+  border-radius: 8px; /* Adjust the radius value for desired curvature */
+  border: 2px solid #f1fcf9;
+}
+#eightFiveCnew {
+  margin-top: 1px;
+  margin-right: 10px; /* If you want space after the input too */
+  background-color: #c9cfce; /* Light gray */
+  width: 5%; /* Table takes full width of its container */
+  border-radius: 8px; /* Adjust the radius value for desired curvature */
+  border: 2px solid #f1fcf9;
+}
+
+
+#data {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px; /* Space between items */
+  background-color: #cad3ce;
+  height: 39px;
+  margin-top: 5px;
+ 
+}
+
+label {
+  margin-right: 5px; /* Space between label and input */
+}
+
+
+#total-claimedCnew {
+  margin-top: 1px;
+  margin-right: 10px; /* If you want space after the input too */
+  background-color: #c9cfce; /* Light gray */
+  width: 5%; /* Table takes full width of its container */
+  border-radius: 8px; /* Adjust the radius value for desired curvature */
+  border: 2px solid #f1fcf9;
+}
+
+#total-resiboClaimedCnew {
+  margin-top: 1px;
+  margin-right: 10px; /* If you want space after the input too */
+  background-color: #c9cfce; /* Light gray */
+  width: 5%; /* Table takes full width of its container */
+  border-radius: 8px; /* Adjust the radius value for desired curvature */
+  border: 2px solid #f1fcf9;
+}
+
+
+
+
+
+
+
+
+
+
+#editclaimed {
+  width: 200px;
+ }
+
+
+
+
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Sidebar Styling */
+.sidebar {
+  width: 200px;
+  background-color: #e5ebeb;
+  padding: 20px;
+  height: 100vh;
+  position: fixed;
+  border-radius: 8px; 
+  z-index: 1000;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li a {
+  display: block;
+  padding: 15px;
+  text-decoration: none;
+  color: #333;
+  border-bottom: 1px solid #8f8d8d;
+  border-radius: 8px; 
+}
+
+
+
+
+.sidebar li a:hover {
+background-color: #08eec8;
+}
+
+/*
+//////////////// FOR LI CHANGE COLOR ////////////
+*/
+
+
+li {
+background-color: white; /* Default background color */
+}
+
+li.active { /* Style for the active <li> */
+background-color: #08eec8;
+}
+
+li a {
+display: block; /* Makes the entire <li> clickable */
+padding: 10px;    /* Add some padding */
+text-decoration: none; /* Remove underlines from links */
+color: black; /* Set link color */
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Main Content Styling */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    margin-left: 220px; /* Adjust based on sidebar width */
+}
+
+.page {
+    margin-bottom: 30px;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ccc;
+}
+
+/* Form Styling */
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+
+input :hover {
+  background-color: #080cee; /* A slightly darker gray on hover */
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="date"],
+input[type="time"],
+
+select {
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #8a8484;
+    width: 150px;
+    border-radius: 8px;   
+    background-color: #08eec8;
+}
+
+#edit-status2 {
+  width: 170px; /* Or any other value */
+}
+
+#user {
+  width: 170px; /* Or any other value */
+}
+
+
+#searchTitle {
+  width: 140px;
+  border-color: #3f3c3c; /* Slightly darker gray */
+}
+
+#searchTitle {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+
+button {
+  background-color:#08eec8; /* Blue background */
+  color: white; /* White text */
+  padding: 10px 20px; /* Padding around text */
+  border: none; /* Remove default border */
+  border-radius: 8px; /* Rounded corners */
+  cursor: pointer; /* Change cursor on hover */
+  font-size: 16px;  /* Adjust font size */
+  font-family: sans-serif; /* Example font family */
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  width: 90px;
+}
+
+  button:hover {
+    background-color:  #082bee; /* A slightly darker gray on hover */
+  }
+
+
+
+#edit-new-remain {
+  /* Any specific styles for the input itself, if needed */
+  border: 1px solid #20854e; /* Example: A light gray border for the input */
+}
+
+#edit-new-borrowed {
+  /* Any specific styles for the input itself, if needed */
+  border: 1px solid #4CAF50; /* Example: A light gray border for the input */
+}
+
+#checkboxClaimed {
+  /* Any specific styles for the input itself, if needed */
+  border: 1px solid #eef0ee; /* Example: A light gray border for the input */
+}
+
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .sidebar ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .sidebar li a {
+        border-bottom: none;
+    }
+}
+
+
+
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0, 0, 0, 0.4); 
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%; 
+  }
+  
+  .close-modal {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close-modal:hover,
+  .close-modal:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .hidden {
+    display: none;
+  }
+
+
+
+  /* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content/Box */
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #480af1;
+    width: 80%; /* Could be more or less, depending on screen size */
+  }
+  
+  /* The Close Button */
+  .close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close-button:hover,
+  .close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+
+
+
+
+
+  /* Hide the first column (ID column) */
+
+
+
+#merchants-table td:nth-child(1),
+#merchants-table th:nth-child(1) {
+  display: none;
+}
+
+#payments-table td:nth-child(1),
+#payments-table th:nth-child(1) {
+  display: none;
+}
+
+
+
+
+
+
+
+/*  for input box edit merchant inline style  */
+
+.edit-merchant-form{
+  display: flex; /* Enable flexbox */
+  align-items: center; /* Vertically align items */
+}
+
+.edit-merchant-form{
+  margin-right: 5px; /* Add some space between label and input */
+}
+
+
+
+
+/* Basic table styling    ////////// FOR CLAIMED-PAYMENTS ONLY //////////////////// */
+/* Basic table styling    ////////// FOR CLAIMED-PAYMENTS ONLY //////////////////// */
+
+#payments-table2 {
+  width: 100%; /* Table takes full width of its container */
+  border-collapse: collapse;
+}
+#payments-table2 th, #payments-table2 td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  white-space: nowrap; /* Prevent content from wrapping */
+  overflow: hidden;    /* Hide overflowing content */
+  text-overflow: ellipsis; /* Add ellipsis (...) for overflowing text */
+}
+
+/* Container for the table with scrolling */
+.table-container {
+  width: 100%; /* Or a specific width like 80% */
+  max-height: 400px; /* Set a maximum height for scrolling */
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: auto; /* Enable horizontal scrolling if needed */
+}
+
+/* Optional: Style the scrollbar (webkit browsers) */
+.table-container::-webkit-scrollbar {
+  width: 8px; /* Adjust scrollbar width */
+}
+.table-container::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Scrollbar track background */
+}
+.table-container::-webkit-scrollbar-thumb {
+  background: #888; /* Scrollbar thumb color */
+}
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Scrollbar thumb hover color */
+}
+
+/* Make table header sticky */
+#payments-table2 thead th {
+  position: sticky;
+  top: 0;
+  background-color: rgb(87, 207, 107); /* Or your preferred header background */
+ 
+}
+
+/* Footer styling */
+#payments-table2 tfoot {
+  position: sticky;
+  bottom: 0;
+  background-color: rgb(87, 207, 107); /* Or your preferred footer background */
+ 
+}
+
+
+
+
+
+/* Basic table styling    ////////// FOR CLAIMED payments -search ONLY //////////////////// */
+
+#payment-search2 {
+  border-radius: 8px;
+  color: rgb(15, 87, 15);
+  background-color: #f0f0f0; /* Light gray */
+  border-color: #3f3c3c; /* Slightly darker gray */
+}
+
+#payment-search2:hover {
+  background-color:  #08eec8;/* A slightly darker gray on hover */
+}
+
+
+/* Basic table styling    ////////// FOR CLAIMED MERCHANTS -search ONLY //////////////////// */
+
+
+
+
+
+
+
+
+
+
+
+
+

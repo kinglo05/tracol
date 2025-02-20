@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NEW PAYMENTS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="newpaymenttable.css">
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+   
+    <style>
+       
+        </style>
+
+
+
+</head>
+<body>
+    <div class="sidebar" id="sidebar" >
+     <div id="usernameHolder">  <h3 id="usernameDisplay">Loading...</h3>  </div>
+
+        <ul>
+            <li><a href="home.html">ADD NEW PAYMENT</a></li>
+            <li><a href="newpayments.html">NEW-PAYMENTS</a></li>
+            <li><a href="claimed.html">CLAIMED-PAYMENTS</a></li>
+            <li><a href="merchant.html">MERCHANTS</a></li>
+            <li><a href="utilities.html">UTILITIES</a></li>
+        </ul>
+        <div><button id="logoutButton">Logout</button></div>
+    </div>
+
+    <div class="main-content">
+
+        <div id="payments"  >
+            <h2>New Payments</h2><br>
+           
+
+            <button id="searchTitle" type="submit">Search Here:</button>
+            <b> <input type="text" id="payment-search" placeholder="Search new payments here">  </b> 
+            <button id="checkboxClaimed" type="submit" hidden></button> 
+            <div class="checkbox-group">
+            </div>
+
+            <div id="data" style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
+                <input type="date" name="date-today" id="date-today">
+
+                <label for="total-today">Total Today:</label>
+
+                <input type="text" id="total-today" readonly>
+            
+                <label for="total-resibo">Number of Reciept:</label>
+                <input type="text" id="total-resibo" readonly>
+            </div>
+
+            <div id="edit-payment-form" class="modal hidden">
+                <div class="modal-content" id="editnewpayment">
+                 
+                    <h3>Edit Payment NEW</h3>
+
+                     
+                    
+                     
+                    <label for="edit-amount">Amount:</label>
+                    <input type="number" id="edit-amount"><br>
+
+                    <label for="edit-ref-number">Reference Number:</label>
+                    <input type="number" id="edit-ref-number" placeholder="Input 4 digit" pattern="\d{4}" required>
+                   
+
+                  
+                    <label  for="edit-payment-type">Payment Type:</label>
+                    <select id="edit-payment-type"></br>
+                        <option value="gcash">GCASH</option>
+                        <option value="cashin">CASHIN</option>
+                        <option value="bank">BANK</option>
+                    </select> <br>
+                    <label for="edit-time">Time:</label>
+                    <input type="time" id="edit-time"><br>
+                    <label for="edit-date">Date:</label>
+                    <input type="date" id="edit-date"><br>
+                    <label for="edit-user">User:</label>
+                    <input type="text" id="edit-user" readonly ><br>                    
+                    <label for="edit-merchant">Merchant:</label>
+                    <input type="text" id="edit-merchant" placeholder="Enter merchant name"><br>
+                    <ul id="suggestionsList"></ul>
+                    <label for="edit-status">Status:</label>
+                    <input type="text" id="edit-status"  readonly ><br>
+                    <input type="text" id="edit-fireKey"  hidden><br>
+                    <input type="text" id="edit-idPay"  hidden><br>
+
+                    <button id="save-edit">Save</button>
+                    <button id="cancel-edit">Close</button>
+                </div>
+            </div>
+
+
+            <div id="edit-payment-formAssign" class="modal hidden">
+                <div class="modal-content" id="editnewpaymentAssign">
+                 
+                    <h3>Assign Trader</h3>
+
+                   
+            <input type="number" id="edit-ref-numberAssign" placeholder="Input 4 digit" pattern="\d{4}"  readonly >
+            <input type="text" id="edit-fireKeyAssign" hidden ><br>
+            <input type="text" id="edit-idPayAssign"  hidden><br> 
+            <input type="number" id="edit-amountAssign" readonly >
+                    <label for="edit-merchantAssign">WhatsApp Nickname</label>
+                    <input type="text" id="edit-merchantAssign" placeholder="Enter merchant name"><br>
+                    <ul id="suggestionsListAssign"></ul>
+                    
+                    
+
+                    <button id="save-editAssign">Save</button>
+                    <button id="cancel-editAssign">Close</button>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+            <div class="table-container"> 
+              <table id="payments-table">
+                <ul id="itemList"></ul>
+                <thead>
+                    <tr>
+                        <th>ID</th> 
+                        <th>Assign</th>
+                        <th>Amount</th>
+                        <th>Reference#</th>
+                        <th>Time</th>
+                        <th>Date</th>
+                        <th>Payment Type</th>
+                        <th>User</th>
+                        <th>Merchant</th>
+                        <th>Status</th>
+                       <th> Trade <input type="checkbox" id="payment-sana-all" hidden> </th> 
+                        <th>Edit</th>
+                       
+                        
+                      </tr>
+                     </thead>
+                     <tbody>
+                     </tbody>
+                    <tfoot>     
+                    <td colspan="2" style="text-align: right;"><b>Total:</b></td>
+                    <td id="table-total">0.00</td>
+                     </tr>
+                     </tfoot>
+                
+                     </table>
+                       </div>   
+             </div>
+           
+             <div id="data" style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
+                <input type="text" id="eight">
+                <input type="text" id="eightFive">
+
+                <label for="total-claimed">Total trades today:</label>
+                <input type="text" id="total-claimed" readonly>
+            
+                <label for="total-resiboClaimed">Number of reciept traded:</label>
+                <input type="text" id="total-resiboClaimed" readonly>
+
+                <input type="text" id="eightC">
+                <input type="text" id="eightFiveC">
+            </div>
+
+
+        
+    </div>
+
+   
+    <script src="scriptnewpaytable.js"></script>
+</body>
+</html>

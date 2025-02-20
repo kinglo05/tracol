@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>UTILITIES</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styleutilities.css">
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+   
+    <style>
+        .hide-column {
+          display: none;
+        }
+        
+        /* Other table styles */
+        table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+        th, td {
+          border: 1px solid rgb(201, 192, 192);
+          padding: 8px;
+          text-align: left;
+        }
+        </style>
+
+
+
+</head>
+<body>
+    <div class="sidebar" id="sidebar">
+        <div id="usernameHolder">  <h3 id="usernameDisplay">Loading...</h3>  </div>
+
+        <ul>
+            <li><a href="home.html">ADD NEW PAYMENT</a></li>
+            <li><a href="newpayments.html">NEW-PAYMENTS</a></li>
+            <li><a href="claimed.html">CLAIMED-PAYMENTS</a></li>
+            <li><a href="merchant.html">MERCHANTS</a></li>
+            <li><a href="utilities.html">UTILITIES</a></li>     
+        </ul>
+        <div><button id="logoutButton">Logout</button></div>
+    </div>
+
+    <div class="main-content">
+
+
+        <div id="merchants">
+            <h2>Utilities / Users</h2>
+            <button id="searchTitle" type="submit">Search Here:</button>
+            <input type="text" id="merchant-search" placeholder="Search merchants here">
+            <button id="add-merchant-button">Add New Users</button>
+            <div class="checkbox-groupM"> 
+            </div>
+
+            <div class="table-container"> 
+            <table id="merchants-table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>merchantID</th>
+                        <th>Traders</th>
+                        <th>Noones Account</th>
+                         <th>Total#</th>
+                        <th>New Payments</th>
+                        <th>Remaining</th>
+                        <th>Borrowed</th>
+                        <th>Total</th>
+                         <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                          <!--  <td colspan="2" style="text-align: right;"><b>Total:</b></td>-->
+                            <td id="table-totalM">0.00</td>
+                        </tr>
+                    </tfoot>
+               
+                </table>
+
+                </div>
+
+
+                <div id="data" style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
+                    <label for="total-active">Active Traders:</label>
+                    <input type="text" id="total-active" readonly>
+                    <label for="total-inactive">Inactive Traders:</label>
+                    <input type="text" id="total-inactive" readonly>
+                </div>
+
+
+
+
+
+
+
+
+            <div id="add-merchant-form" class="modal hidden">
+                 <div class="modal-content" ID="addmerchant">
+                    <h3>Add New User</h3>
+
+                    <label for="new-merchant-name">Email</label>
+                    <input type="text" id="new-merchant-name" name="email" placeholder="Type email" required><br>
+
+                    <label for="new-merchant-email">Password:</label>
+                    <input type="text" id="new-merchant-email" name="password" placeholder="input password"><br>
+
+                    <label for="roleinput">Select Role</label>
+                <select type="text" id="roleinput"><br>
+                 <option value="admin">admin</option>
+                 <option value="user">user</option>
+                </select> <br>
+
+                    
+                   
+                <button id="submit-merchant" type="submit">Save</button>
+                    <button id="cancel-add-merchant" >Close</button>
+                   </div>
+
+
+             </div>
+            
+            
+             <div id="edit-merchant-form" class="modal hidden">
+                <div class="modal-content" id="editmerchant">
+                     <h2>TRADERS RECORDS</h2>
+                   
+                    <label for="edit-merchant-name" >WHATSAPP NICKNAME</label>
+                  <b>  <input type="text" id="edit-merchant-name" > </b><br>
+
+                    <label for="edit-merchant-email" >Noones Account Used:</label>
+                    <input type="text" id="edit-merchant-email"  ><br>
+
+                    <label for="mer-general-total" >Over-all Total:</label>
+                    <input type="text" id="mer-general-total"  readonly><br>
+                                       
+                    <label for="edit-num-paymentst"  >No. of Payments</label>
+                    <input type="text" id="edit-num-paymentst" readonly><br>  
+
+                    <label for="edit-new-pay" >Total NewPayments:</label>
+                    <input type="text" id="edit-new-pay"   ><br>
+
+                    <label for="edit-new-remain" >Remaining:</label>
+                    <input type="text" id="edit-new-remain" ><br>
+
+
+                    <label for="edit-new-borrowed" >Barrowed:</label>
+                    <input type="text" id="edit-new-borrowed"  style="display: inline-block;  background-color: #cde4eb;" ><br>
+
+                   
+
+                    <!-----/////////////////////////////////////////////////////--------
+                           ////////////////////////////////////////////////////---------
+                        //////////////////////  fot trading table --------------------->
+
+
+                        <table id="claim-table">
+                            <ul id="itemListC"></ul>
+                            <thead>
+                                <tr>
+                                    <th>No.</th> 
+                                    <th>Amount</th>
+                                    <th>Ref#</th>
+                                    <th>Time</th>
+                                    <th hidden>Date </th>
+                                    <th hidden>Payment Type</th>
+                                    <th hidden>User</th>
+                                    <th hidden>Merchant</th>
+                                    <th >Status</th>
+                                    <th  style="  background-color: #e7e4e4;">  <input type="checkbox" id="payment-sana-allC" > Check to Trade</th>
+                                    <th hidden>Edit </th>
+                                    <th hidden>Delete</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                </tbody>
+                            
+                             <tfoot>
+                    <tr>
+                        <td colspan="1" style="text-align: left;"   style=" background-color: #e7e4e4;"><b>Total:</b></td>
+                        <td id="table-totalC"  style=" background-color: #e7e4e4;">0.00</td>
+                    </tr>
+                </tfoot>
+                            
+                        </table>
+            
+            
+
+
+                      <!-----/////////////////////////////////////////////////////--------
+                          ////////////////////////////////////////////////////---------
+                          //////////////////////  fot trading table ends here -------------->
+
+
+                    <button id="save-edit-merchant">Save</button>
+                    <button id="cancel-edit-merchant">Close</button>
+                   
+
+
+                    <label for="edit-id-m" hidden></label>
+                    <input type="text" id="edit-id-m" hidden ><br>
+
+                    <label for="edit-merChantId" hidden></label>
+                    <input type="text" id="edit-merChantId" hidden><br>
+
+
+                </div>
+            </div>     
+        </div>
+
+        
+        
+        
+        
+        
+        
+
+       
+
+
+
+    </div>
+
+   
+    <script src="scriptutilities.js"></script>
+</body>
+</html>
