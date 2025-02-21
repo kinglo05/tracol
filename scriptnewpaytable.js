@@ -507,7 +507,7 @@ if (paymentsTable) {
             });
 
             if (totalAmountSpan) { // Check if the total amount span exists
-                totalAmountSpan.textContent = total.toFixed(2);
+                totalAmountSpan.textContent = total.toFixed(3);
             } else {
                 console.error("Total amount span element not found!");
             }
