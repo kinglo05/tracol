@@ -1,18 +1,18 @@
 // Firebase Configuration (Replace with your actual config)
 const firebaseConfig = {
-  apiKey: "AIzaSyCYe3m5O6X1-q47u1w1GQ4bT8pAvJ5tzq8",
-  authDomain: "tracollector.firebaseapp.com",
-  databaseURL: "https://tracollector-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "tracollector",
-  storageBucket: "tracollector.firebasestorage.app",
-  messagingSenderId: "520928034041",
-  appId: "1:520928034041:web:1e5facfbe4ddb5e55e7628",
-  measurementId: "G-YPW4TB6P51"
+//  apiKey: "AIzaSyCYe3m5O6X1-q47u1w1GQ4bT8pAvJ5tzq8",
+//  authDomain: "tracollector.firebaseapp.com",
+//  databaseURL: "https://tracollector-default-rtdb.asia-southeast1.firebasedatabase.app",
+//  projectId: "tracollector",
+//  storageBucket: "tracollector.firebasestorage.app",
+//  messagingSenderId: "520928034041",
+//  appId: "1:520928034041:web:1e5facfbe4ddb5e55e7628",
+//  measurementId: "G-YPW4TB6P51"
 };
 
 
 const app = firebase.initializeApp(firebaseConfig); 
-const database = firebase.database();
+  const database = firebase.database();
 
 // Firebase Auth Listener to Check if User is Logged In
 firebase.auth().onAuthStateChanged((user) => {
