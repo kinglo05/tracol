@@ -27,7 +27,7 @@ firebase.auth().onAuthStateChanged((user) => {
     .then(snapshot => {
         if (snapshot.exists()) {
             const userData = snapshot.val();
-            document.getElementById("usernameDisplay").innerText = "Welcome, " + userData.email;
+            document.getElementById("usernameDisplay").innerText =  userData.email;
         } else {
             console.log("No user data found!");
         }
@@ -56,14 +56,6 @@ document.getElementById("logoutButton").addEventListener("click", function() {
       console.error("Logout Error:", error);
   });
 });
-
-
-
-
-
-
-
-
 
 
 
@@ -225,6 +217,16 @@ const suggestionsListAssign = document.getElementById('suggestionsListAssign');
 // Get the current page URL (or path)
 const currentPage2 = window.location.pathname; // Or window.location.href if you need the full URL
 
+
+
+
+
+
+
+
+
+
+
 // Get all the <li> elements
 const navItems = document.querySelectorAll('ul li');
 
@@ -239,24 +241,16 @@ navItems.forEach(item => {
 
 
 
+function showAlert(message, duration = 3000) {
+  const alertBox = document.getElementById("custom-alert");
+  alertBox.textContent = message;
+  alertBox.style.display = "block";
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  // Auto-close after `duration` milliseconds
+  setTimeout(() => {
+      alertBox.style.display = "none";
+  }, duration);
+}
 
 
 
@@ -277,6 +271,10 @@ const dateInput22 = document.getElementById('date-today');
   dateInput22.value = formattedDate2; 
 
 
+
+
+
+  
 /////////////////////////// POPULATE MERCHANT NAME //////////////////////// 
 
 const merchantInputP = document.getElementById('edit-merchant');
@@ -370,9 +368,6 @@ data.forEach((payment, rowIndex) => {
   const row = table.insertRow();
 
 
-  // Create table cells and populate them with data
-
-  // Create a cell for the row index
   const rowIndexCell = row.insertCell();
   rowIndexCell.textContent = rowIndex + 1;
 
@@ -387,6 +382,10 @@ data.forEach((payment, rowIndex) => {
 
   const timeCell = row.insertCell();
   timeCell.textContent = payment.time;
+ 
+////////insert name here//////////////
+const merchantCell = row.insertCell();
+  merchantCell.textContent = payment.merchantP; 
 
   const dateCell = row.insertCell();
   dateCell.textContent = payment.date;
@@ -397,9 +396,8 @@ data.forEach((payment, rowIndex) => {
   const userCell = row.insertCell();
   userCell.textContent = payment.user;
 
-  const merchantCell = row.insertCell();
-  merchantCell.textContent = payment.merchantP; 
-
+  ////merchant here old /////
+  
 
   const statusCell = row.insertCell();
   statusCell.textContent = payment.status;
@@ -435,25 +433,12 @@ data.forEach((payment, rowIndex) => {
   });  
   
   checkboxCell.appendChild(checkbox); 
-    
-  
-   //////////////////////////// ALL ABOUT CHECKBOX SELECTION ENDS HERE  /////////////////////////// 
-    //////////////////////////// ALL ABOUT CHECKBOX SELECTION ENDS HERE  /////////////////////////// 
-     //////////////////////////// ALL ABOUT CHECKBOX SELECTION ENDS HERE  /////////////////////////// 
-  
-
-
-  // Add Edit, Delete, and Status cells (you'll need to implement the functionality)
+ 
 
   // Add Edit button with data-row-index 
   const editCell = row.insertCell();
   editCell.innerHTML = `<button class="edit-button" data-row-index="${payment.id}">Edit</button>`;
 
-
-
-  
-
-  
 checkbox.addEventListener('change', (event) => {
   event.stopPropagation(); // Prevent event from bubbling up
   if (checkbox.checked) {
@@ -478,44 +463,42 @@ checkbox.addEventListener('change', (event) => {
 });
 
 
-
-
-/////////////////////////////////// auto add /////////////////////////////
-/////////////////////////////////// auto add /////////////////////////////
 /////////////////////////////////// auto add /////////////////////////////
 
 
-const paymentsTable = document.getElementById('payments-table');
+const paymentsTableNew = document.getElementById('payments-table');
 
 // Check if the table exists before proceeding
-if (paymentsTable) {
-    const tableBody = paymentsTable.querySelector('tbody');
+if (paymentsTableNew) {
+    const tableBody = paymentsTableNew.querySelector('tbody');
 
     // Check if the tbody exists
     if(tableBody){
-        const totalAmountSpan = document.getElementById('table-total');
+        const totalAmountSpanNew = document.getElementById('table-total');
 
-        function calculateTotal() {
+        function calculateTotalNew() {
           itemList.innerHTML = ""; // Clear existing list
-            let total = 0;
-            const amountCells = tableBody.querySelectorAll('td:nth-child(2)');
+            let totalNew = 0;
+            const amountCells = tableBody.querySelectorAll('td:nth-child(3)');
 
             amountCells.forEach(cell => {
-                const amount = parseFloat(cell.textContent) || 0;
-                total += amount;
-               // console.log("DIRI   " + total);
+                const amountNew = parseFloat(cell.textContent) || 0;
+                totalNew += amountNew;
+
+               // console.log("DIRI   " + amountCells);
             });
 
-            if (totalAmountSpan) { // Check if the total amount span exists
-                totalAmountSpan.textContent = total.toFixed(3);
+            if (totalAmountSpanNew) { // Check if the total amount span exists
+                totalAmountSpanNew.textContent = totalNew.toFixed(2);
+             //   console.log("mao ni total: ");
             } else {
                 console.error("Total amount span element not found!");
             }
         }
 
-        calculateTotal(); // Initial calculation
+        calculateTotalNew(); // Initial calculation
 
-        const observer = new MutationObserver(calculateTotal);
+        const observer = new MutationObserver(calculateTotalNew);
         const config = { childList: true, subtree: true };
 
         observer.observe(tableBody, config);
@@ -524,9 +507,6 @@ if (paymentsTable) {
     }
   }
 
-
-
-////////////////////////// test for checkbox claimed ALL /////////////////////////
 ////////////////////////// test for checkbox claimed ALL /////////////////////////
 
 // // Your submit button
@@ -561,11 +541,6 @@ checkboxClaimed.addEventListener('click', () => {
 });
 
 
-
-
-
-/////////////////////////////  // Event listener for Edit button //////////////////////////////
-/////////////////////////////  // Event listener for Edit button //////////////////////////////
 /////////////////////////////  // Event listener for Edit button //////////////////////////////
 
  editCell.addEventListener('click', (event) => {
@@ -591,22 +566,17 @@ checkboxClaimed.addEventListener('click', () => {
 });
 
 
-
-
-
-
-
-
 /////////////////////////////  // Event listener for Edit button aSSIGNMENT  //////////////////////////////
 
 assignCell.addEventListener('click', (event) => {
   const button = event.target;
   const firebaseKey = button.dataset.rowIndex;
   const rowData = tableData.find(data => data.firebaseKey === firebaseKey);
+ 
   
   document.getElementById('edit-amountAssign').value = rowData.amount;
      document.getElementById('edit-idPayAssign').value = rowData.firebaseKey;
-     document.getElementById('edit-ref-numberAssign').value = rowData.refNumber;
+     document.getElementById('edit-ref-numberAssign').value =  rowData.refNumber;
       document.getElementById('edit-merchantAssign').value = rowData.merchantP; // Populate merchant 
     
  
@@ -617,27 +587,7 @@ assignCell.addEventListener('click', (event) => {
  });
  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   });    
-
-
 
 
 //////////////////////////////////  populate merchant name ///////////////////////////////////
@@ -684,9 +634,6 @@ merchantInput.addEventListener('input', () => {
 
 //////////////////////////////////  populate merchant name for Assignment ///////////////////////////////////
 
-//const merchantInputAssign = document.getElementById('edit-merchantAssign');
-//const suggestionsListAssign = document.getElementById('suggestionsListAssign');
-
 merchantInputAssign.addEventListener('input', () => {
   const searchTerm = merchantInputAssign.value.toLowerCase();
 
@@ -723,24 +670,6 @@ merchantInputAssign.addEventListener('input', () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //////////////////////// Event listener for search input in merchant table ////////////////////////
 const merchantSearchInput = document.getElementById('merchant-search');
 
@@ -768,7 +697,7 @@ const filteredDataP = paymentsData.filter((payment) => {
   }, 100); // Delay of 250 milliseconds (adjust as needed)
 });
 
-  ////////////////////////////// end of merchant search input /////////////////////
+  
 
 
 //cancel to hide add editform
@@ -782,13 +711,10 @@ cancelEditButtonAssign.addEventListener('click', () => {
   
 
 
+  
 
 
 
-
-//////////////////////////////////////SAVE BUTTON FOR ESIT FORM ///////////////////////////
-//////////////////////////////////////SAVE BUTTON FOR ESIT FORM ///////////////////////////
-//////////////////////////////////////SAVE BUTTON FOR ESIT FORM ///////////////////////////
 
 
 
@@ -833,6 +759,20 @@ saveEditBtn.addEventListener('click', (event) => {
           if (merchantFirebaseKey) {
               const newPayKeyPar = document.getElementById('edit-idPay').value;
               const newPayKey = newPayKeyPar;
+
+            //////////// convert time to 12hours format ////////////////////
+  function formatTimeTo12Hour(timeString) {
+    let [hours, minutes] = timeString.split(":");
+    hours = parseInt(hours, 10);
+    let ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12 || 12; // Convert 24-hour to 12-hour format
+    return `${hours}:${minutes} ${ampm}`;
+  }
+    const timeInput = document.getElementById("edit-time").value;
+    let formattedTime = formatTimeTo12Hour(timeInput);
+
+
+
              
               const updatedPaymentData = {
 
@@ -840,7 +780,7 @@ saveEditBtn.addEventListener('click', (event) => {
                   amount: document.getElementById('edit-amount').value,
                   refNumber: document.getElementById('edit-ref-number').value,
                   paymentType: document.getElementById('edit-payment-type').value,
-                  time: document.getElementById('edit-time').value,
+                  time: formattedTime,
                   date: document.getElementById('edit-date').value,
                   user: document.getElementById('edit-user').value,
                   status: document.getElementById('edit-status').value,
@@ -852,12 +792,22 @@ saveEditBtn.addEventListener('click', (event) => {
               firebase.database().ref(`payments/${newPayKey}`).update(updatedPaymentData)
                   .then(() => {
                     
-                     // console.log("Payment data updated successfully.  hererere");
-                      alert("Payment details updated successfully!");
-                      // Refresh the page
-                      window.location.reload();
+                 
+                Swal.fire({
+                  title: "Success!",
+                  text: "New payment edited successfully!",
+                  icon: "success",
+                  timer: 3000, // Closes after 3 seconds
+                  showConfirmButton: false
+                });
+                
+                editPaymentForm.style.display = 'none'; 
+
+
+
+                    //  window.location.reload();
                      
-                      // ... any other success handling ...
+               
                   })
                   .catch(error => {
                       console.error("Error updating payment data:", error);
@@ -874,26 +824,12 @@ saveEditBtn.addEventListener('click', (event) => {
 
 
 
-
-/////////////////////////////ASSIGN MERCHANT SAVE BUTTON//////////////////////////////////
-
-
-
-
-//const saveEditBtn = document.getElementById('save-edit');
-//const saveEditBtnAssign = document.getElementById('save-editAssign');
-
-//const saveEditBtnAssign = document.getElementById('save-editAssign');
-
-
 saveEditBtnAssign.addEventListener('click', (event) => {
   const button = event.target;
   const firebaseKey9 = button.dataset.rowIndex;
  
   const rowData = tableData.find(data => data.firebaseKey9 === firebaseKey9);
 
-  // 1. Get the merchant name from the input box:
-  //const merchantNameInput = document.getElementById('edit-merchant'); // Assuming 'merchantP' is the ID of your merchant name input
   const merchantName = document.getElementById('edit-merchantAssign').value;
   async function getMerchantFirebaseKeyA(merchantName) {
       try {
@@ -917,11 +853,6 @@ saveEditBtnAssign.addEventListener('click', (event) => {
   } 
 
 
- // document.getElementById('edit-idPayAssign').value = rowData.firebaseKey;
- // document.getElementById('edit-ref-numberAssign').value = rowData.refNumber;
- //  document.getElementById('edit-merchantAssign').value = rowData.merchantP; // Populate merchant 
-
-
   // 3. Call the function and save the key:
   getMerchantFirebaseKeyA(merchantName)
       .then(merchantFirebaseKey => {
@@ -943,12 +874,22 @@ saveEditBtnAssign.addEventListener('click', (event) => {
               firebase.database().ref(`payments/${newPayKey}`).update(updatedPaymentData)
                   .then(() => {
                     
-                     // console.log("Payment data updated successfully.  hererere");
-                      alert("Payment details updated successfully!");
-                      // Refresh the page
-                      window.location.reload();
+                    
                      
-                      // ... any other success handling ...
+
+                    Swal.fire({
+                      title: "Success!",
+                      text: "Trader assigned successfully!",
+                      icon: "success",
+                      timer: 3000, // Closes after 3 seconds
+                      showConfirmButton: false
+                    });
+
+                    editPaymentFormAssign.style.display = 'none'; 
+                   
+                     // window.location.reload();
+                     
+                    
                   })
                   .catch(error => {
                       console.error("Error updating payment data:", error);
@@ -960,48 +901,8 @@ saveEditBtnAssign.addEventListener('click', (event) => {
               alert("Merchant not found. Please check the merchant name.");
           }
       });
-      //alert("Payment details updated successfully!");
+     
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//////////////////////////// END OF ASSIGN SAVE BUTTON //////////////////
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1081,20 +982,14 @@ document.getElementById('eightFive').value = eightPoint;
                 const todayTotalTrade = {};
             
                 const today = dateInput22.value;  // new Date();
-              //  const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
-               // const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1).getTime();
-              
-
+         
 
                 payments.forEach((payment) => {
                   if (payment.status && payment.amount && payment.date) {
                     const paymentStatus = payment.status;
                     const amount = parseFloat(payment.amount);
                     const paymentDate = payment.date; // Assuming payment.date is a timestamp
-            
-                   // console.log("date testing  sud na    :" ,paymentStatus, amount);
-
-
+        
                     // Check if the payment date is within today's range
                     if (paymentDate == today ) {
                       if (!totalnoClaimed[paymentStatus]) {
@@ -1132,3 +1027,7 @@ document.getElementById('eightFive').value = eightPoint;
             };
             
             calculateDailyTrades();
+
+
+
+           
