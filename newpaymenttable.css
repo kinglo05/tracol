@@ -1,116 +1,267 @@
-/* Basic Page Styling */
+/* Responsive Adjustments */
+@media screen and (max-width: 768px) {
+  .sidebar {
+      width: 40%; /* Increase width for smaller screens */
+  }
+}
 
-/* style.css */
-
-
-
-
-
-
-
-
-
-
-
+@media screen and (max-width: 480px) {
+  .sidebar {
+      width: 60%; /* Even wider on very small screens */
+  }
+}
 
 body {
-  font-family: sans-serif;
-  margin: 0;
-  padding: 0;
   display: flex;
+  flex-direction: column;
+  margin: 0;
+ 
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #313030;
 }
 
-.hidden {
-  display: none;
+
+
+
+.main-content {
+  margin-left: 8px;
+  margin-top: 0px;
+  transition: margin-left 0.3s;
+
+  background-color: rgb(161, 156, 156);
+/*  border-top: 100px;   */
+flex-grow: 1; /* Makes inner elements stretch */
+width: 100%; /* Ensures full width */
+
+grid-template-rows: auto 1fr auto; /* Example: Header, Main, Footer */
+
+
 }
 
-/* Sidebar Styling */
+
+#main-content {
+    min-height: 100vh; /* Ensures at least full viewport height */
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+
+
+
+
+
+.sidebar-logo {
+  width: 150px; /* Adjust width as needed */
+  height: auto; /* Keeps aspect ratio */
+  max-width: 100%; /* Ensures it doesn't exceed the sidebar width */
+  margin-left: 15%;
+
+
+
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 1px; /* Adds space between the logo and the list */
+}
+
+.sidebar-logo img {
+  width: 160px; /* Adjust width as needed */
+  height: auto; /* Keeps aspect ratio */
+  max-width: 100%; /* Ensures it doesn't exceed the sidebar width */
+  min-height: none;
+}
+
+
+
+
+.sidebar-body {
+  background: #242323;
+ 
+ 
+ 
+}
+  
+
+
+#sidebar-body {
+  margin-top: 5px;
+  
+  border-radius: 8px; 
+  margin-bottom: 20px;
+  max-height: 290px;
+
+}
+
+#sidebar {
+  
+ min-height: 600px; 
+ z-index: 500; 
+ 
+   
+ }
+
+
+
 .sidebar {
-  width: 200px;
-    background-color: #e5ebeb;
-    padding: 20px;
-    height: 100vh;
-    position: fixed;
-    border-radius: 8px; 
-    z-index: 1000;
+  height: 100vh; /* Full height */
+  background:  #222; /* Sidebar background color    =   #222; */
+   padding: 15px;   
+   width: 210px;
+   position: fixed;
+   left: -250px;
+   background-color: #222;
+   padding-top: 1px;
+  
+   transition: left 0.3s;
+   color: white;
+   display: fixed;
+   flex-direction: column;
+   justify-content: space-between;
+  
+   border-bottom: 1px solid #8f8d8d;
+  
 }
 
 .sidebar ul {
-  list-style: none;
-  padding: 0;
+   list-style-type: none;
+   padding: 0;
+   flex-grow: 1;
+   font-size: 13px; /* Adjust font size */
+   margin-left: 5px;
+   margin-top: 1px;
+  
 }
 
-.sidebar li a {
-  display: block;
-    padding: 15px;
-    text-decoration: none;
-    color: #333;
-    border-bottom: 1px solid #8f8d8d;
-    border-radius: 8px; 
+.sidebar ul li {
+   padding: 5px;
+   text-align: center;
+   width: 190px;
 }
 
-.sidebar li a:hover {
-  background-color: #08eec8;
+.sidebar ul li a {
+   color: rgb(233, 227, 227);
+   text-decoration: none;
+   display: block;
+}
+
+   .sidebar li a {
+
+padding: 8px;
+
+color: #333;
+border-bottom: 1px solid #8f8d8d;
+border-top: 1px solid #8f8d8d;
+border-radius: 8px; 
+align-items: right;
 }
 
 
 
-
-
-/*
-//////////////// FOR LI CHANGE COLOR ////////////
-*/
-
-
-li {
-  background-color: white; /* Default background color */
+.sidebar ul li a:hover {
+   background-color: #15bcc2;
 }
 
 li.active { /* Style for the active <li> */
-  background-color: #08eec8;
+background-color: #726c6c;
+border-radius: 10px; 
+padding: 2px;
+
+ }
+
+
+
+
+.logout-container {
+   padding: 2px;
+   text-align: center;
+  
+  
 }
 
-li a {
-  display: block; /* Makes the entire <li> clickable */
-  padding: 10px;    /* Add some padding */
-  text-decoration: none; /* Remove underlines from links */
-  color: black; /* Set link color */
-}
-
-
-
-
-
-
-/* Main Content Styling */
-.main-content {
-  flex: 1;
-  padding: 20px;
-  margin-left: 220px; /* Adjust based on sidebar width */
+#logout-container {
+ height:50px;
  
 }
 
-.page {
-  margin-bottom: 30px;
+
+#logoutButton {
+  margin-top: 50%;
+ 
+  height: 35px;
+   width: 70%;
+   padding: 10px;
+   background-color: rgba(216, 4, 4, 0.774);
+   border: none;
+   color: white;
+   cursor: pointer;
+ 
+  
+}
+  
+
+
+#logoutButton:hover {
+   background-color: rgb(12, 237, 245);
 }
 
-/* Table Styling */
-table {
-  width: 100%;
-  border-collapse: collapse;
+
+/*   #logoutButton {
+
+margin-bottom: 5%;
+   }
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#date-today {
+  margin-top: 0px;
+ float: right;
+  background-color: #d3d8d7; /* Light gray */
+  width: 10%; /* Table takes full width of its container */
+  border-radius: 8px; /* Adjust the radius value for desired curvature */
+  min-width: 80px;
+  height: 5px;
 }
 
-th,
-td {
-  padding: 10px;
-  text-align: left;
-  border: 1px solid #ccc;
+
+#usernameHolder {
+ 
+ margin-left: 10px;
+  
+  
 }
 
-/* Form Styling */
-form {
-  margin-bottom: 20px;
-}
+
+
+
+
 
 label {
   display: block;
@@ -128,6 +279,8 @@ input[type="date"],
 input[type="time"],
 
 select {
+  min-width: 80px;
+  color: black;
     padding: 8px;
     margin-bottom: 10px;
     border: 1px solid #8a8484;
@@ -154,6 +307,9 @@ select {
 
 
 
+
+
+
 input[type="text"],
 input[type="number"],
 input[type="email"],
@@ -161,6 +317,7 @@ input[type="date"],
 input[type="time"],
 
 #editnewpaymentAssign {
+  
     padding: 8px;
     margin-bottom: 7px;
     border: 2px solid #8a8484;
@@ -180,7 +337,14 @@ input[type="time"],
 
 
 
-
+#paymentsTitle {
+  width: 100%; /* Or any other value */
+  background-color: #08eec8;
+  height: 30px;
+  margin: 2px;
+  text-align: right;
+  margin-top:0px;
+}
 
 
 
@@ -191,14 +355,15 @@ input[type="time"],
 button {
   background-color:#08eec8; /* Blue background */
   color: white; /* White text */
-  padding: 10px 20px; /* Padding around text */
+  padding: 10px 15px; /* Padding around text */
   border: none; /* Remove default border */
   border-radius: 8px; /* Rounded corners */
   cursor: pointer; /* Change cursor on hover */
   font-size: 16px;  /* Adjust font size */
   font-family: sans-serif; /* Example font family */
   transition: background-color 0.2s ease; /* Smooth transition for hover effect */
-  width: 90px;
+  width: 80px;
+ 
 }
 
 button:hover {
@@ -208,9 +373,19 @@ button:hover {
 #searchTitle {
   width: 140px;
   border-color: #3f3c3c; /* Slightly darker gray */
+  
   }
 
-  
+  /* Button Styling */
+#searchTitle {
+  padding: 10px 15px;
+  background-color: #727772;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
 
 
 
@@ -219,7 +394,7 @@ button:hover {
     background-color: #55edf8; 
     color: white;
     border: none;
-    padding: 10px 20px;
+   
     cursor: pointer;
     border-radius: 8px;
     font-size: 16px;
@@ -227,11 +402,12 @@ button:hover {
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
     transition: all 0.2s ease;
     width: 50px;
+  
    
   }.edit-button-assign:hover {
     background-color: #0069d9; 
     transform: translateY(-1px);
-    z-index: 0;
+   
   }.edit-button-assign:active {
     background-color: #0062cc;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
@@ -259,35 +435,11 @@ border: 1px solid #eef0ee; /* Example: A light gray border for the input */
 
 
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .sidebar {
-      width: 100%;
-      height: auto;
-      position: static;
-  }
-
-  .main-content {
-      margin-left: 0;
-  }
-
-  .sidebar ul {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-around;
-  }
-
-  .sidebar li a {
-      border-bottom: none;
-  }
-}
-
-
 
 .modal {
   display: none; 
   position: fixed; 
-  z-index: 1; 
+  z-index: 1000; 
   left: 0;
   top: 0;
   width: 100%; 
@@ -328,7 +480,7 @@ border: 1px solid #eef0ee; /* Example: A light gray border for the input */
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 1200; /* Sit on top */
+  z-index: 1000; /* Sit on top */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
@@ -369,10 +521,9 @@ border: 1px solid #eef0ee; /* Example: A light gray border for the input */
 
 
 
-
 /* Hide the first column (ID column) */
 
-
+/*
 
 #merchants-table td:nth-child(1),
 #merchants-table th:nth-child(1) {
@@ -384,6 +535,7 @@ display: none;
 display: none;
 }
 
+*/
 
 
 
@@ -391,57 +543,97 @@ display: none;
 
 
 
-/* Basic table styling ////////////// for new-payments table only //////////////////////  */
 
-#payments-table {
-width: 100%; /* Table takes full width of its container */
-border-collapse: collapse;
-}
-#payments-table th, #payments-table td {
-border: 1px solid #d5d6d3;
-padding: 8px;
-text-align: left;
-white-space: nowrap; /* Prevent content from wrapping */
-overflow: hidden;    /* Hide overflowing content */
-text-overflow: ellipsis; /* Add ellipsis (...) for overflowing text */
-}
+
 
 /* Container for the table with scrolling */
 .table-container {
-width: 100%; /* Or a specific width like 80% */
-max-height: 400px; /* Set a maximum height for scrolling */
+
+max-height: 450px; /* Set a maximum height for scrolling */
 overflow-y: auto; /* Enable vertical scrolling */
 overflow-x: auto; /* Enable horizontal scrolling if needed */
+border-top: 0px;
+
 }
 
 /* Optional: Style the scrollbar (webkit browsers) */
 .table-container::-webkit-scrollbar {
-width: 8px; /* Adjust scrollbar width */
+width: 12px; /* Adjust scrollbar width */
 }
 .table-container::-webkit-scrollbar-track {
-background: #f0e9e9; /* Scrollbar track background */
+background: #cbcfcf; /* Scrollbar track background */
 }
 .table-container::-webkit-scrollbar-thumb {
-background: #888; /* Scrollbar thumb color */
+background: #494646; /* Scrollbar thumb color */
 }
 .table-container::-webkit-scrollbar-thumb:hover {
-background: #555; /* Scrollbar thumb hover color */
+background: #e67c7c; /* Scrollbar thumb hover color */
 }
 
 /* Make table header sticky */
-#payments-table thead th {
-position: sticky;
-top: 0;
-background-color: rgb(87, 207, 107); /* Or your preferred header background */
-z-index: 10; /* Ensure header is on top of the content */
+
+
+
+/* Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
 }
+
+th,
+td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #c9c2c2;
+}
+
+
+#payments-table th {
+ 
+  height: 30px;
+  width: 10%;
+  font-size: 14px; /* Set font size for table headers */
+  padding: 5px;
+  border: #3f3c3c;
+  border-radius: 3px;
+ 
+ /* font-weight: bold; /* Make headers bold (optional) */
+}
+
+
+  
+  #payments-table th, #payments-table td {
+    padding-inline: 2px;
+    position: sticky;
+  border: 1px solid #898b89;
+  padding: 5px;
+  text-align: center;
+  overflow: hidden;    /* Hide overflowing content */
+  text-overflow: ellipsis; /* Add ellipsis (...) for overflowing text */
+  }
+
+  #payments-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 100; /* Ensure it stays above other elements */
+    background-color: rgb(9, 243, 243); /* Or your preferred header background */
+   
+    }
+    
+
+
 
 /* Footer styling */
 #payments-table tfoot {
     position: sticky;
     bottom: 0;
-    background-color: rgb(87, 207, 107);
+    background-color:rgb(9, 243, 243);
    
+}
+
+
+#payments-table td:nth-child(6) { /* Targets the 6 column */
+  text-align: left;
 }
 
 
@@ -456,27 +648,19 @@ border-radius: 8px;
 color: rgb(15, 87, 15);
 background-color: #f0f0f0; /* Light gray */
 border-color: #222121; /* Slightly darker gray */
-width: 250px;
-height: 20px;
+width: 150px;
+height: 15px;
+margin-top: 8px;
+margin-left: 10px;
 }
 
 #payment-search:hover {
-background-color:  #08eec8; /* A slightly darker gray on hover */
+background-color:  #76f7dd; /* A slightly darker gray on hover */
 }
 
 
 
-/* Basic table styling    ////////// FOR CLAIMED payments -search ONLY //////////////////// */
 
-#payment-search2 {
-color: rgb(15, 87, 15);
-background-color: #f0f0f0; /* Light gray */
-border-color: #3f3c3c; /* Slightly darker gray */
-}
-
-#payment-search2:hover {
-background-color: #e0e0e0; /* A slightly darker gray on hover */
-}
 
 
 /* Basic table styling    ////////// FOR CLAIMED MERCHANTS -search ONLY //////////////////// */
@@ -492,88 +676,147 @@ background-color: #e0e0e0; /* A slightly darker gray on hover */
 }
 
 
-#data {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 5px; /* Space between items */
-  background-color: #cad3ce;
-  height: 39px;
-  margin-top: 5px;
- 
-}
+
 
 label {
   margin-right: 5px; /* Space between label and input */
 }
 
-#total-today {
+
+#data1 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px; /* Space between items */
+  background-color:  rgb(43, 41, 41);
+ 
+  height: 15%;
   margin-top: 1px;
-  margin-right: 10px; /* If you want space after the input too */
-  background-color: #08eec8; /* Light gray */
-  width: 7%; /* Table takes full width of its container */
-  border-radius: 8px; /* Adjust the radius value for desired curvature */
+ font-size: small;
+ color: rgb(250, 244, 244); /* Changes text color inside the div */
+  margin-left: 0px;
+ padding-left: 15px;
+}
+
+
+
+
+
+
+
+#data {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px; /* Space between items */
+  background-color:  rgb(43, 41, 41);
+ 
+  height: 15%;
+  margin-top: 1px;
+ font-size: small;
+ color: rgb(250, 244, 244); /* Changes text color inside the div */
+  margin-left: 0px;
+ padding-left: 10px;
+ 
+}
+
+
+#total-today {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: small;
+  height: 10px;
+  min-width: 70px;
+  margin-top: 4px;
+  margin-left: 4px; /* If you want space after the input too */
+ 
+  width: 6%; /* Table takes full width of its container */
+  
+ 
 }
 
 #total-resibo {
-  margin-top: 1px;
-  margin-right: 10px; /* If you want space after the input too */
-  background-color: #08eec8; /* Light gray */
-  width: 7%; /* Table takes full width of its container */
-  border-radius: 8px; /* Adjust the radius value for desired curvature */
-}
-
-#date-today {
-  margin-top: 1px;
-  margin-right: 10px; /* If you want space after the input too */
-  background-color: #08eec8; /* Light gray */
-  width: 10%; /* Table takes full width of its container */
-  border-radius: 8px; /* Adjust the radius value for desired curvature */
-}
-
-
-/* Button Styling */
-#searchTitle {
-  padding: 10px 20px;
-  background-color: #4CAF50;
-  color: white;
+  background: transparent;
   border: none;
-  cursor: pointer;
-  border-radius: 8px;
+  outline: none;
+  font-size: small;
+  height: 10px;
+  min-width: 70px;
+  margin-top: 4px;
+  margin-left: 1px; /* If you want space after the input too */
+ 
+  width: 6%; /* Table takes full width of its container */
+  
 }
+
+
+
 
 #eight {
-  margin-top: 1px;
-  margin-right: 10px; /* If you want space after the input too */
-  background-color: #c9cfce; /* Light gray */
-  width: 5%; /* Table takes full width of its container */
-  border-radius: 8px; /* Adjust the radius value for desired curvature */
-  border: 2px solid #f1fcf9;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 16px;
+ 
+}
+
+input[type="text"],
+
+#eight {
+   color: white;
+   font-size: small;
+  
+}
+
+
+#eight {
+  height: 10px;
+  min-width: 50px;
+  margin-top: 8px;
+  margin-left: 1px; /* If you want space after the input too */
+  font: white;
+  width: 6%; /* Table takes full width of its container */
+ 
+ 
 }
 #eightFive {
-  margin-top: 1px;
-  margin-right: 10px; /* If you want space after the input too */
-  background-color: #c9cfce; /* Light gray */
-  width: 5%; /* Table takes full width of its container */
-  border-radius: 8px; /* Adjust the radius value for desired curvature */
-  border: 2px solid #f1fcf9;
+  height: 10px;
+  min-width: 40px;
+  margin-top: 5px;
+  margin-left: 1px; /* If you want space after the input too */
+  background: transparent;
+  border: none;
+  outline: none;
+  font: white;
+  width: 6%; /* Table takes full width of its container */
+ 
+ 
 }
 
 #eightC {
-  margin-top: 1px;
-  margin-right: 10px; /* If you want space after the input too */
-  background-color: #c9cfce; /* Light gray */
-  width: 5%; /* Table takes full width of its container */
-  border-radius: 8px; /* Adjust the radius value for desired curvature */
-  border: 2px solid #f1fcf9;
+  height: 10px;
+  min-width: 40px;
+  margin-top: 5px;
+  margin-left: 1px; /* If you want space after the input too */
+  background: transparent;
+  border: none;
+  outline: none;
+  font: white;
+  width: 6%; /* Table takes full width of its container */
+ 
 }
 #eightFiveC {
-  margin-top: 1px;
-  margin-right: 10px; /* If you want space after the input too */
-  background-color: #c9cfce; /* Light gray */
-  width: 5%; /* Table takes full width of its container */
-  border-radius: 8px; /* Adjust the radius value for desired curvature */
-  border: 2px solid #f1fcf9;
+  height: 10px;
+  min-width: 40px;
+  margin-top: 5px;
+  margin-left: 1px; /* If you want space after the input too */
+  background: transparent;
+  border: none;
+  outline: none;
+  font: white;
+  width: 6%; /* Table takes full width of its container */
+ 
 }
 
 
@@ -581,23 +824,30 @@ label {
 
 
 #total-claimed {
-  margin-top: 1px;
-  margin-right: 10px; /* If you want space after the input too */
-  background-color: #c9cfce; /* Light gray */
-  width: 5%; /* Table takes full width of its container */
-  border-radius: 8px; /* Adjust the radius value for desired curvature */
-  border: 2px solid #f1fcf9;
+  height: 10px;
+  min-width: 40px;
+  margin-top: 5px;
+  margin-left: 1px; /* If you want space after the input too */
+  background: transparent;
+  border: none;
+  outline: none;
+  font: white;
+  width: 6%; /* Table takes full width of its container */
+ 
 }
 
 #total-resiboClaimed {
-  margin-top: 1px;
-  margin-right: 10px; /* If you want space after the input too */
-  background-color: #c9cfce; /* Light gray */
-  width: 5%; /* Table takes full width of its container */
-  border-radius: 8px; /* Adjust the radius value for desired curvature */
-  border: 2px solid #f1fcf9;
+  height: 10px;
+  min-width: 5px;
+  margin-top: 5px;
+  margin-left: 1px; /* If you want space after the input too */
+  background: transparent;
+  border: none;
+  outline: none;
+  font: white;
+  width: 1%; /* Table takes full width of its container */
+ 
 }
-
 
 
 
