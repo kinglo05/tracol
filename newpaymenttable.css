@@ -263,9 +263,11 @@ margin-bottom: 5%;
 
 
 
+
+
 label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 1px;
 }
 
 input :hover {
@@ -289,6 +291,15 @@ select {
     background-color: #08eec8;
 }
 
+
+
+
+
+
+
+
+
+
 #edit-payment-type {
   width: 170px; /* Or any other value */
 }
@@ -298,43 +309,166 @@ select {
   width: 210px; /* Or any other value */
 }
 
-#editnewpaymentAssign {
+
+#edit-payment-formAssig {
   width: 210px; /* Or any other value */
-  
+  min-height: 400px;
+  padding: none;
+  border: none;
 }
 
 
 
 
 
+#editnewpaymentAssign {   /*primary container */
+  width: 210px;
+  min-height: 400px;
+  display: flex;
+ 
+  align-items: center; /* Centers vertically */
+  flex-direction: column; /* Stack elements vertically */
+  text-align: center; /* Ensures text inside is centered */
 
+  border-radius: 12px;
+  background-color: #8d8888;
+  padding: 0px;
+  display: block;
+}
 
+#divrefAssign { 
+  width: 200px;
+  height: 30px;
+  border:none;
+  text-align: left;
+  margin-top: 5px;
+  margin-left: 1px;
+  font-size: 18px;
+  color: rgb(246, 246, 252); /* Change text color */
+  padding-left: 15px;
+}
 
-input[type="text"],
-input[type="number"],
-input[type="email"],
-input[type="date"],
-input[type="time"],
+#divAmount { 
+  width: 200px;
+  border: 1px solid #fcf4f4;
+  height: 30px;
+  border:none;
+  margin-top: 2px;
+  margin-left: 1px;
+  font-size: 18px;
+  text-align: left;
+  color: rgb(246, 246, 252); /* Change text color */
+  padding-left: 15px;
+}
 
-#editnewpaymentAssign {
-  
-    padding: 8px;
-    margin-bottom: 7px;
-    border: 2px solid #8a8484;
-    border-top: 1px;
-    border-radius: 8px;   
-    background-color: #99e7dc;
+#divAmount input {
+  font-size: 15px; /* Change font size */
+  color: rgb(246, 246, 252); /* Change text color */
+}
+#divrefAssign input {
+  font-size: 15px; /* Change font size */
+  color: rgb(246, 246, 252); /* Change text color */
 }
 
 
-#edit-merchantAssign {
-  width: 150px; /* Or any other value */
-  margin-top: 10px;
-  background-color: #14c8ce;
+#divNickName { 
+  border:none;
+  margin-top: 2px;
+  margin-bottom: 1px;
+  text-align: center;
+  display: block; /* Ensures the label is on its own line */
+  width: 100%;
+  height: 25px;
+  color:rgb(3, 3, 3);
+  font-size: 16px;
+  background-color: #c2b5b5;
+  padding-top: 15px;
+  font-weight: bold;
   
 }
 
+#edit-merchantAssign label {
+  margin-top: 10px; 
+}
 
+    #edit-merchantAssign {
+      margin-left: 10px;
+      text-align: center;
+      width: 170px;
+      color: rgb(15, 87, 15);
+      background-color:  #0df7e3; 
+      border-color: #3f3c3c; /* Slightly darker gray */
+      }
+      
+      #edit-merchantAssign:hover {
+      background-color: #c4b1b1; /* A slightly darker gray on hover */
+      border-color: #4e1221; /* Slightly darker gray */
+      border: 2px solid #fcf4f4;
+      color: white;
+      font-size: 16px;
+      }
+
+
+
+
+
+
+
+
+
+
+#edit-ref-numberAssign {
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 2px;
+ 
+
+}
+
+#edit-amountAssign {
+  background: transparent;
+  border: none;
+  outline: none;
+  width:2px;
+  height: 20px;
+  padding: 0px;
+  margin-left: 1px;
+  font-size: 16px;
+ 
+}
+
+
+
+
+#divassignTitle { 
+  border:none;
+  padding-top: 5px;
+  text-align: center;
+  text-align: center;
+  width: 100%;
+  border: 0px solid #fcf4f4;
+  height: 50px;
+  margin-top: 30px;
+  background-color: #252323;
+  font-size: medium;
+  color: rgb(250, 248, 245);
+ 
+ 
+}
+
+
+
+
+#divMerchantName { 
+  text-align: center;
+  width: 200px;
+  border: 0px solid #fcf4f4;
+  height: 30px;
+  margin-top: 2px;
+ 
+ 
+}
 
 
 #paymentsTitle {
@@ -347,22 +481,63 @@ input[type="time"],
 }
 
 
+#save-editAssign {
+  height: 35px;
+  margin-bottom: 5px;
+  margin-right: 2px;
+  border-color: rgb(250, 242, 242);
+  border-width: 1px;
+  width: 85px;
+  font-size: 14px;  /* Adjust font size */
+  background-color:#b80606; /* Blue background */
+}
+
+
+#cancel-editAssign {
+  height: 35px;
+  border-color: rgb(250, 242, 242);
+  border-width: 1px;
+  margin-left: 2px;
+  width: 85px;
+  font-size: 14px;  /* Adjust font size */
+  background-color:#b80606; /* Blue background */
+}
+
+#save-editAssign:hover {
+  background-color: #07f0f8; /* A slightly darker gray on hover */
+  border-color: #4e1221; /* Slightly darker gray */
+  border: 2px solid #fcf4f4;
+  color: white;
+  font-size: 16px;
+  }
+  #cancel-editAssign:hover {
+    background-color: #07f0f8; /* A slightly darker gray on hover */
+    border-color: #4e1221; /* Slightly darker gray */
+    border: 2px solid #fcf4f4;
+    color: white;
+    font-size: 16px;
+    }
+  
+
+
+
 
 
 
 
 /* Button Styling */
 button {
-  background-color:#08eec8; /* Blue background */
+  background-color:#05e2f1; /* Blue background */
   color: white; /* White text */
   padding: 10px 15px; /* Padding around text */
-  border: none; /* Remove default border */
+  border: 1px; /* Remove default border */
   border-radius: 8px; /* Rounded corners */
   cursor: pointer; /* Change cursor on hover */
   font-size: 16px;  /* Adjust font size */
   font-family: sans-serif; /* Example font family */
   transition: background-color 0.2s ease; /* Smooth transition for hover effect */
   width: 80px;
+
  
 }
 
@@ -495,7 +670,7 @@ border: 1px solid #eef0ee; /* Example: A light gray border for the input */
   background-color: #fefefe;
   margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
-  border: 1px solid #480af1;
+  border: 1px solid #bfbdc4;
   width: 80%; /* Could be more or less, depending on screen size */
 }
 
@@ -689,13 +864,13 @@ label {
   align-items: center;
   gap: 5px; /* Space between items */
   background-color:  rgb(43, 41, 41);
- 
+ padding-top: 4px;
   height: 15%;
-  margin-top: 1px;
+  margin-top: 0px;
  font-size: small;
  color: rgb(250, 244, 244); /* Changes text color inside the div */
   margin-left: 0px;
- padding-left: 15px;
+ padding-left: 20px;
 }
 
 
@@ -727,8 +902,8 @@ label {
   outline: none;
   font-size: small;
   height: 10px;
-  min-width: 70px;
-  margin-top: 4px;
+  min-width: 60px;
+  margin-top: 1px;
   margin-left: 4px; /* If you want space after the input too */
  
   width: 6%; /* Table takes full width of its container */
@@ -742,8 +917,8 @@ label {
   outline: none;
   font-size: small;
   height: 10px;
-  min-width: 70px;
-  margin-top: 4px;
+  min-width: 40px;
+  margin-top: 1px;
   margin-left: 1px; /* If you want space after the input too */
  
   width: 6%; /* Table takes full width of its container */
