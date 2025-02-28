@@ -19,15 +19,11 @@
 
 
 
-
 .sidebar-logo {
   width: 150px; /* Adjust width as needed */
   height: auto; /* Keeps aspect ratio */
   max-width: 100%; /* Ensures it doesn't exceed the sidebar width */
   margin-left: 15%;
-
-
-
   text-align: center;
   margin-top: 5px;
   margin-bottom: 1px; /* Adds space between the logo and the list */
@@ -46,9 +42,7 @@
 
 
 .sidebar-body {
-  background: #242323;
- 
- 
+  background: #242323; 
 }
   
 
@@ -204,8 +198,8 @@ margin-bottom: 5%;
 
 #add-payment {
   
- min-width: 287px;
- min-height: 70px;
+  min-width: 200px;
+  min-height: 500px;
   max-height: 100%;
   background-color:#353333;
   color: white;
@@ -219,12 +213,36 @@ margin-bottom: 5%;
 #add-payment {
   position: fixed;
   align-items: center;
+ padding-left: 10px;
+ padding-right: 10px;
+  margin-top: 15px; 
+  border-radius: 15px;
+  margin-left: 60px;
+}
 
-  padding-left: 50px;
-  margin-top: 5px;
-  
-border-radius: 10px;
-  margin-left: 3px;
+#payment-form {
+  margin-bottom: 20px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  min-width: 89%;
+  height: 12px;
+  margin-top: 1px;
+  margin-bottom: 2px;
+  border-radius: 5px;
+  text-align: center;
+  background: #4b4949;
+  padding: 5px;
+  z-index: 1000;
+ 
+/*  background: transparent;
+  border: none;
+  outline: none;  */
+ text-size-adjust: small;
+  color: rgb(196, 192, 192);
+ 
 }
 
 
@@ -239,11 +257,6 @@ border-radius: 10px;
  }
 
 
-#payment-form {
-    margin-bottom: 20px;
-   
-  
-}
 
 label {
     display: block;
@@ -294,7 +307,7 @@ select {
   transition: background-color 0.3s ease; /* Smooth transition for hover effect */
   width: 150px;
   height: 35px;
-  margin-left: 10%;
+  margin-left: 16%;
 }
 
 #submit-payment:hover {
