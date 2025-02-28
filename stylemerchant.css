@@ -1,6 +1,284 @@
-/* Basic Page Styling */
+/* Responsive Adjustments */
+@media screen and (max-width: 768px) {
+  .sidebar {
+      width: 40%; /* Increase width for smaller screens */
+  }
+}
 
-/* style.css */
+@media screen and (max-width: 480px) {
+  .sidebar {
+      width: 60%; /* Even wider on very small screens */
+  }
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+ 
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #313030;
+}
+
+
+
+
+.main-content {
+  margin-left: 8px;
+  margin-top: 0px;
+  transition: margin-left 0.3s;
+
+  background-color: rgb(161, 156, 156);
+/*  border-top: 100px;   */
+flex-grow: 1; /* Makes inner elements stretch */
+width: 100%; /* Ensures full width */
+
+grid-template-rows: auto 1fr auto; /* Example: Header, Main, Footer */
+
+
+}
+
+
+#main-content {
+    min-height: 100vh; /* Ensures at least full viewport height */
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.sidebar-logo {
+  width: 150px; /* Adjust width as needed */
+  height: auto; /* Keeps aspect ratio */
+  max-width: 100%; /* Ensures it doesn't exceed the sidebar width */
+  margin-left: 15%;
+
+
+
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 1px; /* Adds space between the logo and the list */
+}
+
+.sidebar-logo img {
+  width: 160px; /* Adjust width as needed */
+  height: auto; /* Keeps aspect ratio */
+  max-width: 100%; /* Ensures it doesn't exceed the sidebar width */
+  min-height: none;
+}
+
+
+.sidebar-body {
+  background: #242323; 
+}
+  
+
+#sidebar-body {
+  margin-top: 5px;
+  
+  border-radius: 8px; 
+  margin-bottom: 20px;
+  max-height: 290px;
+
+}
+
+#sidebar {
+  
+ min-height: 600px; 
+ z-index: 500;  
+ }
+
+.sidebar {
+  height: 100vh; /* Full height */
+  background:  #222; /* Sidebar background color    =   #222; */
+   padding: 15px;   
+   width: 210px;
+   position: fixed;
+   left: -250px;
+   background-color: #222;
+   padding-top: 1px;
+   transition: left 0.3s;
+   color: white;
+   display: fixed;
+   flex-direction: column;
+   justify-content: space-between;
+  
+   border-bottom: 1px solid #8f8d8d;
+  
+}
+
+.sidebar ul {
+   list-style-type: none;
+   padding: 0;
+   flex-grow: 1;
+   font-size: 13px; /* Adjust font size */
+   margin-left: 5px;
+   margin-top: 1px;
+  
+}
+
+.sidebar ul li {
+   padding: 5px;
+   text-align: center;
+   width: 190px;
+}
+
+.sidebar ul li a {
+   color: rgb(233, 227, 227);
+   text-decoration: none;
+   display: block;
+}
+
+   .sidebar li a {
+
+padding: 8px;
+
+color: #333;
+border-bottom: 1px solid #8f8d8d;
+border-top: 1px solid #8f8d8d;
+border-radius: 8px; 
+align-items: right;
+}
+
+
+
+.sidebar ul li a:hover {
+   background-color: #15bcc2;
+}
+
+li.active { /* Style for the active <li> */
+background-color: #726c6c;
+border-radius: 10px; 
+padding: 2px;
+
+ }
+
+
+
+
+.logout-container {
+   padding: 2px;
+   text-align: center;
+  
+  
+}
+
+#logout-container {
+ height:50px;
+ 
+}
+
+
+#logoutButton {
+  margin-top: 50%;
+ 
+  height: 35px;
+   width: 70%;
+   padding: 10px;
+   background-color: rgba(216, 4, 4, 0.774);
+   border: none;
+   color: white;
+   cursor: pointer;
+}
+  
+
+
+#logoutButton:hover {
+   background-color: rgb(12, 237, 245);
+}
+
+
+.addmerchant {
+  margin-top: 10%;
+ 
+  height: 35px;
+   width: 70%;
+   padding: 10px;
+   background-color: rgba(216, 4, 4, 0.774);
+   border: none;
+   color: white;
+   cursor: pointer;
+
+
+}
+  
+
+
+.addmerchant:hover {
+   background-color: rgb(12, 237, 245);
+}
+
+
+
+
+.canceladdmerchant {
+   margin-top: 1px;
+   height: 35px;
+   width: 70%;
+   padding: 10px;
+   background-color: rgba(216, 4, 4, 0.774);
+   border: none;
+   color: white;
+   cursor: pointer;
+   margin-bottom: 100px;
+}
+  
+
+
+.canceladdmerchant {
+   background-color: rgb(12, 237, 245);
+}
+
+
+
+
+
+
+#merchant-search {
+  border-radius: 8px;
+  color: rgb(15, 87, 15);
+  background-color: #f0f0f0; /* Light gray */
+  border-color: #222121; /* Slightly darker gray */
+  width: 180px;
+  height: 15px;
+  margin-top: 8px;
+  margin-left: 10px;
+  }
+  
+  #merchant-search:hover {
+  background-color:  #76f7dd; /* A slightly darker gray on hover */
+  }
+  
+
+  #merchant-search {
+    color: rgb(15, 87, 15);
+    background-color: #f0f0f0; /* Light gray */
+    border-color: #3f3c3c; /* Slightly darker gray */
+    }
+    
+    #merchant-search:hover {
+    background-color: #e0e0e0; /* A slightly darker gray on hover */
+    }
+
+
+
+
+#edit-button {
+  background-color:#08eec8; /* Blue background */
+  color: white; /* White text */
+  padding: 10px 20px; /* Padding around text */
+  border: none; /* Remove default border */
+  border-radius: 8px; /* Rounded corners */
+  cursor: pointer; /* Change cursor on hover */
+  font-size: 16px;  /* Adjust font size */
+  font-family: sans-serif; /* Example font family */
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  width: 85px;
+}
+
+
+
 
 
 button {
@@ -23,37 +301,20 @@ button {
   border-color: #3f3c3c; /* Slightly darker gray */
   }
   
-  button:hover {
-    background-color:  #082bee; /* A slightly darker gray on hover */
+  #add-merchant-button:hover {
+    background-color:  #08eeee; /* A slightly darker gray on hover */
   }
   
   #add-merchant-button {
-    width: 170px;
+    width: 100%;
     border-color: #3f3c3c; /* Slightly darker gray */
+    background-color:#ce0415; /* Blue background */
+    margin-right: 5px;
+    margin-left: 0px;
+    height: 30px;
+    margin-bottom: 1px;
     }
 
-    #searchTitle {
-      width: 140px;
-      border-color: #3f3c3c; /* Slightly darker gray */
-      }
-
-  
-
-
-
-
-
-
-body {
-    font-family: sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-}
-
-.hidden {
-    display: none;
-}
 
 
 
@@ -64,98 +325,6 @@ body {
 
 
 
-
-
-
-
-
-
-
-/* Sidebar Styling */
-.sidebar {
-  width: 200px;
-  background-color: #e5ebeb;
-  padding: 20px;
-  height: 100vh;
-  position: fixed;
-  border-radius: 8px; 
-  z-index: 1000;
-}
-
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-}
-
-.sidebar li a {
-  display: block;
-  padding: 15px;
-  text-decoration: none;
-  color: #333;
-  border-bottom: 1px solid #8f8d8d;
-  border-radius: 8px; 
-}
-
-
-
-
-.sidebar li a:hover {
-background-color: #08eec8;
-}
-
-/*
-//////////////// FOR LI CHANGE COLOR ////////////
-*/
-
-
-li {
-background-color: white; /* Default background color */
-}
-
-li.active { /* Style for the active <li> */
-background-color: #08eec8;
-}
-
-li a {
-display: block; /* Makes the entire <li> clickable */
-padding: 10px;    /* Add some padding */
-text-decoration: none; /* Remove underlines from links */
-color: black; /* Set link color */
-}
-
-
-
-
-
-
-
-
-
-
-
-/* Main Content Styling */
-.main-content {
-    flex: 1;
-    padding: 20px;
-    margin-left: 220px; /* Adjust based on sidebar width */
-}
-
-.page {
-    margin-bottom: 30px;
-}
-
-/* Table Styling */
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-th,
-td {
-    padding: 10px;
-    text-align: left;
-    border: 1px solid #ccc;
-}
 
 /* Form Styling */
 form {
@@ -167,9 +336,21 @@ label {
     margin-bottom: 5px;
 }
 
-#addmerchant {
- width: 190px;
+#addmerchant {    /*body of the add merchant modal */
+ width: 200px;
+ height:400px;
+ background-color: #b4babb;
+ border-radius: 10px;  
+ text-align: center; /* Centers text inside elements */
+ justify-content: center; /* Centers horizontally */
+ align-items: center; /* Centers vertically */
+
 }
+
+
+
+
+
 
 
 
@@ -204,7 +385,10 @@ select {
   width: 170px; /* Or any other value */
 }
 
-
+#mer-general-totalName {
+  background-color: #aceaf5;
+  border: none;
+}
 
 
 #searchTitle {
@@ -214,18 +398,6 @@ select {
     border: none;
     cursor: pointer;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -247,35 +419,10 @@ select {
 
 
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .sidebar {
-        width: 100%;
-        height: auto;
-        position: static;
-    }
-
-    .main-content {
-        margin-left: 0;
-    }
-
-    .sidebar ul {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-    }
-
-    .sidebar li a {
-        border-bottom: none;
-    }
-}
-
-
-
 .modal {
     display: none; 
     position: fixed; 
-    z-index: 1; 
+    z-index: 1000; 
     left: 0;
     top: 0;
     width: 100%; 
@@ -285,7 +432,7 @@ select {
   }
   
   .modal-content {
-    background-color: #fefefe;
+    background-color: #b5eedd;
     margin: 15% auto; 
     padding: 20px;
     border: 1px solid #888;
@@ -316,7 +463,7 @@ select {
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 1200; /* Sit on top */
+    z-index: 1000; /* Sit on top */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
@@ -331,7 +478,7 @@ select {
     background-color: #fefefe;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
-    border: 1px solid #480af1;
+    border: 2px solid #807e85;
     width: 80%; /* Could be more or less, depending on screen size */
   }
   
@@ -354,11 +501,18 @@ select {
 
 
   #editmerchant{
-    width: 400px;
+    width: 420px;
+    background-color: #aceaf5;
+    border-radius: 12px;   
   }
 
+  #editmerchantName2{
+    width: 350px;
+    background-color: #aceaf5;
+    border-radius: 12px;   
+  }
 
-
+ 
 
 
 /*  for input box edit merchant inline style  */
@@ -376,58 +530,27 @@ select {
 
 
 
- /* Basic table styling ////////////// for merchant table only //////////////////////  */
- /* Basic table styling ////////////// for merchant table only //////////////////////  */
-
- #merchants-table {
-  width: 100%; /* Table takes full width of its container */
-  border-collapse: collapse;
-}
-#merchants-table th, #merchants-table td {
-  border: 1px solid #d5d6d3;
-  padding: 8px;
-  text-align: left;
-  white-space: nowrap; /* Prevent content from wrapping */
-  overflow: hidden;    /* Hide overflowing content */
-  text-overflow: ellipsis; /* Add ellipsis (...) for overflowing text */
-}
-
-/* Container for the table with scrolling */
-.table-container {
-  width: 100%; /* Or a specific width like 80% */
-  max-height: 400px; /* Set a maximum height for scrolling */
-  overflow-y: auto; /* Enable vertical scrolling */
-  overflow-x: auto; /* Enable horizontal scrolling if needed */
-}
-
-/* Optional: Style the scrollbar (webkit browsers) */
-.table-container::-webkit-scrollbar {
-  width: 8px; /* Adjust scrollbar width */
-}
-.table-container::-webkit-scrollbar-track {
-  background: #f0e9e9; /* Scrollbar track background */
-}
-.table-container::-webkit-scrollbar-thumb {
-  background: #888; /* Scrollbar thumb color */
-}
-.table-container::-webkit-scrollbar-thumb:hover {
-  background: #555; /* Scrollbar thumb hover color */
-}
-
-/* Make table header sticky */
-#merchants-table thead th {
-  position: sticky;
-  top: 0;
-  background-color: rgb(87, 207, 107); /* Or your preferred header background */
-}
-
-/* Footer styling */
-#merchants-table tfoot {
-  position: sticky;
-  bottom: 0;
-  background-color: rgb(87, 207, 107);
+.edit-merchant-formName{
+  display: flex; /* Enable flexbox */
+  align-items: center; /* Vertically align items */
  
 }
+
+.edit-merchant-formName{
+  margin-right: 5px; /* Add some space between label and input */
+  border-radius: 8px;   
+}
+
+
+
+ /* Basic table styling ////////////// for merchant table only //////////////////////  */
+ /* Basic table styling ////////////// for merchant table only //////////////////////  */
+
+ 
+
+
+
+
 
 #merchants-table td:nth-child(2),
 #merchants-table th:nth-child(2) {
@@ -440,7 +563,7 @@ display: none;
 }
 
 
-
+/*
 
 #merchants-table td:nth-child(5),
 #merchants-table th:nth-child(5) {
@@ -451,6 +574,26 @@ display: none;
 #merchants-table th:nth-child(6) {
   width: 20px;
 }
+
+*/
+#merchants-table th:nth-child(1){
+  width: 3px;
+}
+
+
+#merchants-table th:nth-child(4){
+  width: 3px;
+}
+
+#merchants-table th:nth-child(3){
+  width: 3px;
+}
+
+
+
+
+
+
 
 
 /* Basic table styling    ////////// FOR CLAIMED MERCHANTS -search ONLY //////////////////// */
@@ -472,9 +615,15 @@ border-color: #3f3c3c; /* Slightly darker gray */
   flex-wrap: wrap;
   align-items: center;
   gap: 5px; /* Space between items */
-  background-color: #cad3ce;
-  height: 39px;
-  margin-top: 5px;
+  background-color:  rgb(43, 41, 41);
+ 
+  height: 15%;
+  margin-top: 1px;
+ font-size: small;
+ color: rgb(250, 244, 244); /* Changes text color inside the div */
+  margin-left: 0px;
+ padding-left: 10px;
+ 
  
 }
 
@@ -493,23 +642,204 @@ label {
 
 
 #total-active {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: small;
+  height: 10px;
+  min-width: 60px;
   margin-top: 1px;
-  margin-right: 10px; /* If you want space after the input too */
-  background-color: #c9cfce; /* Light gray */
-  width: 5%; /* Table takes full width of its container */
-  border-radius: 8px; /* Adjust the radius value for desired curvature */
-  border: 2px solid #f1fcf9;
+  margin-left: 4px; /* If you want space after the input too */
+ 
+  width: 6%; /* Table takes full width of its container */
 }
 
 #total-inactive {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: small;
+  height: 10px;
+  min-width: 60px;
   margin-top: 1px;
-  margin-right: 10px; /* If you want space after the input too */
-  background-color: #c9cfce; /* Light gray */
-  width: 5%; /* Table takes full width of its container */
-  border-radius: 8px; /* Adjust the radius value for desired curvature */
-  border: 2px solid #f1fcf9;
+  margin-left: 4px; /* If you want space after the input too */
+ 
+  width: 6%; /* Table takes full width of its container */
 }
 
 
 
 
+/* Container for the table with scrolling */
+.table-container {
+
+  max-height: 450px; /* Set a maximum height for scrolling */
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: auto; /* Enable horizontal scrolling if needed */
+  border-top: 0px;
+  
+  }
+  
+  /* Optional: Style the scrollbar (webkit browsers) */
+  .table-container::-webkit-scrollbar {
+  width: 12px; /* Adjust scrollbar width */
+  }
+  .table-container::-webkit-scrollbar-track {
+  background: #cbcfcf; /* Scrollbar track background */
+  }
+  .table-container::-webkit-scrollbar-thumb {
+  background: #494646; /* Scrollbar thumb color */
+  }
+  .table-container::-webkit-scrollbar-thumb:hover {
+  background: #e67c7c; /* Scrollbar thumb hover color */
+  }
+  
+  /* Make table header sticky */
+  
+  
+  
+  /* Table Styling */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th,
+  td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #c9c2c2;
+  }
+  
+  
+  #merchants-table th {
+   
+    height: 25px;
+    width: 10%;
+    font-size: 14px; /* Set font size for table headers */
+    padding: 5px;
+    border: #3f3c3c;
+    border-radius: 3px;
+   
+   /* font-weight: bold; /* Make headers bold (optional) */
+  }
+  
+  
+    
+  #merchants-table th, #merchants-table td {
+      padding-inline: 2px;
+      position: sticky;
+    border: 1px solid #898b89;
+    padding: 5px;
+    text-align: center;
+    overflow: hidden;    /* Hide overflowing content */
+    text-overflow: ellipsis; /* Add ellipsis (...) for overflowing text */
+    }
+  
+    #merchants-table thead th {
+      position: sticky;
+      top: 0;
+      z-index: 100; /* Ensure it stays above other elements */
+      background-color: rgb(9, 243, 243); /* Or your preferred header background */
+     
+      }
+      
+  
+      #merchants-table td:nth-child(3) { /* Targets the 6 column */
+        text-align: left;
+      }
+
+      #merchants-table td:nth-child(4) { /* Targets the 6 column */
+        text-align: left;
+      }
+  
+  /* Footer styling */
+  #merchants-table tfoot {
+      position: sticky;
+      bottom: 0;
+      background-color:rgb(9, 243, 243);
+     
+  }
+  
+  
+
+
+
+
+
+
+
+/*
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ccc;
+}
+
+
+
+
+
+#merchants-table {
+  width: 100%; 
+  border-collapse: collapse;
+}
+#merchants-table th, #merchants-table td {
+  border: 2px solid #d5d6d3;
+  padding: 5px;
+  text-align: center;
+  white-space: nowrap; 
+  overflow: hidden;   
+  text-overflow: ellipsis;
+}
+
+
+
+
+.table-container {
+  width: 100%; 
+  max-height: 400px; 
+  overflow-y: auto; 
+  overflow-x: auto;
+}
+
+
+.table-container::-webkit-scrollbar {
+  width: 15px; 
+}
+.table-container::-webkit-scrollbar-track {
+  background: #f0e9e9; 
+}
+.table-container::-webkit-scrollbar-thumb {
+  background: #0ccef0; 
+}
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+
+#merchants-table thead th {
+  position: sticky;
+  top: 0;
+  background-color: rgb(87, 207, 107);
+
+}
+
+
+
+#merchants-table tfoot {
+  position: sticky;
+  bottom: 0;
+  background-color: rgb(87, 207, 107);
+
+}
+ 
+
+*/
