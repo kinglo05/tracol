@@ -1,18 +1,18 @@
 // Firebase Configuration (Replace with your actual config)
 const firebaseConfig = {
-//  apiKey: "AIzaSyCYe3m5O6X1-q47u1w1GQ4bT8pAvJ5tzq8",
-//  authDomain: "tracollector.firebaseapp.com",
-//  databaseURL: "https://tracollector-default-rtdb.asia-southeast1.firebasedatabase.app",
-//  projectId: "tracollector",
-//  storageBucket: "tracollector.firebasestorage.app",
-//  messagingSenderId: "520928034041",
-//  appId: "1:520928034041:web:1e5facfbe4ddb5e55e7628",
-//  measurementId: "G-YPW4TB6P51"
+  apiKey: "AIzaSyCYe3m5O6X1-q47u1w1GQ4bT8pAvJ5tzq8",
+  authDomain: "tracollector.firebaseapp.com",
+  databaseURL: "https://tracollector-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "tracollector",
+  storageBucket: "tracollector.firebasestorage.app",
+  messagingSenderId: "520928034041",
+  appId: "1:520928034041:web:1e5facfbe4ddb5e55e7628",
+  measurementId: "G-YPW4TB6P51"
 };
 
 
 const app = firebase.initializeApp(firebaseConfig); 
-  const database = firebase.database();
+const database = firebase.database();
 
 // Firebase Auth Listener to Check if User is Logged In
 firebase.auth().onAuthStateChanged((user) => {
@@ -74,12 +74,16 @@ const merchantDetailsPayments = document.getElementById("merchant-details-paymen
 const closeMerchantDetailsBtn = document.getElementById("close-merchant-details");
 const editMerchant = document.getElementById('edit-merchant');
 const cancelEditMerchant = document.getElementById('cancel-edit-merchant');
+
+const cancelEditButtonMerchantName = document.getElementById('cancel-edit-merchantName');
+
+
 const countNoPayments = document.getElementById('num-paymentst');
 const totalNewPayment = document.getElementById('new-pay');
 const remainPayment = document.getElementById('new-remain');
 const merchantBarrowed = document.getElementById('new-borrowed');
 const editCountNoPayments = document.getElementById('edit-num-paymentst');
-const editTotalNewPayment = document.getElementById('edit-new-pay');
+//const editTotalNewPayment = document.getElementById('edit-new-pay');
 const editRemainPayment = document.getElementById('edit-new-remain');
 const editMerchantBarrowed = document.getElementById('edit-new-borrowed');
 const merGeneralTotal = document.getElementById('mer-general-total');
@@ -87,12 +91,13 @@ const editMerchantName = document.getElementById('edit-merchant-name').value;
   const editMerchantEmail = document.getElementById('edit-merchant-email').value;
   const editMerchantRemain = document.getElementById('edit-new-remain').value;
   const editMerchantID = document.getElementById('edit-merChantId').value;
-  const  tableClaim = document.getElementById('claim-table').getElementsByTagName('tbody')[0];
+  //const  tableClaim = document.getElementById('claim-table').getElementsByTagName('tbody')[0];
   const merchantSearchInput9 = document.getElementById('merchant-search');
 
   const tableMerchant = document.getElementById('merchants-table').getElementsByTagName('tbody')[0];
   const editMerchantForm = document.getElementById('edit-merchant-form'); // Get your form element
-
+  const editMerchantFormName = document.getElementById('edit-merchant-formName'); // Get your form element
+  const editMerchantName2 = document.getElementById('edit-merchant-nameName').value;
 
 
 
@@ -112,19 +117,6 @@ navItems.forEach(item => {
 });
 
 
-
-
-
-
-
-
-
-// Global Variables
-let currentUserId = "user123"; // Replace with actual user authentication logic
-let editPaymentId = null; // Store the ID of the payment being edited
-
-
-//const dateInput = document.getElementById('date');
   const today = new Date();
 
   // Format the date as YYYY-MM-DD (required for input type="date")
@@ -144,6 +136,9 @@ addMerchantButton.addEventListener('click', () => {
   
   const cancelAddMerchantBtn = document.getElementById("cancel-add-merchant");
   const cancelEditButtonMerchant = document.getElementById('cancel-edit-merchant');
+  
+  const merchantnote= document.getElementById('merchantnote');
+  const addmerchantnote= document.getElementById('addmerchantnote');
 
 
 
@@ -160,6 +155,7 @@ submitNewMerchantButton.addEventListener('click', () => {
       nameLower: newMerchantName.toLowerCase(),
       email: newMerchantEmailInput.value,
       remaining: remainPayment.value,
+      note: addmerchantnote.value = "change note",
       barrowed: merchantBarrowed.value
   };
 
@@ -187,8 +183,19 @@ submitNewMerchantButton.addEventListener('click', () => {
                   newMerchantEmailInput.value = "";
                   remainPayment.value = "";
                   merchantBarrowed.value = "";
-                 console.log("Merchant added successfully");
-                  alert('Merchant name successfully saved.');
+                  addmerchantnote.value = "";
+               //  console.log("Merchant added successfully");
+
+               Swal.fire({
+                title: "Success!",
+                text: "Merchant name successfully saved",
+                icon: "success",
+                timer: 3000, // Closes after 3 seconds
+                showConfirmButton: false
+              });
+             
+
+                 
               })
               .catch((error) => {
                   console.error("Error adding merchant:", error);
@@ -204,14 +211,17 @@ cancelAddMerchantBtn.addEventListener('click', () => {
   addMerchantForm.style.display = 'none'; 
   });
 
+
+
+
+
+
 //const editMerchantCell = document.getElementById('EditMerchantF');
 const tableDataM = [];
 
 //Fetch data from Firebase and display in the table
 let merchantData = []; // Store the fetched payment data
-
 database.ref('merchants').on('value', (snapshot) => {
-  
   tableDataM.length = 0; // Clear existing data
   merchantData = [];
 
@@ -237,104 +247,62 @@ database.ref('merchants').on('value', (snapshot) => {
       tableDataM.push(rowDataM);
     } ///// end of if here
 
+   
+ 
   });
 
- // updateMerchantTable(merchantData); // Initial table population
- calculateAndDisplayMerchantPayments(merchantData);
+  updateMerchantTable(merchantData);
+  //calculateAndDisplayMerchantPayments(merchantData);
+ 
+
 });
 
 
 
 
-function calculateAndDisplayMerchantPayments(merchantData) {
- 
-// 2. Fetch Payments Data
-database.ref('payments').once('value', (paymentsSnapshot) => {
-  const payments = [];
- 
-  paymentsSnapshot.forEach((paymentSnapshot) => {
-      const payment = paymentSnapshot.val();
-      //Only add payments with status new
-      if (payment.status === 'new') { //This is the added line
-          payments.push(payment);
-      }
+let timeoutId;
+merchantSearchInput9.addEventListener('input', () => {
+    clearTimeout(timeoutId);
 
-  });
-    // 3. Calculate Total Payments for each merchant
-    const merchantNumPayments = {};
-    const merchantTotalPayments = {};
+    timeoutId = setTimeout(() => {
+        const searchTerm = merchantSearchInput9.value.toLowerCase();
 
-    payments.forEach((payment) => {
-        if (payment.merchantKey && payment.amount) { // Check if merchantP and amount exist
-         // if (payment.merchantKey && payment.amount) {
-            const merchantKey= payment.merchantKey;
-            const amount = parseFloat(payment.amount); // Parse amount as float
-           
+        // Optimization 1: Check if the search term is empty
+        if (!searchTerm) {
+         updateMerchantTable(merchantData);
+         // updateMerchantTable(merchantData, merchantNumPayments, merchantTotalPayments); // Show all merchants
+            return; // Exit early if the search term is empty
+        }
 
-           // Count Payments
-           if (!merchantNumPayments[merchantKey]) {
-            merchantNumPayments[merchantKey] = 0;
-            
-          }
-          merchantNumPayments[merchantKey]++;
+        // Optimization 2: Use a more efficient filtering method if possible
+        // If merchant.id is always a string, avoid toLowerCase() on it.
 
-            if (!merchantTotalPayments[merchantKey]) {
-                merchantTotalPayments[merchantKey] = 0;
-               
+        const filteredData = merchantData.filter((merchant) => {
+            const merchantName = merchant.name.toLowerCase();
+            const merchantEmail = merchant.email.toLowerCase();
+          
+            return (
+             //   merchantId.includes(searchTerm) || // No toLowerCase() if merchant.id is already a string.
+                merchantName.includes(searchTerm) ||
+                merchantEmail.includes(searchTerm) 
+             //   merchantRemaining.includes(searchTerm) ||
+             //   merchantBorrowed.includes(searchTerm)
+            );
+        });
+       
+       // updateMerchantTable(filteredData, merchantNumPayments, merchantTotalPayments);
 
-            }
-            merchantTotalPayments[merchantKey] += amount;
-         
-         }
-         updateMerchantTable(merchantData, merchantNumPayments, merchantTotalPayments);
+       updateMerchantTable(filteredData);
 
-
-
-
-         let timeoutId;
-
-         merchantSearchInput9.addEventListener('input', () => {
-             clearTimeout(timeoutId);
-         
-             timeoutId = setTimeout(() => {
-                 const searchTerm = merchantSearchInput9.value.toLowerCase();
-         
-                 // Optimization 1: Check if the search term is empty
-                 if (!searchTerm) {
-                     updateMerchantTable(merchantData, merchantNumPayments, merchantTotalPayments); // Show all merchants
-                     return; // Exit early if the search term is empty
-                 }
-         
-                 // Optimization 2: Use a more efficient filtering method if possible
-                 // If merchant.id is always a string, avoid toLowerCase() on it.
-         
-                 const filteredData = merchantData.filter((merchant) => {
-                     const merchantName = merchant.name.toLowerCase();
-                     const merchantEmail = merchant.email.toLowerCase();
-                   
-                     return (
-                      //   merchantId.includes(searchTerm) || // No toLowerCase() if merchant.id is already a string.
-                         merchantName.includes(searchTerm) ||
-                         merchantEmail.includes(searchTerm) 
-                      //   merchantRemaining.includes(searchTerm) ||
-                      //   merchantBorrowed.includes(searchTerm)
-                     );
-                 });
-         
-                 updateMerchantTable(filteredData, merchantNumPayments, merchantTotalPayments);
-         
-             }, 150); // Increased delay to 250ms - a more standard debounce time
-         });
-      })   
-    })
-
-} ///////////////////// end of the function /////////////////////////////////////
+    }, 150); // Increased delay to 250ms - a more standard debounce time
+});    /////////search ends here ///////////////
 
 
 
 
 
-function updateMerchantTable(data, merchantNumPayments, merchantTotalPayments) {
+//function updateMerchantTable(data, merchantNumPayments, merchantTotalPayments) {
+  function updateMerchantTable(data) {
   tableMerchant.innerHTML = ''; // Clear the table
   data.forEach((merchant, rowIndex) => {
 
@@ -357,92 +325,28 @@ function updateMerchantTable(data, merchantNumPayments, merchantTotalPayments) {
   emailCell.textContent = merchant.email;
 
   const merchantKey = (merchant.id);
-  const ihapPila = (merchantNumPayments[merchantKey] || 0);
-  
-  const numPaymentsCell = row.insertCell(); // New cell for number of payments
-  numPaymentsCell.textContent  = (merchantNumPayments[merchantKey] || 0); // Display with 2 decimal places
 
-  const totalPaymentsCell = row.insertCell();
-  totalPaymentsCell.textContent = (merchantTotalPayments[merchantKey] || 0).toFixed(2); // Display with 2 decimal places
 
-  const totalPPNEW = (merchantTotalPayments[merchantKey] || 0).toFixed(2);
-  const total22 = Number(totalPPNEW);
-  const nabilin = Number(merchant.remaining);
-  const genMerchantTotal22 = total22 + nabilin ;
-
-  const remainingCell = row.insertCell();
-  remainingCell.textContent = merchant.remaining;
-
-  const barrowedCell = row.insertCell();
-  barrowedCell.textContent = merchant.barrowed;
- 
- const genMerchatTotalCell = row.insertCell();
-  genMerchatTotalCell.textContent = genMerchantTotal22.toFixed(2); // Display with 2 decimal places     
-  
-  // Add Edit button with data-row-index 
   const editMerchantCell = row.insertCell();
   editMerchantCell.innerHTML = `<button class="edit-button-merchant" data-row-index="${merchant.id}">Actions</button>`;
 
-/////////////////////////////  // Event listener for Edit button //////////////////////////////
+  editMerchantCell.addEventListener('click', (event) => {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-editMerchantCell.addEventListener('click', (event) => {
-
-  updateMerchantTable(data, merchantNumPayments, merchantTotalPayments)
-
- const button = event.target;
- const firebaseKey = button.dataset.id;
-
-    // Populate form fields
-    document.getElementById('edit-id-m').value = merchant.id; 
-    document.getElementById('edit-merChantId').value = merchant.merchantKey;
-   document.getElementById('edit-num-paymentst').value = ihapPila;
-    document.getElementById('edit-new-pay').value ;
-    document.getElementById('edit-merchant-name').value = merchant.name;
-    document.getElementById('edit-merchant-email').value = merchant.email;
-    document.getElementById('edit-new-remain').value =  merchant.remaining;
-    document.getElementById('edit-new-borrowed').value = merchant.barrowed;
-    document.getElementById('mer-general-total').value = genMerchantTotal22;
-
-    const editNewPayRead = genMerchantTotal22; 
-    const editMerchantName = document.getElementById('edit-merchant-name'); // Get the element
-    
-    if (editNewPayRead >= 1) {
-      editMerchantName.setAttribute('readonly', ''); 
-    } 
-    
-    editMerchantForm.style.display = 'block';  
-
+   const button = event.target;
+   const firebaseKey = button.dataset.id;
+ 
+      // Populate form fields
+      document.getElementById('edit-id-m').value = merchant.id; 
+      document.getElementById('edit-merChantId').value = merchant.merchantKey;
+     document.getElementById('edit-num-paymentst').value;
+     document.getElementById('edit-new-pay').value ;
+      document.getElementById('edit-merchant-name').value = merchant.name;
+      document.getElementById('edit-merchant-email').value = merchant.email;
+      document.getElementById('edit-new-remain').value =  merchant.remaining;
+      document.getElementById('edit-new-borrowed').value = merchant.barrowed;
+    const editNewPayRead22 = document.getElementById('mer-general-total').value; 
+ 
+      editMerchantForm.style.display = 'block'; 
 
 ///////////////////// EDIT MERCHANT SAVE BUTTON  ///////////////////////////
 
@@ -452,7 +356,7 @@ const editMerchantBTN = document.getElementById('save-edit-merchant');
 editMerchantBTN.addEventListener('click', () => {
 
  // updateMerchantTable(data,filteredDataM, merchantTotalPayments, merchantNumPayments, payment)
-  const editMerchantID = document.getElementById('edit-id-m').value;
+   const editMerchantID = document.getElementById('edit-id-m').value;
 
   const editMerchant = {
 
@@ -465,42 +369,38 @@ editMerchantBTN.addEventListener('click', () => {
  
   database.ref(`merchants/${editMerchantID}`).update(editMerchant)
   .then(() => {
-     // console.log("Payment data updated successfully.");
-      alert("MERCHANT DATA ARE SAVED SUCCESSFULLY"); 
-      window.location.reload();
+
+    Swal.fire({
+      title: "Success!",
+      text: "MERCHANT DATA ARE SAVED SUCCESSFULLY",
+      icon: "success",
+      timer: 3000, // Closes after 3 seconds
+      showConfirmButton: false
+    });
+   
+    editMerchantForm.style.display = 'none'; 
+
   })
   .catch(error => {
       console.error("Error updating payment data:", error);
       // ... error handling ...
-  });
-}); ///////// MERCHANT SAVE BUTTON ENDS HERE //////////////
+  }); 
 
-
-
-
-
-
+});
 
 
 //////////////////////FOR MERCHANT TRADING TABLE //////////////////////////
-//////////////////////FOR MERCHANT TRADING TABLE //////////////////////////
-//////////////////////FOR MERCHANT TRADING TABLE //////////////////////////
 
-const merTag = document.getElementById('edit-id-m').value = merchant.id;
+//const merTag = document.getElementById('edit-id-m');  //.value = merchant.id;
 const tableC = document.getElementById('claim-table').getElementsByTagName('tbody')[0];
 const tableDataC = [];
 
-// Fetch data from Firebase and display in the table
+
 let paymentsDataC = []; // Store the fetched payment data
-
  database.ref('payments').on('value', (snapshot) => {
-
-  
   tableDataC.length = 0; // Clear existing data
   paymentsDataC = [];
-  const merTag = document.getElementById('edit-id-m').value = merchant.id;  ////ERROR HERE ---->
-
-
+  const merTag = document.getElementById('edit-id-m').value = merchant.id;  
   snapshot.forEach((childSnapshot) => {
     const paymentC = childSnapshot.val();
     const firebaseKeyC = childSnapshot.key; // Get the Firebase key
@@ -525,171 +425,109 @@ let paymentsDataC = []; // Store the fetched payment data
       
     }
   });
-  //console.log("ge balik" + fireKey);
-  updatePaymentsTableC(paymentsDataC); // Initial table population
- // calculateAndDisplayTotalPayments()
- //console.log(merTag);
+  
+  updatePaymentsTableC(paymentsDataC); 
+ 
+ 
 }); 
 
 
-
- function updatePaymentsTableC(data) {
-tableC.innerHTML = ''; // Clear the table
-
-data.forEach((paymentC, rowIndex) => {
-  const row = tableC.insertRow();
-
-
-  // Create table cells and populate them with data
-
-  // Create a cell for the row index
-  const rowIndexCellC = row.insertCell();
-  rowIndexCellC.textContent = rowIndex + 1;
-
-  const amountCellC = row.insertCell();
-  amountCellC.textContent = paymentC.amount;
-
-  const refNumberCellC= row.insertCell();
-  refNumberCellC.textContent = paymentC.refNumber;
-
-  const timeCellC = row.insertCell();
-  timeCellC.textContent = paymentC.time;
-
-  const statusCellC = row.insertCell();
-  statusCellC.textContent = paymentC.status;
- 
-
+function updatePaymentsTableC(data) {
+  tableC.innerHTML = ''; // Clear the table
+  
+  data.forEach((paymentC, rowIndex) => {
+    const row = tableC.insertRow();
+  
+    const rowIndexCellC = row.insertCell();
+    rowIndexCellC.textContent = rowIndex + 1;
+  
+    const amountCellC = row.insertCell();
+    amountCellC.textContent = paymentC.amount;
+  
+    const refNumberCellC= row.insertCell();
+    refNumberCellC.textContent = paymentC.refNumber;
+  
+    const timeCellC = row.insertCell();
+    timeCellC.textContent = paymentC.time;
+  
+    const statusCellC = row.insertCell();
+    statusCellC.textContent = paymentC.status;
+   
+    ///////////////// ALL ABOUT CHECKBOX trading table SELECTION STARTS HERE  /////////////////
     
+    // Add Checkbox cell
    
-  ///////////////// ALL ABOUT CHECKBOX trading table SELECTION STARTS HERE  /////////////////
-  
-  // Add Checkbox cell
- 
-  const checkboxCellC= row.insertCell();
-  const checkboxC = document.createElement('input');
-  checkboxC.type = 'checkbox';
-  // Set the initial checked state based on the status
-  checkboxC.checked = paymentC.status === 'claimed'; 
-  
-  // ... your existing code ...
-  const selectAllCheckboxC = document.getElementById('payment-sana-allC');
-  selectAllCheckboxC.addEventListener('change', () => {
-   
-    const checkboxesC = tableC.querySelectorAll('input[type="checkbox"]'); 
-    checkboxesC.forEach(checkboxC => {
-      checkboxC.checked = selectAllCheckboxC.checked; 
-  
-      // Update the status in your Firebase database here for each checkbox
-      const row = checkboxC.closest('tr'); // Get the row containing the checkbox
-     // const paymentId = row.querySelector('.delete-button').dataset.rowIndex; // Assuming you have a delete button with data-row-index as in your previous code
-  
-      if (selectAllCheckboxC.checked) {
-
-        
-        statusCellC.textContent = 'claimed'; 
-      // Update the status in your Firebase database here
-      database.ref('payments/' + paymentC.id).update({ status: 'claimed' });
-      console.log("ge claimed na" + paymentC.id);
+    const checkboxCellC= row.insertCell();
+    const checkboxC = document.createElement('input');
+    checkboxC.type = 'checkbox';
+    // Set the initial checked state based on the status
+    checkboxC.checked = paymentC.status === 'claimed'; 
+    
+    // ... your existing code ...
+    const selectAllCheckboxC = document.getElementById('payment-sana-allC');
+    selectAllCheckboxC.addEventListener('change', () => {
      
- 
+      const checkboxesC = tableC.querySelectorAll('input[type="checkbox"]'); 
+      checkboxesC.forEach(checkboxC => {
+        checkboxC.checked = selectAllCheckboxC.checked; 
+    
+        const row = checkboxC.closest('tr'); 
+    
+        if (selectAllCheckboxC.checked) {
+  
+          
+          statusCellC.textContent = 'claimed'; 
+        // Update the status in your Firebase database here
+        database.ref('payments/' + paymentC.id).update({ status: 'claimed' });
+        console.log("ge claimed na" + paymentC.id);
+       
+   
+        } else {
+          statusCellC.textContent = 'new';
+        // Update the status in your Firebase database here
+        database.ref('payments/' + paymentC.id).update({ status: 'new' });
+        console.log("ge balik" + paymentC.id);
+        }
+      })
+    });
+    
+  
+   
+  ///////////////////////// checbox trading table /////////////////
+    
+    
+     checkboxC.addEventListener('change', (event) => {
+      event.stopPropagation(); // Prevent event from bubbling up
+      if (checkboxC.checked) {
+        statusCellC.textContent = 'claimed'; 
+        // Update the status in your Firebase database here
+        database.ref('payments/' + paymentC.id).update({ status: 'claimed' });
+        console.log("usa claimed DIRI SA TABLE TRADE" + paymentC.id);
+       
+  
       } else {
         statusCellC.textContent = 'new';
-      // Update the status in your Firebase database here
-      database.ref('payments/' + paymentC.id).update({ status: 'new' });
-      console.log("ge balik" + paymentC.id);
+        // Update the status in your Firebase database here
+        database.ref('payments/' + paymentC.id).update({ status: 'new' });
+        console.log("usa gebalik " + paymentC.id);
       }
-    })
+  
+    
+    
+    });  
+    
+    checkboxCellC.appendChild(checkboxC); 
+    
+   
+  
   });
   
-
- 
-///////////////////////// checbox trading table /////////////////
-  
-  
-   checkboxC.addEventListener('change', (event) => {
-    event.stopPropagation(); // Prevent event from bubbling up
-    if (checkboxC.checked) {
-      statusCellC.textContent = 'claimed'; 
-      // Update the status in your Firebase database here
-      database.ref('payments/' + paymentC.id).update({ status: 'claimed' });
-      console.log("usa claimed DIRI SA TABLE TRADE" + paymentC.id);
-     
-
-    } else {
-      statusCellC.textContent = 'new';
-      // Update the status in your Firebase database here
-      database.ref('payments/' + paymentC.id).update({ status: 'new' });
-      console.log("usa gebalik " + paymentC.id);
-    }
-
-  
-  
-  });  
-  
-  checkboxCellC.appendChild(checkboxC); 
-  
- 
-
-});
-
-};  
-
-}); ////// END OF EDIT MERCHANCELL BUTTON ///////////////////////////
+  };    //////////////END OF UPDATEPAYMETSTABLE-C ///////////////// 
 
 
-/////////////////////////////////// auto add /////////////////////////////
+ ///////////////// start of trading table calculate //////////////////////////
 
-const tableBody = document.getElementById('merchants-table').getElementsByTagName('tbody')[0];
-//const paymentsTable = document.getElementById('merchants-table');
-// Check if the table exists before proceeding
-if (tableBody) {
-   // const tableBody = merchant
-    const tableBody = document.getElementById('merchants-table');
-
-    // Check if the tbody exists
-    if(tableBody){
-        const totalAmountSpanM = document.getElementById('table-totalM');
-
-        function calculateTotalMerchantTable() {
-          itemListC.innerHTML = ""; // Clear existing list
-            let total = 0;
-            const totalPaymentsCell = tableBody.querySelectorAll('td:nth-child(6)');
-
-            totalPaymentsCell.forEach(cell => {
-                const amount = parseFloat(cell.textContent) || 0;
-                total += amount;
-              // console.log("DIRI   " + total);
-            });
-
-            if (totalAmountSpanM) { // Check if the total amount span exists
-                totalAmountSpanM.textContent = total.toFixed(2);
-            } else {
-                console.error("Total amount span element not found!");
-            }
-        }
-
-        calculateTotalMerchantTable(); // Initial calculation
-
-        const observer = new MutationObserver(calculateTotalMerchantTable);
-        const config = { childList: true, subtree: true };
-
-        observer.observe(tableBody, config);
-    } else {
-        console.error("Table body (tbody) not found!");
-    }
-  }
-  });
- 
-
-}; ///////////////end of display merchant  table new  ///////////////////
-  ///////////////end of display merchant  table new  ///////////////////
-  ///////////////end of display merchant  table new  ///////////////////
-
-
-
-///////////////// start of trading table calculate //////////////////////////
-
-const paymentsTableE = document.getElementById('claim-table');
+const paymentsTableE = document.getElementById('claim-table');    ////.getElementsByTagName('tbody')[0];
 //const editMerchantForm = document.getElementById('edit-merchant-form');
     // Check if the tbody exists
     if (paymentsTableE) {
@@ -697,11 +535,15 @@ const paymentsTableE = document.getElementById('claim-table');
     
       // Check if the tbody exists
       if(tableBodyE){
+      
           const totalAmountSpanE = document.getElementById('edit-new-pay');
           const totalAmountSpanC = document.getElementById('table-totalC');
-        
+        const TananTanan = document.getElementById('mer-general-total');
+       // const editMerchantNameName = document.getElementById('edit-merchant-nameName');
   
           function calculateTotalE() { 
+          
+        const nanabilin =    document.getElementById('edit-new-remain').value =  merchant.remaining;
             itemListC.innerHTML = ""; // Clear existing list
               let sum = 0;
               const amountCellsE = tableBodyE.querySelectorAll('td:nth-child(2)');
@@ -709,8 +551,15 @@ const paymentsTableE = document.getElementById('claim-table');
                 const amountE = parseFloat(cell.textContent) || 0;
                 sum += amountE;
               });
+              
               totalAmountSpanE.value = sum.toFixed(2);
               totalAmountSpanC.textContent = sum.toFixed(2);
+          
+              totalAmountSpanC.textContent = sum.toFixed(2);
+              const maoni = Number(nanabilin) + sum;
+              TananTanan.value = maoni.toFixed(2) ;
+                 
+             
                return sum;
               };
 
@@ -726,15 +575,275 @@ const paymentsTableE = document.getElementById('claim-table');
     };
   
     };  ////////////////// end of trading table calculate /////////////////////
-         ////////////////// end of trading table calculate /////////////////////
 
 
-  
-   //cancel to hide add editform
-   cancelEditButtonMerchant.addEventListener('click', () => {
-    editMerchantForm.style.display = 'none'; 
+    
+    })     /////////////////////////////  // Event listener for EditCell //////////////////////////////
+         /////////////////////////////  // Event listener for EditCell //////////////////////////////   
+    
+      ///////////////////new edit to change name here ////////////////////////////////////////////
+
+      const editMerchantNameCell = row.insertCell();
+      editMerchantNameCell.innerHTML = `<button class="edit-button-merchantName" data-row-index="${merchant.id}">Edit</button>`;
+    
+      editMerchantNameCell.addEventListener('click', (event) => {
+    
+       const button = event.target;
+       const firebaseKey = button.dataset.id;
+     
+          // Populate form fields
+          document.getElementById('edit-id-mName').value = merchant.id; 
+          document.getElementById('edit-merChantIdName').value = merchant.merchantKey;
+          document.getElementById('edit-merchant-nameName').value = merchant.name;
+          document.getElementById('edit-merchant-emailName').value = merchant.email;
+          document.getElementById('merchantnote').value = merchant.note;
+         document.getElementById('mer-general-totalName').value;
+
+         
+         
+          editMerchantFormName.style.display = 'block'; 
+
+    
+    ///////////////////// EDIT MERCHANT SAVE BUTTON  ///////////////////////////
+    
+    // Get the Save button element
+    const editMerchantBTNName = document.getElementById('save-edit-merchantName');
+    
+    editMerchantBTNName.addEventListener('click', () => {
+    
+     // updateMerchantTable(data,filteredDataM, merchantTotalPayments, merchantNumPayments, payment)
+       const editMerchantIDName = document.getElementById('edit-id-mName').value;
+    
+      const editMerchantName2 = {
+    
+       name: document.getElementById('edit-merchant-nameName').value, 
+       email: document.getElementById('edit-merchant-emailName').value,
+       note: document.getElementById('merchantnote').value,
+      
+    
+     };
+     
+      database.ref(`merchants/${editMerchantIDName}`).update(editMerchantName2)
+      .then(() => {
+
+        Swal.fire({
+          title: "Success!",
+          text: "MERCHANT NAME/NOONES ACCOUNT SAVED SUCCESSFULLY",
+          icon: "success",
+          timer: 3000, // Closes after 3 seconds
+          showConfirmButton: false
+        });
+       
+        editMerchantFormName.style.display = 'none'; 
+
+
+
+         // console.log("Payment data updated successfully.");
+        // alert("MERCHANT NAME/NOONES ACCOUNT SAVED SUCCESSFULLY"); 
+        //  window.location.reload();
+      })
+      .catch(error => {
+          console.error("Error updating payment data:", error);
+          // ... error handling ...
+      }); 
+    
+    });
+    
+    
+    //////////////////////FOR MERCHANT TRADING TABLE name only //////////////////////////
+    
+ 
+
+
+const tableCName = document.getElementById('claim-tableName').getElementsByTagName('tbody')[0];
+const tableDataCName = [];
+
+
+let paymentsDataCName = []; // Store the fetched payment data
+ database.ref('payments').on('value', (snapshot) => {
+  tableDataCName.length = 0; // Clear existing data
+  paymentsDataCName = [];
+  const merTag = document.getElementById('edit-id-mName').value = merchant.id;  
+  snapshot.forEach((childSnapshot) => {
+    const paymentCName = childSnapshot.val();
+    const firebaseKeyC = childSnapshot.key; // Get the Firebase key
+
+    // Filter for payments with status 'new'
+    if (paymentCName.status === 'new' && paymentCName.merchantKey == merTag) {
+      paymentsDataCName.push({ id: firebaseKeyC, ...paymentCName });
+     
+      const rowDataC = {
+        firebaseKey: firebaseKeyC, // Store the key
+        amount: paymentCName.amount,
+        refNumber: paymentCName.refNumber,
+        paymentType: paymentCName.paymentType,
+        time: paymentCName.time,
+        date: paymentCName.date,
+        user: paymentCName.user,
+        merchantP: paymentCName.merchantP,
+        status: paymentCName.status
+      };
+
+      tableDataCName.push(rowDataC);
+      
+    }
   });
-   
   
+  updatePaymentsTableCName(paymentsDataCName); 
+ 
+ 
+}); 
 
+
+function updatePaymentsTableCName(data) {
+  tableCName.innerHTML = ''; // Clear the table
   
+  data.forEach(( paymentCName, rowIndex) => {
+    const row = tableCName.insertRow();
+  
+    const rowIndexCellC = row.insertCell();
+    rowIndexCellC.textContent = rowIndex + 1;
+  
+    const amountCellC = row.insertCell();
+    amountCellC.textContent = paymentCName.amount;
+  
+  
+  });
+  
+  };    //////////////END OF UPDATEPAYMETSTABLE last for name change only ///////////////// 
+
+
+     ///////////////// start of trading table calculate for name only //////////////////////////
+    
+     const paymentsTableEName = document.getElementById('claim-tableName');    ////.getElementsByTagName('tbody')[0];
+   
+        if (paymentsTableEName) {
+          const tableBodyEName = paymentsTableEName.querySelector('tbody');
+        
+          // Check if the tbody exists
+          if(tableBodyEName){
+          
+           //   const totalAmountSpanEName = document.getElementById('edit-new-payName');
+             
+            const TananTananName = document.getElementById('mer-general-totalName');
+            const editMerchantNameName = document.getElementById('edit-merchant-nameName');
+      
+              function calculateTotalEName() { 
+              
+            const nanabilin =    document.getElementById('edit-new-remainName').value =  merchant.remaining;
+                itemListC.innerHTML = ""; // Clear existing list
+                  let sum = 0;
+                  const amountCellsE = tableBodyEName.querySelectorAll('td:nth-child(2)');
+                  amountCellsE.forEach(cell => {
+                    const amountE = parseFloat(cell.textContent) || 0;
+                    sum += amountE;
+                  });
+ 
+            
+            const maoni = Number(nanabilin) + sum;
+            TananTananName.value = "This trader total: " +  maoni.toFixed(2)  ;
+                if (maoni >= 1) {
+                  editMerchantNameName.setAttribute('readonly', ''); 
+                }  
+    
+                 
+                   return sum;
+                  };
+    
+            
+              calculateTotalEName(); // Initial calculation
+    
+            const observerEName = new MutationObserver(calculateTotalEName);
+            const configEName = { childList: true, subtree: true };
+    
+            observerEName.observe(tableBodyEName, configEName);
+        } else {
+            console.error("Table body (tbody) not found!");
+        };
+      
+        };  
+         
+        
+        
+        
+        ////////////////// end of trading table calculate /////////////////////
+    
+        })     /////////////////////////////  // Event listener for EditCell for name //////////////////////////////
+             /////////////////////////////  // Event listener for EditCell  for name//////////////////////////////   
+              /////////////////////////////  // Event listener for EditCell //////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+  });
+}; 
+
+
+//cancel to hide add editform
+cancelEditButtonMerchant.addEventListener('click', () => {
+  editMerchantForm.style.display = 'none'; 
+});
+ 
+
+cancelEditButtonMerchantName.addEventListener('click', () => {
+  editMerchantFormName.style.display = 'none'; 
+});
+
+
+
+
+document.addEventListener("mousedown", function(event) {
+  let modal = document.getElementById('editmerchant');
+   
+   if (modal && !modal.contains(event.target)) {
+     editMerchantForm.style.display = "none";
+   }
+ }); 
+ 
+
+ document.addEventListener("mousedown", function(event) {
+  let modal = document.getElementById('editmerchantName2');
+   
+   if (modal && !modal.contains(event.target)) {
+     editMerchantFormName.style.display = "none";
+   }
+ }); 
+
+
+ document.addEventListener("mousedown", function(event) {
+  let modal = document.getElementById('addmerchant');
+   
+   if (modal && !modal.contains(event.target)) {
+    addMerchantForm.style.display = "none";
+   }
+ }); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  document.addEventListener("mousedown", function(event) {
+  var sidebar = document.getElementById("sidebar");
+            var mainContent = document.getElementById("mainContent");
+   
+   if (modal && !modal.contains(event.target)) {
+     editMerchantFormName.style.display = "none";
+   }
+ });  */
