@@ -311,7 +311,7 @@ button {
     background-color:#ce0415; /* Blue background */
     margin-right: 5px;
     margin-left: 0px;
-    height: 30px;
+    height: 35px;
     margin-bottom: 1px;
     }
 
@@ -350,17 +350,59 @@ label {
 
 
 
-
-
-
-
-
-
-
-
-input :hover {
-  background-color: #080cee; /* A slightly darker gray on hover */
+#edit-title-top {
+  background-color: #252424;
+  width: 100%;
+  height: 30px;
+  color: white;
+  font-size: larger;
+  text-align: center;
+  padding-top: 10px;
+  margin-bottom: 4px;
+  border-radius: 10px;
 }
+
+#edit-account-top {
+  background-color: #252424;
+  width: 100%;
+  height: 45px;
+  color: white;
+  font-size: larger;
+  text-align: center;
+  padding-top: 10px;
+  margin-bottom: 4px;
+  border-radius: 10px;
+}
+
+#for-title-addmer {
+  background-color: #252424;
+  width: 100%;
+  height: 40px;
+  color: white;
+  font-size: larger;
+  text-align: center;
+  padding-top: 20px;
+  margin-bottom: 8%;
+  border-radius: 10px;
+}
+
+
+
+
+
+
+#mer-general-total {
+  background-color: #f70707;
+  width: 150px;
+  color: white;
+  font-size: medium;
+}
+
+
+
+
+
+
 
 input[type="text"],
 input[type="number"],
@@ -369,13 +411,25 @@ input[type="date"],
 input[type="time"],
 
 select {
-    padding: 8px;
-    margin-bottom: 10px;
+    padding: 4px;
+    margin-bottom: 2px;
     border: 1px solid #8a8484;
+    height: 15px;
     width: 150px;
     border-radius: 8px;   
     background-color: #08eec8;
+    font-size: smaller;
 }
+
+input:hover {
+  background-color: #0baaf3; /* A slightly darker gray on hover */
+}
+
+.whatsNickname {
+  font-size: smaller;
+}
+
+
 
 #payment-type {
   width: 170px; /* Or any other value */
@@ -389,6 +443,7 @@ select {
   background-color: #aceaf5;
   border: none;
 }
+
 
 
 #searchTitle {
@@ -502,14 +557,18 @@ select {
 
   #editmerchant{
     width: 420px;
-    background-color: #aceaf5;
-    border-radius: 12px;   
+    background-color: #b0bcbe;
+    border-radius: 12px; 
+    padding-left: 10px;  
   }
 
   #editmerchantName2{
-    width: 350px;
-    background-color: #aceaf5;
-    border-radius: 12px;   
+    width: 250px;
+    background-color: #949899;
+    border-radius: 12px; 
+    font-size: small; 
+    color: white;
+    align-items: center;
   }
 
  
@@ -627,6 +686,16 @@ border-color: #3f3c3c; /* Slightly darker gray */
  
 }
 
+
+
+
+
+
+
+
+
+
+
 label {
   margin-right: 5px; /* Space between label and input */
 }
@@ -666,6 +735,12 @@ label {
  
   width: 6%; /* Table takes full width of its container */
 }
+
+
+
+
+
+
 
 
 
@@ -766,6 +841,157 @@ label {
 
 
 
+
+
+
+
+
+
+
+
+
+  #claim-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th,
+  td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #c9c2c2;
+  }
+  
+  
+  #claim-table th {
+   
+    height: 10px;
+  
+    font-size: small; /* Set font size for table headers */
+    padding: 2px;
+    border: #3f3c3c;
+    border-radius: 3px;
+   
+   /* font-weight: bold; /* Make headers bold (optional) */
+  }
+  
+  #claim-table td {
+   
+    height: 10px;
+   
+    font-size: small; /* Set font size for table headers */
+
+  }
+    
+  #claim-table th,  #claim-table td {
+      padding-inline: 2px;
+      position: sticky;
+    border: 1px solid #898b89;
+    padding: 5px;
+    text-align: center;
+    overflow: hidden;    /* Hide overflowing content */
+    text-overflow: ellipsis; /* Add ellipsis (...) for overflowing text */
+    }
+  
+    #claim-table thead th {
+      position: sticky;
+      top: 0;
+      z-index: 100; /* Ensure it stays above other elements */
+      background-color: rgb(9, 243, 243); /* Or your preferred header background */
+     
+      }
+      
+  
+      #claim-table td:nth-child(3) { /* Targets the 6 column */
+        text-align: left;
+      }
+
+      #claim-table td:nth-child(4) { /* Targets the 6 column */
+        text-align: left;
+      }
+  
+  /* Footer styling */
+  #claim-table tfoot {
+      position: sticky;
+      bottom: 0;
+      background-color:rgb(9, 243, 243);
+     
+  }
+
+
+  #save-edit-merchant {
+    background-color: #ee0814;
+    color: white;
+    border-color: rgb(206, 199, 199);
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-left: 50px;
+    margin-top: 15px;
+    height: 35px;
+    font-size: smaller;
+   
+}
+
+#save-edit-merchant:hover {
+    background-color: #0ab3f7;
+}
+  
+#cancel-edit-merchant {
+  background-color: #ee0814;
+  color: white;
+  border-color: rgb(206, 199, 199);
+  padding: 10px 15px;
+  cursor: pointer;
+  margin-left: 15px;
+  margin-top: 15px;
+  height: 35px;
+  font-size: smaller;
+ 
+}
+
+#cancel-edit-merchant:hover {
+  background-color: #0ab3f7;
+}
+
+.edit-mer {
+  background-color: #ee0814;
+  color: white;
+  border-color: rgb(206, 199, 199);
+  padding: 10px 15px;
+  cursor: pointer;
+  margin-left: 15px;
+  margin-top: 15px;
+  height: 35px;
+  font-size: smaller;
+ 
+}
+
+.edit-mer:hover {
+  background-color: #0ab3f7;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 
 
 
