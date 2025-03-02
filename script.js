@@ -189,28 +189,28 @@ submitNewPayment.addEventListener('click', () => {
               return; // Prevent saving if duplicate
           } else {
 
-            Swal.fire({
+           /*  Swal.fire({
               title: "Success!",
               text: "New payment edited successfully!",
               icon: "success",
               timer: 3000, // Closes after 3 seconds
               showConfirmButton: false
             });
-         
+          */
 
               savePayment2(refNumber, amount); // Save only if refNumber exists but amount is different
              
         
           }
       } else {
-
+/* 
         Swal.fire({
           title: "Success!",
           text: "New payment edited successfully!",
           icon: "success",
           timer: 3000, // Closes after 3 seconds
           showConfirmButton: false
-        });
+        }); */
 
 
           savePayment2(refNumber, amount); // Save if refNumber doesn't exist
@@ -259,13 +259,13 @@ return firebase.database().ref('payments/' + newPaymentKey).set(newPayment)
     .then(() => {
 
  
-     /*  Swal.fire({
+       Swal.fire({
         title: "Success!",
         text: "New payment edited successfully!",
         icon: "success",
         timer: 3000, // Closes after 3 seconds
         showConfirmButton: false
-      }); */
+      }); 
       
      console.log("the payment was saved successfully");
 
