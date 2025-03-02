@@ -231,10 +231,10 @@ const currentPage2 = window.location.pathname; // Or window.location.href if you
 const navItems = document.querySelectorAll('ul li');
 
 navItems.forEach(item => {
-  const link = item.querySelector('a');
-  const linkPath = new URL(link.href, window.location.origin).pathname; // Get the pathname from the href
+const link = item.querySelector('a');
+const linkPath = new URL(link.href, window.location.origin).pathname; // Get the pathname from the href
 
-  if (linkPath === currentPage2) {
+if (linkPath === currentPage2) {
     item.classList.add('active');
   }
 });
@@ -948,8 +948,10 @@ function dailypayments() {
            const paymentdate = (payment.date);
            const totalForTheDay = (todayTotal[paymentdate] || 0).toFixed(2);
            const pilakaresibo = (todatNumberPayments[paymentdate] || 0);
-           const eight = (totalForTheDay * 0.08).toFixed(2);
-           const eightPoint = (totalForTheDay * 0.085).toFixed(2);
+           const eight1 = (totalForTheDay * 0.08).toFixed(2);
+           const eightPoint1 = (totalForTheDay * 0.085).toFixed(2);
+           const eight = (eight1 - 500).toFixed(2);
+           const eightPoint = (eightPoint1 - 500).toFixed(2);
           
 document.getElementById('total-today').value = totalForTheDay;
 document.getElementById('total-resibo').value = pilakaresibo;
