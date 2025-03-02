@@ -206,7 +206,7 @@ margin-top: 1px;
 
             <div id="add-merchant-form" class="modal hidden">
                  <div class="modal-content" ID="addmerchant">
-                    <h3>Add New Trader</h3>
+                <div id="for-title-addmer" >Add New Trader</div>
                     <label for="new-merchant-name">WhatsApp Nickname:</label>
                     <input type="text" id="new-merchant-name" placeholder="Type name" autocomplete="off" required><br>
 
@@ -230,7 +230,7 @@ margin-top: 1px;
                     <button class="addmerchant" id="submit-merchant" type="submit">Save</button>
                   
                     
-                    <button  class="canceladdmerchant"  id="cancel-add-merchant" >Close</button>
+                    <button  class="addmerchant"  id="cancel-add-merchant" >Close</button>
                    </div>
 
 
@@ -239,16 +239,16 @@ margin-top: 1px;
             
              <div id="edit-merchant-form" class="modal hidden">
                 <div class="modal-content" id="editmerchant">
-                     <h2>TRADERS RECORDS</h2>
+                  <div id="edit-title-top">  TRADERS RECORDS </div>
                    
-                    <label for="edit-merchant-name" >WHATSAPP NICKNAME</label>
+                    <label for="edit-merchant-name" class="whatsNickname" >WHATSAPP NICKNAME</label>
                   <b>  <input type="text" id="edit-merchant-name" readonly> </b><br>
                     <label for="edit-merchant-email" >Noones Account Used:</label>
                     <input type="text" id="edit-merchant-email" readonly ><br>
                     <label for="mer-general-total" >Over-all Total:</label>
-                    <input type="text" id="mer-general-total"  readonly><br>                   
+               <div class="total-container"  id="total-container"> <input type="text" id="mer-general-total"  readonly><br>  </div>                    
                  <!--   <label for="edit-num-paymentst" hidden >No. of Payments</label>-->
-                    <input type="text" id="edit-num-paymentst" hidden><br>  
+                   
                     <label for="edit-new-pay"  >Total NewPayments:</label>
                     <input type="text" id="edit-new-pay"   readonly><br>
                     <label for="edit-new-remain" >Remaining:</label>
@@ -298,6 +298,7 @@ margin-top: 1px;
                     <button id="cancel-edit-merchant">Close</button>
                     <input type="text" id="edit-id-m" hidden ><br> 
                     <input type="text" id="edit-merChantId" hidden><br>
+                    <input type="text" id="edit-num-paymentst" hidden><br>  
 
 
                 </div>
@@ -309,8 +310,8 @@ margin-top: 1px;
      
              
                <div id="edit-merchant-formName"class="modal hidden">
-                <div class="modal-content" id="editmerchantName2">
-                     <h2>EDIT TRADERS NAME AND Account</h2>
+              <div class="modal-content" id="editmerchantName2">
+                <div id="edit-account-top"> EDIT TRADERS NAME AND Account</div>
                    
                     
                      <label for="edit-merchant-nameName" >You can only change the NICKNAME if the trader has 0 remaining payments</label>
@@ -374,8 +375,8 @@ margin-top: 1px;
 
 
 
-                    <button id="save-edit-merchantName">Save</button>
-                    <button id="cancel-edit-merchantName">Close</button>
+                    <button class="edit-mer" id="save-edit-merchantName">Save</button>
+                    <button class="edit-mer" id="cancel-edit-merchantName">Close</button>
                     <input type="text" id="edit-id-mName"  hidden ><br> 
                     <input type="text" id="edit-merChantIdName" hidden><br>
         
