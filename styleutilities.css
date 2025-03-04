@@ -1,126 +1,192 @@
-/* Basic Page Styling */
-
-/* style.css */
-
-
-button {
-  background-color:#08eec8; /* Blue background */
-  color: white; /* White text */
-  padding: 10px 20px; /* Padding around text */
-  border: none; /* Remove default border */
-  border-radius: 8px; /* Rounded corners */
-  cursor: pointer; /* Change cursor on hover */
-  font-size: 16px;  /* Adjust font size */
-  font-family: sans-serif; /* Example font family */
-  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
-  width: 90px;
-}
-
-#merchant-search {
-  border-radius: 8px;
-  color: rgb(15, 87, 15);
-  background-color: #f0f0f0; /* Light gray */
-  border-color: #3f3c3c; /* Slightly darker gray */
+/* Responsive Adjustments */
+@media screen and (max-width: 768px) {
+  .sidebar {
+      width: 40%; /* Increase width for smaller screens */
   }
-  
-  button:hover {
-    background-color:  #082bee; /* A slightly darker gray on hover */
+}
+
+@media screen and (max-width: 480px) {
+  .sidebar {
+      width: 60%; /* Even wider on very small screens */
   }
-  
-  #add-merchant-button {
-    width: 170px;
-    border-color: #3f3c3c; /* Slightly darker gray */
-    }
-
-    #searchTitle {
-      width: 140px;
-      border-color: #3f3c3c; /* Slightly darker gray */
-      }
-
-  
-
-
-
-
-
-
-body {
-    font-family: sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
 }
 
-.hidden {
-    display: none;
+.custom-swal-size {
+  width: 300px !important; /* Adjust the width */
+  height: auto !important; /* Adjust the height if needed */
+  font-size: 20px; /* Adjust the font size */
 }
 
 
 
+.sidebar-logo {
+  width: 150px; /* Adjust width as needed */
+  height: auto; /* Keeps aspect ratio */
+  max-width: 100%; /* Ensures it doesn't exceed the sidebar width */
+  margin-left: 15%;
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 1px; /* Adds space between the logo and the list */
+}
+
+.sidebar-logo img {
+  width: 160px; /* Adjust width as needed */
+  height: auto; /* Keeps aspect ratio */
+  max-width: 100%; /* Ensures it doesn't exceed the sidebar width */
+  min-height: none;
+}
 
 
 
 
 
 
+.sidebar-body {
+  background: #242323; 
+}
+  
 
 
-
-
-
-
-
-
-/* Sidebar Styling */
-.sidebar {
-  width: 200px;
-  background-color: #e5ebeb;
-  padding: 20px;
-  height: 100vh;
-  position: fixed;
+#sidebar-body {
+  margin-top: 5px;
+ 
   border-radius: 8px; 
-  z-index: 1000;
+  margin-bottom: 20px;
+  max-height: 290px;
+
+}
+
+#sidebar {
+  
+ min-height: 600px;  
+ 
+   
+ }
+
+
+
+.sidebar {
+  height: 100vh; /* Full height */
+  background:  #222; /* Sidebar background color    =   #222; */
+   padding: 15px;   
+   width: 210px;
+   position: fixed;
+   left: -250px;
+   background-color: #222;
+   padding-top: 1px;
+  
+   transition: left 0.3s;
+   color: white;
+   display: fixed;
+   flex-direction: column;
+   justify-content: space-between;
+  
+   border-bottom: 1px solid #8f8d8d;
+  
 }
 
 .sidebar ul {
-  list-style: none;
-  padding: 0;
+   list-style-type: none;
+   padding: 0;
+   flex-grow: 1;
+   font-size: 13px; /* Adjust font size */
+   margin-left: 5px;
+   margin-top: 1px;
+  
 }
 
-.sidebar li a {
-  display: block;
-  padding: 15px;
-  text-decoration: none;
-  color: #333;
-  border-bottom: 1px solid #8f8d8d;
-  border-radius: 8px; 
+.sidebar ul li {
+   padding: 5px;
+   text-align: center;
+   width: 190px;
+}
+
+.sidebar ul li a {
+   color: rgb(233, 227, 227);
+   text-decoration: none;
+   display: block;
+}
+
+   .sidebar li a {
+
+padding: 8px;
+
+color: #333;
+border-bottom: 1px solid #8f8d8d;
+border-top: 1px solid #8f8d8d;
+border-radius: 8px; 
+align-items: right;
 }
 
 
 
-
-.sidebar li a:hover {
-background-color: #08eec8;
-}
-
-/*
-//////////////// FOR LI CHANGE COLOR ////////////
-*/
-
-
-li {
-background-color: white; /* Default background color */
+.sidebar ul li a:hover {
+   background-color: #15bcc2;
 }
 
 li.active { /* Style for the active <li> */
-background-color: #08eec8;
+background-color: #726c6c;
+border-radius: 10px; 
+padding: 2px;
+
+ }
+
+
+
+
+.logout-container {
+   padding: 2px;
+   text-align: center;
+  
+  
 }
 
-li a {
-display: block; /* Makes the entire <li> clickable */
-padding: 10px;    /* Add some padding */
-text-decoration: none; /* Remove underlines from links */
-color: black; /* Set link color */
+#logout-container {
+ height:50px;
+ 
+}
+
+
+#logoutButton {
+  margin-top: 50%;
+ 
+  height: 35px;
+   width: 70%;
+   padding: 10px;
+   background-color: rgba(216, 4, 4, 0.774);
+   border: none;
+   color: white;
+   cursor: pointer;
+ 
+  
+}
+  
+
+
+#logoutButton:hover {
+   background-color: rgb(12, 237, 245);
+}
+
+
+/*   #logoutButton {
+
+margin-bottom: 5%;
+   }
+*/
+
+
+
+
+
+
+
+.date-today {
+  margin-left: auto; /* Pushes it to the right */
+  margin-right: 10px;
+}
+
+.date-today input {
+  padding: 5px;
 }
 
 
@@ -130,55 +196,76 @@ color: black; /* Set link color */
 
 
 
-
-
-
-/* Main Content Styling */
-.main-content {
-    flex: 1;
-    padding: 20px;
-    margin-left: 220px; /* Adjust based on sidebar width */
+#add-payment {
+  
+  min-width: 200px;
+  min-height: 500px;
+  max-height: 100%;
+  background-color:#353333;
+  color: white;
+  align-items: center;
+  border-color: #8a8484;
+  align-items: center;
 }
 
-.page {
-    margin-bottom: 30px;
+
+
+#add-payment {
+  position: fixed;
+  align-items: center;
+ padding-left: 10px;
+ padding-right: 10px;
+  margin-top: 15px; 
+  border-radius: 15px;
+  margin-left: 50px;
 }
 
-/* Table Styling */
-table {
-    width: 100%;
-    border-collapse: collapse;
+#payment-form {
+  margin-bottom: 20px;
 }
 
-th,
-td {
-    padding: 10px;
-    text-align: left;
-    border: 1px solid #ccc;
+.footer {
+  position: absolute;
+  bottom: 0;
+  min-width: 89%;
+  height: 12px;
+  margin-top: 1px;
+  margin-bottom: 2px;
+  border-radius: 5px;
+  text-align: center;
+  background: #4b4949;
+  padding: 5px;
+  z-index: 1000;
+ 
+/*  background: transparent;
+  border: none;
+  outline: none;  */
+ text-size-adjust: small;
+  color: rgb(196, 192, 192);
+ 
 }
 
-/* Form Styling */
-form {
-    margin-bottom: 20px;
-}
+
+
+
+
+#usernameHolder {
+ 
+  margin-left: 2px;
+  height: 10px;
+     
+ }
+
+
 
 label {
     display: block;
     margin-bottom: 5px;
+    font-size: 12px;
 }
-
-#addmerchant {
- width: 190px;
-}
-
-
-
-
-
-
 
 input :hover {
-  background-color: #080cee; /* A slightly darker gray on hover */
+  background-color: #08eec8; /* A slightly darker gray on hover */
 }
 
 input[type="text"],
@@ -189,30 +276,60 @@ input[type="time"],
 
 select {
     padding: 8px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     border: 1px solid #8a8484;
-    width: 150px;
+    min-width: 200px;
     border-radius: 8px;   
     background-color: #08eec8;
 }
 
 #payment-type {
-  width: 170px; /* Or any other value */
+  min-width: 218px;
 }
 
 #user {
-  width: 170px; /* Or any other value */
+  min-width: 218px;
 }
 
 
 
+/* Button Styling */
 
-#searchTitle {
+#submit-payment {
+  background-color: rgba(216, 4, 4, 0.774);
+  color: white; /* White text */
+  padding: 10px 20px; /* Padding around text */
+  border: none; /* Remove default border */
+  border-radius: 10px; /* Rounded corners */
+  cursor: pointer; /* Change cursor on hover */
+  font-size: 16px;  /* Adjust font size */
+  font-family: sans-serif; /* Example font family */
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  width: 150px;
+  height: 35px;
+  margin-left: 16%;
+}
+
+#submit-payment:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+#submit-payment:active { /* Style when button is clicked */
+  background-color: #003f80;
+}
+
+
+
+button {
     padding: 10px 20px;
     background-color: #4CAF50;
     color: white;
     border: none;
     cursor: pointer;
+    border-radius: 8px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around text */
+    cursor: pointer; /* Change cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
 }
 
 
@@ -221,295 +338,6 @@ select {
 
 
 
-
-
-
-
-
-
-
-
-#edit-new-remain {
-  /* Any specific styles for the input itself, if needed */
-  border: 1px solid #20854e; /* Example: A light gray border for the input */
-}
-
-#edit-new-borrowed {
-  /* Any specific styles for the input itself, if needed */
-  border: 1px solid #4CAF50; /* Example: A light gray border for the input */
-}
-
-#checkboxClaimed {
-  /* Any specific styles for the input itself, if needed */
-  border: 1px solid #eef0ee; /* Example: A light gray border for the input */
-}
-
-
-
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .sidebar {
-        width: 100%;
-        height: auto;
-        position: static;
-    }
-
-    .main-content {
-        margin-left: 0;
-    }
-
-    .sidebar ul {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-    }
-
-    .sidebar li a {
-        border-bottom: none;
-    }
-}
-
-
-
-.modal {
-    display: none; 
-    position: fixed; 
-    z-index: 1; 
-    left: 0;
-    top: 0;
-    width: 100%; 
-    height: 100%; 
-    overflow: auto; 
-    background-color: rgba(0, 0, 0, 0.4); 
-  }
-  
-  .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; 
-    padding: 20px;
-    border: 1px solid #888;
-    width: 30%; 
-  }
-  
-  .close-modal {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-  }
-  
-  .close-modal:hover,
-  .close-modal:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-  }
-  
-  .hidden {
-    display: none;
-  }
-
-
-
-  /* The Modal (background) */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1200; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-  }
-  
-  /* Modal Content/Box */
-  .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #480af1;
-    width: 80%; /* Could be more or less, depending on screen size */
-  }
-  
-  /* The Close Button */
-  .close-button {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-  }
-  
-  .close-button:hover,
-  .close-button:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-  }
-
-
-
-
-  #editmerchant{
-    width: 400px;
-  }
-
-
-
-
-
-/*  for input box edit merchant inline style  */
-
-.edit-merchant-form{
-  display: flex; /* Enable flexbox */
-  align-items: center; /* Vertically align items */
- 
-}
-
-.edit-merchant-form{
-  margin-right: 5px; /* Add some space between label and input */
-}
-
-
-
-
- /* Basic table styling ////////////// for merchant table only //////////////////////  */
- /* Basic table styling ////////////// for merchant table only //////////////////////  */
-
- #merchants-table {
-  width: 100%; /* Table takes full width of its container */
-  border-collapse: collapse;
-}
-#merchants-table th, #merchants-table td {
-  border: 1px solid #d5d6d3;
-  padding: 8px;
-  text-align: left;
-  white-space: nowrap; /* Prevent content from wrapping */
-  overflow: hidden;    /* Hide overflowing content */
-  text-overflow: ellipsis; /* Add ellipsis (...) for overflowing text */
-}
-
-/* Container for the table with scrolling */
-.table-container {
-  width: 100%; /* Or a specific width like 80% */
-  max-height: 400px; /* Set a maximum height for scrolling */
-  overflow-y: auto; /* Enable vertical scrolling */
-  overflow-x: auto; /* Enable horizontal scrolling if needed */
-}
-
-/* Optional: Style the scrollbar (webkit browsers) */
-.table-container::-webkit-scrollbar {
-  width: 8px; /* Adjust scrollbar width */
-}
-.table-container::-webkit-scrollbar-track {
-  background: #f0e9e9; /* Scrollbar track background */
-}
-.table-container::-webkit-scrollbar-thumb {
-  background: #888; /* Scrollbar thumb color */
-}
-.table-container::-webkit-scrollbar-thumb:hover {
-  background: #555; /* Scrollbar thumb hover color */
-}
-
-/* Make table header sticky */
-#merchants-table thead th {
-  position: sticky;
-  top: 0;
-  background-color: rgb(87, 207, 107); /* Or your preferred header background */
-}
-
-/* Footer styling */
-#merchants-table tfoot {
-  position: sticky;
-  bottom: 0;
-  background-color: rgb(87, 207, 107);
- 
-}
-
-#merchants-table td:nth-child(2),
-#merchants-table th:nth-child(2) {
-display: none;
-}
-
-#payments-table td:nth-child(2),
-#payments-table th:nth-child(2) {
-display: none;
-}
-
-
-
-
-#merchants-table td:nth-child(5),
-#merchants-table th:nth-child(5) {
-  width: 20px;
-}
-
-#merchants-table td:nth-child(6),
-#merchants-table th:nth-child(6) {
-  width: 20px;
-}
-
-
-/* Basic table styling    ////////// FOR CLAIMED MERCHANTS -search ONLY //////////////////// */
-
-#merchant-search {
-border-radius: 8px;
-color: rgb(15, 87, 15);
-background-color: #f0f0f0; /* Light gray */
-border-color: #3f3c3c; /* Slightly darker gray */
-}
-
-#merchant-search:hover {
-  background-color:  #08eec8; /* A slightly darker gray on hover */
-}
-
-
-#data {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 5px; /* Space between items */
-  background-color: #cad3ce;
-  height: 39px;
-  margin-top: 5px;
- 
-}
-
-label {
-  margin-right: 5px; /* Space between label and input */
-}
-
-#total-today {
-  margin-top: 1px;
-  margin-right: 10px; /* If you want space after the input too */
-  background-color: #08eec8; /* Light gray */
-  width: 7%; /* Table takes full width of its container */
-  border-radius: 8px; /* Adjust the radius value for desired curvature */
-}
-
-
-
-#total-active {
-  margin-top: 1px;
-  margin-right: 10px; /* If you want space after the input too */
-  background-color: #c9cfce; /* Light gray */
-  width: 5%; /* Table takes full width of its container */
-  border-radius: 8px; /* Adjust the radius value for desired curvature */
-  border: 2px solid #f1fcf9;
-}
-
-#total-inactive {
-  margin-top: 1px;
-  margin-right: 10px; /* If you want space after the input too */
-  background-color: #c9cfce; /* Light gray */
-  width: 5%; /* Table takes full width of its container */
-  border-radius: 8px; /* Adjust the radius value for desired curvature */
-  border: 2px solid #f1fcf9;
-}
-
-
+      
 
 
