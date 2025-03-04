@@ -1021,7 +1021,7 @@ input[type="text"],
 
 #total-resiboClaimed {
   height: 10px;
-  min-width: 5px;
+  min-width: 8px;
   margin-top: 5px;
   margin-left: 1px; /* If you want space after the input too */
   background: transparent;
