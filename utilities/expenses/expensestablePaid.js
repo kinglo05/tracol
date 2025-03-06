@@ -600,7 +600,7 @@ document.getElementById('eightFive').value = eightPoint;
 
 
             const displaytodayTrade = document.getElementById('total-claimed');
-            const displayTotalResiboClaimed = document.getElementById('total-resiboClaimed');
+            const displayTotalResiboClaimed = document.getElementById('total-resiboPaid');
             const displayEight = document.getElementById('eight');
             const displayEightFive = document.getElementById('eightFive');
             
