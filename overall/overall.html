@@ -1,0 +1,212 @@
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OVERALL PAGE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="overall.css">
+   
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+   
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            margin-right: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #3f3e3e;
+        }
+
+
+
+#newPayments-title {
+            width: 100%;
+            height: 2%;
+            background-color:#222;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 2px 15px;
+            border-color: #8a8484;
+            margin-right: 0;
+        }
+
+
+
+
+        .menu-bar {
+            width: 100%;
+            height: 30%;
+            background-color: #3a3939;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+          border-radius: 10px;
+            margin-right: 0;
+        }
+
+        .menu-bar button {
+            background-color: #158a80;
+            color: white;
+            border-color: rgb(206, 199, 199);
+            padding: 10px 15px;
+            cursor: pointer;
+            margin-left: 5px;
+           
+        }
+
+        .menu-bar button:hover {
+            background-color: #b80710;
+        }
+       
+
+
+        .menu-items {
+    display: flex;
+    gap: 15px; /* Space between menu items */
+  }
+
+  .date-today {
+    margin-left: auto; /* Pushes it to the right */
+    margin-right: 10px;
+  }
+
+  .date-today input {
+    padding: 5px;
+  }
+
+
+
+
+  #date-today {
+  margin-top: 0px;
+ float: right;
+  background-color: #d3d8d7; /* Light gray */
+  width: 10%; /* Table takes full width of its container */
+  border-radius: 8px; /* Adjust the radius value for desired curvature */
+  min-width: 80px;
+  height: 5px;
+}
+
+
+#usernameHolder {
+ 
+ margin-left: 2px;
+ height: 5px;
+ margin-top: 1px;
+  
+  
+}
+
+
+        .main-content {
+            margin-left: 8px;
+            margin-right: 1px;
+            margin-top: 1px;
+            padding-left: 1px;
+            transition: margin-left 0.3s;
+            width: 100%;
+            background-color: rgb(54, 50, 50);
+          /*  border-top: 100px;   */
+            padding: 2px;
+            padding-bottom: 50px;
+            border-radius: 10px;
+        }
+        
+    </style>
+
+
+
+
+</head>
+<body>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+         
+        </div>
+        
+        <div class="sidebar-body" id="sidebar-body">
+            <ul>
+                <li><a href="../utilities.html">Back TO UTILITIES</a></li>
+            <li><a href="../newpayments.html">NEW-PAYMENTS</a></li>
+            <li><a href="../claimed.html">CLAIMED-PAYMENTS</a></li>
+            <li><a href="../merchant.html">MERCHANTS</a></li>
+            <li><a href="../home.html">ADD NEW-PAYMENTS</a></li>
+            </ul>
+        </div>
+
+        <div class="logout-container">
+            <button id="logoutButton">Logout</button>
+        </div>
+
+    </div>
+    
+
+       
+   
+
+    <div class="main-content" id="mainContent">
+        <div class="menu-bar">
+                 <button onclick="toggleSidebar()"> &#9776; Menu</button>
+                <div id="usernameHolder">  <h5 id="usernameDisplay" style="color: whitesmoke; margin-top: 1px; margin-bottom: 1px; margin-left: 10px;">Loading...</h5>  </div>
+
+        </div>
+
+            <div>
+            <h3 style="color: rgb(236, 228, 228); margin-top: 30px; margin-bottom: 5px; margin-left: 40px;">
+            DAILY TOTAL COLLECTIONS </h3>
+            </div>
+
+
+  
+
+
+
+            <iframe id="expensesIframe" src="graph/graph.html" frameborder="0"></iframe>
+        
+
+
+          
+     
+
+
+
+
+
+    </div>
+
+
+
+
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            var mainContent = document.getElementById("mainContent");
+            if (sidebar.style.left === "-250px" || sidebar.style.left === "") {
+                sidebar.style.left = "0";
+                mainContent.style.marginLeft = "250px";
+            } else {
+                sidebar.style.left = "-250px";
+                mainContent.style.marginLeft = "0";
+            }
+        }
+    </script>
+   
+    <script src="overall.js"></script>
+</body>
+</html>
+
+

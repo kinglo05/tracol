@@ -1,0 +1,440 @@
+/* Responsive Adjustments */
+@media screen and (max-width: 768px) {
+  .sidebar {
+      width: 40%; /* Increase width for smaller screens */
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .sidebar {
+      width: 60%; /* Even wider on very small screens */
+  }
+}
+
+.custom-swal-size {
+  width: 300px !important; /* Adjust the width */
+  height: auto !important; /* Adjust the height if needed */
+  font-size: 20px; /* Adjust the font size */
+}
+
+
+
+.sidebar-logo {
+  width: 150px; /* Adjust width as needed */
+  height: auto; /* Keeps aspect ratio */
+  max-width: 100%; /* Ensures it doesn't exceed the sidebar width */
+  margin-left: 15%;
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 1px; /* Adds space between the logo and the list */
+}
+
+.sidebar-logo img {
+  width: 160px; /* Adjust width as needed */
+  height: auto; /* Keeps aspect ratio */
+  max-width: 100%; /* Ensures it doesn't exceed the sidebar width */
+  min-height: none;
+}
+
+
+
+
+
+
+.sidebar-body {
+  background: #242323; 
+}
+  
+
+
+#sidebar-body {
+  margin-top: 5px;
+ 
+  border-radius: 8px; 
+  margin-bottom: 20px;
+  max-height: 290px;
+
+}
+
+#sidebar {
+  
+ min-height: 600px;  
+ 
+   
+ }
+
+
+
+.sidebar {
+  height: 100vh; /* Full height */
+  background:  #222; /* Sidebar background color    =   #222; */
+   padding: 15px;   
+   width: 210px;
+   position: fixed;
+   left: -250px;
+   background-color: #222;
+   padding-top: 1px;
+  
+   transition: left 0.3s;
+   color: white;
+   display: fixed;
+   flex-direction: column;
+   justify-content: space-between;
+  
+   border-bottom: 1px solid #8f8d8d;
+  
+}
+
+.sidebar ul {
+   list-style-type: none;
+   padding: 0;
+   flex-grow: 1;
+   font-size: 13px; /* Adjust font size */
+   margin-left: 5px;
+   margin-top: 1px;
+  
+}
+
+.sidebar ul li {
+   padding: 5px;
+   text-align: center;
+   width: 190px;
+}
+
+.sidebar ul li a {
+   color: rgb(233, 227, 227);
+   text-decoration: none;
+   display: block;
+}
+
+   .sidebar li a {
+
+padding: 8px;
+
+color: #333;
+border-bottom: 1px solid #8f8d8d;
+border-top: 1px solid #8f8d8d;
+border-radius: 8px; 
+align-items: right;
+}
+
+
+
+.sidebar ul li a:hover {
+   background-color: #15bcc2;
+}
+
+li.active { /* Style for the active <li> */
+background-color: #726c6c;
+border-radius: 10px; 
+padding: 2px;
+
+ }
+
+
+
+
+.logout-container {
+   padding: 2px;
+   text-align: center;
+  
+  
+}
+
+#logout-container {
+ height:50px;
+ 
+}
+
+
+#logoutButton {
+  margin-top: 50%;
+ 
+  height: 35px;
+   width: 70%;
+   padding: 10px;
+   background-color: rgba(216, 4, 4, 0.774);
+   border: none;
+   color: white;
+   cursor: pointer;
+ 
+  
+}
+  
+
+
+#logoutButton:hover {
+   background-color: rgb(12, 237, 245);
+}
+
+
+/*   #logoutButton {
+
+margin-bottom: 5%;
+   }
+*/
+
+
+
+
+
+
+
+.date-today {
+  margin-left: auto; /* Pushes it to the right */
+  margin-right: 10px;
+}
+
+.date-today input {
+  padding: 5px;
+}
+
+
+
+
+
+
+
+
+#add-payment {
+  
+  min-width: 200px;
+  min-height: 500px;
+  max-height: 100%;
+  background-color:#353333;
+  color: white;
+  align-items: center;
+  border-color: #8a8484;
+  align-items: center;
+}
+
+
+
+#add-payment {
+  position: fixed;
+  align-items: center;
+ padding-left: 10px;
+ padding-right: 10px;
+  margin-top: 15px; 
+  border-radius: 15px;
+  margin-left: 50px;
+}
+
+#payment-form {
+  margin-bottom: 20px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  min-width: 89%;
+  height: 12px;
+  margin-top: 1px;
+  margin-bottom: 2px;
+  border-radius: 5px;
+  text-align: center;
+  background: #4b4949;
+  padding: 5px;
+  z-index: 1000;
+ 
+/*  background: transparent;
+  border: none;
+  outline: none;  */
+ text-size-adjust: small;
+  color: rgb(196, 192, 192);
+ 
+}
+
+
+
+
+
+#usernameHolder {
+ 
+  margin-left: 2px;
+  height: 10px;
+     
+ }
+
+
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 12px;
+}
+
+input :hover {
+  background-color: #08eec8; /* A slightly darker gray on hover */
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="date"],
+input[type="time"],
+
+select {
+    padding: 8px;
+    margin-bottom: 5px;
+    border: 1px solid #8a8484;
+    min-width: 200px;
+    border-radius: 8px;   
+    background-color: #08eec8;
+}
+
+#payment-type {
+  min-width: 218px;
+}
+
+#user {
+  min-width: 218px;
+}
+
+
+
+/* Button Styling */
+
+#submit-payment {
+  background-color: rgba(216, 4, 4, 0.774);
+  color: white; /* White text */
+  padding: 10px 20px; /* Padding around text */
+  border: none; /* Remove default border */
+  border-radius: 10px; /* Rounded corners */
+  cursor: pointer; /* Change cursor on hover */
+  font-size: 16px;  /* Adjust font size */
+  font-family: sans-serif; /* Example font family */
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  width: 150px;
+  height: 35px;
+  margin-left: 16%;
+}
+
+#submit-payment:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+#submit-payment:active { /* Style when button is clicked */
+  background-color: #003f80;
+}
+
+
+
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px; /* Rounded corners */
+    padding: 10px 20px; /* Padding around text */
+    cursor: pointer; /* Change cursor on hover */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+}
+
+
+
+
+
+
+
+      
+/* 
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
+}
+
+*/
+
+/* Grid container to make buttons responsive */
+.button-container {
+ 
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  width: 85%;
+  max-width: 400px;
+  margin-top: 70px;
+  margin-left: 20px;
+}
+
+/* Button styles */
+.btn {
+  padding: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+/* Different colors for buttons */
+.btn:nth-child(1) { background-color: #3498db; color: white; } /* Blue */
+.btn:nth-child(2) { background-color: #2ecc71; color: white; } /* Green */
+.btn:nth-child(3) { background-color: #f1c40f; color: white; } /* Yellow */
+.btn:nth-child(4) { background-color: #e74c3c; color: white; } /* Red */
+
+/* Hover effects */
+.btn:hover {
+  opacity: 0.8;
+  transform: scale(1.05);
+}
+
+
+
+ /* Modal Background */
+ .modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: rgb(192, 186, 186);
+  width: 80%;
+  max-width: 600px;
+  min-width: 100px;
+  min-height: 500px;
+  margin: 10% auto;
+  
+  padding-top: 18px;
+  padding-left: 1px;
+  padding-right: 5px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  position: relative;
+}
+
+/* Close Button */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* Iframe Styling */
+iframe {
+  width: 100%;
+  height: 450px;
+  border: none;
+  margin-left: 1px;
+}
+
+
+
+
