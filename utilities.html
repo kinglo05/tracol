@@ -1,3 +1,33 @@
+
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Buttons</title>
+    <link rel="stylesheet" href="styleutilities.css">
+</head>
+<body>
+
+    <div class="button-container">
+        <button class="btn" onclick="handleClick('Expenses')">Expenses</button>
+        <button class="btn" onclick="handleClick('Accounts')">Accounts</button>
+        <button class="btn" onclick="handleClick('Search Data')">Search Data</button>
+        <button class="btn" onclick="handleClick('Overall')">Overall</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+-->
+
+
+
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -106,15 +136,17 @@
 
 
         .main-content {
-            margin-left: 5px;
-            margin-right: 0;
+            margin-left: 8px;
+            margin-right: 1px;
             margin-top: 1px;
-            padding-left: px;
+            padding-left: 1px;
             transition: margin-left 0.3s;
             width: 100%;
-            background-color: rgb(90, 86, 86);
+            background-color: rgb(54, 50, 50);
           /*  border-top: 100px;   */
             padding: 2px;
+            padding-bottom: 50px;
+            border-radius: 10px;
         }
         
     </style>
@@ -156,9 +188,37 @@
                 <div id="usernameHolder">  <h5 id="usernameDisplay" style="color: whitesmoke; margin-top: 1px; margin-bottom: 1px; margin-left: 10px;">Loading...</h5>  </div>
 
         </div>
-        <h3 style="color: rgb(236, 228, 228); margin-top: 5px; margin-bottom: 5px; margin-left: 30px;">
-            CHOOSE A FUNCTION TO USE </h3>
 
+            <div>
+            <h3 style="color: rgb(236, 228, 228); margin-top: 30px; margin-bottom: 5px; margin-left: 30px;">
+             CHOOSE A FUNCTION TO USE </h3>
+            </div>
+
+
+              <div class="button-container">
+               <!--  <button class="btn" onclick="handleClick('Expenses1')">Expenses</button>  -->
+                  <button class="btn" id="Expenses1">Expenses</button>
+                 <button class="btn" onclick="handleClick('Accounts')">Accounts</button>
+                 <button class="btn" onclick="handleClick('Search Data')">Search Data</button>
+                 <button class="btn" onclick="handleClick('Overall')">Overall</button>
+               </div> 
+
+
+
+             
+        <!--   <iframe id="expensesIframe" src="utilities/expenses/expenses.html" 
+           style="display: none; width: 100%; height: 400px;"></iframe>  -->
+
+ <!--           <div id="expensesModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <h2>Add New Expenses</h2>
+                <iframe id="expensesIframe" src="utilities/expenses/expenses.html"></iframe>
+            </div>
+        </div> -->
+
+        </div>
+        
 
 
 
@@ -191,3 +251,5 @@
     <script src="scriptutilities.js"></script>
 </body>
 </html>
+
+
