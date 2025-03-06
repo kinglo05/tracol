@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Income Chart</title>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="graph.css"></script>
+    <script scr="graph.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            margin-right: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #777575;
+        }
+</style>
+
+</head>
+<body>
+    <canvas id="incomeChart"></canvas>
+    <div id="usernameHolder" hidden>  <h5 id="usernameDisplay" style="color: whitesmoke; margin-top: 1px; margin-bottom: 1px; margin-left: 10px;">Loading...</h5>  </div>
+
+    <script>
+// Firebase Configuration (Replace with your actual config)
+const firebaseConfig = {
+  apiKey: "AIzaSyCYe3m5O6X1-q47u1w1GQ4bT8pAvJ5tzq8",
+  authDomain: "tracollector.firebaseapp.com",
+  databaseURL: "https://tracollector-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "tracollector",
+  storageBucket: "tracollector.firebasestorage.app",
+  messagingSenderId: "520928034041",
+  appId: "1:520928034041:web:1e5facfbe4ddb5e55e7628",
+  measurementId: "G-YPW4TB6P51"
+};
+
+
+ // Initialize Firebase
+ firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+
+        const database = firebase.database();
+
+
+// Firebase Auth Listener to Check if User is Logged In
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    console.log("User is logged in:", user.uid);
+
+    // Fetch user data from Firebase Database
+    firebase.database().ref("users/" + user.uid).once("value")
+    .then(snapshot => {
+        if (snapshot.exists()) {
+            const userData = snapshot.val();
+            document.getElementById("usernameDisplay").innerText = userData.email;
+        } else {
+            console.log("No user data found!");
+        }
+    })
+    .catch(error => {
+        console.error("Error fetching user data:", error);
+    });
+     
+     
+  } else {
+      console.log("No user is signed in. Redirecting to login...");
+      window.location.href = "index.html"; // Redirect if not logged in
+  } 
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // Get Current Year & Month
+        let currentDate = new Date();
+        let currentYear = currentDate.getFullYear();
+        let currentMonth = String(currentDate.getMonth() + 1).padStart(2, "0"); // e.g. "03" for March
+
+       
+            db.ref("payments").once("value", snapshot => {
+    let data = snapshot.val();
+    let dailyIncome = {};
+
+    console.log("Fetched data from Firebase:", data); // Debugging
+
+    for (let key in data) {
+        let transaction = data[key];
+
+        // Ensure the transaction has a 'date' field
+        if (transaction.date) {
+            let date = transaction.date; // Format: YYYY-MM-DD
+
+            if (date.startsWith(`${currentYear}-${currentMonth}`)) {
+                let amount = parseFloat(transaction.amount) || 0; // Convert safely
+
+                if (!dailyIncome[date]) dailyIncome[date] = 0;
+                dailyIncome[date] += amount;
+
+                console.log(date); // Debugging
+            }
+        } else {
+            console.warn(`Transaction ${key} is missing a date field`, transaction);
+        }
+    }
+
+    let labels = Object.keys(dailyIncome).sort();
+    let values = labels.map(date => dailyIncome[date]);
+
+    displayChart(labels, values);
+});
+
+
+
+
+
+
+        function displayChart(labels, values) {
+            let ctx = document.getElementById("incomeChart").getContext("2d");
+            new Chart(ctx, {
+    type: "bar", // Change to "line" for line chart
+    data: {
+        labels: labels,
+        datasets: [{
+            label: "Daily Income",
+            data: values,
+            backgroundColor: "rgba(54, 162, 235, 0.5)",  // Light Blue
+            borderColor: "rgba(54, 162, 235, 1)",  // Darker Blue
+            borderWidth: 2
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            title: {
+                display: true,
+                text: "Daily Income for Current Month",
+                font: { size: 10, weight: "bold" },  // Title Font Size
+                color: "white"  // Title Color
+            },
+            legend: {
+                labels: {
+                    font: { size: 8 },  // Legend Font Size
+                    color: "blue"  // Legend Color
+                }
+            },
+            tooltip: {
+                titleFont: { size: 8 },  // Tooltip Title Font
+                bodyFont: { size: 8 },   // Tooltip Body Font
+                backgroundColor: "rgba(0,0,0,0.7)"  // Tooltip Background
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    font: { size: 8},  // X-Axis Label Font Size
+                    color: "white"  // X-Axis Label Color
+                },
+                title: {
+                    display: true,
+                    text: "Date",
+                    font: { size: 8 },  // X-Axis Title Font Size
+                    color: "white"  // X-Axis Title Color
+                }
+            },
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    font: { size: 8 },  // Y-Axis Label Font Size
+                    color: "white"  // Y-Axis Label Color
+                },
+                title: {
+                    display: true,
+                    text: "Income (₱)",
+                    font: { size: 8},  // Y-Axis Title Font Size
+                    color: "white"  // Y-Axis Title Color
+                }
+            }
+        }
+    }
+});
+
+        }
+
+      
+
+
+
+
+        
+
+        
+    </script>
+</body>
+</html>
