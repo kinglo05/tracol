@@ -288,15 +288,26 @@ let paymentsData2 = []; // Store the fetched payment data
 database.ref('payments').on('value', (snapshot) => {
   tableData2.length = 0; // Clear existing data
   paymentsData2 = [];
-  
-
+  const currentDate = new Date();
+  const currentMonth = currentDate.getMonth() + 1; // JavaScript months are 0-based, so add 1
+  const currentYear = currentDate.getFullYear();
 
   snapshot.forEach((childSnapshot) => {
-    const payment2 = childSnapshot.val();
     const firebaseKey2 = childSnapshot.key; // Get the Firebase key
+    const payment2 = childSnapshot.val(); // Get the payment data
+
+    const paymentDate = new Date(payment2.date); // Ensure payment.date is in a valid format
+    const paymentMonth = paymentDate.getMonth() + 1;
+    const paymentYear = paymentDate.getFullYear();
 
     // Filter for payments with status 'new'
-    if (payment2.status === 'claimed') {
+    if (
+      payment2.status === 'claimed' &&
+      paymentMonth === currentMonth &&
+     paymentYear === currentYear
+    
+    
+    ) {
       paymentsData2.push({ id: firebaseKey2, ...payment2 });
 
       const rowData2 = {
@@ -472,7 +483,7 @@ if (paymentsTable2) {
     // Show the modal
    // editPaymentForm.classList.remove('hidden');
    editPaymentForm2.style.display = 'block'; 
-console.log("mao ni ang key  " + rowData2.firebaseKey);
+//console.log("mao ni ang key  " + rowData2.firebaseKey);
    
      amountCheckbox.addEventListener('change', () => {
     paymentSearchInput.dispatchEvent(new Event('input'));
@@ -649,7 +660,7 @@ function calculateDailyTrades() {
           document.getElementById('eightFiveCnew').value = eightPoint;
           document.getElementById('total-claimedCnew').value = totalForTheDayTrade;
           document.getElementById('total-resiboClaimedCnew').value = pilakaresiboClaimed;
-          console.log(eight); 
+         // console.log(eight); 
         }
         
       }
@@ -662,3 +673,58 @@ function calculateDailyTrades() {
 };
 
 calculateDailyTrades();
+
+
+
+let ascendingDate = true; // Track sorting order for date
+let ascendingTime = true; // Track sorting order for time
+
+function sortTableByDate() {
+    const table = document.getElementById("payments-table2");
+    const tbody = table.querySelector("tbody");
+    const rows = Array.from(tbody.rows);
+
+    rows.sort((a, b) => {
+        const dateA = new Date(a.cells[4].innerText.trim()); // Date column index
+        const dateB = new Date(b.cells[4].innerText.trim());
+
+        return ascendingDate ? dateA - dateB : dateB - dateA; // Toggle sorting order
+    });
+
+    tbody.innerHTML = "";
+    rows.forEach(row => tbody.appendChild(row));
+
+    ascendingDate = !ascendingDate; // Toggle order
+}
+
+function sortTableByTime() {
+    const table = document.getElementById("payments-table2");
+    const tbody = table.querySelector("tbody");
+    const rows = Array.from(tbody.rows);
+
+    rows.sort((a, b) => {
+        const timeA = parseTime(a.cells[3].innerText.trim()); // Time column index
+        const timeB = parseTime(b.cells[3].innerText.trim());
+
+        return ascendingTime ? timeA - timeB : timeB - timeA; // Toggle sorting order
+    });
+
+    tbody.innerHTML = "";
+    rows.forEach(row => tbody.appendChild(row));
+
+    ascendingTime = !ascendingTime; // Toggle order
+}
+
+// Function to convert "HH:MM AM/PM" to a Date object for sorting
+function parseTime(timeStr) {
+    const [time, modifier] = timeStr.split(" "); // Split time and AM/PM
+    let [hours, minutes] = time.split(":").map(Number);
+
+    if (modifier === "PM" && hours !== 12) {
+        hours += 12;
+    } else if (modifier === "AM" && hours === 12) {
+        hours = 0;
+    }
+
+    return new Date(0, 0, 0, hours, minutes); // Use a fixed date with time
+}
