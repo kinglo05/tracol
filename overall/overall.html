@@ -16,6 +16,64 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+
+
+    <script>
+        // Firebase Configuration (Replace with your actual config)
+        const firebaseConfig = {
+          apiKey: "AIzaSyCYe3m5O6X1-q47u1w1GQ4bT8pAvJ5tzq8",
+          authDomain: "tracollector.firebaseapp.com",
+          databaseURL: "https://tracollector-default-rtdb.asia-southeast1.firebasedatabase.app",
+          projectId: "tracollector",
+          storageBucket: "tracollector.firebasestorage.app",
+          messagingSenderId: "520928034041",
+          appId: "1:520928034041:web:1e5facfbe4ddb5e55e7628",
+          measurementId: "G-YPW4TB6P51"
+        };
+        
+        
+         // Initialize Firebase
+         firebase.initializeApp(firebaseConfig);
+                const db = firebase.database();
+        
+        
+                const database = firebase.database();
+        
+        
+        // Firebase Auth Listener to Check if User is Logged In
+        firebase.auth().onAuthStateChanged((user) => {
+          if (user) {
+            console.log("User is logged in:", user.uid);
+        
+            // Fetch user data from Firebase Database
+            firebase.database().ref("users/" + user.uid).once("value")
+            .then(snapshot => {
+                if (snapshot.exists()) {
+                    const userData = snapshot.val();
+                    document.getElementById("usernameDisplay").innerText = userData.email;
+                 // console.log("user is login");
+                } else {
+                    console.log("No user data found!");
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching user data:", error);
+            });
+             
+             
+          } else {
+              console.log("No user is signed in. Redirecting to login...");
+              window.location.href = "../index.html"; // Redirect if not logged in
+          } 
+        });
+        
+        
+</script>        
+
+
+
+
+
    
     <style>
         body {
@@ -118,10 +176,10 @@
             padding-left: 1px;
             transition: margin-left 0.3s;
             width: 100%;
-            background-color: rgb(54, 50, 50);
+            background-color: rgb(128, 121, 121);
           /*  border-top: 100px;   */
             padding: 2px;
-            padding-bottom: 50px;
+            padding-bottom: 10px;
             border-radius: 10px;
         }
         
@@ -161,32 +219,60 @@
     <div class="main-content" id="mainContent">
         <div class="menu-bar">
                  <button onclick="toggleSidebar()"> &#9776; Menu</button>
-                <div id="usernameHolder">  <h5 id="usernameDisplay" style="color: whitesmoke; margin-top: 1px; margin-bottom: 1px; margin-left: 10px;">Loading...</h5>  </div>
+                <div id="usernameHolder">  <h5 id="usernameDisplay" 
+                    style="color: whitesmoke; margin-top: 1px; 
+                    margin-bottom: 1px; margin-left: 10px;">Loadinga...</h5>  </div>
 
         </div>
 
             <div>
             <h3 style="color: rgb(236, 228, 228); margin-top: 30px; margin-bottom: 5px; margin-left: 40px;">
-            DAILY TOTAL COLLECTIONS </h3>
+            TRACOLLECT DATA </h3>    <div>    <input type="date" name="date-today" id="date-today">     </div>
             </div>
-
-
-  
-
-
-
             <iframe id="expensesIframe" src="graph/graph.html" frameborder="0"></iframe>
         
 
+          
+            <div id="data1" >  
+                
+                <p>All New Payments: <span id="overAllNew1">0</span></p>
+                
+                <p>Today New Payments : <span id="todayNew1">0</span></p>
+                <p>Today # of Receipts : <span id="todayResibo1">0</span></p>
+                    
+                
+                <p>Overall Total No-Name  : <span id="totalNoNameFinal">0</span></p>
+                <p>This Month Total No-Name  : <span id="totalNoNameMonthly">0</span></p>
+                <p>No-Name Today : <span id="todayNoName">0</span></p>
+                <p>Today # of No-names Reciept : <span id="todayNoNameResibo">0</span></p>
 
+                <p>Today Traded Amount : <span id="todayTrades1">0</span></p>
+                <p># of Receipts Today Traded  : <span id="resiboTrades1">0</span></p>
+                <p>Current Month Traded Amount : <span id="monthlyTotalTrades">0</span></p>
+                
+
+                <p>Actual Payments Deposit : <span id="actualDeposit">0</span></p>
+                <p>Today Remaining Payments Deposit : <span id="todayRemainingDeposit">0</span></p>
+                <p>Total Gcash Accounts Reserved: <span id="-----">0</span></p>
+                <p>Total Monthly Expenses Unpaid: <span id="expensesUnpaid1">0</span></p>
+                <p>Total Monthly Expenses Paid: <span id="expensesPaid1">0</span></p>
+                <p>Extra expenses: <span id="lohwaExpenses1">0</span></p>
+
+
+                <p>For deductions: <span id="monthlyNet">0</span></p>
+
+
+
+
+               
+              
+           </div>
+
+            </div>
           
      
 
-
-
-
-
-    </div>
+            
 
 
 
@@ -205,7 +291,11 @@
         }
     </script>
    
-    <script src="overall.js"></script>
+   <script src="overall.js"></script>
+
+
+
+
 </body>
 </html>
 
