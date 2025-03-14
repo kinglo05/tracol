@@ -429,8 +429,8 @@ body {
 
 /* Iframe Styling */
 iframe {
-  width: 100%;
-  height: 450px;
+  width: 98%;
+  height: 150px;
   border: none;
   margin-left: 1px;
 }
