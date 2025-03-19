@@ -364,17 +364,6 @@ margin-top: 1px;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
                     <button class="edit-mer" id="save-edit-merchantName">Save</button>
                     <button class="edit-mer" id="cancel-edit-merchantName">Close</button>
                     <input type="text" id="edit-id-mName"  hidden ><br> 
@@ -408,6 +397,19 @@ margin-top: 1px;
         }
     </script>
 
+    <script>
+    setInterval(() => {
+      const input = document.getElementById("edit-new-remain");
+      input.style.borderColor = input.style.borderColor === "red" ? "transparent" : "red";
+    }, 300);
+  </script>
+
+<script>
+    setInterval(() => {
+      const input2 = document.getElementById("mer-general-total");
+      input2.style.borderColor = input2.style.borderColor === "blue" ? "transparent" : "blue";
+    }, 200);
+  </script>
 
     <script src="scriptmerchant.js"></script>
 </body>
