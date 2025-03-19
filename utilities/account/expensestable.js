@@ -124,10 +124,6 @@ const now = new Date();
 const currentMonth = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}`; // Example: "2025-03"
 
 
-
-
-
-
 // Get all the <li> elements
 const navItems = document.querySelectorAll('ul li');
 
@@ -255,13 +251,7 @@ data.forEach((payment, rowIndex) => {
   const noteCell = row.insertCell();
   noteCell.textContent = payment.note;
 
-
-
-
-
-  
-
-    
+ 
    //////////////////////////// ALL ABOUT CHECKBOX SELECTION STARTS HERE  /////////////////////////// 
   
   // Add Checkbox cell
@@ -312,10 +302,7 @@ editCell.addEventListener('click', (event) => {
   document.getElementById('edit-idPay').value = rowData.firebaseKey;
   document.getElementById('account-type1').value = rowData.accounttype;
   document.getElementById('accountName1').value = rowData.accountName;
-   
-
-    
-    
+ 
     document.getElementById('accountnumberAA').value = rowData.accountnumber;
    
     document.getElementById('phoneInserted').value = rowData.cpInserted;
@@ -324,22 +311,9 @@ editCell.addEventListener('click', (event) => {
     document.getElementById('status1').value = rowData.status;
     document.getElementById('note').value = rowData.note;
     // document.getElementById('edit-merchant').value = rowData.merchantP; // Populate merchant 
- 
-  
 
-   // console.log("NGALAN diri sa edit:" ,AB);
-    /* console.log("mao ni name" , AB) */;
-   
 
     editPaymentForm.style.display = 'block';
-
-    // Show the modal display only to collect data in input fields next to save BTN /////
-  
-/////////////////////////////  // Event listener for Edit button aSSIGNMENT  //////////////////////////////
-
-
-
-
 
    const saveEditBtn = document.getElementById('save-edit');
    saveEditBtn.addEventListener('click', () => {
@@ -390,20 +364,9 @@ editCell.addEventListener('click', (event) => {
                      });
                   window.location.reload();
              }
-
-                 // Handle the case where the merchant key was not found.
-              
-                
-         
-         //alert("Payment details updated successfully!");
    );
 
-
-
 });
-
-
-
 
 
 assignCell2.addEventListener('click', (event) => {
@@ -421,7 +384,7 @@ assignCell2.addEventListener('click', (event) => {
     document.getElementById("accountNumberE").innerText = accnumber;
    
     
-     console.log("testor", accType);
+    // console.log("testor", accType);
    //  document.getElementById('divAmount').value = accType, accname, accnumber;     // Show the modal display only to collect data in input fields next to save BTN /////
     editPaymentFormAssign.style.display = 'block'; 
 
@@ -539,162 +502,6 @@ checkboxClaimed.addEventListener('click', () => {
   });
 });
 
-/* 
-/////////////////////////////  // Event listener for Edit button //////////////////////////////
-
- editCell.addEventListener('click', (event) => {
-  const button = event.target;
-  
-  const firebaseKey = button.dataset.rowIndex;
-  const rowData = tableData.find(data => data.firebaseKey === firebaseKey);
-  
-
-  document.getElementById('edit-idPay').value = rowData.firebaseKey;
-
-    document.getElementById('account-type1').value = rowData.accountType;
-    
-    document.getElementById('accountnumber1').value = rowData.accountNum;
-   
-    document.getElementById('phoneInserted').value = rowData.cpInserted;
-    document.getElementById('accountName1').value = rowData.name;
-   
-    document.getElementById('pincode2').value = rowData.pincode;
-    document.getElementById('status1').value = rowData.status;
-    document.getElementById('note').value = rowData.note;
-    // document.getElementById('edit-merchant').value = rowData.merchantP; // Populate merchant 
- 
-    const A =document.getElementById('accountName1').value = rowData.name;
-
-    console.log("mao ni firebase" ,firebaseKey);
-    console.log("mao ni name" , A);
-   
-
-    editPaymentForm.style.display = 'block';
-
-    // Show the modal display only to collect data in input fields next to save BTN /////
-  
-/////////////////////////////  // Event listener for Edit button aSSIGNMENT  //////////////////////////////
-
-
-
-
-
-   const saveEditBtn = document.getElementById('save-edit');
-   saveEditBtn.addEventListener('click', () => {
-    
-   
-                
-                 const updatedExpensesDetails = {
-   
-                   //  firebasekey: document.getElementById('edit-idPay').value,
-                     amount: document.getElementById('edit-amount').value,
-                   //  refNumber: document.getElementById('edit-ref-number').value,
-                     paymentType: document.getElementById('edit-payment-type').value,
-                   //  time: formattedTime,
-                     date: document.getElementById('edit-date').value,
-                     user: document.getElementById('edit-user').value,
-                     status: document.getElementById('edit-status').value,
-                   //  merchantP: document.getElementById('edit-merchant').value, 
-                    //erchantKey: merchantFirebaseKey, // The new merchant Firebase Key
-                 };
-   
-                 // Update in Firebase (example)
-               
-                 database.ref(`accounts/${firebaseKey99}`).update(updatedExpensesDetails)
-                     .then(() => {
-                       
-                    
-                   Swal.fire({
-                     title: "Success!",
-                     text: "New expenses edited successfully!",
-                     icon: "success",
-                     timer: 3000, // Closes after 3 seconds
-                     showConfirmButton: false
-                   });
-                   
-                   editPaymentForm.style.display = 'none'; 
-   
-   
-   
-                        // window.location.reload();
-                        
-                  
-                     })
-                     .catch(error => {
-                         console.error("Error updating account data:", error);
-                         // ... error handling ...
-                     });
-                  window.location.reload();
-             }
-
-                 // Handle the case where the merchant key was not found.
-              
-                
-         
-         //alert("Payment details updated successfully!");
-   );
-
-
-
-
-
-   assignCell2.addEventListener('click', (event) => {
-    const button = event.target;
-    const firebaseKey = button.dataset.rowIndex;
-    const rowData = tableData.find(data => data.firebaseKey === firebaseKey);
-   
-   
-       document.getElementById('accountTypeE').value =  rowData.accountType;
-       document.getElementById('accountNameE').value = rowData.name;
-       document.getElementById('accountNumberE').value = rowData.accountNum;
-      
-      const teste   = rowData.accountNum;
-      
-       console.log("testor", teste);
-       
-       // Show the modal display only to collect data in input fields next to save BTN /////
-      editPaymentFormAssign.style.display = 'block'; 
-    
-   });
-
-
-
-
-
-
-
-
-
-
-
-}); */
-
-
-/* assignCell2.addEventListener('click', (event) => {
-
- 
-  const button = event.target;
-  const firebaseKey = button.dataset.rowIndex;
- 
- 
-     document.getElementById('accountTypeE').value =  rowDataA.accountType;
-     document.getElementById('accountNameE').value = rowDataA.name;
-     document.getElementById('accountNumberE').value = rowDataA.accountNum;
-    
-    const teste   = rowDataA.accountNum;
-    
-     console.log("testor", teste);
-     
-     // Show the modal display only to collect data in input fields next to save BTN /////
-    editPaymentFormAssign.style.display = 'block'; 
-  
- }); */
-
-
-
-
-
-
 
 
 
@@ -810,10 +617,6 @@ document.getElementById('eightFive').value = eightPoint;
 
 
 
-
-     
-
-
       function copyText() {
         // Create a temporary textarea
         const tempTextArea = document.createElement("textarea");
@@ -827,6 +630,8 @@ document.getElementById('eightFive').value = eightPoint;
         // Remove the temporary textarea
         document.body.removeChild(tempTextArea);
         
-        alert("Text copied to clipboard!");
+       // alert("Text copied to clipboard!");
+
+       editPaymentFormAssign.style.display = 'none'; 
     }
 
