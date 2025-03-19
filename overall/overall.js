@@ -626,18 +626,6 @@ document.getElementById("todayNoNameResibo").innerText = Number(pilakaresibo) ||
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 //////////////////////////////////   ALL CALCULATIONS HERE ////////////////////////
 
 
