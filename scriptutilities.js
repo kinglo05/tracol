@@ -137,3 +137,8 @@ document.getElementById("logoutButton").addEventListener("click", function() {
 document.getElementById("overall").addEventListener("click", function() {
   window.location.href = "overall/overall.html";
 });
+
+
+document.getElementById("accountsPage").addEventListener("click", function() {
+  window.location.href = "utilities/account/expensestable.html";
+});
