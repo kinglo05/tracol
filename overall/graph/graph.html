@@ -78,17 +78,6 @@ firebase.auth().onAuthStateChanged((user) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
         // Get Current Year & Month
         let currentDate = new Date();
         let currentYear = currentDate.getFullYear();
@@ -114,7 +103,7 @@ firebase.auth().onAuthStateChanged((user) => {
                 if (!dailyIncome[date]) dailyIncome[date] = 0;
                 dailyIncome[date] += amount;
 
-                console.log(date); // Debugging
+             //   console.log(date); // Debugging
             }
         } else {
             console.warn(`Transaction ${key} is missing a date field`, transaction);
