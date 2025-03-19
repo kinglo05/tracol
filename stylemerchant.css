@@ -392,10 +392,11 @@ label {
 
 
 #mer-general-total {
-  background-color: #f70707;
+  background-color: #cf2727;
   width: 150px;
-  color: white;
+  color: rgb(253, 246, 246);
   font-size: medium;
+ 
 }
 
 
@@ -458,7 +459,8 @@ input:hover {
 
 #edit-new-remain {
   /* Any specific styles for the input itself, if needed */
-  border: 1px solid #20854e; /* Example: A light gray border for the input */
+  border: 3px solid #20854e; /* Example: A light gray border for the input */
+ 
 }
 
 #edit-new-borrowed {
@@ -970,102 +972,3 @@ label {
   background-color: #0ab3f7;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-/*
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th,
-td {
-  padding: 10px;
-  text-align: left;
-  border: 1px solid #ccc;
-}
-
-
-
-
-
-#merchants-table {
-  width: 100%; 
-  border-collapse: collapse;
-}
-#merchants-table th, #merchants-table td {
-  border: 2px solid #d5d6d3;
-  padding: 5px;
-  text-align: center;
-  white-space: nowrap; 
-  overflow: hidden;   
-  text-overflow: ellipsis;
-}
-
-
-
-
-.table-container {
-  width: 100%; 
-  max-height: 400px; 
-  overflow-y: auto; 
-  overflow-x: auto;
-}
-
-
-.table-container::-webkit-scrollbar {
-  width: 15px; 
-}
-.table-container::-webkit-scrollbar-track {
-  background: #f0e9e9; 
-}
-.table-container::-webkit-scrollbar-thumb {
-  background: #0ccef0; 
-}
-.table-container::-webkit-scrollbar-thumb:hover {
-  background: #555; 
-}
-
-
-#merchants-table thead th {
-  position: sticky;
-  top: 0;
-  background-color: rgb(87, 207, 107);
-
-}
-
-
-
-#merchants-table tfoot {
-  position: sticky;
-  bottom: 0;
-  background-color: rgb(87, 207, 107);
-
-}
- 
-
-*/
