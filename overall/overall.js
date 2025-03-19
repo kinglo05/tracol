@@ -656,8 +656,8 @@ document.getElementById("todayNoNameResibo").innerText = Number(pilakaresibo) ||
                   const  minusEspense = currentMonthIn - currentMonthExpenses;
                   document.getElementById("monthlyNet").innerText = Number(minusEspense).toFixed(2);
 
-                 console.log("PARA TESTING RESULT today nabilin  :",currentMonthIn, "-",  currentMonthExpenses 
-                  ,"=" , minusEspense);
+                /*  console.log("PARA TESTING RESULT today nabilin  :",currentMonthIn, "-",  currentMonthExpenses 
+                  ,"=" , minusEspense); */
               }
               
               updateDisplay();
