@@ -11,6 +11,59 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
     <style>
+
+ /* Modal background */
+ .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        /* Modal content */
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        /* Close button */
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 40px;
+            cursor: pointer;
+        }
+
+        /* iFrame styling */
+        iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
        #newPayments-title {
            
            
@@ -138,13 +191,17 @@ margin-top: 1px;
         <div class="main-content" id="mainContent">
             <div class="menu-bar">
                 <button id="menubutton" onclick="toggleSidebar()"> &#9776; Menu</button>
-                <div id="usernameHolder">  <h5 id="usernameDisplay" style="color: whitesmoke; margin-top: 1px; margin-bottom: 1px; margin-left: 10px;">Loading...</h5>  </div>
-       </div>
+                <div id="usernameHolder">  <h5 id="usernameDisplay" style="color: rgb(237, 236, 243); margin-top: 1px; margin-bottom: 1px; margin-left: 10px;">Loading...</h5>  </div>
+                   </div>
 
 
                   <div>
-                     <h3 style="color: rgb(255, 255, 255); margin-top: 5px; margin-bottom: 5px; margin-left: 10px;">  
-                      Traders Page </h3>     
+                     <h3 style="color: rgb(255, 255, 255); margin-top: 5px; margin-bottom: 5px; margin-left: 2px;">  
+                      Traders Page </h3> 
+                      <h4 style="color: rgb(47, 4, 240); margin-top: 5px; margin-bottom: 5px; margin-left: 2px;  margin-right: 2px;">  
+                        <a href="#" onclick="openModal('utilities/data/expenses.html')"> View Traders Deposit </a> </h4> 
+                     
+                        
                       </div>
 
                       <div id="merchants">
@@ -364,6 +421,17 @@ margin-top: 1px;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
                     <button class="edit-mer" id="save-edit-merchantName">Save</button>
                     <button class="edit-mer" id="cancel-edit-merchantName">Close</button>
                     <input type="text" id="edit-id-mName"  hidden ><br> 
@@ -378,7 +446,43 @@ margin-top: 1px;
 
 
 
+
+
+
+
+                        
+                    <!-- Modal structure -->
+                    <div id="frameModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="closeModal()">&times;</span>
+                            <iframe id="modalFrame" src="utilities/data/expensestable.html"></iframe>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+
         </div>
+
+
+
+
+       
+
+    
+
+
+
+
+
+
+
 
      
     </div>
@@ -397,7 +501,7 @@ margin-top: 1px;
         }
     </script>
 
-    <script>
+<script>
     setInterval(() => {
       const input = document.getElementById("edit-new-remain");
       input.style.borderColor = input.style.borderColor === "red" ? "transparent" : "red";
@@ -410,6 +514,7 @@ margin-top: 1px;
       input2.style.borderColor = input2.style.borderColor === "blue" ? "transparent" : "blue";
     }, 200);
   </script>
+
 
     <script src="scriptmerchant.js"></script>
 </body>
