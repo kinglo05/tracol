@@ -59,25 +59,6 @@ document.getElementById("logoutButton").addEventListener("click", function() {
 
 
 
-
-
-
-
-
-
-
-
-/* 
-
-   //cancel to hide add editform
-   cancelEditButtonMerchant.addEventListener('click', () => {
-    editMerchantForm.style.display = 'none'; 
-  });
-    */
-  
-
-
-
   function handleClick(buttonName) {
 
     var iframe = document.getElementById("expensesIframe");
@@ -94,33 +75,11 @@ document.getElementById("logoutButton").addEventListener("click", function() {
  
 
 
-
-/*  document.getElementById("Expenses").addEventListener("click", function() {
-  var iframe = document.getElementById("expensesIframe");
-  if (iframe.style.display === "none") {
-      iframe.style.display = "block";
-      this.textContent = "Hide Expenses";
-  } else {
-      iframe.style.display = "none";
-      this.textContent = "Show Expenses";
-  }
-});  */
-
-
  // Get elements
  var modal = document.getElementById("expensesModal");
  var btn = document.getElementById("Expenses");
  var closeBtn = document.querySelector(".close-btn");
 
- // Open Modal
-/*  btn.addEventListener("click", function() {
-     modal.style.display = "block";
- }); */
-
- // Close Modal
-/*  closeBtn.addEventListener("click", function() {
-     modal.style.display = "none";
- }); */
 
  // Close Modal if user clicks outside the content area
  window.addEventListener("click", function(event) {
@@ -141,4 +100,8 @@ document.getElementById("overall").addEventListener("click", function() {
 
 document.getElementById("accountsPage").addEventListener("click", function() {
   window.location.href = "utilities/account/expensestable.html";
+});
+
+document.getElementById("dataPage").addEventListener("click", function() {
+  window.location.href = "utilities/data/expensestable.html";
 });
