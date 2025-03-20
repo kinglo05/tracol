@@ -27,7 +27,7 @@ firebase.auth().onAuthStateChanged((user) => {
     .then(snapshot => {
         if (snapshot.exists()) {
             const userData = snapshot.val();
-            document.getElementById("usernameDisplay").innerText =  userData.email;
+          //  document.getElementById("usernameDisplay").innerText =  userData.email;
         } else {
             console.log("No user data found!");
         }
@@ -131,7 +131,7 @@ if (linkPath === currentPage2) {
 
 // Global Variables
 //let currentUserId = user.uid; // Replace with actual user authentication logic
-let editPaymentId = null; // Store the ID of the payment being edited
+//let editPaymentId = null; // Store the ID of the payment being edited
 
 const dateInput22 = document.getElementById('date-today');
   const today = new Date();
@@ -239,7 +239,7 @@ fetchAndDisplaySums();
 
 
 
-function fetchAndDisplaySums22() {
+function addnoname() {
     const paymentsRef22 = database.ref("payments");
 
     paymentsRef22.on("value", (snapshot) => {
@@ -262,25 +262,21 @@ function fetchAndDisplaySums22() {
         });
 
         // Convert object to array
-        merchantData = Object.entries(merchantSums2).map(([name, amount]) => ({
+       /*  merchantData = Object.entries(merchantSums2).map(([name, amount]) => ({
             name,
             amount
         }));
-
-       // document.getElementById("totalMerchantDeposit").innerText = totalSumNoname.toFixed(2);
-      //  const grand = document.getElementById("totalSum").value;
+ */
+    
         localStorage.setItem("totalSumNoname" , totalSumNoname);
     
 
-       
-        // Default sorting
-       // sortTable("amount", true);
     });
 }
 
 
 
-fetchAndDisplaySums22();
+addnoname();
 
 
 
