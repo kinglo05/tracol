@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>TraCollector</title>
+    <title>Add New Payment</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   
 
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
    
     <style>
         body {
@@ -173,18 +175,14 @@
                 <select id="payment-type" autocomplete="off"><br>
                  <option value="gcash">GCASH</option>
                  <option value="PAYMAYA">Paymaya</option>
-                     <option value="International">International bank</option>
-                    
                 <option value="BDO">BDO</option>
-                     <option value="CIMB">CIMB</option>
                      <option value="BTI">BTI</option>
                      <option value="PAY&GO">Pay@Go</option>
-                     <option value="BPI">BPI</option>
                      <option value="PALAWAN">Palawan</option>
                      <option value="GOTYME">GOTYME</option>
                       <option value="ECPAY">ECPAY</option>
                       <option value="7connect">7connect</option>
-                 <option value="OTHERBANK">Other-Bank</option>
+                 <option value="OTHERBANK">BANK</option>
                  <option value="cashin">CASHIN</option>
                  <option value="bank">BANK</option>
                 </select> <br>
@@ -194,8 +192,8 @@
                 <input type="date" id="date" required><br>
                 <label for="user">User:</label>
                 <select id="user"><br>
-                 <option value="zen">zen</option>
                  <option value="lo">lo</option>
+                 <option value="zen">zen</option>
                 </select> <br>
 
                
