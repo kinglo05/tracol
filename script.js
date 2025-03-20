@@ -124,7 +124,7 @@ navItems.forEach(item => {
 
 // Global Variables
 //let currentUserId = "user123"; // Replace with actual user authentication logic
-let editPaymentId = null; // Store the ID of the payment being edited
+//let editPaymentId = null; // Store the ID of the payment being edited
 
 
 
@@ -189,13 +189,13 @@ submitNewPayment.addEventListener('click', () => {
               return; // Prevent saving if duplicate
           } else {
 
-             Swal.fire({
+            /*  Swal.fire({
               title: "Success!",
               text: "New payment edited successfully!",
               icon: "success",
               timer: 3000, // Closes after 3 seconds
               showConfirmButton: false
-            });
+            }); */
           
 
               savePayment2(refNumber, amount); // Save only if refNumber exists but amount is different
@@ -204,14 +204,14 @@ submitNewPayment.addEventListener('click', () => {
           }
       } else {
  
-        Swal.fire({
+        /* Swal.fire({
           title: "Success!",
           text: "New payment edited successfully!",
           icon: "success",
           timer: 3000, // Closes after 3 seconds
           showConfirmButton: false
         }); 
-
+ */
 
           savePayment2(refNumber, amount); // Save if refNumber doesn't exist
          
@@ -221,16 +221,24 @@ submitNewPayment.addEventListener('click', () => {
 });
 
 
+
+
+
+
+
+
 function savePayment2(refNumber, amount) {  // Correctly placed *inside* the callback
 
 
-  function formatTimeTo12Hour(timeString) {
+
+
+   function formatTimeTo12Hour(timeString) {
     let [hours, minutes] = timeString.split(":");
     hours = parseInt(hours, 10);
     let ampm = hours >= 12 ? "PM" : "AM";
     hours = hours % 12 || 12; // Convert 24-hour to 12-hour format
     return `${hours}:${minutes} ${ampm}`;
-  }
+  } 
     const timeInput = document.getElementById("time").value;
     let formattedTime = formatTimeTo12Hour(timeInput);
    
@@ -248,25 +256,27 @@ function savePayment2(refNumber, amount) {  // Correctly placed *inside* the cal
       status: 'new'
   };
 
-  if (!firebase.apps.length) {
+ /*  if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
-}
+} */
 
 const newPaymentRef = firebase.database().ref('payments').push();
 const newPaymentKey = newPaymentRef.key;
 
-return firebase.database().ref('payments/' + newPaymentKey).set(newPayment)
+//return
+
+firebase.database().ref('payments/' + newPaymentKey).set(newPayment)
     .then(() => {
 
  
-      /*  Swal.fire({
+        Swal.fire({
         title: "Success!",
         text: "New payment edited successfully!",
         icon: "success",
         timer: 3000, // Closes after 3 seconds
         showConfirmButton: false
       }); 
-       */
+       
      console.log("the payment was saved successfully");
 
 //console.log("na save ang payment diri ni sa ubos nga message");
@@ -274,10 +284,16 @@ return firebase.database().ref('payments/' + newPaymentKey).set(newPayment)
        
     })
     .catch((error) => {
-        console.error("Error adding payment:", error);
-        alert("An error occurred while adding the payment. Please try again.");
-    });
-}
+      console.error("Error adding payment:", error);
+      alert("An error occurred while adding the new payments. Please try again later.")
+  });
+  
+};
+
+
+
+
+
 
 /////////////////////////// POPULATE MERCHANT NAME //////////////////////// 
 
