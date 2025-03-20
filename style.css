@@ -217,7 +217,7 @@ margin-bottom: 5%;
  padding-right: 10px;
   margin-top: 15px; 
   border-radius: 15px;
-  margin-left: 60px;
+  margin-left: 50px;
 }
 
 #payment-form {
@@ -240,7 +240,7 @@ margin-bottom: 5%;
 /*  background: transparent;
   border: none;
   outline: none;  */
- text-size-adjust: small;
+ font-size: smaller;
   color: rgb(196, 192, 192);
  
 }
