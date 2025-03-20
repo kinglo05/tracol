@@ -370,15 +370,15 @@ editMerchantBTN.addEventListener('click', () => {
   database.ref(`merchants/${editMerchantID}`).update(editMerchant)
   .then(() => {
 
-    Swal.fire({
+     Swal.fire({
       title: "Success!",
       text: "MERCHANT DATA ARE SAVED SUCCESSFULLY",
       icon: "success",
-      timer: 3000, // Closes after 3 seconds
-      showConfirmButton: false
+      timer: 2000, // Closes after 3 seconds
+      showConfirmButton: false 
     });
    
-    editMerchantForm.style.display = 'none'; 
+   /*  editMerchantForm.style.display = 'none';  */
 
   })
   .catch(error => {
@@ -832,7 +832,23 @@ document.addEventListener("mousedown", function(event) {
 
 
 
+ function openModal(url) {
+  document.getElementById("modalFrame").src = "utilities/data/expensestable.html";
+  document.getElementById("frameModal").style.display = "block";
+}
 
+function closeModal() {
+  document.getElementById("frameModal").style.display = "none";
+  document.getElementById("modalFrame").src = ""; // Clear iframe src
+}
+
+// Close modal if user clicks outside content
+ window.onclick = function(event) {
+  let modal = document.getElementById("frameModal");
+  if (event.target === modal) {
+      closeModal();
+  }
+}; 
 
 
 
