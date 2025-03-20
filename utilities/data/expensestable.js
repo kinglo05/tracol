@@ -163,7 +163,7 @@ function fetchAndDisplaySums() {
 
     paymentsRef2.on("value", (snapshot) => {
         let merchantSums = {};
-        let totalSum = 0;
+        let totalSumAll = 0;
 
         snapshot.forEach((childSnapshot) => {
             const payment = childSnapshot.val();
@@ -176,7 +176,7 @@ function fetchAndDisplaySums() {
                     merchantSums[merchant] = 0;
                 }
                 merchantSums[merchant] += amount;
-                totalSum += amount;
+                totalSumAll += amount;
             }
         });
 
@@ -186,7 +186,8 @@ function fetchAndDisplaySums() {
             amount
         }));
 
-        document.getElementById("totalSum").innerText = totalSum.toFixed(2);
+        document.getElementById("totalSum").innerText = totalSumAll.toFixed(2);
+        localStorage.setItem("totalSumAll" , totalSumAll);
 
         // Default sorting
         sortTable("amount", true);
@@ -235,6 +236,80 @@ function filterTable() {
 }
 
 fetchAndDisplaySums();
+
+
+
+function fetchAndDisplaySums22() {
+    const paymentsRef22 = database.ref("payments");
+
+    paymentsRef22.on("value", (snapshot) => {
+        let merchantSums2 = {};
+        let totalSumNoname = 0;
+
+        snapshot.forEach((childSnapshot) => {
+            const payment = childSnapshot.val();
+
+            if (payment.merchantP === "" && payment.status === "new") {
+                const merchant = payment.merchantP;
+                const amount = parseFloat(payment.amount) || 0;
+
+                if (!merchantSums2[merchant]) {
+                    merchantSums2[merchant] = 0;
+                }
+                merchantSums2[merchant] += amount;
+                totalSumNoname += amount;
+            }
+        });
+
+        // Convert object to array
+        merchantData = Object.entries(merchantSums2).map(([name, amount]) => ({
+            name,
+            amount
+        }));
+
+       // document.getElementById("totalMerchantDeposit").innerText = totalSumNoname.toFixed(2);
+      //  const grand = document.getElementById("totalSum").value;
+        localStorage.setItem("totalSumNoname" , totalSumNoname);
+    
+
+       
+        // Default sorting
+       // sortTable("amount", true);
+    });
+}
+
+
+
+fetchAndDisplaySums22();
+
+
+
+
+
+function updateDisplay() {
+    let totalSumNoname = localStorage.getItem("totalSumNoname"); ////used
+    let totalSumAll = localStorage.getItem("totalSumAll");
+     
+    const totalDeposit =  Number(totalSumAll - totalSumNoname) || 0;
+     
+    document.getElementById("totalMerchantDeposit").innerText = totalDeposit.toFixed(2);
+  
+
+  }
+  
+  updateDisplay();
+  
+  // Listen for storage updates
+  window.addEventListener("storage", function(event) {
+    if (event.key  === "totalSumNoname","totalSumAll") {
+        updateDisplay();
+    }
+  });
+  
+
+  updateDisplay();
+
+
 
 
 
