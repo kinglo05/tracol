@@ -791,6 +791,7 @@ function updatePaymentsTableCName(data) {
 //cancel to hide add editform
 cancelEditButtonMerchant.addEventListener('click', () => {
   editMerchantForm.style.display = 'none'; 
+   location.reload(); // Refresh the page
 });
  
 
@@ -801,13 +802,13 @@ cancelEditButtonMerchantName.addEventListener('click', () => {
 
 
 
-document.addEventListener("mousedown", function(event) {
+/* document.addEventListener("mousedown", function(event) {
   let modal = document.getElementById('editmerchant');
    
    if (modal && !modal.contains(event.target)) {
      editMerchantForm.style.display = "none";
    }
- }); 
+ });  */
  
 
  document.addEventListener("mousedown", function(event) {
