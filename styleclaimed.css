@@ -214,6 +214,32 @@ padding: 2px;
 
 
 
+
+#filter {
+  margin-top: 0%;
+  margin-left: 20px;
+ 
+  height: 35px;
+   width: 20%;
+   padding: 10px;
+   background-color: rgba(216, 4, 4, 0.774);
+   border: none;
+   color: white;
+   cursor: pointer;
+ 
+  
+}
+  
+
+
+#filter:hover {
+   background-color: rgb(12, 237, 245);
+}
+
+
+
+
+
 #payment-search2 {
   border-radius: 8px;
   color: rgb(15, 87, 15);
@@ -228,7 +254,46 @@ padding: 2px;
   #payment-search2:hover {
   background-color:  #76f7dd; /* A slightly darker gray on hover */
   }
+
+
+
+
+
+  #startDate {
+    border-radius: 2px;
+    color: rgb(15, 87, 15);
+    background-color: #f0f0f0; /* Light gray */
+    border-color: #222121; /* Slightly darker gray */
+    width: 22%;
+    height: 20px;
+    margin-top: 8px;
+    margin-left: 1px;
+    padding: 1px;
+    font-size: small;
+   
+    }
+    
+    #startDate:hover {
+    background-color:  #76f7dd; /* A slightly darker gray on hover */
+    }
   
+
+    #endDate {
+      border-radius: 2px;
+      color: rgb(15, 87, 15);
+      background-color: #f0f0f0; /* Light gray */
+      border-color: #222121; /* Slightly darker gray */
+      width: 22%;
+      height: 20px;
+      margin-top: 8px;
+      margin-left: 1px;
+      padding: 1px;
+      font-size: small;
+      }
+      
+      #endDate:hover {
+      background-color:  #76f7dd; /* A slightly darker gray on hover */
+      }
 
 
 
@@ -267,8 +332,12 @@ padding: 2px;
 
 
 
-label {
-  margin-right: 5px; /* Space between label and input */
+/* label {
+  margin-right: 1px; 
+ */
+
+#startDatelabel {
+  margin-right: 0px; /* Space between label and input */
 }
 
 
@@ -657,9 +726,7 @@ button:hover {
  padding-left: 20px;
 }
 
-label {
-  margin-right: 5px; /* Space between label and input */
-}
+
 
 .claimedLabel {
   background: transparent;
