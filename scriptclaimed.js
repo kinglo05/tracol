@@ -275,7 +275,30 @@ function loadPayments() {
       const currentMonth = today.substring(0, 7); 
   
   });
-} 
+} ;
+
+
+function setDefaultDates() {
+  const today = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(today.getDate() - 1); // Get yesterday's date
+
+  // Format dates as YYYY-MM-DD for input fields
+  const formatDate = (date) => date.toISOString().split("T")[0];
+
+  document.getElementById("startDate").value = formatDate(yesterday);
+  document.getElementById("endDate").value = formatDate(today);
+}
+
+// Run function on page load
+window.onload = setDefaultDates;
+
+
+
+
+
+
+
 
 
 
@@ -285,26 +308,37 @@ const tableData2 = [];
 // Fetch data from Firebase and display in the table
 let paymentsData2 = []; // Store the fetched payment data
 
+function filterPayments() {
+
 database.ref('payments').on('value', (snapshot) => {
   tableData2.length = 0; // Clear existing data
   paymentsData2 = [];
   const currentDate = new Date();
-  const currentMonth = currentDate.getMonth() + 1; // JavaScript months are 0-based, so add 1
-  const currentYear = currentDate.getFullYear();
+ /*  const currentMonth = currentDate.getMonth() + 1; // JavaScript months are 0-based, so add 1
+  const currentYear = currentDate.getFullYear(); */
+  const selectedStartDate = document.getElementById("startDate").value;
+  const selectedEndDate = document.getElementById("endDate").value;
+
+  const startDate = new Date(selectedStartDate); // Example: "2024-03-01"
+  const endDate = new Date(selectedEndDate); // Example: "2024-03-25"
+
 
   snapshot.forEach((childSnapshot) => {
     const firebaseKey2 = childSnapshot.key; // Get the Firebase key
     const payment2 = childSnapshot.val(); // Get the payment data
 
     const paymentDate = new Date(payment2.date); // Ensure payment.date is in a valid format
-    const paymentMonth = paymentDate.getMonth() + 1;
-    const paymentYear = paymentDate.getFullYear();
+ /*    const paymentMonth = paymentDate.getMonth() + 1;
+    const paymentYear = paymentDate.getFullYear(); */
+
+ 
+
 
     // Filter for payments with status 'new'
     if (
       payment2.status === 'claimed' &&
-      paymentMonth === currentMonth &&
-     paymentYear === currentYear
+      paymentDate >= startDate &&
+      paymentDate <= endDate
     
     
     ) {
@@ -326,7 +360,7 @@ database.ref('payments').on('value', (snapshot) => {
   });
   updatePaymentsTable2(paymentsData2); // Initial table population
 });
-
+};
 
 
 
