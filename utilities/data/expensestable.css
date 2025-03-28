@@ -1110,5 +1110,27 @@ iframe {
 
 
 
+#filter {
+  margin-top: 0%;
+  margin-left: 10px;
+ 
+  height: 35px;
+   width: 22%;
+   padding: 10px;
+   background-color: rgba(216, 4, 4, 0.774);
+   border: none;
+   color: white;
+   cursor: pointer;
+ 
+  
+}
+  
+
+
+#filter:hover {
+   background-color: rgb(12, 237, 245);
+}
+
+
 
 
