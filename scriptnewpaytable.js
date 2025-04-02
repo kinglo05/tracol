@@ -255,6 +255,44 @@ function showAlert(message, duration = 3000) {
 
 
 
+//Function to Load and Display Payments
+
+function loadPayments() {
+  paymentsTable.innerHTML = ""; // Clear existing data
+
+  paymentsRef.orderByChild("timestamp").on("value", (snapshot) => {
+      let totalToday = 0;
+      let totalNewToday = 0;
+      let totalClaimedToday = 0;
+      let totalThisMonth = 0;
+      const today = format.Date(new Date());
+      const currentMonth = today.substring(0, 7); 
+  
+  });
+} ;
+
+
+function setDefaultDates() {
+  const today = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(today.getDate() - 1); // Get yesterday's date
+
+  // Format dates as YYYY-MM-DD for input fields
+  const formatDate = (date) => date.toISOString().split("T")[0];
+
+  document.getElementById("startDate").value = formatDate(yesterday);
+  document.getElementById("endDate").value = formatDate(today);
+}
+
+// Run function on page load
+window.onload = setDefaultDates;
+
+
+
+
+
+
+
 // Global Variables
 //let currentUserId = user.uid; // Replace with actual user authentication logic
 let editPaymentId = null; // Store the ID of the payment being edited
@@ -319,7 +357,7 @@ merchantInputP.addEventListener('input', () => {
 ////////////////////////////   PAYMENTS TABLE1 - STARTS  HERE  /////////////////////
 
 
-const table = document.getElementById('payments-table').getElementsByTagName('tbody')[0];
+/* const table = document.getElementById('payments-table').getElementsByTagName('tbody')[0];
 const rowsPerPageSelect = document.getElementById('rows-per-page');
 const tableData = [];
 let currentPage = 1;
@@ -357,7 +395,74 @@ database.ref('payments').on('value', (snapshot) => {
   });
 
   updatePaymentsTable(paymentsData); // Initial table population
+}); */
+
+const table = document.getElementById('payments-table').getElementsByTagName('tbody')[0];
+const tableData = [];
+
+// Fetch data from Firebase and display in the table
+let paymentsData = []; // Store the fetched payment data
+
+function filterPayments() {
+
+database.ref('payments').on('value', (snapshot) => {
+  tableData.length = 0; // Clear existing data
+  paymentsData = [];
+  const currentDate = new Date();
+ /*  const currentMonth = currentDate.getMonth() + 1; // JavaScript months are 0-based, so add 1
+  const currentYear = currentDate.getFullYear(); */
+  const selectedStartDate = document.getElementById("startDate").value;
+  const selectedEndDate = document.getElementById("endDate").value;
+
+  const startDate = new Date(selectedStartDate); // Example: "2024-03-01"
+  const endDate = new Date(selectedEndDate); // Example: "2024-03-25"
+
+
+  snapshot.forEach((childSnapshot) => {
+    const firebaseKey = childSnapshot.key; // Get the Firebase key
+    const payment = childSnapshot.val(); // Get the payment data
+
+    const paymentDate = new Date(payment.date); // Ensure payment.date is in a valid format
+ /*    const paymentMonth = paymentDate.getMonth() + 1;
+    const paymentYear = paymentDate.getFullYear(); */
+
+ 
+
+
+    // Filter for payments with status 'new'
+    if (
+      payment.status === 'new' &&
+      paymentDate >= startDate &&
+      paymentDate <= endDate
+    
+    
+    ) {
+      paymentsData.push({ id: firebaseKey, ...payment });
+
+      const rowData = {
+        firebaseKey: firebaseKey, // Store the key
+        amount: payment.amount,
+        refNumber: payment.refNumber,
+        paymentType: payment.paymentType,
+        time: payment.time,
+        date: payment.date,
+        user: payment.user,
+        merchantP: payment.merchantP,
+        status: payment.status
+      };
+
+      tableData.push(rowData);
+    }
+  });
+  updatePaymentsTable(paymentsData); // Initial table population
 });
+};
+
+
+
+
+
+
 
 function updatePaymentsTable(data) {
 table.innerHTML = ''; // Clear the table
@@ -484,12 +589,18 @@ if (paymentsTableNew) {
             amountCells.forEach(cell => {
                 const amountNew = parseFloat(cell.textContent) || 0;
                 totalNew += amountNew;
+                 const forOverAllNew = totalNew.toFixed(2);
+                
+                
 
-               // console.log("DIRI   " + amountCells);
+                
+
+              // console.log("DIRI   " + forOverAllNew);
             });
 
             if (totalAmountSpanNew) { // Check if the total amount span exists
                 totalAmountSpanNew.textContent = totalNew.toFixed(2);
+                /* localStorage.setItem("overAllNew", forOverAllNew); */
              //   console.log("mao ni total: ");
             } else {
                 console.error("Total amount span element not found!");
@@ -957,8 +1068,15 @@ document.getElementById('total-today').value = totalForTheDay;
 document.getElementById('total-resibo').value = pilakaresibo;
 document.getElementById('eight').value = eight;
 document.getElementById('eightFive').value = eightPoint;
+
+//localStorage.setItem("todayNew" ,  totalForTheDay);
+
+
           })
+         
         })
+       // localStorage.setItem("todayNew" ,  totalForTheDay);
+       // localStorage.setItem("todayResibo" ,  pilakaresibo);
       };
       dailypayments();
 
@@ -1015,7 +1133,7 @@ document.getElementById('eightFive').value = eightPoint;
                       document.getElementById('eightFiveC').value = eightPoint;
                       document.getElementById('total-claimed').value = totalForTheDayTrade;
                       document.getElementById('total-resiboClaimed').value = pilakaresiboClaimed;
-
+                     
                      
                     }
                     
