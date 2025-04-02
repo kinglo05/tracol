@@ -825,20 +825,19 @@ td {
 /* Basic table styling    ////////// FOR new payments -search ONLY //////////////////// */
 
 #payment-search {
-border-radius: 8px;
-color: rgb(15, 87, 15);
-background-color: #f0f0f0; /* Light gray */
-border-color: #222121; /* Slightly darker gray */
-width: 150px;
-height: 15px;
-margin-top: 8px;
-margin-left: 10px;
-}
-
-#payment-search:hover {
-background-color:  #76f7dd; /* A slightly darker gray on hover */
-}
-
+  border-radius: 8px;
+  color: rgb(15, 87, 15);
+  background-color: #f0f0f0; /* Light gray */
+  border-color: #222121; /* Slightly darker gray */
+  width: 150px;
+  height: 15px;
+  margin-top: 8px;
+  margin-left: 10px;
+  }
+  
+  #payment-search:hover {
+  background-color:  #76f7dd; /* A slightly darker gray on hover */
+  }
 
 
 
@@ -1031,6 +1030,67 @@ input[type="text"],
   width: 1%; /* Table takes full width of its container */
  
 }
+
+
+#filter {
+  margin-top: 0%;
+  margin-left: 20px;
+ 
+  height: 35px;
+   width: 20%;
+   padding: 10px;
+   background-color: rgba(216, 4, 4, 0.774);
+   border: none;
+   color: white;
+   cursor: pointer;
+ 
+  
+}
+  
+
+
+#filter:hover {
+   background-color: rgb(12, 237, 245);
+}
+
+
+#startDate {
+  border-radius: 2px;
+  color: rgb(15, 87, 15);
+  background-color: #f0f0f0; /* Light gray */
+  border-color: #222121; /* Slightly darker gray */
+  width: 23%;
+  height: 20px;
+  margin-top: 8px;
+  margin-left: 1px;
+  padding: 1px;
+  font-size: small;
+ 
+  }
+  
+  #startDate:hover {
+  background-color:  #76f7dd; /* A slightly darker gray on hover */
+  }
+
+
+  #endDate {
+    border-radius: 2px;
+    color: rgb(15, 87, 15);
+    background-color: #f0f0f0; /* Light gray */
+    border-color: #222121; /* Slightly darker gray */
+    width: 23%;
+    height: 20px;
+    margin-top: 8px;
+    margin-left: 1px;
+    padding: 1px;
+    font-size: small;
+    }
+    
+    #endDate:hover {
+    background-color:  #76f7dd; /* A slightly darker gray on hover */
+    }
+
+
 
 
 
