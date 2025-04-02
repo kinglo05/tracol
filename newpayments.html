@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>NEW PAYMENTS</title>
+    <title>test PAYMENTS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="newpaymenttable.css">
    
@@ -16,21 +16,33 @@
 
 
 
-#newPayments-title {
-           
-           
-            background-color:#222;
-            color: white;
-            display: flex;
-            align-items: center;
-            padding-left: 8px;
-            border-color: #8a8484;
-            height: 50px;
-           
-           
-        }
 
+       #newPayments-title {
+                   
+                   
+                   background-color:#2e2929;
+                   color: white;
+                   display: flex;
+                   align-items: center;
+                   padding-left: 8px;
+                   border-color: #b4a5a5;
+                 
+                 
+                   height: 50px;      
+               }
 
+        #newPayments-title2 {
+                   
+                   
+                   background-color:#222;
+                   color: white;
+                   display: flex;
+                   align-items: center;
+                   padding-left: 8px;
+                   border-color: #8a8484;
+                   height: 50px; 
+                   font-size: xx-small;     
+               }
 
 
         .menu-bar {
@@ -124,11 +136,9 @@
   
 
     <div class="sidebar" id="sidebar" >
-
-        <div class="sidebar-logo">
+           <div class="sidebar-logo">
             <img src="logo.png" alt="Tracollect Logo">
         </div>
-      
         <div class="sidebar-body" id="sidebar-body">
            <ul>
             <li><a href="home.html">ADD NEW PAYMENT</a></li>
@@ -140,7 +150,6 @@
 
        </div>
        <div hidden>    <input type="date" name="date-today" id="date-today">     </div>
-       
         <div class="logout-container">
             <button id="logoutButton">Logout</button>
         </div>
@@ -150,29 +159,28 @@
         <div class="menu-bar">
                  <button id="menubutton" onclick="toggleSidebar()"> &#9776; Menu</button>
                  <div id="usernameHolder">  <h5 id="usernameDisplay" style="color: whitesmoke; margin-top: 1px; margin-bottom: 1px; margin-left: 10px;">Loading...</h5>  </div>
+               </div>
 
-        </div>
-
-             <!--   <div class="paymentsTitle" id="paymentsTitle"  >  -->
-             
-
-                                <div>
-                                    <h3 style="color: rgb(255, 255, 255); margin-top: 5px; margin-bottom: 5px; margin-left: 10px;">
-                                        New Payment </h3>
-
-                                 <!--  <button id="searchTitle" type="submit">Search</button> -->
-                                  
-                                    
-
-
-            <div id="newPayments-title">
-             
-                
-                <h5 style="color: rgb(236, 228, 228); margin-top: 5px; margin-bottom: 5px; margin-left: 1px;">
-                    Search here </h5>
-                
-                <input type="text" id="payment-search" placeholder="Search new payments" autocomplete="off"> 
-           </div>
+    
+               <div>
+                <h3 style="color: rgb(247, 247, 252); margin-top: 5px; margin-bottom: 5px; margin-left: 10px;">
+                 NEW PAYMENTS </h3>
+                                        
+                                        <div id="newPayments-title2">                               
+                                            <label for="startDate" style="margin-right: 1px; width: 8%;">Start Date:</label>
+                                            <input  type="date" id="startDate">
+                                            <label for="endDate"style="margin-left: 10px; width: 8%;">End Date:</label>
+                                            <input  type="date" id="endDate">
+                                            <button id="filter" onclick="filterPayments()">Filter</button>                                               
+                                            </div>
+                             
+                                                       
+                                                         <div id="newPayments-title">
+                                                             <h5 style="color: rgb(236, 228, 228); margin-top: 5px; margin-bottom: 5px; margin-left: 1px;">
+                                                             Search here </h5>
+                                                             <input type="text" id="payment-search" placeholder="Search claimed payments here" autocomplete="off"> 
+                                                             </div>
+                                                         
 
 
 
@@ -183,20 +191,11 @@
             <div id="edit-payment-form" class="modal hidden" >
                 <div class="modal-content" id="editnewpayment" autocomplete="off">
                  
-                    <h3>Edit Payment NEW</h3>
-
-                     
-                    
-                     
+                    <h3>Edit Payment NEW</h3> 
                     <label for="edit-amount">Amount:</label>
                     <input type="number" id="edit-amount"><br>
-
                     <label for="edit-ref-number">Reference Number:</label>
-                    
                     <input type="number" id="edit-ref-number" placeholder="Input 4 digit" pattern="\d{4}" required>
-                   
-
-                  
                     <label  for="edit-payment-type">Payment Type:</label>
                     <select id="edit-payment-type"></br>
                         <option value="gcash">GCASH</option>
@@ -209,21 +208,30 @@
                     <input type="date" id="edit-date"><br>
                     <label for="edit-user">User:</label>
                     <input type="text" id="edit-user" readonly ><br>                    
-                  
-                    <input type="text" id="edit-merchant" placeholder="Enter merchant name" hidden><br>
+                   
                     <ul id="suggestionsList"></ul>
                     <label for="edit-status">Status:</label>
                     <input type="text" id="edit-status"  readonly ><br>
-                    <input type="text" id="edit-fireKey"  hidden><br>
-                    <input type="text" id="edit-idPay"  hidden><br>
 
                     <button id="save-edit">Save</button>
                     <button id="cancel-edit">Close</button>
+
+                    <input type="text" id="edit-merchant" placeholder="Enter merchant name" hidden><br>
+                    <input type="text" id="edit-idPay"  hidden><br>
+                    <input type="text" id="edit-fireKey"  hidden><br>
                 </div>
             </div>
 
 
-            <div id="edit-payment-formAssign" class="modal hidden">
+
+
+
+
+
+
+
+
+                      <div id="edit-payment-formAssign" class="modal hidden">
                        <div class="modal-content" id="editnewpaymentAssign">
                  
                 <div id="divassignTitle"  class="divassignTitle">     <h3>Assign Trader</h3>  </div>
