@@ -683,7 +683,7 @@ document.getElementById("todayNoNameResibo").innerText = Number(pilakaresibo) ||
         });
         document.getElementById("gActive").innerText = activeGcashCount;
         document.getElementById("mActive").innerText = activeMaya++;;
-        console.log("✅ Total active GCash accounts:", activeMaya);
+       // console.log("✅ Total active GCash accounts:", activeMaya);
       });
     }
     
