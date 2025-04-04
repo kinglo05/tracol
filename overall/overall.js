@@ -265,8 +265,9 @@ if (
     
       });
     
-     // console.log("PARA TESTING RESULT", overAllNewOver);
-      document.getElementById("overAllNew1").innerText = Number(overAllNewPayments) || 0;
+    const overAllNew  = Number(overAllNewPayments) || 0;
+   
+      document.getElementById("overAllNew1").innerText = overAllNew.toFixed(2);
         localStorage.setItem("overAllNewPayments" , overAllNewPayments);
          // console.log("sud sa foreach nihdfdfdfdf", kini);
     
@@ -275,6 +276,16 @@ if (
      
     
     overAllNewPayments();
+
+
+
+
+
+
+
+
+
+
     
 
     //////////////// FOR DAILY TOTAL PAYMENTS ////////////////////////
@@ -563,6 +574,13 @@ document.getElementById("todayNoNameResibo").innerText = Number(pilakaresibo) ||
                
               
               overAllNoNames();
+
+
+
+
+
+
+              
               
 
    ////////////////////////////  MONTHLY TOTAL TRADES ///////////////////////////////
@@ -626,6 +644,55 @@ document.getElementById("todayNoNameResibo").innerText = Number(pilakaresibo) ||
 
 
 
+
+  
+
+
+    function gcashAccount() {
+      database.ref('accounts').on('value', (snapshot) => {
+        let activeGcashCount = 0;
+        let activeMaya = 0;
+    
+        if (!snapshot.exists()) {
+          console.log("No data found at 'accounts' path.");
+          return;
+        }
+    
+        snapshot.forEach((childSnapshot) => {
+          const account = childSnapshot.val();
+    
+          // Debug output
+          console.log("Status:", account.status, "| Type:", account.accountType);
+    
+          if (
+            account.status?.toLowerCase() === "active" &&
+            account.accountType?.toLowerCase().includes("gcash")
+          ) {
+            activeGcashCount++;
+          }
+
+          if (
+            account.status?.toLowerCase() === "active" &&
+            account.accountType?.toLowerCase().includes("paymaya")
+          ) {
+            activeMaya++;
+          }
+
+
+
+        });
+        document.getElementById("gActive").innerText = activeGcashCount;
+        document.getElementById("mActive").innerText = activeMaya++;;
+        console.log("✅ Total active GCash accounts:", activeMaya);
+      });
+    }
+    
+    gcashAccount();
+    
+
+
+
+
 //////////////////////////////////   ALL CALCULATIONS HERE ////////////////////////
 
 
@@ -671,3 +738,171 @@ document.getElementById("todayNoNameResibo").innerText = Number(pilakaresibo) ||
               
             
               updateDisplay();
+
+
+     
+
+/*          
+const paymentsRef = database.ref('payments');
+
+paymentsRef.once("value", (snapshot) => {
+  let merchantSums = {}; // Object to store sums per merchant
+
+  snapshot.forEach((childSnapshot) => {
+    const payment = childSnapshot.val();
+    
+    if (payment.status === "new") { // Only count "new" payments
+      const merchant = payment.merchantP; 
+      const amount = parseFloat(payment.amount) || 0; // Ensure amount is a number
+
+      if (!merchantSums[merchant]) {
+        merchantSums[merchant] = 0;
+      }
+      merchantSums[merchant] += amount; // Add amount to corresponding merchant
+    }
+  });
+
+  console.log("Total sum per merchant (only 'new' payments):", merchantSums);
+});
+
+
+
+const rows = document.querySelectorAll(".row");
+let currentIndexes = Array(rows.length).fill(0);
+const totalSlides = 4;
+
+rows.forEach((row, rowIndex) => {
+  let startX = 0;
+  let isDragging = false;
+  let slider = row.querySelector(".slider");
+  let leftArrow = row.querySelector(".arrow.left");
+  let rightArrow = row.querySelector(".arrow.right");
+
+  function goToSlide(index) {
+    index = Math.max(0, Math.min(index, totalSlides - 1));
+    currentIndexes[rowIndex] = index;
+    slider.style.transform = `translateX(-${index * 100}%)`;
+  }
+
+  // Arrow clicks
+  leftArrow.addEventListener("click", () => goToSlide(currentIndexes[rowIndex] - 1));
+  rightArrow.addEventListener("click", () => goToSlide(currentIndexes[rowIndex] + 1));
+
+  // Touch events
+  row.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].clientX;
+  });
+
+  row.addEventListener("touchend", (e) => {
+    let endX = e.changedTouches[0].clientX;
+    if (startX - endX > 50) goToSlide(currentIndexes[rowIndex] + 1); // Swipe Left
+    if (startX - endX < -50) goToSlide(currentIndexes[rowIndex] - 1); // Swipe Right
+  });
+
+  // Mouse drag
+  row.addEventListener("mousedown", (e) => {
+    isDragging = true;
+    startX = e.clientX;
+  });
+
+  row.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+    let moveX = e.clientX;
+    if (startX - moveX > 50) {
+      goToSlide(currentIndexes[rowIndex] + 1);
+      isDragging = false;
+    } else if (startX - moveX < -50) {
+      goToSlide(currentIndexes[rowIndex] - 1);
+      isDragging = false;
+    }
+  });
+
+  row.addEventListener("mouseup", () => {
+    isDragging = false;
+  });
+
+  row.addEventListener("mouseleave", () => {
+    isDragging = false;
+  });
+
+  // Keyboard nav (optional)
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowRight") goToSlide(currentIndexes[rowIndex] + 1);
+    if (e.key === "ArrowLeft") goToSlide(currentIndexes[rowIndex] - 1);
+  });
+});
+
+
+ */
+
+
+
+
+
+
+ const rows = document.querySelectorAll(".row");
+let currentIndexes = Array(rows.length).fill(0);
+const totalSlides = 4; // Number of slides per row
+
+rows.forEach((row, rowIndex) => {
+    let startX = 0;
+    let isDragging = false;
+    let slider = row.querySelector(".slider");
+    let leftArrow = row.querySelector(".arrow.left");
+    let rightArrow = row.querySelector(".arrow.right");
+
+    function goToSlide(index) {
+        // Clamp the index between 0 and totalSlides - 1
+        index = Math.max(0, Math.min(index, totalSlides - 1));
+        currentIndexes[rowIndex] = index;
+        slider.style.transform = `translateX(-${index * 100}vw)`;
+    }
+
+    // Click Events for Arrows
+    leftArrow.addEventListener("click", () => goToSlide(currentIndexes[rowIndex] - 1));
+    rightArrow.addEventListener("click", () => goToSlide(currentIndexes[rowIndex] + 1));
+
+    // Touch Swipe Events (for mobile)
+    row.addEventListener("touchstart", (e) => {
+        startX = e.touches[0].clientX;
+    });
+
+    row.addEventListener("touchend", (e) => {
+        let endX = e.changedTouches[0].clientX;
+        if (startX - endX > 50) goToSlide(currentIndexes[rowIndex] + 1); // Swipe Left
+        if (startX - endX < -50) goToSlide(currentIndexes[rowIndex] - 1); // Swipe Right
+    });
+
+    // Mouse Drag Events (for PC)
+    row.addEventListener("mousedown", (e) => {
+        isDragging = true;
+        startX = e.clientX;
+    });
+
+    row.addEventListener("mousemove", (e) => {
+        if (!isDragging) return;
+        let moveX = e.clientX;
+        if (startX - moveX > 50) {
+            goToSlide(currentIndexes[rowIndex] + 1); // Drag Left
+            isDragging = false;
+        } else if (startX - moveX < -50) {
+            goToSlide(currentIndexes[rowIndex] - 1); // Drag Right
+            isDragging = false;
+        }
+    });
+
+    row.addEventListener("mouseup", () => {
+        isDragging = false;
+    });
+
+    row.addEventListener("mouseleave", () => {
+        isDragging = false;
+    });
+
+    // Keyboard Navigation (Arrow Keys)
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight") goToSlide(currentIndexes[rowIndex] + 1);
+        if (e.key === "ArrowLeft") goToSlide(currentIndexes[rowIndex] - 1);
+    });
+});
+ 
