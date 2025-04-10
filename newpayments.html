@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>test PAYMENTS</title>
+    <title>GCASHPAY</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="newpaymenttable.css">
    
@@ -13,6 +13,51 @@
    
     <style>
        
+
+       .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        /* Modal content */
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            height: 550px;
+            max-width: 600px;
+            position: relative;
+        }
+
+        /* Close button */
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 40px;
+            cursor: pointer;
+        }
+
+        /* iFrame styling */
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+
+
+
+
+
 
 
 
@@ -164,7 +209,10 @@
     
                <div>
                 <h3 style="color: rgb(247, 247, 252); margin-top: 5px; margin-bottom: 5px; margin-left: 10px;">
-                 NEW PAYMENTS </h3>
+                 NEW GCASH REALTIME </h3>
+                 <h4 style="color: rgb(47, 4, 240); margin-top: 5px; margin-bottom: 5px; margin-left: 2px;  margin-right: 2px;">  
+                    <a href="home.html">ADD NEW PAYMENT</a> </h4> 
+                 
                                         
                                         <div id="newPayments-title2">                               
                                             <label for="startDate" style="margin-right: 1px; width: 8%;">Start Date:</label>
@@ -236,7 +284,7 @@
                  
                 <div id="divassignTitle"  class="divassignTitle">     <h3>Assign Trader</h3>  </div>
 
-                <div id="divrefAssign" class="divrefAssign">     Reference :   <input type="number" id="edit-ref-numberAssign" placeholder="Input 4 digit" pattern="\d{4}"  readonly > </div>
+                <div id="divrefAssign" class="divrefAssign">     Reference :   <input type="number" id="edit-ref-numberAssign" placeholder="Input 4 digit" pattern="\d{4}"  > </div>
               
                             <div id="divAmount" class="divAmount">   Amount :  <input type="number" id="edit-amountAssign" readonly ></div>
                      <div id="divNickName" class="divNickName" >  <label for="edit-merchantAssign">WHATSAPP Nickname</label>   </div>  
@@ -276,10 +324,11 @@
                         <th>Date</th>
                         <th>Type</th>
                         <th>User</th>
+                        <th>Text</th>
+                        <th>Save</th>
                         <th>Status</th>
                        <th> Trade <input type="checkbox" id="payment-sana-all" hidden> </th> 
                         <th>Edit</th>
-                       
                         
                       </tr>
                      </thead>
@@ -297,8 +346,13 @@
                       <div id="data1" >
                         <label for="total-today">Today :</label>
                         <input type="text" id="total-today" readonly> 
-                           <label for="total-resibo">No. of Reciept :</label>
+                           <label for="total-resibo">No.:</label>
                           <input type="text" id="total-resibo" readonly>
+
+                        <label for="total-todayGcash">Gcash :</label>
+                        <input type="text" id="total-todayGcash" readonly> 
+                           <label for="total-resiboGcash">No.:</label>
+                          <input type="text" id="total-resiboGcash" readonly>
                               </div>
 
 
@@ -311,7 +365,7 @@
                           <input type="text" id="total-claimed" readonly>|
                             <input type="text" id="total-resiboClaimed" readonly>|
                             <input type="text" id="eightC"> |
-                               <input type="text" id="eightFiveC">
+                              
                                
                </div>
 
@@ -325,6 +379,19 @@
                         
                                <button id="checkboxClaimed" type="submit" hidden></button>  
                             </div>
+
+
+   <!-- Modal structure -->
+   <div id="frameModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <iframe id="modalFrame" src="data/origNew/newpayments.html"></iframe>
+    </div>
+</div>
+
+
+
+
      
      </div>
 
