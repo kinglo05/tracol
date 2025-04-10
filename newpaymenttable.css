@@ -328,7 +328,7 @@ select {
 
 
 #editnewpaymentAssign {   /*primary container */
-  width: 210px;
+  width: 300px;
   min-height: 400px;
   display: flex;
  
@@ -343,7 +343,7 @@ select {
 }
 
 #divrefAssign { 
-  width: 200px;
+  width: 300px;
   height: 30px;
   border:none;
   text-align: left;
@@ -398,7 +398,7 @@ select {
 }
 
     #edit-merchantAssign {
-      margin-left: 10px;
+      margin-left: 50px;
       text-align: center;
       width: 170px;
       color: rgb(15, 87, 15);
@@ -423,14 +423,47 @@ select {
 
 
 
-#edit-ref-numberAssign {
+/* #edit-ref-numberAssign {
   background: transparent;
   border: none;
   outline: none;
   width: 2px;
  
 
+} */
+
+
+#edit-ref-numberAssign label {
+  margin-top: 10px; 
 }
+
+#edit-ref-numberAssign {
+      margin-left: 10px;
+      text-align: center;
+      width: 90px;
+      color: rgb(15, 87, 15);
+      background-color:  #0df7e3; 
+      border-color: #3f3c3c; /* Slightly darker gray */
+      }
+      
+      #edit-ref-numberAssign:hover {
+      background-color: #c4b1b1; /* A slightly darker gray on hover */
+      border-color: #4e1221; /* Slightly darker gray */
+      border: 2px solid #fcf4f4;
+      color: rgb(77, 9, 9);
+      font-size: 16px;
+      }
+
+
+
+
+
+
+
+
+
+
+
 
 #edit-amountAssign {
   background: transparent;
@@ -916,7 +949,42 @@ label {
   
 }
 
+#total-todayGcash {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: small;
+  height: 10px;
+  min-width: 60px;
+  margin-top: 1px;
+  margin-left: 4px; /* If you want space after the input too */
+  padding: 1px;
+ 
+  width: 6%; /* Table takes full width of its container */
+  
+}
+
+
+
+
+
 #total-resibo {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: small;
+  height: 10px;
+  min-width: 40px;
+  margin-top: 1px;
+  margin-left: 1px; /* If you want space after the input too */
+  padding: 1px;
+  margin-right: 1px;
+ 
+  width: 6%; /* Table takes full width of its container */
+  
+}
+
+#total-resiboGcash {
   background: transparent;
   border: none;
   outline: none;
