@@ -1195,7 +1195,7 @@ document.getElementById('eightFive').value = eightPoint;
 
 
             
- function openModal(url) {
+/*  function openModal(url) {
   document.getElementById("modalFrame").src = "data/origNew/newpayments.html";
   document.getElementById("frameModal").style.display = "block";
 }
@@ -1211,7 +1211,7 @@ function closeModal() {
   if (event.target === modal) {
       closeModal();
   }
-}; 
+};  */
 
 
 
