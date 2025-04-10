@@ -357,45 +357,6 @@ merchantInputP.addEventListener('input', () => {
 ////////////////////////////   PAYMENTS TABLE1 - STARTS  HERE  /////////////////////
 
 
-/* const table = document.getElementById('payments-table').getElementsByTagName('tbody')[0];
-const rowsPerPageSelect = document.getElementById('rows-per-page');
-const tableData = [];
-let currentPage = 1;
-let rowsPerPage = 10; // Initial value
-
-// Fetch data from Firebase and display in the table
-let paymentsData = []; // Store the fetched payment data
-
-database.ref('payments').on('value', (snapshot) => {
-  tableData.length = 0; // Clear existing data
-  paymentsData = [];
-
-  snapshot.forEach((childSnapshot) => {
-    const payment = childSnapshot.val();
-    const firebaseKey = childSnapshot.key; // Get the Firebase key
-
-    // Filter for payments with status 'new'
-    if (payment.status === 'new') {
-      paymentsData.push({ id: firebaseKey, ...payment });
-
-      const rowData = {
-        firebaseKey: firebaseKey, // Store the key
-        amount: payment.amount,
-        refNumber: payment.refNumber,
-        paymentType: payment.paymentType,
-        time: payment.time,
-        date: payment.date,
-        user: payment.user,
-        merchantP: payment.merchantP,
-        status: payment.status
-      };
-
-      tableData.push(rowData);
-    }
-  });
-
-  updatePaymentsTable(paymentsData); // Initial table population
-}); */
 
 const table = document.getElementById('payments-table').getElementsByTagName('tbody')[0];
 const tableData = [];
@@ -448,7 +409,10 @@ database.ref('payments').on('value', (snapshot) => {
         date: payment.date,
         user: payment.user,
         merchantP: payment.merchantP,
-        status: payment.status
+        status: payment.status,
+       save: payment.save,
+        message: payment.message,
+        timestamp: payment.timestamp
       };
 
       tableData.push(rowData);
@@ -501,7 +465,11 @@ const merchantCell = row.insertCell();
   const userCell = row.insertCell();
   userCell.textContent = payment.user;
 
-  ////merchant here old /////
+  const textCell = row.insertCell();
+  textCell.textContent = payment.message;
+
+  const saveCell = row.insertCell();
+  saveCell.textContent = payment.save;
   
 
   const statusCell = row.insertCell();
@@ -639,7 +607,7 @@ checkboxClaimed.addEventListener('click', () => {
         status: 'claimed'
       })
       .then(() => {
-        console.log(`Payment ${paymentKey} updated to claimed`);
+        console.log(`payments ${paymentKey} updated to claimed`);
         // ... you might want to update the status in the table cell as well ...
         //statusCellC.textContent = 'claimedNO'; 
       })
@@ -800,7 +768,8 @@ const filteredDataP = paymentsData.filter((payment) => {
         (payment.time.toLowerCase().includes(searchTerm)) ||
         (payment.date.toLowerCase().includes(searchTerm)) ||
         (payment.paymentType.toLowerCase().includes(searchTerm)) ||
-        (payment.user.toLowerCase().includes(searchTerm)) ||
+       // (payment?.message?.toString()?.toLowerCase()?.includes(searchTerm)) ||
+       // (payment.save.toLowerCase().includes(searchTerm)) ||
         (payment.merchantP.toLowerCase().includes(searchTerm)) 
       );
     });
@@ -976,7 +945,7 @@ saveEditBtnAssign.addEventListener('click', (event) => {
                // firebasekey: document.getElementById('edit-idPay').value,
                   amount: document.getElementById('edit-amountAssign').value,
                   refNumber: document.getElementById('edit-ref-numberAssign').value,
-                  paymentType: document.getElementById('edit-payment-type').value,
+                 // paymentType: document.getElementById('edit-payment-type').value,
                   merchantP: document.getElementById('edit-merchantAssign').value, // Merchant Name */
                   merchantKey: merchantFirebaseKey, // The new merchant Firebase Key
               };
@@ -1081,6 +1050,79 @@ document.getElementById('eightFive').value = eightPoint;
       dailypayments();
 
 
+      function dailypaymentsGcash() {
+        database.ref('payments').once('value', (paymentsSnapshot) => {
+          const payments = [];
+          paymentsSnapshot.forEach((paymentSnapshot) => {
+              const payment = paymentSnapshot.val();
+              //Only add payments with status new
+              if (payment.date === totalForTheDay) { //This is the added line
+                  payments.push(payment);
+              }
+          });
+           
+           const todatNumberPayments = {};
+            const todayTotal = {};
+        
+            payments.forEach((payment) => {
+                if (payment.date && payment.amount) { // Check if merchantP and amount exist
+                
+                    const paymentdate= payment.date;
+                    const amount = parseFloat(payment.amount); // Parse amount as float
+        
+                   if (!todatNumberPayments[paymentdate]) {
+                    todatNumberPayments[paymentdate] = 0;
+                    
+                  }
+                  todatNumberPayments[paymentdate]++;
+        
+                    if (!todayTotal[paymentdate]) {
+                      todayTotal[paymentdate] = 0;
+                       
+        
+                    }
+                    todayTotal[paymentdate] += amount;
+                 
+                 }
+      
+      
+                 const paymentdate = (payment.date);
+                 const totalForTheDay = (todayTotal[paymentdate] || 0).toFixed(2);
+                 const pilakaresibo = (todatNumberPayments[paymentdate] || 0);
+                 const eight1 = (totalForTheDay * 0.08).toFixed(2);
+                 const eightPoint1 = (totalForTheDay * 0.085).toFixed(2);
+                 const eight = (eight1 - 500).toFixed(2);
+                 const eightPoint = (eightPoint1 - 500).toFixed(2);
+                
+      document.getElementById('total-todayGcash').value = totalForTheDay;
+      document.getElementById('total-resiboGcash').value = pilakaresibo;
+    /*   document.getElementById('eight').value = eight;
+      document.getElementById('eightFive').value = eightPoint;
+       */
+      //localStorage.setItem("todayNew" ,  totalForTheDay);
+      
+      
+                })
+               
+              })
+             // localStorage.setItem("todayNew" ,  totalForTheDay);
+             // localStorage.setItem("todayResibo" ,  pilakaresibo);
+            };
+            dailypaymentsGcash()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             const displaytodayTrade = document.getElementById('total-claimed');
             const displayTotalResiboClaimed = document.getElementById('total-resiboClaimed');
@@ -1130,7 +1172,7 @@ document.getElementById('eightFive').value = eightPoint;
                       const eight2 = (totalForTheDayTrade * 0.08).toFixed(2);
             
                       document.getElementById('eightC').value = eight;
-                      document.getElementById('eightFiveC').value = eightPoint;
+                     /*  document.getElementById('eightFiveC').value = eightPoint; */
                       document.getElementById('total-claimed').value = totalForTheDayTrade;
                       document.getElementById('total-resiboClaimed').value = pilakaresiboClaimed;
                      
@@ -1147,6 +1189,29 @@ document.getElementById('eightFive').value = eightPoint;
             };
             
             calculateDailyTrades();
+
+
+
+
+
+            
+ function openModal(url) {
+  document.getElementById("modalFrame").src = "data/origNew/newpayments.html";
+  document.getElementById("frameModal").style.display = "block";
+}
+
+function closeModal() {
+  document.getElementById("frameModal").style.display = "none";
+  document.getElementById("modalFrame").src = ""; // Clear iframe src
+}
+
+// Close modal if user clicks outside content
+ window.onclick = function(event) {
+  let modal = document.getElementById("frameModal");
+  if (event.target === modal) {
+      closeModal();
+  }
+}; 
 
 
 
