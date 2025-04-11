@@ -462,6 +462,8 @@ const merchantCell = row.insertCell();
   const statusCell = row.insertCell();
   statusCell.textContent = payment.status;
 
+  const senderCell = row.insertCell();
+  senderCell.textContent = payment.sender;
 
     
    //////////////////////////// ALL ABOUT CHECKBOX SELECTION STARTS HERE  /////////////////////////// 
@@ -617,13 +619,13 @@ checkboxClaimed.addEventListener('click', () => {
 
     document.getElementById('edit-idPay').value = rowData.firebaseKey;
     document.getElementById('edit-amount').value = rowData.amount;
-    document.getElementById('edit-ref-number').value = rowData.refNumber;
-    document.getElementById('edit-payment-type').value = rowData.paymentType;
+  /*   document.getElementById('edit-ref-number').value = rowData.refNumber;
+  //  document.getElementById('edit-payment-type').value = rowData.paymentType;
     document.getElementById('edit-time').value = rowData.time;
-    document.getElementById('edit-date').value = rowData.date;
-    document.getElementById('edit-user').value = rowData.user;
+    document.getElementById('edit-date').value = rowData.date; */
+  //  document.getElementById('edit-user').value = rowData.user;
     document.getElementById('edit-status').value = rowData.status;
-     document.getElementById('edit-merchant').value = rowData.merchantP; // Populate merchant 
+   /*   document.getElementById('edit-merchant').value = rowData.merchantP; // Populate merchant  */
 
     
     // Show the modal display only to collect data in input fields next to save BTN /////
@@ -641,6 +643,7 @@ assignCell.addEventListener('click', (event) => {
  
   
   document.getElementById('edit-amountAssign').value = rowData.amount;
+  document.getElementById('timeEdit').value = rowData.time;
      document.getElementById('edit-idPayAssign').value = rowData.firebaseKey;
      document.getElementById('edit-ref-numberAssign').value =  rowData.refNumber;
       document.getElementById('edit-merchantAssign').value = rowData.merchantP; // Populate merchant 
@@ -750,6 +753,7 @@ paymentSearchInput.addEventListener('input', () => {
     const filteredDataP = paymentsData.filter((payment) => {
       return (
         payment?.amount?.toString().toLowerCase().includes(searchTerm) ||
+        payment?.sender?.toString().toLowerCase().includes(searchTerm) ||
         payment?.refNumber?.toLowerCase().includes(searchTerm) ||
         payment?.time?.toLowerCase().includes(searchTerm) ||
         payment?.date?.toLowerCase().includes(searchTerm) ||
@@ -820,15 +824,15 @@ saveEditBtn.addEventListener('click', (event) => {
               const newPayKey = newPayKeyPar;
 
             //////////// convert time to 12hours format ////////////////////
-  function formatTimeTo12Hour(timeString) {
+ /*  function formatTimeTo12Hour(timeString) {
     let [hours, minutes] = timeString.split(":");
     hours = parseInt(hours, 10);
     let ampm = hours >= 12 ? "PM" : "AM";
     hours = hours % 12 || 12; // Convert 24-hour to 12-hour format
     return `${hours}:${minutes} ${ampm}`;
-  }
-    const timeInput = document.getElementById("edit-time").value;
-    let formattedTime = formatTimeTo12Hour(timeInput);
+  } */
+   // const timeInput = document.getElementById("edit-time").value;
+  //  let formattedTime = formatTimeTo12Hour(timeInput);
 
 
 
@@ -837,13 +841,13 @@ saveEditBtn.addEventListener('click', (event) => {
 
                // firebasekey: document.getElementById('edit-idPay').value,
                   amount: document.getElementById('edit-amount').value,
-                  refNumber: document.getElementById('edit-ref-number').value,
-                  paymentType: document.getElementById('edit-payment-type').value,
-                  time: formattedTime,
-                  date: document.getElementById('edit-date').value,
-                  user: document.getElementById('edit-user').value,
+                //  refNumber: document.getElementById('edit-ref-number').value,
+                //  paymentType: document.getElementById('edit-payment-type').value,
+                //  time: formattedTime,
+                 // date: document.getElementById('edit-date').value,
+                 // user: document.getElementById('edit-user').value,
                   status: document.getElementById('edit-status').value,
-                  merchantP: document.getElementById('edit-merchant').value, // Merchant Name */
+                //  merchantP: document.getElementById('edit-merchant').value, // Merchant Name */
                   merchantKey: merchantFirebaseKey, // The new merchant Firebase Key
               };
 
@@ -1095,3 +1099,6 @@ document.getElementById('eight').value = eight;
             
             calculateDailyTrades();
 
+
+
+           
