@@ -234,10 +234,10 @@
                     <h3>Edit Payment NEW</h3> 
                     <label for="edit-amount">Amount:</label>
                     <input type="number" id="edit-amount"><br>
-                    <label for="edit-ref-number">Reference Number:</label>
-                    <input type="number" id="edit-ref-number" placeholder="Input 4 digit" pattern="\d{4}" required>
-                    <label  for="edit-payment-type">Payment Type:</label>
-                    <select id="edit-payment-type"></br>
+                 //   <label for="edit-ref-number">Reference Number:</label>
+                  //  <input type="number" id="edit-ref-number" placeholder="Input 4 digit" pattern="\d{4}" required>
+                  <!--   <label  for="edit-payment-type">Payment Type:</label> -->
+                   <!--  <select id="edit-payment-type"></br>
                         <option value="gcash">GCASH</option>
                         <option value="cashin">CASHIN</option>
                         <option value="bank">BANK</option>
@@ -247,7 +247,7 @@
                     <label for="edit-date">Date:</label>
                     <input type="date" id="edit-date"><br>
                     <label for="edit-user">User:</label>
-                    <input type="text" id="edit-user" readonly ><br>                    
+                    <input type="text" id="edit-user" readonly ><br>              -->       
                    
                     <ul id="suggestionsList"></ul>
                     <label for="edit-status">Status:</label>
@@ -276,11 +276,12 @@
                  
                 <div id="divassignTitle"  class="divassignTitle">     <h3>Assign Trader</h3>  </div>
 
-                <div id="divrefAssign" class="divrefAssign">     Reference :   <input type="number" id="edit-ref-numberAssign" placeholder="Input 4 digit" pattern="\d{4}"  > </div>
+                <div id="divrefAssign" class="divrefAssign"> Reference :<input type="number" id="edit-ref-numberAssign" placeholder="Input 4 digit" pattern="\d{4}"  > </div>
               
-                            <div id="divAmount" class="divAmount">   Amount :  <input type="number" id="edit-amountAssign" readonly ></div>
+                            <div id="divAmount" class="divAmount"> Amount :  <input type="number" id="edit-amountAssign" placeholder="Enter AMOUNT"></div>
+                            <div id="divAmount" class="divAmount"> Time :  <input type="text" id="timeEdit" readonly ></div>
                      <div id="divNickName" class="divNickName" >  <label for="edit-merchantAssign">WHATSAPP Nickname</label>   </div>  
-                     <div id="divMerchantName" class="divMerchantName">        <input type="text" id="edit-merchantAssign" placeholder="Enter merchant name" autocomplete="off" ><br> </div>
+                     <div id="divMerchantName" class="divMerchantName"> <input type="text" id="edit-merchantAssign" placeholder="Enter merchant name" autocomplete="off" ><br> </div>
                              <ul id="suggestionsListAssign"></ul>
                             
                     
@@ -319,6 +320,7 @@
                         <th>Text</th>
                         <th>Save</th>
                         <th>Status</th>
+                        <th>Sender</th>
                        <th> Trade <input type="checkbox" id="payment-sana-all" hidden> </th> 
                         <th>Edit</th>
                         
@@ -375,6 +377,17 @@
             }
         }
     </script>
+
+<script>
+    setInterval(() => {
+      const input = document.getElementById("edit-ref-numberAssign");
+      input.style.borderColor = input.style.borderColor === "red" ? "transparent" : "red";
+    }, 200);
+  </script>
+
+
+
+
     <script src="scriptnewpaytable.js"></script>
 </body>
 </html>
