@@ -253,6 +253,7 @@ function savePayment2(refNumber, amount) {  // Correctly placed *inside* the cal
       user: userInput.value,
       merchantP: merchantInputPay.value,
       merchantKey: "",
+     save: "manual",
       status: 'new'
   };
 
