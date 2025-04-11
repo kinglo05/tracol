@@ -257,7 +257,7 @@ function showAlert(message, duration = 3000) {
 
 //Function to Load and Display Payments
 
-function loadPayments() {
+/* function loadPayments() {
   paymentsTable.innerHTML = ""; // Clear existing data
 
   paymentsRef.orderByChild("timestamp").on("value", (snapshot) => {
@@ -269,7 +269,7 @@ function loadPayments() {
       const currentMonth = today.substring(0, 7); 
   
   });
-} ;
+} ; */
 
 
 function setDefaultDates() {
@@ -280,7 +280,7 @@ function setDefaultDates() {
   // Format dates as YYYY-MM-DD for input fields
   const formatDate = (date) => date.toISOString().split("T")[0];
 
-  document.getElementById("startDate").value = formatDate(yesterday);
+  document.getElementById("startDate").value = formatDate(today);
   document.getElementById("endDate").value = formatDate(today);
 }
 
@@ -361,7 +361,7 @@ merchantInputP.addEventListener('input', () => {
 const table = document.getElementById('payments-table').getElementsByTagName('tbody')[0];
 const tableData = [];
 
-// Fetch data from Firebase and display in the table
+
 let paymentsData = []; // Store the fetched payment data
 
 function filterPayments() {
@@ -370,8 +370,7 @@ database.ref('payments').on('value', (snapshot) => {
   tableData.length = 0; // Clear existing data
   paymentsData = [];
   const currentDate = new Date();
- /*  const currentMonth = currentDate.getMonth() + 1; // JavaScript months are 0-based, so add 1
-  const currentYear = currentDate.getFullYear(); */
+
   const selectedStartDate = document.getElementById("startDate").value;
   const selectedEndDate = document.getElementById("endDate").value;
 
@@ -384,8 +383,7 @@ database.ref('payments').on('value', (snapshot) => {
     const payment = childSnapshot.val(); // Get the payment data
 
     const paymentDate = new Date(payment.date); // Ensure payment.date is in a valid format
- /*    const paymentMonth = paymentDate.getMonth() + 1;
-    const paymentYear = paymentDate.getFullYear(); */
+
 
  
 
@@ -418,6 +416,14 @@ database.ref('payments').on('value', (snapshot) => {
       tableData.push(rowData);
     }
   });
+
+  paymentsData.sort((a, b) => {
+    const dateTimeA = new Date(`${a.date} ${a.time}`);
+    const dateTimeB = new Date(`${b.date} ${b.time}`);
+    return dateTimeB - dateTimeA; // Newest first
+  });
+  //console.log("Sorted Payments:", paymentsData.map(p => `${p.date} ${p.time}`));
+
   updatePaymentsTable(paymentsData); // Initial table population
 });
 };
@@ -759,23 +765,23 @@ paymentSearchInput.addEventListener('input', () => {
 
   timeoutId = setTimeout(() => {
     const searchTerm = paymentSearchInput.value.toLowerCase();
-const filteredDataP = paymentsData.filter((payment) => {
+
+    const filteredDataP = paymentsData.filter((payment) => {
       return (
-       
-        (payment?.amount?.toString()?.toLowerCase()?.includes(searchTerm)) || // ... other conditions
-        //(payment.amount.toString().toLowerCase().includes(searchTerm)) ||
-        (payment.refNumber.toLowerCase().includes(searchTerm)) ||
-        (payment.time.toLowerCase().includes(searchTerm)) ||
-        (payment.date.toLowerCase().includes(searchTerm)) ||
-        (payment.paymentType.toLowerCase().includes(searchTerm)) ||
-       // (payment?.message?.toString()?.toLowerCase()?.includes(searchTerm)) ||
-       // (payment.save.toLowerCase().includes(searchTerm)) ||
-        (payment.merchantP.toLowerCase().includes(searchTerm)) 
+        payment?.amount?.toString().toLowerCase().includes(searchTerm) ||
+        payment?.refNumber?.toLowerCase().includes(searchTerm) ||
+        payment?.time?.toLowerCase().includes(searchTerm) ||
+        payment?.date?.toLowerCase().includes(searchTerm) ||
+        payment?.paymentType?.toLowerCase().includes(searchTerm) ||
+        payment?.save?.toLowerCase().includes(searchTerm) ||
+        payment?.merchantP?.toLowerCase().includes(searchTerm)
       );
     });
+
     updatePaymentsTable(filteredDataP);
-  }, 100); // Delay of 250 milliseconds (adjust as needed)
+  }, 250); // Adjust delay to 250ms for better UX
 });
+
 
   
 
@@ -1193,25 +1199,6 @@ document.getElementById('eightFive').value = eightPoint;
 
 
 
-
-            
-/*  function openModal(url) {
-  document.getElementById("modalFrame").src = "data/origNew/newpayments.html";
-  document.getElementById("frameModal").style.display = "block";
-}
-
-function closeModal() {
-  document.getElementById("frameModal").style.display = "none";
-  document.getElementById("modalFrame").src = ""; // Clear iframe src
-}
-
-// Close modal if user clicks outside content
- window.onclick = function(event) {
-  let modal = document.getElementById("frameModal");
-  if (event.target === modal) {
-      closeModal();
-  }
-};  */
 
 
 
