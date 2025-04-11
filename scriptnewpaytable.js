@@ -253,8 +253,6 @@ function showAlert(message, duration = 3000) {
 }
 
 
-
-
 function setDefaultDates() {
   const today = new Date();
   const yesterday = new Date();
@@ -271,6 +269,12 @@ function setDefaultDates() {
 window.onload = setDefaultDates;
 
 
+
+
+
+
+
+// Global Variables
 //let currentUserId = user.uid; // Replace with actual user authentication logic
 let editPaymentId = null; // Store the ID of the payment being edited
 
@@ -284,7 +288,12 @@ const dateInput22 = document.getElementById('date-today');
   const formattedDate2 = `${year}-${month}-${day}`;
 
   dateInput22.value = formattedDate2; 
- 
+
+
+
+
+
+  
 /////////////////////////// POPULATE MERCHANT NAME //////////////////////// 
 
 const merchantInputP = document.getElementById('edit-merchant');
@@ -401,11 +410,19 @@ database.ref('payments').on('value', (snapshot) => {
 };
 
 
+
+
+
+
+
 function updatePaymentsTable(data) {
 table.innerHTML = ''; // Clear the table
 
+
+
 data.forEach((payment, rowIndex) => {
   const row = table.insertRow();
+
 
   const rowIndexCell = row.insertCell();
   rowIndexCell.textContent = rowIndex + 1;
@@ -529,7 +546,11 @@ if (paymentsTableNew) {
                 totalNew += amountNew;
                  const forOverAllNew = totalNew.toFixed(2);
                 
+                
 
+                
+
+              // console.log("DIRI   " + forOverAllNew);
             });
 
             if (totalAmountSpanNew) { // Check if the total amount span exists
@@ -755,7 +776,6 @@ cancelEditButtonAssign.addEventListener('click', () => {
   editPaymentFormAssign.style.display = 'none'; 
   });
   
-
 
 const saveEditBtn = document.getElementById('save-edit');
 const saveEditBtnAssign = document.getElementById('save-editAssign');
@@ -995,7 +1015,7 @@ function dailypayments() {
 document.getElementById('total-today').value = totalForTheDay;
 document.getElementById('total-resibo').value = pilakaresibo;
 document.getElementById('eight').value = eight;
-document.getElementById('eightFive').value = eightPoint;
+/* document.getElementById('eightFive').value = eightPoint; */
 
 //localStorage.setItem("todayNew" ,  totalForTheDay);
 
@@ -1003,73 +1023,16 @@ document.getElementById('eightFive').value = eightPoint;
           })
          
         })
-     
+       // localStorage.setItem("todayNew" ,  totalForTheDay);
+       // localStorage.setItem("todayResibo" ,  pilakaresibo);
       };
       dailypayments();
-
-
-      function dailypaymentsGcash() {
-        database.ref('payments').once('value', (paymentsSnapshot) => {
-          const payments = [];
-          paymentsSnapshot.forEach((paymentSnapshot) => {
-              const payment = paymentSnapshot.val();
-              //Only add payments with status new
-              if (payment.date === totalForTheDay) { //This is the added line
-                  payments.push(payment);
-              }
-          });
-           
-           const todatNumberPayments = {};
-            const todayTotal = {};
-        
-            payments.forEach((payment) => {
-                if (payment.date && payment.amount) { // Check if merchantP and amount exist
-                
-                    const paymentdate= payment.date;
-                    const amount = parseFloat(payment.amount); // Parse amount as float
-        
-                   if (!todatNumberPayments[paymentdate]) {
-                    todatNumberPayments[paymentdate] = 0;
-                    
-                  }
-                  todatNumberPayments[paymentdate]++;
-        
-                    if (!todayTotal[paymentdate]) {
-                      todayTotal[paymentdate] = 0;
-                       
-        
-                    }
-                    todayTotal[paymentdate] += amount;
-                 
-                 }
-      
-      
-                 const paymentdate = (payment.date);
-                 const totalForTheDay = (todayTotal[paymentdate] || 0).toFixed(2);
-                 const pilakaresibo = (todatNumberPayments[paymentdate] || 0);
-                 const eight1 = (totalForTheDay * 0.08).toFixed(2);
-                 const eightPoint1 = (totalForTheDay * 0.085).toFixed(2);
-                 const eight = (eight1 - 500).toFixed(2);
-                 const eightPoint = (eightPoint1 - 500).toFixed(2);
-                
-      document.getElementById('total-todayGcash').value = totalForTheDay;
-      document.getElementById('total-resiboGcash').value = pilakaresibo;
-  
-      
-                })
-               
-              })
-             
-            };
-            dailypaymentsGcash()
-
-
 
 
             const displaytodayTrade = document.getElementById('total-claimed');
             const displayTotalResiboClaimed = document.getElementById('total-resiboClaimed');
             const displayEight = document.getElementById('eight');
-            const displayEightFive = document.getElementById('eightFive');
+          /*   const displayEightFive = document.getElementById('eightFive'); */
             
           function calculateDailyTrades() {
               
@@ -1132,10 +1095,3 @@ document.getElementById('eightFive').value = eightPoint;
             
             calculateDailyTrades();
 
-
-
-
-
-
-
-           
