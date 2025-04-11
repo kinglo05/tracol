@@ -255,23 +255,6 @@ function showAlert(message, duration = 3000) {
 
 
 
-//Function to Load and Display Payments
-
-/* function loadPayments() {
-  paymentsTable.innerHTML = ""; // Clear existing data
-
-  paymentsRef.orderByChild("timestamp").on("value", (snapshot) => {
-      let totalToday = 0;
-      let totalNewToday = 0;
-      let totalClaimedToday = 0;
-      let totalThisMonth = 0;
-      const today = format.Date(new Date());
-      const currentMonth = today.substring(0, 7); 
-  
-  });
-} ; */
-
-
 function setDefaultDates() {
   const today = new Date();
   const yesterday = new Date();
@@ -288,12 +271,6 @@ function setDefaultDates() {
 window.onload = setDefaultDates;
 
 
-
-
-
-
-
-// Global Variables
 //let currentUserId = user.uid; // Replace with actual user authentication logic
 let editPaymentId = null; // Store the ID of the payment being edited
 
@@ -307,12 +284,7 @@ const dateInput22 = document.getElementById('date-today');
   const formattedDate2 = `${year}-${month}-${day}`;
 
   dateInput22.value = formattedDate2; 
-
-
-
-
-
-  
+ 
 /////////////////////////// POPULATE MERCHANT NAME //////////////////////// 
 
 const merchantInputP = document.getElementById('edit-merchant');
@@ -429,19 +401,11 @@ database.ref('payments').on('value', (snapshot) => {
 };
 
 
-
-
-
-
-
 function updatePaymentsTable(data) {
 table.innerHTML = ''; // Clear the table
 
-
-
 data.forEach((payment, rowIndex) => {
   const row = table.insertRow();
-
 
   const rowIndexCell = row.insertCell();
   rowIndexCell.textContent = rowIndex + 1;
@@ -565,11 +529,7 @@ if (paymentsTableNew) {
                 totalNew += amountNew;
                  const forOverAllNew = totalNew.toFixed(2);
                 
-                
 
-                
-
-              // console.log("DIRI   " + forOverAllNew);
             });
 
             if (totalAmountSpanNew) { // Check if the total amount span exists
@@ -795,13 +755,6 @@ cancelEditButtonAssign.addEventListener('click', () => {
   editPaymentFormAssign.style.display = 'none'; 
   });
   
-
-
-  
-
-
-
-
 
 
 const saveEditBtn = document.getElementById('save-edit');
@@ -1050,8 +1003,7 @@ document.getElementById('eightFive').value = eightPoint;
           })
          
         })
-       // localStorage.setItem("todayNew" ,  totalForTheDay);
-       // localStorage.setItem("todayResibo" ,  pilakaresibo);
+     
       };
       dailypayments();
 
@@ -1102,30 +1054,14 @@ document.getElementById('eightFive').value = eightPoint;
                 
       document.getElementById('total-todayGcash').value = totalForTheDay;
       document.getElementById('total-resiboGcash').value = pilakaresibo;
-    /*   document.getElementById('eight').value = eight;
-      document.getElementById('eightFive').value = eightPoint;
-       */
-      //localStorage.setItem("todayNew" ,  totalForTheDay);
-      
+  
       
                 })
                
               })
-             // localStorage.setItem("todayNew" ,  totalForTheDay);
-             // localStorage.setItem("todayResibo" ,  pilakaresibo);
+             
             };
             dailypaymentsGcash()
-
-
-
-
-
-
-
-
-
-
-
 
 
 
