@@ -263,7 +263,7 @@ const dateInput22 = document.getElementById('date-today');
 
 //Function to Load and Display Payments
 
-function loadPayments() {
+/* function loadPayments() {
   paymentsTable.innerHTML = ""; // Clear existing data
 
   paymentsRef.orderByChild("timestamp").on("value", (snapshot) => {
@@ -275,7 +275,7 @@ function loadPayments() {
       const currentMonth = today.substring(0, 7); 
   
   });
-} ;
+} ; */
 
 
 function setDefaultDates() {
@@ -610,23 +610,23 @@ paymentSearchInput22.addEventListener('input', () => {
    
 const filteredDataP = paymentsData2.filter((payment) => {
       return (
-        payment.status.toLowerCase() === "claimed" && // Crucial: Status check FIRST
-       (
+      //  payment.status.toLowerCase() === "claimed" && // Crucial: Status check FIRST
+     //  (
 
         //(payment.amount.toString().toLowerCase().includes(searchTerm2)) ||
-        (payment?.amount?.toString()?.toLowerCase()?.includes(searchTerm2)) || // ... other conditions
-        (payment.refNumber.toLowerCase().includes(searchTerm2)) ||
-        (payment.time.toLowerCase().includes(searchTerm2)) ||
-        (payment.date.toLowerCase().includes(searchTerm2)) ||
-        (payment.paymentType.toLowerCase().includes(searchTerm2)) ||
-        (payment.user.toLowerCase().includes(searchTerm2)) ||
-        (payment.merchantP.toLowerCase().includes(searchTerm2)) 
+        payment?.amount?.toString().toLowerCase().includes(searchTerm2) ||
+        payment?.refNumber?.toLowerCase().includes(searchTerm2) ||
+        payment?.time?.toLowerCase().includes(searchTerm2) ||
+        payment?.date?.toLowerCase().includes(searchTerm2) ||
+        payment?.paymentType?.toLowerCase().includes(searchTerm2) ||
+        payment?.save?.toLowerCase().includes(searchTerm2) ||
+        payment?.merchantP?.toLowerCase().includes(searchTerm2)
         
-       )
+       
       );
     });
-    updatePaymentsTable2(filteredDataP, paymentsData2);
-  }, 100); // Delay of 250 milliseconds (adjust as needed)
+    updatePaymentsTable2(filteredDataP);
+  }, 250); // Delay of 250 milliseconds (adjust as needed)
 });
 
   ////////////////////////////// end of merchant search input /////////////////////
