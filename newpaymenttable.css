@@ -355,36 +355,36 @@ select {
 }
 
 #divAmount { 
-  width: 200px;
+  width: 300px;
   border: 1px solid #fcf4f4;
   height: 30px;
   border:none;
-  margin-top: 2px;
+  margin-top: 20px;
   margin-left: 1px;
   font-size: 18px;
   text-align: left;
-  color: rgb(246, 246, 252); /* Change text color */
+  color: rgb(9, 9, 10); /* Change text color */
   padding-left: 15px;
 }
 
 #divAmount input {
   font-size: 15px; /* Change font size */
-  color: rgb(246, 246, 252); /* Change text color */
+  color: rgb(14, 14, 19); /* Change text color */
 }
 #divrefAssign input {
   font-size: 15px; /* Change font size */
-  color: rgb(246, 246, 252); /* Change text color */
+  color: rgb(11, 11, 12); /* Change text color */
 }
 
 
 #divNickName { 
   border:none;
-  margin-top: 2px;
+  margin-top: 20px;
   margin-bottom: 1px;
   text-align: center;
   display: block; /* Ensures the label is on its own line */
   width: 100%;
-  height: 25px;
+  height: 35px;
   color:rgb(3, 3, 3);
   font-size: 16px;
   background-color: #c2b5b5;
@@ -394,10 +394,11 @@ select {
 }
 
 #edit-merchantAssign label {
-  margin-top: 10px; 
+  margin-top: 40px; 
 }
 
     #edit-merchantAssign {
+      margin-top: 5px; 
       margin-left: 50px;
       text-align: center;
       width: 170px;
@@ -455,8 +456,13 @@ select {
       }
 
 
-
-
+      #edit-ref-numberAssign {
+        /* Any specific styles for the input itself, if needed */
+        border: 3px solid #20854e; /* Example: A light gray border for the input */
+       
+      }
+      
+ 
 
 
 
@@ -466,18 +472,34 @@ select {
 
 
 #edit-amountAssign {
-  background: transparent;
-  border: none;
-  outline: none;
+  background: rgb(215, 215, 230);
+  border: 3px;
+  border-color: #07f0f8;
+  outline: red;
   width:2px;
   height: 20px;
-  padding: 0px;
-  margin-left: 1px;
+  padding-left: 10px;
+  margin-left: 28px;
   font-size: 16px;
+ 
  
 }
 
 
+
+#timeEdit {
+  background: rgb(215, 215, 230);
+  border: 3px;
+  border-color: #07f0f8;
+  outline: red;
+  width:2px;
+  height: 20px;
+  padding-left: 10px;
+  margin-left: 50px;
+  font-size: 16px;
+  margin-bottom: 15px;
+ 
+}
 
 
 #divassignTitle { 
@@ -1157,13 +1179,6 @@ input[type="text"],
     #endDate:hover {
     background-color:  #76f7dd; /* A slightly darker gray on hover */
     }
-
-
-
-
-
-
-
 
 
 
