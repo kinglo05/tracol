@@ -457,6 +457,9 @@ const merchantCell = row.insertCell();
 
   const saveCell = row.insertCell();
   saveCell.textContent = payment.save;
+
+   const deviceCell = row.insertCell();
+  deviceCell.textContent = payment.device;
   
 
   const statusCell = row.insertCell();
