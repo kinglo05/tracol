@@ -623,6 +623,7 @@ const filteredDataP = paymentsData2.filter((payment) => {
 
         //(payment.amount.toString().toLowerCase().includes(searchTerm2)) ||
         payment?.amount?.toString().toLowerCase().includes(searchTerm2) ||
+        payment?.sender?.toString().toLowerCase().includes(searchTerm2) ||
         payment?.refNumber?.toLowerCase().includes(searchTerm2) ||
         payment?.time?.toLowerCase().includes(searchTerm2) ||
         payment?.date?.toLowerCase().includes(searchTerm2) ||
