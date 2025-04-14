@@ -403,6 +403,14 @@ data2.forEach((payment2, rowIndex) => {
   const statusCell2 = row2.insertCell();
   statusCell2.textContent = payment2.status;
 
+  const textCell = row2.insertCell();
+  textCell.textContent = payment2.message;
+
+
+ const senderCell = row2.insertCell();
+  senderCell.textContent = payment2.sender;
+  
+
 // Add Checkbox cell
 
  const checkboxCell2 = row2.insertCell();
