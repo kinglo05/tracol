@@ -4,9 +4,7 @@
     <title>Report</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styleGoldenNEW.css">
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script> -->
 
-    <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
@@ -441,37 +439,47 @@ function saveReportAsPDF() {
     element.innerHTML = `
     <style>
         table {
-            width: 100%;
-            border-collapse: collapse;
+            width: 90%;
             font-size: 14px;
+            color: black;
         }
         th, td {
-            border: 1px;
+            border: 1px solid gray;
             padding: 4px;
             text-align: left;
+             font-size: 14px;
+             color: black;
         }
         th {
             background-color: #f0f0f0;
         }
-        h3 {
-            margin-top: 4px;
+        h4 {
+            margin-top: 10px;
+           
         }
+
+      
+
     </style>
 
     <div style="text-align: center;">
         <img src="${logoBase64}" style="width: 150px; height: auto; margin-bottom: 10px;" />
+
         <h2 style="margin: 0; font-size: 22px;">Golden Transactions Report</h2>
-        <p style="font-size: 14px;">
+
+        <p style="font-size: 14px; margin-top:3px;">
             From <span style="color: blue;">${startDate}</span> to 
             <span style="color: blue;">${endDate}</span>
             <span style="color: gray; font-size: 14px;"> (System Generated)</span>
         </p>
     </div>
 
-    <div style="font-size: 13px; margin-top: 20px;">
-        <p><strong>Total Collection:</strong> <span style="color: blue;">${totalCollected}</span></p>
-        <p><strong>Total Expenses:</strong> <span style="color: blue;">${totalExpenses}</span></p>
-        <p><strong>Nabilin/Kulang:</strong> <span style="color: red;">${finalNabilin}</span></p>
+    <div style="margin-top: 30px;">
+        <p>Total Collection: <span style="color: blue;">${totalCollected}</span></p>
+
+        <p style="margin-top:-10px;">Total Expenses: <span style="color: blue;">${totalExpenses}</span></p>
+
+        <p style="margin-top:-10px;">Remaining / Deficit: <span style="color: red;">${finalNabilin}</span></p>
     </div>
 
     <div style=" margin-top: 10px; overflow-x: auto; text-align: left;">
@@ -499,12 +507,6 @@ html2pdf()
 
     
 </script>
-
-
-
-
-
-
 
 
 
