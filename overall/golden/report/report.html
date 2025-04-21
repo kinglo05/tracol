@@ -431,43 +431,70 @@ function saveReportAsPDF() {
     const element = document.createElement("div");
     element.style.width = "100%";
    
-    element.style.maxWidth = "800px";
-    element.style.padding = "20px";
-    element.style.boxSizing = "border-box";
+   /*  element.style.maxWidth = "800px"; */
+   /*  element.style.padding = "20px"; */
+   /*  element.style.boxSizing = "border-box"; */
     element.style.fontFamily = "Arial, sans-serif, tahoma";
 
 
 
     element.innerHTML = `
-        <div style="text-align: center;">
-            <img src="${logoBase64}" style="width: 150px; height: auto; margin-bottom: 10px;" />
-            <h2 style="margin: 0; font-size: 22px;">Golden Transactions Report</h2>
-            <p style="font-size: 14px;">From <span style="color: blue;">${startDate}</span> to <span style="color: blue;">${endDate}<span style="color: gray; font-size: 12px;">  (System Generated)</span></p>
-        </div>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px;
+            padding: 4px;
+            text-align: left;
+        }
+        th {
+            background-color: #f0f0f0;
+        }
+        h3 {
+            margin-top: 4px;
+        }
+    </style>
 
-        <div style="font-size: 13px; margin-top: 20px;">
-            <p><strong>Total Collection:</strong> <span style="color: blue;">${totalCollected}</span></p>
-            <p><strong>Total Expenses:</strong> <span style="color: blue;">${totalExpenses}</span></p>
-            <p><strong>Nabilin/Kulang:</strong> <span style="color: red;">${finalNabilin}</span></p>
-        </div>
+    <div style="text-align: center;">
+        <img src="${logoBase64}" style="width: 150px; height: auto; margin-bottom: 10px;" />
+        <h2 style="margin: 0; font-size: 22px;">Golden Transactions Report</h2>
+        <p style="font-size: 14px;">
+            From <span style="color: blue;">${startDate}</span> to 
+            <span style="color: blue;">${endDate}</span>
+            <span style="color: gray; font-size: 14px;"> (System Generated)</span>
+        </p>
+    </div>
 
-       
-        <div style="overflow-x: auto; text-align: left; font-size: 12px">  <h3 style="color: green; font-size: 16px; margin-top: 5px;">Collections</h3>   ${table1}</div>
+    <div style="font-size: 13px; margin-top: 20px;">
+        <p><strong>Total Collection:</strong> <span style="color: blue;">${totalCollected}</span></p>
+        <p><strong>Total Expenses:</strong> <span style="color: blue;">${totalExpenses}</span></p>
+        <p><strong>Nabilin/Kulang:</strong> <span style="color: red;">${finalNabilin}</span></p>
+    </div>
 
+    <div style=" margin-top: 10px; overflow-x: auto; text-align: left;">
+        <h4 style="color: green;">Collections</h4>
+        ${table1}
+    </div>
 
-        <div style="margin-top: 10px; font-size: 12px min-height: 300px; text-align: left; overflow-x: auto;">  <h3 style="color: green; font-size: 16px;">Expenses</h3>  ${table2}</div>
-    `;
+    <div style=" min-height: 300px; margin-top: 2px; overflow-x: auto;">
+        <h4 style="color: green;">Expenses</h4>
+        ${table2}
+    </div>
+`;
 
-    html2pdf()
-        .set({
-            margin: 20,
-            filename: `${todayDate}_Golden_Report.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        })
-        .from(element)
-        .save();
+html2pdf()
+    .set({
+        margin: 20,
+        filename: `${todayDate}_Golden_Report.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    })
+    .from(element)
+    .save();
 }
 
     
