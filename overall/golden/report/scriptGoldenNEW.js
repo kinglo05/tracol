@@ -711,23 +711,11 @@ function updateDisplay() {
 
  
    const TananActualNabilin = Number(totalcollection - totalExpenses) || 0;
-  /*  const todayNabilin =  Number(totalForTheDay - todayTrades) || 0;
-   const monthlyTrades = Number(overAllmonthlyTrades* 0.08);
-   document.getElementById("todayRemainingDeposit").innerText = Number(todayNabilin).toFixed(2); */
+
 
    document.getElementById("finalNabilin").innerText = Number(TananActualNabilin).toFixed(2);
    
-   
 
-   //////////// for monthly Net ///////////
-  
-/*     const todayNetNabilin = Number(todayNabilin* 0.08);
-    const currentMonthIn = todayNetNabilin + monthlyTrades;
-    const  minusEspense = currentMonthIn - currentMonthExpenses;
-    document.getElementById("monthlyNet").innerText = Number(minusEspense).toFixed(2); */
-
-   /* console.log("PARA TESTING RESULT today nabilin  :",currentMonthIn, "-",  currentMonthExpenses 
-    ,"=" , minusEspense); */
 }
 
 updateDisplay();
@@ -745,158 +733,184 @@ updateDisplay();
 
 
 
+const database2 = firebase.database();
+
+const table2 = document.getElementById('payments-table2').getElementsByTagName('tbody')[0];
+const tableData2= [];
+let paymentsData2 = []; // Store the fetched payment data
+
+function filterPayments2() {
+
+database2.ref('goldenwifi/goldenExpenses').on('value', (snapshot) => {
+  tableData2.length = 0; // Clear existing data
+  paymentsData2 = [];
+
+   const selectedStartDate = document.getElementById("startDate").value;
+  const selectedEndDate = document.getElementById("endDate").value;
+
+  const startDate = new Date(selectedStartDate); // Example: "2024-03-01"
+  const endDate = new Date(selectedEndDate); // Example: "2024-03-25"
+ 
+  snapshot.forEach((childSnapshot) => {
+    const firebaseKey2 = childSnapshot.key; // Get the Firebase key
+    const payment2 = childSnapshot.val(); // Get the payment data
+
+    const paymentDate = new Date(payment2.date); // Ensure payment.date is in a valid format
 
 
+    // Filter for payments with status 'new'
+    if (
+      payment2.status === 'new' &&
+      paymentDate >= startDate &&
+      paymentDate <= endDate
+    
+    
+    ) {
+      paymentsData2.push({ id: firebaseKey2, ...payment2 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* const totalForTheDay = dateInput22.value; 
-const displaytodaytotal = document.getElementById('total-today');
-
-function dailypayments() {
-  database.ref('payments').once('value', (paymentsSnapshot) => {
-    const payments = [];
-    paymentsSnapshot.forEach((paymentSnapshot) => {
-        const payment = paymentSnapshot.val();
-        //Only add payments with status new
-        if (payment.date === totalForTheDay) { //This is the added line
-            payments.push(payment);
-        }
-    });
-     
-     const todatNumberPayments = {};
-      const todayTotal = {};
-  
-      payments.forEach((payment) => {
-          if (payment.date && payment.amount) { // Check if merchantP and amount exist
-          
-              const paymentdate= payment.date;
-              const amount = parseFloat(payment.amount); // Parse amount as float
-  
-             if (!todatNumberPayments[paymentdate]) {
-              todatNumberPayments[paymentdate] = 0;
-              
-            }
-            todatNumberPayments[paymentdate]++;
-  
-              if (!todayTotal[paymentdate]) {
-                todayTotal[paymentdate] = 0;
-                 
-  
-              }
-              todayTotal[paymentdate] += amount;
-           
-           }
-
-
-           const paymentdate = (payment.date);
-           const totalForTheDay = (todayTotal[paymentdate] || 0).toFixed(2);
-           const pilakaresibo = (todatNumberPayments[paymentdate] || 0);
-           const eight1 = (totalForTheDay * 0.08).toFixed(2);
-           const eightPoint1 = (totalForTheDay * 0.085).toFixed(2);
-           const eight = (eight1 - 500).toFixed(2);
-           const eightPoint = (eightPoint1 - 500).toFixed(2);
-          
-document.getElementById('total-today').value = totalForTheDay;
-document.getElementById('total-resibo').value = pilakaresibo;
-document.getElementById('eight').value = eight;
-
-
-
-          })
-         
-        })
+      const rowData2 = {
+        firebaseKey: firebaseKey2, // Store the key
+        amount: payment2.amount,
+        date: payment2.date,
+        address: payment2.address,
+        name: payment2.exName,
+        status: payment2.status,
       
+      
+       
       };
-      dailypayments();
 
+      tableData2.push(rowData2);
+    }
+  });
 
-            const displaytodayTrade = document.getElementById('total-claimed');
-            const displayTotalResiboClaimed = document.getElementById('total-resiboClaimed');
-            const displayEight = document.getElementById('eight'); */
-          /*   const displayEightFive = document.getElementById('eightFive'); */
-            
-         /*  function calculateDailyTrades() {
-              
-              database.ref('payments').once('value', (paymentsSnapshot) => {
-                const payments = [];
-                paymentsSnapshot.forEach((paymentSnapshot) => {
-                  const payment = paymentSnapshot.val();
-                  if (payment.status === "claimed") {
-                    payments.push(payment);
-                  }
-                });
-            
-                const totalnoClaimed = {};
-                const todayTotalTrade = {};
-            
-                const today = dateInput22.value;  // new Date();
-         
+  paymentsData2.sort((a, b) => {
+    const dateTimeA = new Date(`${a.date} ${a.time}`);
+    const dateTimeB = new Date(`${b.date} ${b.time}`);
+    return dateTimeB - dateTimeA; // Newest first
+  });
+  //console.log("Sorted Payments:", paymentsData.map(p => `${p.date} ${p.time}`));
 
-                payments.forEach((payment) => {
-                  if (payment.status && payment.amount && payment.date) {
-                    const paymentStatus = payment.status;
-                    const amount = parseFloat(payment.amount);
-                    const paymentDate = payment.date; // Assuming payment.date is a timestamp
-        
-                    // Check if the payment date is within today's range
-                    if (paymentDate == today ) {
-                      if (!totalnoClaimed[paymentStatus]) {
-                        totalnoClaimed[paymentStatus] = 0;
-                      }
-                      totalnoClaimed[paymentStatus]++;
-            
-                      if (!todayTotalTrade[paymentStatus]) {
-                        todayTotalTrade[paymentStatus] = 0;
-                      }
-                      todayTotalTrade[paymentStatus] += amount;
-            
-                      const paymentStatusClaimed = (payment.status);
-                      const totalForTheDayTrade = (todayTotalTrade[paymentStatusClaimed] || 0).toFixed(2);
-                      const pilakaresiboClaimed = (totalnoClaimed[paymentStatusClaimed] || 0);
-                      const eight = (totalForTheDayTrade * 0.08).toFixed(2);
-                      const eightPoint = (totalForTheDayTrade * 0.085).toFixed(2);
-                      const eight2 = (totalForTheDayTrade * 0.08).toFixed(2);
-            
-                      document.getElementById('eightC').value = eight;
-                  
-                      document.getElementById('total-claimed').value = totalForTheDayTrade;
-                      document.getElementById('total-resiboClaimed').value = pilakaresiboClaimed;
-                     
-                     
-                    }
-                    
-                  }
-                });
-              })
-            .catch(error => {
-                console.error("Error fetching data from Firebase:", error);
-                // Handle the error appropriately (e.g., display an error message to the user)
-              });
-            };
-            
-            calculateDailyTrades();
-
- */
+  updatePaymentsTable2(paymentsData2); // Initial table population
+});
+};
 
 
 
 
-           
+
+
+
+function updatePaymentsTable2(data2) {
+table2.innerHTML = ''; // Clear the table
+
+data2.forEach((payment2, rowIndex) => {
+  const row = table2.insertRow();
+
+  const rowIndexCell2 = row.insertCell();
+  rowIndexCell2.textContent = rowIndex + 1;
+
+  const dateCell2 = row.insertCell();
+  dateCell2.textContent = payment2.date;
+
+  const amountCell2 = row.insertCell();
+  amountCell2.textContent = payment2.amount;
+
+
+  const nameCell2 = row.insertCell();
+  nameCell2.textContent = payment2.exName;
+
+
+  
+  // Add Checkbox cell
+  const tablePayments2 = document.getElementById('payments-table2').getElementsByTagName('tbody')[0];
+
+
+
+
+const paymentsTableNew2 = document.getElementById('payments-table2');
+
+// Check if the table exists before proceeding
+if (paymentsTableNew2) {
+    const tableBody2 = paymentsTableNew2.querySelector('tbody');
+
+    // Check if the tbody exists
+    if(tableBody2){
+        const totalAmountSpanNew2 = document.getElementById('table-total2');
+
+        function calculateTotalNew2() {
+          itemList.innerHTML = ""; // Clear existing list
+            let totalExpenses = 0;
+            const amountCells2 = tableBody2.querySelectorAll('td:nth-child(3)');
+
+            amountCells2.forEach(cell => {
+                const amountNew2 = parseFloat(cell.textContent) || 0;
+                totalExpenses += amountNew2;
+                 const forOverAllNew2 = totalExpenses.toFixed(2);
+                 localStorage.setItem("totalExpenses" , totalExpenses);
+                
+                
+            });
+
+            if (totalAmountSpanNew2) { // Check if the total amount span exists
+                totalAmountSpanNew2.textContent = totalExpenses.toFixed(2);
+                /* localStorage.setItem("overAllNew", forOverAllNew); */
+             //   console.log("mao ni total: ");
+            } else {
+                console.error("Total amount span element not found!");
+            }
+        }
+
+        calculateTotalNew2(); // Initial calculation
+
+        const observer = new MutationObserver(calculateTotalNew2);
+        const config = { childList: true, subtree: true };
+
+        observer.observe(tableBody2, config);
+    } else {
+        console.error("Table body (tbody) not found!");
+    }
+  }
+
+
+
+// // Your submit button
+const payTable2 = document.getElementById('payments-table2'); // Your table ID
+//const checkboxClaimed = document.getElementById('checkboxClaimed');
+
+checkboxClaimed2.addEventListener('click', () => {
+  const rowsOr = payTable2.querySelectorAll('tbody tr'); // Get all rows in the table body
+
+  payTable2.forEach(rowsOr, rowIndex => {
+    //data.forEach((payment, rowIndex) => {
+    const statusCellC2 = row.querySelector('td:nth-child(9)'); // Get the status cell (replace statusColumnIndex with the actual index)
+    const paymentKey2 =  rowIndex.id; //// ... get the payment key from the row ... 
+   
+   
+    if (statusCellC2.textContent === 'new') { // Check if the status is 'new'
+      // Update the status in Firebase
+      database2.ref(`goldenwifi/goldenExpenses/${paymentKey2}`).update({
+        status: 'claimed'
+      })
+      .then(() => {
+        console.log(`goldenwifi/goldenExpenses ${paymentKey2} updated to claimed`);
+        // ... you might want to update the status in the table cell as well ...
+        //statusCellC.textContent = 'claimedNO'; 
+      })
+      .catch(error => {
+        console.error(`Error updating payment ${paymentKey2}:`, error);
+        // ... display an error message to the user ...
+      });
+    }
+  });
+});
+
+
+ 
+
+  });    
+
+
+
+}
+
