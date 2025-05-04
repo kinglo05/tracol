@@ -386,6 +386,7 @@ database.ref('payments').on('value', (snapshot) => {
         paymentType: payment.paymentType,
         time: payment.time,
         date: payment.date,
+        note: payment.note,
         user: payment.user,
         merchantP: payment.merchantP,
         status: payment.status,
@@ -446,6 +447,9 @@ const merchantCell = row.insertCell();
   const dateCell = row.insertCell();
   dateCell.textContent = payment.date;
 
+  const noteCell = row.insertCell();
+  noteCell.textContent = payment.note;
+
   const paymentTypeCell = row.insertCell();
   paymentTypeCell.textContent = payment.paymentType;
 
@@ -458,7 +462,7 @@ const merchantCell = row.insertCell();
   const saveCell = row.insertCell();
   saveCell.textContent = payment.save;
 
-   const deviceCell = row.insertCell();
+  const deviceCell = row.insertCell();
   deviceCell.textContent = payment.device;
   
 
@@ -647,6 +651,7 @@ assignCell.addEventListener('click', (event) => {
   
   document.getElementById('edit-amountAssign').value = rowData.amount;
   document.getElementById('timeEdit').value = rowData.time;
+  document.getElementById('note').value = rowData.note;
      document.getElementById('edit-idPayAssign').value = rowData.firebaseKey;
      document.getElementById('edit-ref-numberAssign').value =  rowData.refNumber;
       document.getElementById('edit-merchantAssign').value = rowData.merchantP; // Populate merchant 
@@ -931,7 +936,7 @@ saveEditBtnAssign.addEventListener('click', (event) => {
                // firebasekey: document.getElementById('edit-idPay').value,
                   amount: document.getElementById('edit-amountAssign').value,
                   refNumber: document.getElementById('edit-ref-numberAssign').value,
-                 // paymentType: document.getElementById('edit-payment-type').value,
+               note: document.getElementById('note').value,
                   merchantP: document.getElementById('edit-merchantAssign').value, // Merchant Name */
                   merchantKey: merchantFirebaseKey, // The new merchant Firebase Key
               };
