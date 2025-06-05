@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Filtered Golden Report</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 95%; border-collapse: collapse; margin-bottom: 20px; font-size: 12px; }
+        th, td { border: 1px solid #333; padding: 6px; text-align: left; }
+        th { background-color: #6d6060; color: white; }
+        h2, h4, p { margin: 6px 0; text-align: center; }
+        .summary { margin-top: 10px; }
+        .page-break { page-break-before: always; }
+    </style>
+
+</head>
+<body>
+    <label>Start Date:</label>
+    <input type="date" id="startDate">
+    <label>End Date:</label>
+    <input type="date" id="endDate">
+    <input type="text" id="usernameDisplay">
+    <!-- <button onclick="applyFilter()">Filter</button> -->
+    <button id="filter" onclick=" applyFilter(); filterPayments(); filterPayments22();">Filter</button>
+
+    <button onclick="saveReportAsPDF()">Save as PDF</button>
+
+    <div id="pdf-content">
+
+    <h2>Golden Transactions Report</h2>
+    <p id="reportRange">Date range will be shown here</p>
+
+    <div class="summary">
+        <p><strong>Total Collection:</strong> <span id="totalCollected">0.00</span></p>
+        <p><strong>Total Expenses:</strong> <span id="totalExpens">0.00</span></p>
+        <p><strong>Remaining / Deficit:</strong> <span id="finalNabilin">0.00</span></p>
+    </div>
+<br>
+    <h4>Collections</h4>
+    <table id="payments-table">
+        <thead>
+            <tr><th>No.</th><th>Date</th><th>Amount</th><th>Name</th><th>Address</th></tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot>
+            <tr><td colspan="2" style="text-align:right;"><b>Total :</b></td><td id="table-total">0.00</td></tr>
+        </tfoot>
+    </table>
+
+    <div class="page-break">
+        <h4>Expenses</h4>
+        <table id="payments-table2">
+            <thead>
+                <tr><th>No.</th><th>Date</th><th>Amount</th><th>Purpose</th></tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+                <tr><td colspan="2" style="text-align:right;"><b>Total :</b></td><td id="table-total2">0.00</td></tr>
+            </tfoot>
+        </table>
+    </div>
+
+</div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <script>
+
+
+function filterPayments() {
+
+   
+    
+
+
+  const startDate = new Date(document.getElementById("startDate").value);
+  const endDate = new Date(document.getElementById("endDate").value);
+  endDate.setHours(23, 59, 59, 999); // Include the full end day
+  document.getElementById("reportRange").textContent = `From ${startDate} to ${endDate}`;
+  const paymentsRef = firebase.database().ref("goldenwifi/transactions");
+  const tableBody = document.querySelector("#payments-table tbody");
+  const totalField = document.getElementById("table-total");
+  tableBody.innerHTML = ""; // clear previous results
+  let total = 0;
+
+  paymentsRef.once("value", snapshot => {
+    let count = 1;
+    snapshot.forEach(child => {
+      const data = child.val();
+      const date = new Date(data.date); // assuming your Firebase entries have a "date" field
+
+      if (date >= startDate && date <= endDate) {
+        const row = tableBody.insertRow();
+        row.insertCell(0).textContent = count++;
+        row.insertCell(1).textContent = data.date;
+        row.insertCell(2).textContent = parseFloat(data.amountNew).toFixed(2);
+        row.insertCell(3).textContent = data.clientName || "";
+        row.insertCell(4).textContent = data.address || "";
+        total += parseFloat(data.amountNew);
+      }
+    });
+
+    totalField.textContent = total.toFixed(2);
+    document.getElementById("totalCollected").textContent = total.toFixed(2);
+    updateFinal();
+  });
+}
+
+function applyFilter() {
+        const startDate = document.getElementById("startDate").value;
+        const endDate = document.getElementById("endDate").value;
+        document.getElementById("reportRange").textContent = `From ${startDate} to ${endDate}`;
+
+    
+    }
+
+
+function filterPayments22() {
+  const startDate = new Date(document.getElementById("startDate").value);
+  const endDate = new Date(document.getElementById("endDate").value);
+  endDate.setHours(23, 59, 59, 999);
+
+  const expensesRef = firebase.database().ref("goldenwifi/goldenExpenses");
+  const tableBody = document.querySelector("#payments-table2 tbody");
+  const totalField = document.getElementById("table-total2");
+  tableBody.innerHTML = "";
+  let total = 0;
+
+  expensesRef.once("value", snapshot => {
+    let count = 1;
+    snapshot.forEach(child => {
+      const data = child.val();
+      const date = new Date(data.date);
+
+      if (date >= startDate && date <= endDate) {
+        const row = tableBody.insertRow();
+        row.insertCell(0).textContent = count++;
+        row.insertCell(1).textContent = data.date;
+        row.insertCell(2).textContent = parseFloat(data.amount).toFixed(2);
+        row.insertCell(3).textContent = data.exName || "";
+        total += parseFloat(data.amount);
+      }
+    });
+
+    totalField.textContent = total.toFixed(2);
+    document.getElementById("totalExpens").textContent = total.toFixed(2);
+    updateFinal();
+  });
+}
+
+function updateFinal() {
+  const collected = parseFloat(document.getElementById("totalCollected").textContent) || 0;
+  const expenses = parseFloat(document.getElementById("totalExpens").textContent) || 0;
+  const final = collected - expenses;
+  document.getElementById("finalNabilin").textContent = final.toFixed(2);
+}
+
+
+
+
+function saveReportAsPDF() {
+    // Get values before excluding inputs from the PDF
+    const startDate = document.getElementById("startDate")?.value || "Report";
+    const todayDate = document.getElementById("endDate")?.value || "Report";
+
+    const element = document.getElementById("pdf-content");
+
+    html2pdf()
+        .set({
+            margin: [20, 20, 20, 10],
+            filename: `From_${startDate}_TO_${todayDate}_Golden_Report.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        })
+        .from(element)
+        .save();
+}
+
+
+    </script>
+ 
+
+</div> <!-- end of your content -->
+
+<!-- Firebase SDKs first -->
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+
+<!-- Your own script AFTER -->
+<script src="scriptReport.js"></script>
+
+</body>
+</html>
+
+
+
+
+</body>
+</html>
