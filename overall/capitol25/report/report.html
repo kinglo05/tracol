@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Filtered Golden Report</title>
+    <title>Filtered Capitol Sales</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body { font-family: Arial, sans-serif; }
@@ -27,16 +27,16 @@
 
     <div id="pdf-content">
 
-    <h2>Golden Transactions Report</h2>
+    <h2>Capitol 2025 Sales Report</h2>
     <p id="reportRange">Date range will be shown here</p>
 
     <div class="summary">
-        <p><strong>Total Collection:</strong> <span id="totalCollected">0.00</span></p>
+        <p><strong>Total Income:</strong> <span id="totalCollected">0.00</span></p>
         <p><strong>Total Expenses:</strong> <span id="totalExpens">0.00</span></p>
         <p><strong>Remaining / Deficit:</strong> <span id="finalNabilin">0.00</span></p>
     </div>
 <br>
-    <h4>Collections</h4>
+    <h4>Income</h4>
     <table id="payments-table">
         <thead>
             <tr><th>No.</th><th>Date</th><th>Amount</th><th>Name</th><th>Address</th></tr>
@@ -78,7 +78,7 @@ function filterPayments() {
   const endDate = new Date(document.getElementById("endDate").value);
   endDate.setHours(23, 59, 59, 999); // Include the full end day
   document.getElementById("reportRange").textContent = `From ${startDate} to ${endDate}`;
-  const paymentsRef = firebase.database().ref("goldenwifi/transactions");
+  const paymentsRef = firebase.database().ref("capitol2025/transactions");
   const tableBody = document.querySelector("#payments-table tbody");
   const totalField = document.getElementById("table-total");
   tableBody.innerHTML = ""; // clear previous results
@@ -121,7 +121,7 @@ function filterPayments22() {
   const endDate = new Date(document.getElementById("endDate").value);
   endDate.setHours(23, 59, 59, 999);
 
-  const expensesRef = firebase.database().ref("goldenwifi/goldenExpenses");
+  const expensesRef = firebase.database().ref("capitol2025/goldenExpenses");
   const tableBody = document.querySelector("#payments-table2 tbody");
   const totalField = document.getElementById("table-total2");
   tableBody.innerHTML = "";
