@@ -887,11 +887,11 @@ saveEditBtnAssign.addEventListener('click', (event) => {
 
 
 function updateDisplayCa() {
-  let totalcollection = localStorage.getItem("totalcollection"); ////used
-  let totalExpenses = localStorage.getItem("totalExpenses");
+  let totalcollection = localStorage.getItem("totalcollection2"); ////used
+  let totalExpenses = localStorage.getItem("totalExpenses2");
  
   document.getElementById("totalCollected").innerText = Number(totalcollection ).toFixed(2);
-   document.getElementById("totalExpens").innerText = Number(totalExpenses).toFixed(2);
+   document.getElementById("totalExpens2").innerText = Number(totalExpenses).toFixed(2);
 
  
    const TananActualNabilin = Number(totalcollection - totalExpenses) || 0;
@@ -918,7 +918,7 @@ updateDisplayCa();
 
 // Listen for storage updates
 window.addEventListener("storage", function(event) {
-  if (event.key  === "totalcollection", "totalExpenses") {
+  if (event.key  === "totalcollection2", "totalExpenses2") {
       updateDisplayCa();
   }
 });
