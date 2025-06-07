@@ -886,15 +886,15 @@ saveEditBtnAssign.addEventListener('click', (event) => {
 
 
 
-function updateDisplayCa() {
-  let totalcollection = localStorage.getItem("totalcollection2"); ////used
-  let totalExpenses = localStorage.getItem("totalExpenses2");
+function updateDisplayCa2() {
+  let totalcollection2 = localStorage.getItem("totalcollection2"); ////used
+  let totalExpenses2 = localStorage.getItem("totalExpenses2");
  
-  document.getElementById("totalCollected").innerText = Number(totalcollection ).toFixed(2);
-   document.getElementById("totalExpens2").innerText = Number(totalExpenses).toFixed(2);
+  document.getElementById("totalCollected").innerText = Number(totalcollection2 ).toFixed(2);
+   document.getElementById("totalExpens2").innerText = Number(totalExpenses2).toFixed(2);
 
  
-   const TananActualNabilin = Number(totalcollection - totalExpenses) || 0;
+   const TananActualNabilin = Number(totalcollection2 - totalExpenses2) || 0;
   /*  const todayNabilin =  Number(totalForTheDay - todayTrades) || 0;
    const monthlyTrades = Number(overAllmonthlyTrades* 0.08);
    document.getElementById("todayRemainingDeposit").innerText = Number(todayNabilin).toFixed(2); */
@@ -914,15 +914,15 @@ function updateDisplayCa() {
     ,"=" , minusEspense); */
 }
 
-updateDisplayCa();
+updateDisplayCa2();
 
 // Listen for storage updates
 window.addEventListener("storage", function(event) {
   if (event.key  === "totalcollection2", "totalExpenses2") {
-      updateDisplayCa();
+      updateDisplayCa2();
   }
 });
 
 
-updateDisplayCa();
+updateDisplayCa2();
 
