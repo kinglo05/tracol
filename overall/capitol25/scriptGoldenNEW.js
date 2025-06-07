@@ -504,14 +504,14 @@ if (paymentsTableNew) {
 
         function calculateTotalNew() {
           itemList.innerHTML = ""; // Clear existing list
-            let totalcollection = 0;
+            let totalcollection2 = 0;
             const amountCells = tableBody.querySelectorAll('td:nth-child(3)');
 
             amountCells.forEach(cell => {
                 const amountNew = parseFloat(cell.textContent) || 0;
-                totalcollection += amountNew;
-                 const forOverAllNew = totalcollection.toFixed(2);
-                 localStorage.setItem("totalcollection" , totalcollection);
+                totalcollection2 += amountNew;
+                 const forOverAllNew = totalcollection2.toFixed(2);
+                 localStorage.setItem("totalcollection2" , totalcollection2);
                 
 
                 
@@ -519,7 +519,7 @@ if (paymentsTableNew) {
             });
 
             if (totalAmountSpanNew) { // Check if the total amount span exists
-                totalAmountSpanNew.textContent = totalcollection.toFixed(2);
+                totalAmountSpanNew.textContent = totalcollection2.toFixed(2);
            
             } else {
                 console.error("Total amount span element not found!");
