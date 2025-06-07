@@ -899,7 +899,7 @@ function updateDisplayCa() {
    const monthlyTrades = Number(overAllmonthlyTrades* 0.08);
    document.getElementById("todayRemainingDeposit").innerText = Number(todayNabilin).toFixed(2); */
 
-   document.getElementById("finalNabilin").innerText = Number(TananActualNabilin).toFixed(2);
+   document.getElementById("finalNabilin2").innerText = Number(TananActualNabilin).toFixed(2);
    
    
 
