@@ -504,14 +504,14 @@ if (paymentsTableNew) {
 
         function calculateTotalNew() {
           itemList.innerHTML = ""; // Clear existing list
-            let totalcollection2 = 0;
+            let totalcollection = 0;
             const amountCells = tableBody.querySelectorAll('td:nth-child(3)');
 
             amountCells.forEach(cell => {
                 const amountNew = parseFloat(cell.textContent) || 0;
-                totalcollection2 += amountNew;
-                 const forOverAllNew = totalcollection2.toFixed(2);
-                 localStorage.setItem("totalcollection2" , totalcollection2);
+                totalcollection += amountNew;
+                 const forOverAllNew = totalcollection.toFixed(2);
+                 localStorage.setItem("totalcollection" , totalcollection);
                 
 
                 
@@ -519,7 +519,7 @@ if (paymentsTableNew) {
             });
 
             if (totalAmountSpanNew) { // Check if the total amount span exists
-                totalAmountSpanNew.textContent = totalcollection2.toFixed(2);
+                totalAmountSpanNew.textContent = totalcollection.toFixed(2);
            
             } else {
                 console.error("Total amount span element not found!");
@@ -586,26 +586,6 @@ checkboxClaimed.addEventListener('click', () => {
 });
 
 
-/////////////////////////////  // Event listener for Edit button aSSIGNMENT  //////////////////////////////
-
-/* assignCell.addEventListener('click', (event) => {
-  const button = event.target;
-  const firebaseKey = button.dataset.rowIndex;
-  const rowData = tableData.find(data => data.firebaseKey === firebaseKey);
- 
-  
-  document.getElementById('edit-amountAssign').value = rowData.amount;
-  document.getElementById('timeEdit').value = rowData.time;
-     document.getElementById('edit-idPayAssign').value = rowData.firebaseKey;
-     document.getElementById('edit-ref-numberAssign').value =  rowData.refNumber;
-      document.getElementById('edit-merchantAssign').value = rowData.merchantP; // Populate merchant 
-    
- 
-     
-     // Show the modal display only to collect data in input fields next to save BTN /////
-    editPaymentFormAssign.style.display = 'block'; 
-  
- }); */
  
 
   });    
@@ -653,41 +633,7 @@ merchantInput.addEventListener('input', () => {
 };
 
 
-//////////////////////////////////  populate merchant name for Assignment ///////////////////////////////////
 
-merchantInputAssign.addEventListener('input', () => {
-  const searchTerm = merchantInputAssign.value.toLowerCase();
-
-  if (searchTerm.length > 0) { 
-    database.ref('merchants')
-      .orderByChild('nameLower') // Make sure you have an index on the 'name' property in your rules
-      .startAt(searchTerm)
-      .endAt(searchTerm + '\uf8ff')
-      .limitToFirst(5)
-      .once('value')
-      .then((snapshot) => {
-        suggestionsListAssign.innerHTML = ''; // Clear previous suggestions
-
-        snapshot.forEach((childSnapshot) => {
-          const merchantName = childSnapshot.val().name;
-          const listItem = document.createElement('li');
-          listItem.textContent = merchantName;
-
-          listItem.addEventListener('click', () => {
-            merchantInputAssign.value = merchantName;
-            suggestionsListAssign.innerHTML = ''; 
-          });
-
-          suggestionsListAssign.appendChild(listItem);
-        });
-      })
-      .catch((error) => {
-        console.error("Error getting data: ", error);
-      });
-  } else {
-    suggestionsListAssign.innerHTML = ''; // Clear suggestions if input is short
-  }
-});
 
 
 
@@ -887,38 +833,27 @@ saveEditBtnAssign.addEventListener('click', (event) => {
 
 
 function updateDisplayCa2() {
-  let totalcollection2 = localStorage.getItem("totalcollection2"); ////used
+  let totalcollection = localStorage.getItem("totalcollection"); ////used
   let totalExpenses2 = localStorage.getItem("totalExpenses2");
  
-  document.getElementById("totalCollected").innerText = Number(totalcollection2 ).toFixed(2);
+  document.getElementById("totalCollected").innerText = Number(totalcollection ).toFixed(2);
    document.getElementById("totalExpens2").innerText = Number(totalExpenses2).toFixed(2);
 
  
-   const TananActualNabilin = Number(totalcollection2 - totalExpenses2) || 0;
-  /*  const todayNabilin =  Number(totalForTheDay - todayTrades) || 0;
-   const monthlyTrades = Number(overAllmonthlyTrades* 0.08);
-   document.getElementById("todayRemainingDeposit").innerText = Number(todayNabilin).toFixed(2); */
+   const TananActualNabilin = Number(totalcollection - totalExpenses2) || 0;
 
-   document.getElementById("finalNabilin2").innerText = Number(TananActualNabilin).toFixed(2);
+
+   document.getElementById("finalNabilin").innerText = Number(TananActualNabilin).toFixed(2);
    
    
 
-   //////////// for monthly Net ///////////
-  
-/*     const todayNetNabilin = Number(todayNabilin* 0.08);
-    const currentMonthIn = todayNetNabilin + monthlyTrades;
-    const  minusEspense = currentMonthIn - currentMonthExpenses;
-    document.getElementById("monthlyNet").innerText = Number(minusEspense).toFixed(2); */
-
-   /* console.log("PARA TESTING RESULT today nabilin  :",currentMonthIn, "-",  currentMonthExpenses 
-    ,"=" , minusEspense); */
 }
 
 updateDisplayCa2();
 
 // Listen for storage updates
 window.addEventListener("storage", function(event) {
-  if (event.key  === "totalcollection2", "totalExpenses2") {
+  if (event.key  === "totalcollection", "totalExpenses2") {
       updateDisplayCa2();
   }
 });
