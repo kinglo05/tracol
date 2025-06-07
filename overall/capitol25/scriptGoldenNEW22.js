@@ -69,6 +69,10 @@ database2.ref('capitol2025/goldenExpenses').on('value', (snapshot) => {
 
 
 
+
+
+
+
 function updatePaymentsTable2(data2) {
 table2.innerHTML = ''; // Clear the table
 
@@ -81,9 +85,7 @@ data2.forEach((payment2, rowIndex) => {
   const rowIndexCell2 = row.insertCell();
   rowIndexCell2.textContent = rowIndex + 1;
 
-  /* const assignCell2 = row.insertCell();
-  assignCell2.innerHTML = `<button class="edit-button-assign" data-row-index="${payment2.id}">+</button>`;
- */
+
   const dateCell2 = row.insertCell();
   dateCell2.textContent = payment2.date;
 
@@ -175,14 +177,14 @@ if (paymentsTableNew2) {
 
         function calculateTotalNew2() {
           itemList.innerHTML = ""; // Clear existing list
-            let totalExpenses2 = 0;
+            let totalExpenses = 0;
             const amountCells2 = tableBody2.querySelectorAll('td:nth-child(3)');
 
             amountCells2.forEach(cell => {
                 const amountNew2 = parseFloat(cell.textContent) || 0;
-                totalExpenses2 += amountNew2;
-                 const forOverAllNew2 = totalExpenses2.toFixed(2);
-                 localStorage.setItem("totalExpenses2" , totalExpenses2);
+                totalExpenses += amountNew2;
+                 const forOverAllNew2 = totalExpenses.toFixed(2);
+                 localStorage.setItem("totalExpenses" , totalExpenses);
                 
                 
 
@@ -192,7 +194,7 @@ if (paymentsTableNew2) {
             });
 
             if (totalAmountSpanNew2) { // Check if the total amount span exists
-                totalAmountSpanNew2.textContent = totalExpenses2.toFixed(2);
+                totalAmountSpanNew2.textContent = totalExpenses.toFixed(2);
                 /* localStorage.setItem("overAllNew", forOverAllNew); */
              //   console.log("mao ni total: ");
             } else {
