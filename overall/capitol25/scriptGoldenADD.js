@@ -37,7 +37,7 @@ firebase.auth().onAuthStateChanged((user) => {
      
   } else {
       console.log("No user is signed in. Redirecting to login...");
-      window.location.href = "index.html"; // Redirect if not logged in
+      window.location.href = "../../index.html"; // Redirect if not logged in
   } 
 });
 
@@ -49,7 +49,7 @@ firebase.auth().onAuthStateChanged((user) => {
 document.getElementById("logoutButton").addEventListener("click", function() {
   firebase.auth().signOut().then(() => {
       console.log("User signed out.");
-      window.location.href = "index.html"; // Redirect to login page
+      window.location.href = "../../index.html"; // Redirect to login page
   }).catch((error) => {
       console.error("Logout Error:", error);
   });
