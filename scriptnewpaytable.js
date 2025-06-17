@@ -22,25 +22,34 @@ firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     console.log("User is logged in:", user.uid);
 
+    // Check UID or Email
+    const allowedUID = "SUILZCLhDWWXJDQxizZKWPDms1a2";
+    const allowedEmail = "lohwa@gmail.com";
+
+    if (user.uid !== allowedUID && user.email !== allowedEmail) {
+      console.warn("Unauthorized user. Redirecting...");
+      window.location.href = "unauthorized.html"; // Or any page you prefer
+      return; // Stop further code
+    }
+
     // Fetch user data from Firebase Database
     firebase.database().ref("users/" + user.uid).once("value")
-    .then(snapshot => {
+      .then(snapshot => {
         if (snapshot.exists()) {
-            const userData = snapshot.val();
-            document.getElementById("usernameDisplay").innerText =  userData.email;
+          const userData = snapshot.val();
+          document.getElementById("usernameDisplay").innerText = userData.email;
         } else {
-            console.log("No user data found!");
+          console.log("No user data found!");
         }
-    })
-    .catch(error => {
+      })
+      .catch(error => {
         console.error("Error fetching user data:", error);
-    });
-     
-     
+      });
+
   } else {
-      console.log("No user is signed in. Redirecting to login...");
-      window.location.href = "index.html"; // Redirect if not logged in
-  } 
+    console.log("No user is signed in. Redirecting to login...");
+    window.location.href = "index.html"; // Redirect if not logged in
+  }
 });
 
 
