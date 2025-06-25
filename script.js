@@ -174,8 +174,8 @@ submitNewPayment.addEventListener('click', () => {
   const amount = amountInput.value;
 
   // Check if refNumber has exactly 4 digits
-  if (refNumber.length !== 4 || isNaN(refNumber)) {
-      alert("Reference Number must be exactly 4 digits and contain only numbers.");
+  if (refNumber.length !== 5 || isNaN(refNumber)) {
+      alert("Reference Number must be exactly 5 digits and contain only numbers.");
       refNumberInput.focus();
       return; // Stop further execution
   }
