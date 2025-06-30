@@ -62,11 +62,11 @@ document.getElementById("logoutButton").addEventListener("click", function() {
 
 
 // Firebase Data Paths
-const paymentsRef = database.ref("tracollector/payments");
+/* const paymentsRef = database.ref("tracollector/payments");
 const merchantsRef = database.ref("tracollector/merchants");
 const usersRef = database.ref("tracollector/users");
 const paymentTypesRef = database.ref("tracollector/paymentTypes");
-
+ */
 // Get DOM Elements
 const sidebar = document.getElementById('sidebar');
 const sidebarLinks = document.querySelectorAll(".sidebar a");
@@ -151,7 +151,7 @@ const modalOverlay = document.getElementById('modal-overlay');
 const closeModalButton = document.querySelector('.close-modal');
 const cancelButton = document.getElementById('cancel-edit');
 const editPaymentForm = document.getElementById('edit-payment-form');
-const editPaymentForm2 = document.getElementById('edit-payment-form2');
+
 
 const editPaymentFormAssign = document.getElementById('edit-payment-formAssign');
 
@@ -296,15 +296,15 @@ const dateInput22 = document.getElementById('date-today');
   
 /////////////////////////// POPULATE MERCHANT NAME //////////////////////// 
 
-const merchantInputP = document.getElementById('edit-merchant');
+const merchantInputP = document.getElementById('edit-clientName1');
 const suggestionsListMP = document.getElementById('suggestionsList');
 
 merchantInputP.addEventListener('input', () => {
   const searchTermP = merchantInputP.value.toLowerCase();
 
   if (searchTermP.length > 0) { 
-    database.ref('merchants')
-      .orderByChild('nameLower') // Make sure you have an index on the 'name' property in your rules
+    database.ref('goldenwifi/transactions')
+      .orderByChild('clientName') // Make sure you have an index on the 'name' property in your rules
       .startAt(searchTermP)
       .endAt(searchTermP + '\uf8ff')
       .limitToFirst(5)
@@ -378,7 +378,7 @@ database.ref('goldenwifi/transactions').on('value', (snapshot) => {
         amount: payment.amountNew,
         date: payment.date,
         address: payment.address,
-        name: payment.clientName,
+        clientName: payment.clientName,
         status: payment.status,
        save: payment.save,
       
@@ -417,16 +417,23 @@ data.forEach((payment, rowIndex) => {
   rowIndexCell.textContent = rowIndex + 1;
   /* const assignCell = row.insertCell();
   assignCell.innerHTML = `<button class="edit-button-assign" data-row-index="${payment.id}">+</button>`; */
+
   const dateCell = row.insertCell();
   dateCell.textContent = payment.date;
+
   const amountCell = row.insertCell();
   amountCell.textContent = payment.amountNew;
+
   const nameCell = row.insertCell();
   nameCell.textContent = payment.clientName;
+
   const addressCell = row.insertCell();
   addressCell.textContent = payment.address;
+
   const statusCell = row.insertCell();
   statusCell.textContent = payment.status;
+
+   
 
 
     
@@ -448,12 +455,12 @@ data.forEach((payment, rowIndex) => {
     if (checkbox.checked) {
       statusCell.textContent = 'claimed'; 
       // Update the status in your Firebase database here
-      database.ref('payments/' + payment.id).update({ status: 'claimed' });
+      database.ref('goldenwifi/transactions' + payment.id).update({ status: 'claimed' });
      
     } else {
       statusCell.textContent = 'new';
       // Update the status in your Firebase database here
-      database.ref('payments/' + payment.id).update({ status: 'new' });
+      database.ref('goldenwifi/transactions' + payment.id).update({ status: 'new' });
      
     }
   });  
@@ -472,14 +479,14 @@ checkbox.addEventListener('change', (event) => {
     
      statusCell.textContent = 'claimed'; 
     // Update the status in your Firebase database here
-    database.ref('payments/' + payment.id).update({ status: 'claimed' });
+    database.ref('pgoldenwifi/transactions' + payment.id).update({ status: 'claimed' });
     checkbox.disabled = true;
     console.log("Status Change to CLAIMED");
 
   } else {
     statusCell.textContent = 'new';
     // Update the status in your Firebase database here
-    database.ref('payments/' + payment.id).update({ status: 'new' });
+    database.ref('goldenwifi/transactions' + payment.id).update({ status: 'new' });
   
     console.log("Status change to NEW");
 
@@ -552,11 +559,11 @@ checkboxClaimed.addEventListener('click', () => {
    
     if (statusCellC.textContent === 'new') { // Check if the status is 'new'
       // Update the status in Firebase
-      database.ref(`payments/${paymentKey}`).update({
+      database.ref(`goldenwifi/transactions/${paymentKey}`).update({
         status: 'claimed'
       })
       .then(() => {
-        console.log(`payments ${paymentKey} updated to claimed`);
+        console.log(`goldenwifi/transactions ${paymentKey} updated to claimed`);
         // ... you might want to update the status in the table cell as well ...
         //statusCellC.textContent = 'claimedNO'; 
       })
@@ -570,6 +577,8 @@ checkboxClaimed.addEventListener('click', () => {
 
 
 /////////////////////////////  // Event listener for Edit button //////////////////////////////
+/////////////////////////////  // Event listener for Edit button //////////////////////////////
+/////////////////////////////  // Event listener for Edit button //////////////////////////////
 
  editCell.addEventListener('click', (event) => {
  const button = event.target;
@@ -579,48 +588,36 @@ checkboxClaimed.addEventListener('click', () => {
 
     document.getElementById('edit-idPay').value = rowData.firebaseKey;
     document.getElementById('edit-amount').value = rowData.amount;
-    document.getElementById('edit-status').value = rowData.status;
+    document.getElementById('edit-amount').value = rowData.amount;
+    document.getElementById('address').value = rowData.address;
+    document.getElementById('edit-date').value = rowData.date;
+     document.getElementById('edit-clientName1').value = rowData.clientName;
+
+
 
    editPaymentForm.style.display = 'block'; 
+
+  
+
+   
  
 });
 
 
-/////////////////////////////  // Event listener for Edit button aSSIGNMENT  //////////////////////////////
-
-/* assignCell.addEventListener('click', (event) => {
-  const button = event.target;
-  const firebaseKey = button.dataset.rowIndex;
-  const rowData = tableData.find(data => data.firebaseKey === firebaseKey);
- 
-  
-  document.getElementById('edit-amountAssign').value = rowData.amount;
-  document.getElementById('timeEdit').value = rowData.time;
-     document.getElementById('edit-idPayAssign').value = rowData.firebaseKey;
-     document.getElementById('edit-ref-numberAssign').value =  rowData.refNumber;
-      document.getElementById('edit-merchantAssign').value = rowData.merchantP; // Populate merchant 
-    
- 
-     
-     // Show the modal display only to collect data in input fields next to save BTN /////
-    editPaymentFormAssign.style.display = 'block'; 
-  
- }); */
- 
 
   });    
 
 
-//////////////////////////////////  populate merchant name ///////////////////////////////////
+//////////////////////////////////  populate client name ///////////////////////////////////
 
-const merchantInput = document.getElementById('edit-merchant');
+const merchantInput = document.getElementById('edit-clientName1');
 const suggestionsList = document.getElementById('suggestionsList');
 
 merchantInput.addEventListener('input', () => {
   const searchTerm = merchantInput.value.toLowerCase();
 
   if (searchTerm.length > 0) { 
-    database.ref('merchants')
+    database.ref('goldenwifi/goldenClients')
       .orderByChild('nameLower') // Make sure you have an index on the 'name' property in your rules
       .startAt(searchTerm)
       .endAt(searchTerm + '\uf8ff')
@@ -650,16 +647,42 @@ merchantInput.addEventListener('input', () => {
   }
 });
 
+
+
+//////////////////////////////////  populate client name ///////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 };
 
 
-//////////////////////////////////  populate merchant name for Assignment ///////////////////////////////////
+//////////////////////////////////  populate client name for Assignment ///////////////////////////////////
 
 merchantInputAssign.addEventListener('input', () => {
   const searchTerm = merchantInputAssign.value.toLowerCase();
 
   if (searchTerm.length > 0) { 
-    database.ref('merchants')
+    database.ref('goldenwifi/goldenClients/')
       .orderByChild('nameLower') // Make sure you have an index on the 'name' property in your rules
       .startAt(searchTerm)
       .endAt(searchTerm + '\uf8ff')
@@ -733,6 +756,12 @@ cancelEditButtonAssign.addEventListener('click', () => {
   });
   
 
+
+/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx FINAL EDIT SAVE xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxXXXXXXXXXXXXXXXXXXXXXX */
+/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx FINAL EDIT SAVE xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxXXXXXXXXXXXXXXXXXXXXXX */
+
+
+
 const saveEditBtn = document.getElementById('save-edit');
 const saveEditBtnAssign = document.getElementById('save-editAssign');
 
@@ -743,11 +772,11 @@ saveEditBtn.addEventListener('click', (event) => {
   const rowData = tableData.find(data => data.firebaseKey9 === firebaseKey9);
 
   // 1. Get the merchant name from the input box:
-  const merchantName = document.getElementById('edit-merchant').value;
+  const merchantName = document.getElementById('edit-clientName1').value;
   async function getMerchantFirebaseKey(merchantName) {
       try {
-          const merchantsRef = firebase.database().ref('merchants'); // Replace 'merchants' with your actual Firebase path
-          const snapshot = await merchantsRef.orderByChild('name').equalTo(merchantName).once('value'); // Assuming 'name' is the field where you store merchant names
+          const merchantsRef = firebase.database().ref('goldenwifi/transactions/'); // Replace 'merchants' with your actual Firebase path
+          const snapshot = await merchantsRef.orderByChild('clientName').equalTo(merchantName).once('value'); // Assuming 'name' is the field where you store merchant names
 
           if (snapshot.exists()) {
               const merchantData = snapshot.val();
@@ -774,19 +803,22 @@ saveEditBtn.addEventListener('click', (event) => {
               const newPayKey = newPayKeyPar;
 
               const updatedPaymentData = {
-                  amount: document.getElementById('edit-amount').value,
+                  clientName: document.getElementById('edit-clientName1').value,
+                   amountNew: document.getElementById('edit-amount').value,
                   status: document.getElementById('edit-status').value,
-                  merchantKey: merchantFirebaseKey, // The new merchant Firebase Key
+                  address: document.getElementById('address').value,
+                  date: document.getElementById('edit-date').value,
+                  merchantKey: merchantFirebaseKey // The new merchant Firebase Key
               };
 
               // Update in Firebase (example)
-              firebase.database().ref(`payments/${newPayKey}`).update(updatedPaymentData)
+              firebase.database().ref(`goldenwifi/transactions/${newPayKey}`).update(updatedPaymentData)
                   .then(() => {
                     
                  
                 Swal.fire({
                   title: "Success!",
-                  text: "New payment edited successfully!",
+                  text: "Transaction edited successfully!",
                   icon: "success",
                   timer: 3000, // Closes after 3 seconds
                   showConfirmButton: false
@@ -844,14 +876,15 @@ saveEditBtnAssign.addEventListener('click', (event) => {
               const newPayKey = newPayKeyPar;
              
               const updatedPaymentData = {
-                  amount: document.getElementById('edit-amountAssign').value,
-                  refNumber: document.getElementById('edit-ref-numberAssign').value,
-                  merchantP: document.getElementById('edit-merchantAssign').value, // Merchant Name */
+                  amountNew: document.getElementById('edit-amount').value,
+                //  refNumber: document.getElementById('edit-ref-numberAssign').value,
+                  clientName: document.getElementById('edit-clientName1').value, // Merchant Name */
+                  amountNew: document.getElementById('edit-amount').value,
                   merchantKey: merchantFirebaseKey, // The new merchant Firebase Key
               };
 
               // Update in Firebase (example)
-              firebase.database().ref(`payments/${newPayKey}`).update(updatedPaymentData)
+              firebase.database().ref(`goldenwifi/transactions/'${newPayKey}`).update(updatedPaymentData)
                   .then(() => {
                     
                     
@@ -865,7 +898,11 @@ saveEditBtnAssign.addEventListener('click', (event) => {
                       showConfirmButton: false
                     });
 
+                       console.log("amount");
+                    
                     editPaymentFormAssign.style.display = 'none'; 
+
+                   
                    
                      // window.location.reload();
                      
@@ -926,159 +963,6 @@ window.addEventListener("storage", function(event) {
 
 updateDisplay();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* const totalForTheDay = dateInput22.value; 
-const displaytodaytotal = document.getElementById('total-today');
-
-function dailypayments() {
-  database.ref('payments').once('value', (paymentsSnapshot) => {
-    const payments = [];
-    paymentsSnapshot.forEach((paymentSnapshot) => {
-        const payment = paymentSnapshot.val();
-        //Only add payments with status new
-        if (payment.date === totalForTheDay) { //This is the added line
-            payments.push(payment);
-        }
-    });
-     
-     const todatNumberPayments = {};
-      const todayTotal = {};
-  
-      payments.forEach((payment) => {
-          if (payment.date && payment.amount) { // Check if merchantP and amount exist
-          
-              const paymentdate= payment.date;
-              const amount = parseFloat(payment.amount); // Parse amount as float
-  
-             if (!todatNumberPayments[paymentdate]) {
-              todatNumberPayments[paymentdate] = 0;
-              
-            }
-            todatNumberPayments[paymentdate]++;
-  
-              if (!todayTotal[paymentdate]) {
-                todayTotal[paymentdate] = 0;
-                 
-  
-              }
-              todayTotal[paymentdate] += amount;
-           
-           }
-
-
-           const paymentdate = (payment.date);
-           const totalForTheDay = (todayTotal[paymentdate] || 0).toFixed(2);
-           const pilakaresibo = (todatNumberPayments[paymentdate] || 0);
-           const eight1 = (totalForTheDay * 0.08).toFixed(2);
-           const eightPoint1 = (totalForTheDay * 0.085).toFixed(2);
-           const eight = (eight1 - 500).toFixed(2);
-           const eightPoint = (eightPoint1 - 500).toFixed(2);
-          
-document.getElementById('total-today').value = totalForTheDay;
-document.getElementById('total-resibo').value = pilakaresibo;
-document.getElementById('eight').value = eight;
-
-
-
-          })
-         
-        })
-      
-      };
-      dailypayments();
-
-
-            const displaytodayTrade = document.getElementById('total-claimed');
-            const displayTotalResiboClaimed = document.getElementById('total-resiboClaimed');
-            const displayEight = document.getElementById('eight'); */
-          /*   const displayEightFive = document.getElementById('eightFive'); */
-            
-         /*  function calculateDailyTrades() {
-              
-              database.ref('payments').once('value', (paymentsSnapshot) => {
-                const payments = [];
-                paymentsSnapshot.forEach((paymentSnapshot) => {
-                  const payment = paymentSnapshot.val();
-                  if (payment.status === "claimed") {
-                    payments.push(payment);
-                  }
-                });
-            
-                const totalnoClaimed = {};
-                const todayTotalTrade = {};
-            
-                const today = dateInput22.value;  // new Date();
-         
-
-                payments.forEach((payment) => {
-                  if (payment.status && payment.amount && payment.date) {
-                    const paymentStatus = payment.status;
-                    const amount = parseFloat(payment.amount);
-                    const paymentDate = payment.date; // Assuming payment.date is a timestamp
-        
-                    // Check if the payment date is within today's range
-                    if (paymentDate == today ) {
-                      if (!totalnoClaimed[paymentStatus]) {
-                        totalnoClaimed[paymentStatus] = 0;
-                      }
-                      totalnoClaimed[paymentStatus]++;
-            
-                      if (!todayTotalTrade[paymentStatus]) {
-                        todayTotalTrade[paymentStatus] = 0;
-                      }
-                      todayTotalTrade[paymentStatus] += amount;
-            
-                      const paymentStatusClaimed = (payment.status);
-                      const totalForTheDayTrade = (todayTotalTrade[paymentStatusClaimed] || 0).toFixed(2);
-                      const pilakaresiboClaimed = (totalnoClaimed[paymentStatusClaimed] || 0);
-                      const eight = (totalForTheDayTrade * 0.08).toFixed(2);
-                      const eightPoint = (totalForTheDayTrade * 0.085).toFixed(2);
-                      const eight2 = (totalForTheDayTrade * 0.08).toFixed(2);
-            
-                      document.getElementById('eightC').value = eight;
-                  
-                      document.getElementById('total-claimed').value = totalForTheDayTrade;
-                      document.getElementById('total-resiboClaimed').value = pilakaresiboClaimed;
-                     
-                     
-                    }
-                    
-                  }
-                });
-              })
-            .catch(error => {
-                console.error("Error fetching data from Firebase:", error);
-                // Handle the error appropriately (e.g., display an error message to the user)
-              });
-            };
-            
-            calculateDailyTrades();
-
- */
 
 
 
