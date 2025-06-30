@@ -18,7 +18,7 @@ body {
  
   padding: 0;
   font-family: Arial, sans-serif;
-  background-color: #313030;
+  background-color: #cec8c8;
 }
 
 
@@ -29,12 +29,11 @@ body {
   margin-top: 0px;
   transition: margin-left 0.3s;
 
-  background-color: rgb(161, 156, 156);
+  background-color: rgb(212, 206, 206);
 /*  border-top: 100px;   */
 flex-grow: 1; /* Makes inner elements stretch */
 width: 100%; /* Ensures full width */
 
-grid-template-rows: auto 1fr auto; /* Example: Header, Main, Footer */
 
 
 }
@@ -1039,7 +1038,7 @@ label {
   gap: 5px; /* Space between items */
   background-color:  rgb(43, 41, 41);
  padding-top: 4px;
-  height: 30px;
+  height: 20px;
   margin-top: 0px;
  font-size: small;
  color: rgb(250, 244, 244); /* Changes text color inside the div */
@@ -1058,14 +1057,14 @@ label {
   flex-wrap: wrap;
   align-items: center;
   gap: 5px; /* Space between items */
-  background-color:  rgb(43, 41, 41);
+  background-color:  rgb(77, 74, 74);
  
-  height: 15%;
+  height: 5%;
   margin-top: 1px;
  font-size: small;
  color: rgb(250, 244, 244); /* Changes text color inside the div */
   margin-left: 0px;
- padding-left: 10px;
+ padding-left: 20px;
  
 }
 
