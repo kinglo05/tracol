@@ -194,7 +194,8 @@
            <ul>
             <li><a href="goldenADD.html">ADD NEW TRANSACTION</a></li>
            
-            <li><a href="report/report.html">Generate Report</a></li>
+            <li><a href="report/report.html">GENERATE REPORT</a></li>
+            <li><a href="addclient.html">ADD NEW CLIENT</a></li>
 
        </div>
        <div hidden>    <input type="date" name="date-today" id="date-today">     </div>
@@ -213,7 +214,6 @@
                <div>
                 <h3 style="color: rgb(247, 247, 252); margin-top: 5px; margin-bottom: 5px; margin-left: 10px;">
                  Golden Collections </h3>
-                
                  
                                         
                                         <div id="newPayments-title2">                               
@@ -243,20 +243,58 @@
                 <div class="modal-content" id="editnewpayment" autocomplete="off">
                  
                     <h3>Edit Payment NEW</h3> 
+
+                    <label for="edit-clientName1">Client Name:</label>
+                     <input type="text" id="edit-clientName1"><br>
+                      <ul id="suggestionsList"></ul>
+
                     <label for="edit-amount">Amount:</label>
                     <input type="number" id="edit-amount"><br>
-                   <label for="edit-ref-number">Reference Number:</label>
-                    <input type="number" id="edit-ref-number" placeholder="Input 4 digit" pattern="\d{4}" required>
-                    <ul id="suggestionsList"></ul>
-                    <label for="edit-status">Status:</label>
-                    <input type="text" id="edit-status"  readonly ><br>
+                    
+
+                     <label for="address">Client Address:</label>
+                <select id="address" autocomplete="off"  required><br>
+                <option value="">Select Address</option>
+                 <option value="Asuncion">Asuncion</option>
+                 <option value="Amparo">Amparo</option>
+                 <option value="Isagani">Isagani</option>
+                 <option value="Macrohon">Macrohon-Proper</option>
+                 <option value="Combado">Combado</option>
+                 <option value="Lib-og">Lib-og</option>
+                 <option value="Bato-1">Bato-1</option>
+                 <option value="Bato-2">Bato-2</option>
+                 <option value="Nati">Nati</option>
+                 <option value="Acasia">Acasia</option>
+                 <option value="Baugo">Baugo</option>
+                 <option value="Lunas">Lunas</option>
+                 <option value="Cansirong">Cansirong</option>
+                 <option value="Rizal-Maasin">Rizal-Maasin</option>
+                 <option value="Cambooc">Cambooc</option>
+                 <option value="Hantag">Hantag</option>
+                  
+                 </select> <br>
+
+                <label for="edit-date">Date of Payment:</label>
+                <input type="date" id="edit-date" ><br>
+                  
+
+                    <label for="edit-status">Remove or Include</label>
+                    <select id="edit-status" autocomplete="off" required><br>
+                 
+                      <option value="new">Included</option>
+                      <option value="claimed">Remove</option>
+                  
+                 </select> <br>
+
+
+
 
                     <button id="save-edit">Save</button>
                     <button id="cancel-edit">Close</button>
 
-                    <input type="text" id="edit-merchant" placeholder="Enter merchant name" hidden><br>
-                    <input type="text" id="edit-idPay"  hidden><br>
-                    <input type="text" id="edit-fireKey"  hidden><br>
+                   
+                    <input type="text" id="edit-idPay" hidden ><br>
+                    <input type="text" id="edit-fireKey" hidden ><br>
                 </div>
             </div>
 
@@ -266,7 +304,7 @@
                       <div id="edit-payment-formAssign" class="modal hidden">
                        <div class="modal-content" id="editnewpaymentAssign">
                 <div id="divassignTitle"  class="divassignTitle">     <h3>Assign Trader</h3>  </div>
-                <div id="divrefAssign" class="divrefAssign"> Reference :<input type="number" id="edit-ref-numberAssign" placeholder="Input 4 digit" pattern="\d{4}"  > </div>
+                <div id="divrefAssign" class="divrefAssign"> Reference :<!-- <input type="number" id="edit-ref-numberAssign" placeholder="Input 4 digit" pattern="\d{4}"  > --> </div>
                             <div id="divAmount" class="divAmount"> Amount :  <input type="number" id="edit-amountAssign" placeholder="Enter AMOUNT"></div>
                             <div id="divAmount" class="divAmount"> Time :  <input type="text" id="timeEdit" readonly ></div>
                      <div id="divNickName" class="divNickName" >  <label for="edit-merchantAssign">WHATSAPP Nickname</label>   </div>  
@@ -318,13 +356,15 @@
 <div class="modal-content" id="editnewpayment2" autocomplete="off">
 
 <h3>Edit Payment NEW</h3> 
+
+<input type="number" id="clientName"><br>
 <label for="edit-amount2">Amount:</label>
 <input type="number" id="edit-amount2"><br>
-<label for="edit-ref-number">Reference Number:</label>
-<input type="number" id="edit-ref-number2" placeholder="Input 4 digit" pattern="\d{4}" required>
-<ul id="suggestionsList"></ul>
-<label for="edit-status">Status:</label>
-<input type="text" id="edit-status"  readonly ><br>
+<!-- <label for="edit-ref-number">Reference Number:</label>
+<input type="number" id="edit-ref-number2" placeholder="Input 4 digit" pattern="\d{4}" required> -->
+<!-- <ul id="suggestionsList"></ul> -->
+<!-- <label for="edit-status">Status:</label>
+<input type="text" id="edit-status"  readonly ><br> -->
 
 <button id="save-edit2">Save</button>
 <button id="cancel-edit2">Close</button>
@@ -392,12 +432,12 @@
         }
     </script>
 
-<script>
+<!-- <script>
     setInterval(() => {
       const input = document.getElementById("edit-ref-numberAssign");
       input.style.borderColor = input.style.borderColor === "red" ? "transparent" : "red";
     }, 200);
-  </script>
+  </script> -->
 
 
 
