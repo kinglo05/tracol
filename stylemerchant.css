@@ -554,7 +554,6 @@ input:hover {
     cursor: pointer;
   }
 
-
 #editmerchant {
   width: 420px;
   background-color: #b0bcbe;
@@ -567,6 +566,17 @@ input:hover {
 }
 
 
+
+
+
+
+
+/*   #editmerchant{
+    width: 420px;
+    background-color: #b0bcbe;
+    border-radius: 12px; 
+    padding-left: 10px;  
+  } */
 
   #editmerchantName2{
     width: 250px;
