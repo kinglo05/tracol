@@ -555,14 +555,18 @@ input:hover {
   }
 
 
+#editmerchant {
+  width: 420px;
+  background-color: #b0bcbe;
+  border-radius: 12px;
+  padding: 10px; /* added padding for top, right, bottom as well */
+  height: auto; /* ensures height adapts to content */
+  max-height: 90vh; /* optional: prevents it from growing beyond screen */
+  overflow-y: auto; /* optional: adds scroll if content overflows */
+  box-sizing: border-box; /* ensures padding is included in width */
+}
 
 
-  #editmerchant{
-    width: 420px;
-    background-color: #b0bcbe;
-    border-radius: 12px; 
-    padding-left: 10px;  
-  }
 
   #editmerchantName2{
     width: 250px;
