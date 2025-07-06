@@ -47,6 +47,33 @@
   </div>
 
   <script>
+
+<script>
+  const video2 = document.getElementById('video');
+
+  // Request rear camera
+  navigator.mediaDevices.getUserMedia({
+    video: { facingMode: { exact: "environment" } },
+    audio: false
+  })
+  .then((stream) => {
+    video.srcObject = stream;
+  })
+  .catch((err) => {
+    console.error("Error accessing back camera:", err);
+    alert("Could not access back camera. Using default camera instead.");
+
+    // Fallback to any camera
+    navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+      .then((fallbackStream) => {
+        video2.srcObject = fallbackStream;
+      });
+  });
+</script>
+
+
+
+    
     // Start camera stream
     const video = document.getElementById('video');
     navigator.mediaDevices.getUserMedia({ video: true })
