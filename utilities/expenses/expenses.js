@@ -89,6 +89,7 @@ const editUser = document.getElementById('edit-user');
 const merchantInputPay = document.getElementById("merchant-pay");
 const submitNewPayment = document.getElementById("submit-payment");
 const alertBox = document.getElementById("customAlert");
+const purpose = document.getElementById("purpose");
 
 
   
@@ -169,6 +170,7 @@ function savePayment2(inputDate, amount) {  // Correctly placed *inside* the cal
       date: inputDate,
       paymentType: paymentType.value,
       user: userInput.value,
+      purpose: purpose.value,
       status: 'new',
 
  
