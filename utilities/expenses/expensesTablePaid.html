@@ -117,26 +117,6 @@
 </head>
 <body>
 
-  
-
-  <!--   <div class="sidebar" id="sidebar" >
-           <div class="sidebar-logo">
-        </div>
-        <div class="sidebar-body" id="sidebar-body">
-           <ul>
-            <li><a href="home.html">ADD NEW PAYMENT</a></li>
-            <li><a href="newpayments.html">NEW-PAYMENTS</a></li>
-            <li><a href="claimed.html">CLAIMED-PAYMENTS</a></li>
-            <li><a href="merchant.html">MERCHANTS</a></li>
-            <li><a href="utilities.html">UTILITIES</a></li>
-            </ul>
-
-       </div>
-       <div hidden>    <input type="date" name="date-today" id="date-today">     </div>
-        <div class="logout-container">
-            <button id="logoutButton">Logout</button>
-        </div>
-    </div> -->
 
     <div  hidden  id="usernameHolder">  <h5 id="usernameDisplay" style="color: whitesmoke; margin-top: 1px; margin-bottom: 1px; margin-left: 10px;">Loading...</h5>  </div>
 
@@ -147,8 +127,8 @@
        
     
                                 <div>
-                                       <h3 style="color: rgb(255, 255, 255); margin-top: 5px; margin-bottom: 5px; margin-left: 10px;">
-                                        Expenses PAID </h3>
+                                       <h3 style="color: rgb(187, 13, 13); margin-top: 5px; margin-bottom: 5px; margin-left: 10px;">
+              Expenses PAID        >>>   <a href="../utilities.html"> ......</a>  </a> </h3>
                                          <!-- <input type="text" id="monthInput" readonly -->
                                 <div id="newPayments-title">
              
@@ -156,14 +136,8 @@
                              <h5 style="color: rgb(236, 228, 228); margin-top: 5px; margin-bottom: 5px; margin-left: 1px;">
                                     Search Paid </h5>
                 
-                               <input type="text" id="payment-search" placeholder="Search payed" autocomplete="off"> 
+                               <input type="text" id="payment-search" placeholder="Search expenses" autocomplete="off"> 
                               </div>
-
-
-
-
-
-
 
             <div id="edit-payment-form" class="modal hidden" >
                 <div class="modal-content" id="editnewpayment" autocomplete="off">
@@ -172,33 +146,27 @@
                 
                         <label  for="edit-payment-type">Expenses Name:</label>
                         <select id="edit-payment-type"></br>
-                        <option value="buy-gcash">Buy Gcash</option> 
-                        <option value="ashlee-salary">Ashlee-salary</option>
-                        <option value="zen-salary">Zen Salary</option>
+                        <option value="buy-gcash">Buy Gcash</option>
                         <option value="buy-load">Buy Load</option>
                         <option value="others">Others</option>    
                         </select> <br>
-                   
                         <label for="edit-amount">Amount:</label>
                         <input type="number" id="edit-amount"><br>
                    
                     <label for="edit-date">Date:</label>
                     <input type="date" id="edit-date">
                     <label for="edit-user">User:</label>
-                    <select type="text" id="edit-user" > 
+                    <select type="text" id="edit-user" >  
                         <option value="lo">lo</option>
-                        <option value="zen">zen</option>
-                        
-                        
                        </select> <br>
                                        
                    
                     <ul id="suggestionsList"></ul>
                     <label for="edit-status">Status:</label>
                     <select type="text" id="edit-status" >
-                    <option value="old">Old</option>
                     <option value="new">New</option>
                     <option value="paid">Paid</option>
+                     <option value="hide">Hide</option>
                        </select> <br>
 
                     <button id="save-edit">Save</button>
@@ -224,7 +192,7 @@
                         <th>Amount</th>
                         <th>Date</th>
                         <th>Expenses</th>
-                        <th>User</th>
+                        <th>Purpose</th>
                         <th>Status</th>
                        <th> Pay <input type="checkbox" id="payment-sana-all" hidden> </th> 
                         <th>Edit</th>
@@ -246,14 +214,10 @@
                       <div id="data1" >
                         <label for="total-today">Today :</label>
                         <input type="text" id="total-today" readonly> 
-                           <label for="total-resibo">No. of Reciept :</label>
+                           <label for="total-resibo">No. of Reciept Paid :</label>
                           <input type="text" id="total-resibo" readonly>
+                         
                               </div>
-
-
-
-
-
                       <div id="data">
                         <input type="text" id="eight"> |
                          <input type="text" id="eightFive"> |
@@ -263,119 +227,19 @@
                                <input type="text" id="eightFiveC">
                                
                </div>
-
-
-                        
+                          
+                   
                                <button id="checkboxClaimed" type="submit" hidden></button>  
                             </div>
-
-
-
                         <div id="edit-payment-form" class="modal hidden" >
                 <div class="modal-content" id="editnewpayment" autocomplete="off">
                  
-                    <h3>Edit Expenses Paid</h3> 
-
-                   
-                   
-                
-                        <label  for="edit-payment-type">Expenses Name:</label>
-                        <select id="edit-payment-type"></br>
-                        <option value="buy-gcash">Buy Gcash</option>
-                        <option value="ashlee-salary">Ashlee-salary</option>
-                        <option value="zen-salary">Zen Salary</option>
-                        <option value="buy-load">Buy Load</option>
-                        <option value="others">Others</option>    
-                        </select> <br>
-                   
-                        <label for="edit-amount">Amount:</label>
-                        <input type="number" id="edit-amount"><br>
-                   
-                    <label for="edit-date">Date:</label>
-                    <input type="date" id="edit-date"><br>
-                    <label for="edit-user">User:</label>
-                    <select type="text" id="edit-user" > 
-                        <option value="lo">lo</option>
-                        
-                       </select> <br>
-                                       
-                   
-                    <ul id="suggestionsList"></ul>
-                    <label for="edit-status">Status:</label>
-                    <select type="text" id="edit-status" >
-                         <option value="old">Old</option>
-                    <option value="new">New</option>
-                    <option value="paid">Paid</option>
-                       </select> <br>
-
-                    <button id="save-edit">Save</button>
-                    <button id="cancel-edit">Close</button>
-
-                    <input type="text" id="edit-merchant" placeholder="Enter merchant name" hidden><br>
-                   
-                    <input type="text" id="edit-fireKey" hidden ><br>
-                </div>
             </div>
-
-
-
-
-         
-
-             <!-- ////////////////////////  for lower table Paid////////////////////////////    -->
-            <!-- ////////////////////////  for lower table Paid////////////////////////////    -->
-            <!-- ////////////////////////  for lower table Paid////////////////////////////    -->
 
              <div  id="lower-table" class="modal hidden">
-      
-
              <div id="edit-payment-formPaid" class="modal hidden" >
-                <div class="modal-content" id="editnewpaymentPaid" autocomplete="off">
-                 
-                    <h3>Edit Expenses Paid</h3> 
-                
-                        <label  for="edit-payment-typePaid">Expenses Name:</label>
-                        <select id="edit-payment-typePaid">
-                        <option value="buy-gcash">Buy Gcash</option>
-                             <option value="ashlee-salary">Ashlee Salary</option>
-                        <option value="zen-salary">Zen Salary</option>
-                        <option value="buy-load">Buy Load</option>
-                        <option value="others">Others</option>    
-                        </select> <br>
-                   
-                        <label for="edit-amountPaid">Amount:</label>
-                        <input type="number" id="edit-amountPaid"><br>
-                   
-                    <label for="edit-datePaid">Date:</label>
-                    <input type="date" id="edit-datePaid"><br>
-                    <label for="edit-userPaid">User:</label>
-                    <select type="text" id="edit-userPaid" >  
-                        <option value="lo">lo</option>
-                        
-                       </select> <br>
-                                       
-                   
-                    <ul id="suggestionsList"></ul>
-                    <label for="edit-statusPaid">Status:</label>
-                    <select type="text" id="edit-statusPaid" >
-                    <option value="old">Old</option>
-                    <option value="new">New</option>
-                    <option value="paid">Paid</option>
-                       </select> <br>
-
-                    <button id="save-editPaid">Save</button>
-                    <button id="cancel-editPaid">Close</button>
-
-                    <input type="text" id="edit-merchantPaid" placeholder="Enter merchant namePaid" hidden><br>
-                   
-                    <input type="text" id="edit-fireKeyPaid" hidden ><br>
-                </div>
+              
             </div>
-
-
-
-
-
                <div class="table-containerPaid"> 
                    <table id="payments-tablePaid">
                      <ul id="itemList"></ul>
@@ -408,7 +272,7 @@
                       <div id="data1PaidPaid" >
                         <label for="total-todayPaidPaid">Today :</label>
                         <input type="text" id="total-todayPaidPaid" readonly> 
-                           <label for="total-resiboPaid">No. of Reciept :</label>
+                           <label for="total-resiboPaid">No. of Reciept  :</label>
                           <input type="text" id="total-resiboPaid" readonly>
                               </div>
 
@@ -422,79 +286,21 @@
                           <input type="text" id="total-claimedPaid" readonly>|
                             <input type="text" id="total-resiboClaimedPaid" readonly>|
                             <input type="text" id="eightCPaid"> |
-                               <input type="text" id="eightFiveCPaid">
+                               <input type="text" id="eightFiveCPaid"> | 
+                              
+
                                
                </div>
-
-
-                        
+                 
                                <button id="checkboxClaimedPaid" type="submit" hidden></button>  
                             </div>
-
-
-
                         <div id="edit-payment-formPaid" class="modal hidden" >
                 <div class="modal-content" id="editnewpaymentPaid" autocomplete="off">
                  
                     <h3>Edit Expenses Paid</h3> 
-
-                   
-                   
-                
-                        <label  for="edit-payment-typePaid">Expenses Name:</label>
-                        <select id="edit-payment-typePaid"></br>
-                        <option value="buy-gcash">Buy Gcash</option>
-                        <option value="ashlee-salary">Ashlee Salary</option>
-                        <option value="zen-salary">Zen Salary</option>
-                        <option value="buy-load">Buy Load</option>
-                        <option value="others">Others</option>    
-                        </select> <br>
-                   
-                        <label for="edit-amountPaid">Amount:</label>
-                        <input type="number" id="edit-amountPaid"><br>
-                   
-                    <label for="edit-date">Date:</label>
-                    <input type="date" id="edit-date"><br>
-                    <label for="edit-user">User:</label>
-                    <select type="text" id="edit-user" >  
-                        <option value="lo">lo</option>
-                        
-                       </select> <br>
-                                       
-                   
-                    <ul id="suggestionsList"></ul>
-                    <label for="edit-statusPaid">Status:</label>
-                    <select type="text" id="edit-statusPaid" >
-                    <option value="old">Old</option>
-                    <option value="new">New</option>
-                    <option value="paid">Paid</option>
-                       </select> <br>
-
-                    <button id="save-editPaid">Save</button>
-                    <button id="cancel-editPaid">Close</button>
-
-                    <input type="text" id="edit-merchantPaid" placeholder="Enter merchant name" hidden><br>
-                   
-                    <input type="text" id="edit-fireKeyPaid" hidden ><br>
-                </div>
-            </div>
-
-
-
+    
         </div>
 
-
-
-
-
-
-
-
-
-
-
-
-     
      </div>
 
    
