@@ -239,7 +239,7 @@ data.forEach((payment, rowIndex) => {
   paymentTypeCell.textContent = payment.paymentType;
 
   const userCell = row.insertCell();
-  userCell.textContent = payment.user;
+  userCell.textContent = payment.purpose;
 
   ////merchant here old /////
   
@@ -335,6 +335,8 @@ if (paymentsTableNew) {
 
             if (totalAmountSpanNew22) { // Check if the total amount span exists
                 totalAmountSpanNew22.textContent = totalNew.toFixed(2);
+                localStorage.setItem("expensesUnpaid" ,  totalNew);
+               
               
             } else {
                 console.error("Total amount span element not found!");
@@ -541,7 +543,7 @@ editPaymentForm.style.display = 'none';
 const totalForTheDay = dateInput22.value; 
 const displaytodaytotal = document.getElementById('total-today');
 
-/* function dailypayments() {
+function dailypayments() {
   database.ref('expenses').once('value', (paymentsSnapshot) => {
     const payments = [];
     paymentsSnapshot.forEach((paymentSnapshot) => {
@@ -556,10 +558,10 @@ const displaytodaytotal = document.getElementById('total-today');
       const todayTotal = {};
   
       payments.forEach((payment) => {
-          if (payment.date && payment.amount) { // Check if merchantP and amount exist
+        if (payment.date && payment.amount) { // Check if merchantP and amount exist
           
-              const paymentdate= payment.date;
-              const amount = parseFloat(payment.amount); // Parse amount as float
+          const paymentdate= payment.date;
+          const amount = parseFloat(payment.amount); // Parse amount as float
   
              if (!todatNumberPayments[paymentdate]) {
               todatNumberPayments[paymentdate] = 0;
@@ -591,8 +593,8 @@ document.getElementById('eight').value = eight;
 document.getElementById('eightFive').value = eightPoint;
           })
         })
-      }; */
-   //   dailypayments();
+      }; 
+      dailypayments();
 
 
 
@@ -670,10 +672,7 @@ document.getElementById('eightFive').value = eightPoint;
 
 
 
-
-
-
-
+  
 
 
 
