@@ -172,13 +172,25 @@ let paymentsData = []; // Store the fetched payment data
 database.ref('expenses').on('value', (snapshot) => {
   tableData.length = 0; // Clear existing data
   paymentsData = [];
+  const currentDate = new Date();
+  const currentMonth = currentDate.getMonth() + 1; // JavaScript months are 0-based, so add 1
+  const currentYear = currentDate.getFullYear();
 
   snapshot.forEach((childSnapshot) => {
     const payment = childSnapshot.val();
     const firebaseKey = childSnapshot.key; // Get the Firebase key
+    const paymentDate = new Date(payment.date); // Ensure payment.date is in a valid format
+    const paymentMonth = paymentDate.getMonth() + 1;
+    const paymentYear = paymentDate.getFullYear();
 
     // Filter for payments with status 'new'
-    if (payment.status === 'paid') {
+    if (
+      payment.status === 'paid' &&
+      paymentMonth === currentMonth &&
+      paymentYear ===  currentYear 
+    
+    
+    ) {
       paymentsData.push({ id: firebaseKey, ...payment });
 
       const rowData = {
@@ -229,7 +241,7 @@ data.forEach((payment, rowIndex) => {
   paymentTypeCell.textContent = payment.paymentType;
 
   const userCell = row.insertCell();
-  userCell.textContent = payment.user;
+  userCell.textContent = payment.purpose;
 
   ////merchant here old /////
   
@@ -326,6 +338,9 @@ if (paymentsTableNew) {
 
             if (totalAmountSpanNew22) { // Check if the total amount span exists
                 totalAmountSpanNew22.textContent = totalNew.toFixed(2);
+                localStorage.setItem("expensesPaid" ,   totalNew);
+
+                
               
             } else {
                 console.error("Total amount span element not found!");
@@ -599,79 +614,58 @@ document.getElementById('eightFive').value = eightPoint;
 
 
 
-            const displaytodayTrade = document.getElementById('total-claimed');
-            const displayTotalResiboClaimed = document.getElementById('total-resiboPaid');
-            const displayEight = document.getElementById('eight');
-            const displayEightFive = document.getElementById('eightFive');
-            
-          function calculateDailyTrades() {
-              
-              database.ref('expenses').once('value', (paymentsSnapshot) => {
-                const payments = [];
-                paymentsSnapshot.forEach((paymentSnapshot) => {
-                  const payment = paymentSnapshot.val();
-                  if (payment.status === "claimed") {
-                    payments.push(payment);
-                  }
-                });
-            
-                const totalnoClaimed = {};
-                const todayTotalTrade = {};
-            
-                const today = dateInput22.value;  // new Date();
-         
+function FinalLohwaExpenses() {
+database.ref('expenses').on('value', (childSnapshot) => {
+ // tableData.length = 0; // Clear existing data
+ let kini = 0;
+ const currentDate = new Date();
+  const currentMonth = currentDate.getMonth() + 1; // JavaScript months are 0-based, so add 1
+  const currentYear = currentDate.getFullYear();
+  //console.log("TOP oF The Function");
 
-                payments.forEach((payment) => {
-                  if (payment.status && payment.amount && payment.date) {
-                    const paymentStatus = payment.status;
-                    const amount = parseFloat(payment.amount);
-                    const paymentDate = payment.date; // Assuming payment.date is a timestamp
-        
-                    // Check if the payment date is within today's range
-                    if (paymentDate == today ) {
-                      if (!totalnoClaimed[paymentStatus]) {
-                        totalnoClaimed[paymentStatus] = 0;
-                      }
-                      totalnoClaimed[paymentStatus]++;
-            
-                      if (!todayTotalTrade[paymentStatus]) {
-                        todayTotalTrade[paymentStatus] = 0;
-                      }
-                      todayTotalTrade[paymentStatus] += amount;
-            
-                      const paymentStatusClaimed = (payment.status);
-                      const totalForTheDayTrade = (todayTotalTrade[paymentStatusClaimed] || 0).toFixed(2);
-                      const pilakaresiboClaimed = (totalnoClaimed[paymentStatusClaimed] || 0);
-                      const eight = (totalForTheDayTrade * 0.08).toFixed(2);
-                      const eightPoint = (totalForTheDayTrade * 0.085).toFixed(2);
-                      const eight2 = (totalForTheDayTrade * 0.08).toFixed(2);
-            
-                      document.getElementById('eightC').value = eight;
-                      document.getElementById('eightFiveC').value = eightPoint;
-                      document.getElementById('total-claimed').value = totalForTheDayTrade;
-                      document.getElementById('total-resiboClaimed').value = pilakaresiboClaimed;
-
-                     
-                    }
-                    
-                  }
-                });
-              })
-            .catch(error => {
-                console.error("Error fetching data from Firebase:", error);
-                // Handle the error appropriately (e.g., display an error message to the user)
-              });
-            };
-            
-            calculateDailyTrades();
+  childSnapshot.forEach((childSnapshot) => {
+   
+    const expens = childSnapshot.val(); // Get the payment data
 
 
+    const paymentDate = new Date(expens.date); // Ensure payment.date is in a valid format
+    const paymentMonth = paymentDate.getMonth() + 1;
+    const paymentYear = paymentDate.getFullYear();
+    const expenses = [];
+
+    if (
+      expens.paymentType === "lohwa" &&
+      expens.status === "paid" &&
+      paymentMonth === currentMonth &&
+     paymentYear ===  currentYear
+
+    ) {
+
+      const todayLoEx = {};
+       const nameKo = (expens.paymentType);
+       const amountLo = parseFloat(expens.amount) || 0;
+      
+      todayLoEx[nameKo] = 0;
+      todayLoEx[nameKo] += amountLo; 
+      
+      if (!todayLoEx[nameKo]) {
+        todayLoEx[nameKo] = 0;
+      }
+      todayLoEx[nameKo] += amountLo;
+      kini += amountLo;
+
+    }
+
+  });
 
 
+    localStorage.setItem("lohwaExpenses" , kini);
+     // console.log("sud sa foreach nihdfdfdfdf", kini);
 
+  }
+)};
+ 
 
-
-
-
+FinalLohwaExpenses();
 
 
