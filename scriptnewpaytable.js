@@ -1035,7 +1035,7 @@ function dailypayments() {
           
 document.getElementById('total-today').value = totalForTheDay;
 document.getElementById('total-resibo').value = pilakaresibo;
-document.getElementById('eight').value = eight;
+document.getElementById('eight').value = eight1;
 /* document.getElementById('eightFive').value = eightPoint; */
 
 //localStorage.setItem("todayNew" ,  totalForTheDay);
