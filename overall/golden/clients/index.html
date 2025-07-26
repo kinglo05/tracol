@@ -11,6 +11,57 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
+
+
+
+.login-container {
+  position: relative;
+  width: 300px;
+  padding: 40px 20px 20px 20px;
+  margin: auto;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo-wrapper {
+  position: absolute;
+  top: 20px;
+  left: 30px;
+}
+
+.logo {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         * {
             margin: 0;
             padding: 0;
@@ -80,7 +131,7 @@
     </style>
 </head>
 <body>
-    <div class="login-container">
+<!--     <div class="login-container">
         <h2>Admin Login</h2>
         <form id="loginForm">
             <input type="email" id="email" placeholder="Email" required>
@@ -88,7 +139,31 @@
             <button type="submit">Login</button>
         </form>
         <p id="message"></p>
-    </div>
+    </div> -->
+
+
+<div class="login-container">
+  <div class="logo-wrapper">
+    <img src="logo.png" alt="Logo" class="logo">
+  </div>
+
+  <h2>Admin Login</h2>
+  <form id="loginForm">
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button type="submit">Login</button>
+  </form>
+  <p id="message"></p>
+</div>
+
+
+
+
+
+
+
+
+
 
     <script>
         // Firebase configuration
