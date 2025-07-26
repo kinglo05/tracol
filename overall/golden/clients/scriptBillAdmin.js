@@ -380,6 +380,22 @@ EditSubmit.addEventListener('click', () => {
 
 
 
+// <button id="toggleBtn" onclick="toggleTableModal1()">📊<br><small>Show Clients</small></button>
+
+
+function toggleDivs(button) {
+  const ids = ["approvalNameDiv", "create-bill-div", "unpaid-month-div", "unpaidTotalResult", "unpaid-year-summary"];
+  const isAnyVisible = ids.some(id => document.getElementById(id).style.display === "block");
+
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    el.style.display = isAnyVisible ? "none" : "block";
+  });
+
+  button.innerHTML = isAnyVisible ? "SHOW MORE OPTIONS" : "HIDE OPTIONS";
+}
+
+
 
 
 
@@ -403,8 +419,6 @@ function toggleTableModal1() {
 
 loadSavedPayments();
 //loadClientTable();
-
-
 
   }
 }
@@ -1392,27 +1406,6 @@ function closeModal() {
 function closeTableModal1() {
   document.getElementById("tableModal1").style.display = "none";
 } */
-
-
-
-function toggleDivs() {
-    const ids = ["approvalNameDiv","create-bill-div", "unpaid-month-div", "unpaidTotalResult", "unpaid-year-summary"];
-    
-    ids.forEach(id => {
-      const el = document.getElementById(id);
-      el.style.display = el.style.display === "none" ? "block" : "none";
-    });
-  }
-
-
-
-
-
-
-
-
-
-
 
 
 
