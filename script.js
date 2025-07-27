@@ -176,7 +176,8 @@ submitNewPayment.addEventListener('click', () => {
   // Check if refNumber has exactly 4 digits
   if (refNumber.length !== 5 || isNaN(refNumber)) {
       alert("Reference Number must be exactly 5 digits and contain only numbers.");
-      refNumberInput.focus();
+     refNumberInput.value = ""; // Optionally clear the input field
+     // refNumberInput.focus();
       return; // Stop further execution
   }
 
@@ -194,37 +195,18 @@ submitNewPayment.addEventListener('click', () => {
 
           if (duplicate) {
               alert("A payment with this Reference Number and Amount already exists.");
-              refNumberInput.focus();
+             refNumberInput.value = ""; // Optionally clear the input field
+           //   refNumberInput.focus();
               return; // Prevent saving if duplicate
           } else {
 
-            /*  Swal.fire({
-              title: "Success!",
-              text: "New payment edited successfully!",
-              icon: "success",
-              timer: 3000, // Closes after 3 seconds
-              showConfirmButton: false
-            }); */
-          
-
               savePayment2(refNumber, amount); // Save only if refNumber exists but amount is different
-             
-        
+  
           }
       } else {
- 
-        /* Swal.fire({
-          title: "Success!",
-          text: "New payment edited successfully!",
-          icon: "success",
-          timer: 3000, // Closes after 3 seconds
-          showConfirmButton: false
-        }); 
- */
 
           savePayment2(refNumber, amount); // Save if refNumber doesn't exist
-         
-       
+          
       }
   });
 });
