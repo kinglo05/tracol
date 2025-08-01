@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Golden-Transsactions</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styleGoldenNEW.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            height: 550px;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 40px;
+            cursor: pointer;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        #newPayments-title {
+            background-color: #2e2929;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding-left: 8px;
+            border-color: #b4a5a5;
+            height: 50px;
+        }
+
+        #newPayments-title2 {
+            background-color: #222;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding-left: 8px;
+            border-color: #8a8484;
+            height: 50px;
+            font-size: xx-small;
+        }
+
+        .menu-bar {
+            width: 100%;
+            height: 50px;
+            background-color: #3a3939;
+            color: white;
+            display: flex;
+            align-items: center;
+            border-radius: 10px;
+        }
+
+        .menu-bar button {
+            background-color: #158a80;
+            color: white;
+            border-color: rgb(206, 199, 199);
+            padding: 10px 15px;
+            cursor: pointer;
+            margin-left: 10px;
+            height: 35px;
+            font-size: smaller;
+        }
+
+        .menu-bar button:hover {
+            background-color: #b80710;
+        }
+
+        .menu-items {
+            display: flex;
+            gap: 15px;
+        }
+
+        #usernameHolder {
+            margin-left: 2px;
+            height: 5px;
+            margin-top: 1px;
+        }
+
+        .main-content {
+            height: 100vh;
+            min-height: 600px;
+            margin-left: 8px;
+            margin-top: 0px;
+            transition: margin-left 0.3s;
+            width: 100%;
+            background-color: rgb(180, 172, 172);
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+        <img src="logo.png" alt="Tracollect Logo">
+    </div>
+    <div class="sidebar-body" id="sidebar-body">
+        <ul>
+            <li><a href="home.html">ADD NEW PAYMENT</a></li>
+            <li><a href="newpayments.html">NEW-PAYMENTS</a></li>
+            <li><a href="claimed.html">CLAIMED-PAYMENTS</a></li>
+            <li><a href="merchant.html">MERCHANTS</a></li>
+            <li><a href="utilities.html">UTILITIES</a></li>
+        </ul>
+    </div>
+    <div hidden><input type="date" name="date-today" id="date-today"></div>
+    <div class="logout-container">
+        <button id="logoutButton">Logout</button>
+    </div>
+</div>
+
+<div class="main-content" id="mainContent">
+    <div class="menu-bar">
+        <button id="menubutton" onclick="toggleSidebar()"> &#9776; Menu</button>
+        <div id="usernameHolder"><h5 id="usernameDisplay" style="color: whitesmoke; margin-left: 10px;">Loading...</h5></div>
+    </div>
+
+    <div>
+        <h3 style="color: rgb(247, 247, 252); margin-left: 10px;">Golden Collections</h3>
+        <h5 style="color: rgb(47, 4, 240); margin: 5px 2px;">
+            <a href="home.html">Add New Collection</a>
+        </h5>
+
+        <div id="newPayments-title2">
+            <label for="startDate" style="margin-right: 1px; width: 8%;">Start Date:</label>
+            <input type="date" id="startDate">
+            <label for="endDate" style="margin-left: 10px; width: 8%;">End Date:</label>
+            <input type="date" id="endDate">
+            <button id="filter" onclick="filterPayments(),filterPayments2()">Filter</button>
+        </div>
+
+        <div id="newPayments-title">
+            <h5 style="color: rgb(236, 228, 228); margin: 5px 1px;">Search here</h5>
+            <input type="text" id="payment-search" placeholder="Search new payments" autocomplete="off">
+        </div>
+
+        <!-- TABLE 1 -->
+        <div class="table-container2">
+            <table id="payments-table">
+                <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Status</th>
+                    <th>Active</th>
+                    <th>Edit</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="2" style="text-align: right;"><b>Total :</b></td>
+                    <td id="table-total">0.00</td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- TABLE 2 -->
+        <div><h3>Golden Expenses</h3></div>
+        <div class="table-container">
+            <table id="payments-table2">
+                <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Active</th>
+                    <th>Edit</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="2" style="text-align: right;"><b>Total :</b></td>
+                    <td id="table-total2">0.00</td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- TOTALS -->
+        <div id="data">
+            <h3>
+                <p>Total Collection: <span id="totalCollected">0</span></p>
+                <p>Total Expenses: <span id="totalExpens">0</span></p>
+                <p>Nabilin/Kulang: <span id="finalNabilin">0</span></p>
+            </h3>
+        </div>
+
+        <!-- ✅ REPORT BUTTON -->
+        <button onclick="generateReport()" style="margin: 10px; padding: 10px; background-color: #007bff; color: white; border-radius: 5px; border: none;">
+            Generate Report
+        </button>
+
+    </div>
+</div>
+
+<!-- SCRIPTS -->
+
+
+
+<script>
+    function toggleSidebar() {
+        var sidebar = document.getElementById("sidebar");
+        var mainContent = document.getElementById("mainContent");
+        if (sidebar.style.left === "-250px" || sidebar.style.left === "") {
+            sidebar.style.left = "0";
+            mainContent.style.marginLeft = "250px";
+        } else {
+            sidebar.style.left = "-250px";
+            mainContent.style.marginLeft = "0";
+        }
+    }
+
+    
+
+    function generateReport() {
+    const table1 = document.getElementById("payments-table").outerHTML;
+    const table2 = document.getElementById("payments-table2").outerHTML;
+
+    const totalCollected = document.getElementById("totalCollected").innerText;
+    const totalExpenses = document.getElementById("totalExpens").innerText;
+    const finalNabilin = document.getElementById("finalNabilin").innerText;
+
+    const reportWindow = window.open("", "_blank", "width=800,height=1000");
+
+    const htmlContent = `
+        <html>
+        <head>
+            <title>Golden Transactions Report</title>
+            <style>
+                body { font-family: Arial, sans-serif; padding: 20px; }
+                h2 { color: #2e2929; }
+                table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+                th, td { border: 1px solid #333; padding: 8px; text-align: left; font-size: 14px; }
+                th { background-color: #f0f0f0; }
+                .totals { margin-top: 20px; }
+                .totals p { font-size: 16px; margin: 5px 0; }
+            </style>
+        </head>
+        <body>
+            <h2>Golden Transactions Report</h2>
+            <h3>Collections</h3>
+            ${table1}
+            <h3>Expenses</h3>
+            ${table2}
+            <div class="totals">
+                <p><strong>Total Collection:</strong> ${totalCollected}</p>
+                <p><strong>Total Expenses:</strong> ${totalExpenses}</p>
+                <p><strong>Nabilin/Kulang:</strong> ${finalNabilin}</p>
+            </div>
+        </body>
+        </html>
+    `;
+
+    reportWindow.document.open();
+    reportWindow.document.write(htmlContent);
+    reportWindow.document.close();
+
+    // Wait until content loads, then print
+    reportWindow.onload = function () {
+        reportWindow.print();
+        reportWindow.onafterprint = function () {
+            reportWindow.close();
+        };
+    };
+}
+
+
+</script>
+
+<script> src="scriptGoldenNEW.js"</script>
+<script> src="scriptGoldenNEW22.js"</script>
+
+
+</body>
+</html>

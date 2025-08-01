@@ -1,0 +1,204 @@
+
+   #backDiv {
+           
+           
+           background-color:#b96505;
+           color: white;
+           display: fix;
+           align-items: center;
+           padding-left: 8px;
+           border-color: #3b3838;
+           height: 30px;  
+          flex-wrap: wrap;
+           border-width: 2px;    
+       }
+
+
+  #backBTN {
+    background-color: #c89b13;
+    color: white;
+   
+   
+    cursor: pointer;
+    margin-left: 5px;
+    margin-top: 1px;
+    height: 28px;
+    width: 80px;
+    font-size: smaller;
+   
+}
+
+#backBTN:hover {
+    background-color: #0ab3f7;
+}
+
+
+
+
+
+
+
+
+.babaw {
+ width: 300px;
+ height: 100px;
+ margin-top: 10px;
+ padding-left: 20px;
+}
+
+
+
+.highlight-unpaid {
+  background-color: #ffe6e6;
+  color: #b30000;
+  font-weight: bold;
+}
+
+.status-label {
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: #ffd6d6;
+  color: #b30000;
+  font-weight: bold;
+}
+
+
+
+
+
+
+button {
+  background-color: rgba(8, 240, 8, 0.6); /* Slightly transparent red */
+  color: black;
+  padding: 6px 6px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: sans-serif;
+  width: 50px;
+
+  /* 🔄 Smooth transitions for both opacity and background */
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+
+ 
+}
+
+button:hover {
+  background-color: rgb(238, 22, 7); /* Fully opaque background */
+  opacity: 1; /* Full visibility */
+}
+
+
+
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="date"],
+input[type="time"],
+
+select {
+    padding: 4px;
+    margin-bottom: 2px;
+    border: 1px solid #8a8484;
+    height: 15px;
+    width: 90px;
+    border-radius: 8px;   
+    background-color: #08eec8;
+    font-size: x-small;
+}
+
+input:hover {
+  background-color: #0baaf3; /* A slightly darker gray on hover */
+}
+
+#filter {
+ width: 100px;
+ margin-top: 5px;
+}
+
+
+
+#pdfBtn {
+ width: 100px;
+ margin-top: 5px;
+ padding-left: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+#editmerchant {
+  width: 420px;
+  background-color: #b0bcbe;
+  border-radius: 12px;
+  padding: 10px; /* added padding for top, right, bottom as well */
+  height: auto; /* ensures height adapts to content */
+  max-height: 90vh; /* optional: prevents it from growing beyond screen */
+  overflow-y: auto; /* optional: adds scroll if content overflows */
+  box-sizing: border-box; /* ensures padding is included in width */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+label {
+  margin-right: 5px; /* Space between label and input */
+}
+
+#total-today {
+  margin-top: 1px;
+  margin-right: 10px; /* If you want space after the input too */
+  background-color: #08eec8; /* Light gray */
+  width: 7%; /* Table takes full width of its container */
+  border-radius: 8px; /* Adjust the radius value for desired curvature */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.collectorName {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* space between button and checkbox */
+  margin-bottom: 2px;
+  margin-left: 15px;
+  flex-wrap: wrap; /* allows wrap on small screens */
+}
+
+
+
+

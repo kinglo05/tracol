@@ -1,0 +1,1590 @@
+/* Responsive Adjustments */
+@media screen and (max-width: 768px) {
+  .sidebar {
+      width: 40%; /* Increase width for smaller screens */
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .sidebar {
+      width: 60%; /* Even wider on very small screens */
+  }
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+ 
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #313030;
+}
+
+
+
+
+
+.highlight-unpaid {
+  background-color: #ffe6e6;
+  color: #b30000;
+  font-weight: bold;
+}
+
+.status-label {
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: #ffd6d6;
+  color: #b30000;
+  font-weight: bold;
+}
+
+
+.hidden-col {
+  display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+#merchants-table2 tbody tr:nth-child(odd) {
+  background-color: #d4c2c2;
+}
+
+#merchants-table2 tbody tr:nth-child(even) {
+  background-color: #f3eded;
+}
+
+#merchants-table tbody tr:nth-child(odd) {
+  background-color: #d4c2c2;
+}
+
+#merchants-table tbody tr:nth-child(even) {
+  background-color: #f3eded;
+}
+
+
+
+
+
+
+
+.main-content {
+  margin-left: 8px;
+  margin-top: 0px;
+  transition: margin-left 0.3s;
+
+  background-color: rgb(161, 156, 156);
+/*  border-top: 100px;   */
+flex-grow: 1; /* Makes inner elements stretch */
+width: 100%; /* Ensures full width */
+
+grid-template-rows: auto 1fr auto; /* Example: Header, Main, Footer */
+
+
+}
+
+
+#main-content {
+    min-height: 100vh; /* Ensures at least full viewport height */
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.sidebar-logo {
+  width: 150px; /* Adjust width as needed */
+  height: auto; /* Keeps aspect ratio */
+  max-width: 100%; /* Ensures it doesn't exceed the sidebar width */
+  margin-left: 15%;
+
+
+
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 1px; /* Adds space between the logo and the list */
+}
+
+.sidebar-logo img {
+  width: 160px; /* Adjust width as needed */
+  height: auto; /* Keeps aspect ratio */
+  max-width: 100%; /* Ensures it doesn't exceed the sidebar width */
+  min-height: none;
+}
+
+
+.sidebar-body {
+  background: #242323; 
+}
+  
+
+#sidebar-body {
+  margin-top: 5px;
+  
+  border-radius: 8px; 
+  margin-bottom: 20px;
+  max-height: 290px;
+
+}
+
+#sidebar {
+  
+ min-height: 600px; 
+ z-index: 500;  
+ }
+
+.sidebar {
+  height: 100vh; /* Full height */
+  background:  #222; /* Sidebar background color    =   #222; */
+   padding: 15px;   
+   width: 210px;
+   position: fixed;
+   left: -250px;
+   background-color: #222;
+   padding-top: 1px;
+   transition: left 0.3s;
+   color: white;
+   display: fixed;
+   flex-direction: column;
+   justify-content: space-between;
+  
+   border-bottom: 1px solid #8f8d8d;
+  
+}
+
+.sidebar ul {
+   list-style-type: none;
+   padding: 0;
+   flex-grow: 1;
+   font-size: 13px; /* Adjust font size */
+   margin-left: 5px;
+   margin-top: 1px;
+  
+}
+
+.sidebar ul li {
+   padding: 5px;
+   text-align: center;
+   width: 190px;
+}
+
+.sidebar ul li a {
+   color: rgb(233, 227, 227);
+   text-decoration: none;
+   display: block;
+}
+
+   .sidebar li a {
+
+padding: 8px;
+
+color: #333;
+border-bottom: 1px solid #8f8d8d;
+border-top: 1px solid #8f8d8d;
+border-radius: 8px; 
+align-items: right;
+}
+
+
+
+.sidebar ul li a:hover {
+   background-color: #15bcc2;
+}
+
+li.active { /* Style for the active <li> */
+background-color: #726c6c;
+border-radius: 10px; 
+padding: 2px;
+
+ }
+
+
+
+
+.logout-container {
+   padding: 2px;
+   text-align: center;
+  
+  
+}
+
+#logout-container {
+ height:50px;
+ 
+}
+
+
+#logoutButton {
+  margin-top: 50%;
+ 
+  height: 35px;
+   width: 70%;
+   padding: 10px;
+   background-color: rgba(216, 4, 4, 0.774);
+   border: none;
+   color: white;
+   cursor: pointer;
+}
+  
+
+
+#logoutButton:hover {
+   background-color: rgb(196, 216, 216);
+}
+
+
+.addmerchant {
+  margin-top: 10%;
+ 
+  height: 35px;
+   width: 70%;
+   padding: 10px;
+   background-color: rgba(216, 4, 4, 0.774);
+   border: none;
+   color: white;
+   cursor: pointer;
+
+
+}
+  
+
+
+.addmerchant:hover {
+   background-color: rgb(226, 236, 237);
+}
+
+
+
+
+.canceladdmerchant {
+   margin-top: 1px;
+   height: 35px;
+   width: 70%;
+   padding: 10px;
+   background-color: rgba(216, 4, 4, 0.774);
+   border: none;
+   color: white;
+   cursor: pointer;
+   margin-bottom: 100px;
+}
+  
+
+
+.canceladdmerchant {
+   background-color: rgb(221, 233, 234);
+}
+
+
+
+  #merchantSearchBox {
+ margin-left: 10px;
+  }
+  
+
+
+#merchant-search {
+  border-radius: 8px;
+  color: rgb(15, 87, 15);
+  background-color: #f0f0f0; /* Light gray */
+  border-color: #222121; /* Slightly darker gray */
+  width: 140px;
+  height: 15px;
+  margin-top: 3px;
+  margin-left: 10px;
+  }
+  
+  #merchant-search:hover {
+  background-color:  #dbe3e2; /* A slightly darker gray on hover */
+  }
+  
+
+  #merchant-search {
+    color: rgb(15, 87, 15);
+    background-color: #f0f0f0; /* Light gray */
+    border-color: #3f3c3c; /* Slightly darker gray */
+    }
+    
+    #merchant-search:hover {
+    background-color: #e0e0e0; /* A slightly darker gray on hover */
+    }
+
+
+/* #edit-button { */
+
+.edit-button-merchant {
+  background-color:#0a21f3; /* Blue background */
+  color: white; /* White text */
+  padding: 5px 5px; /* Padding around text */
+  border: none; /* Remove default border */
+  border-radius: 8px; /* Rounded corners */
+  cursor: pointer; /* Change cursor on hover */
+  font-size: 12px;  /* Adjust font size */
+  font-family: sans-serif; /* Example font family */
+  transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  width: 50px;
+}
+
+
+
+
+button {
+  background-color: rgba(196, 24, 12, 0.6); /* Slightly transparent red */
+  color: white;
+  padding: 6px 6px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: sans-serif;
+  width: 50px;
+
+  /* 🔄 Smooth transitions for both opacity and background */
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+
+  opacity: 0.85; /* Dim the entire button slightly */
+}
+
+button:hover {
+  background-color: rgb(238, 22, 7); /* Fully opaque background */
+  opacity: 1; /* Full visibility */
+}
+
+
+
+#optionsDiv {
+  background-color: rgba(7, 168, 218, 0.6); /* Slightly transparent red */
+  color: rgb(5, 0, 0);
+  padding: 6px 6px;
+  border: none;
+  border-radius: 1px; 
+  cursor: pointer;
+  font-size: 12px;
+  font-family: verdana;
+  width: 100%;
+
+  /* 🔄 Smooth transitions for both opacity and background */
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+
+ /*  opacity: 0.85; */ /* Dim the entire button slightly */
+}
+
+#optionsDiv:hover {
+  background-color: rgb(6, 128, 199); /* Fully opaque background */
+  opacity: 1; /* Full visibility */
+   color: rgb(247, 241, 241);
+}
+
+
+
+
+
+
+
+
+
+#merchant-search {
+  border-radius: 8px;
+  color: rgb(15, 87, 15);
+  background-color: #f0f0f0; /* Light gray */
+  border-color: #3f3c3c; /* Slightly darker gray */
+  }
+  
+  #add-merchant-button:hover {
+    background-color:  #08eeee; /* A slightly darker gray on hover */
+  }
+  
+  #add-merchant-button {
+    width: 100%;
+    border-color: #3f3c3c; /* Slightly darker gray */
+    background-color:#ce0415; /* Blue background */
+    margin-right: 5px;
+    margin-left: 0px;
+    height: 35px;
+    margin-bottom: 1px;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+/* Form Styling */
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+#addmerchant {    /*body of the add merchant modal */
+ width: 200px;
+ height:400px;
+ background-color: #b4babb;
+ border-radius: 10px;  
+ text-align: center; /* Centers text inside elements */
+ justify-content: center; /* Centers horizontally */
+ align-items: center; /* Centers vertically */
+
+}
+
+
+
+
+#edit-title-top {
+  background-color: #252424;
+  width: 100%;
+  height: 30px;
+  color: white;
+  font-size: larger;
+  text-align: center;
+  padding-top: 10px;
+  margin-bottom: 4px;
+  border-radius: 10px;
+}
+
+#edit-account-top {
+  background-color: #252424;
+  width: 100%;
+  height: 45px;
+  color: white;
+  font-size: larger;
+  text-align: center;
+  padding-top: 10px;
+  margin-bottom: 4px;
+  border-radius: 10px;
+}
+
+#for-title-addmer {
+  background-color: #252424;
+  width: 100%;
+  height: 40px;
+  color: white;
+  font-size: larger;
+  text-align: center;
+  padding-top: 20px;
+  margin-bottom: 8%;
+  border-radius: 10px;
+}
+
+
+
+
+
+
+#mer-general-total {
+  background-color: #cf2727;
+  width: 150px;
+  color: rgb(253, 246, 246);
+  font-size: medium;
+ 
+}
+
+
+
+
+
+
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="date"],
+input[type="time"],
+
+select {
+    padding: 4px;
+    margin-bottom: 2px;
+    border: 1px solid #8a8484;
+    height: 15px;
+    width: 150px;
+    border-radius: 8px;   
+    background-color: #08eec8;
+    font-size: smaller;
+}
+
+input:hover {
+  background-color: #0baaf3; /* A slightly darker gray on hover */
+}
+
+.whatsNickname {
+  font-size: smaller;
+}
+
+
+
+#payment-type {
+  width: 170px; /* Or any other value */
+}
+
+#user {
+  width: 170px; /* Or any other value */
+}
+
+#mer-general-totalName {
+  background-color: #aceaf5;
+  border: none;
+}
+
+
+
+#status { 
+    height: 30px;
+     width: 150px;  
+}
+
+#client-address1:hover {
+  background-color: #0baaf3; /* A slightly darker gray on hover */
+}
+
+#status:hover {
+  background-color: #0baaf3; /* A slightly darker gray on hover */
+}
+
+#client-address1 { 
+    height: 30px;
+     width: 150px;  
+}
+
+#client-address1:hover {
+  background-color: #0baaf3; /* A slightly darker gray on hover */
+}
+
+#userTop { 
+    height: 18px;
+     width: 80px;  
+}
+
+#userTop:hover {
+  background-color: #0baaf3; /* A slightly darker gray on hover */
+}
+
+
+
+
+
+
+
+#searchTitle {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+
+
+#edit-new-remain {
+  /* Any specific styles for the input itself, if needed */
+  border: 3px solid #20854e; /* Example: A light gray border for the input */
+ 
+}
+
+#edit-new-borrowed {
+  /* Any specific styles for the input itself, if needed */
+  border: 1px solid #4CAF50; /* Example: A light gray border for the input */
+}
+
+#checkboxClaimed {
+  /* Any specific styles for the input itself, if needed */
+  border: 1px solid #eef0ee; /* Example: A light gray border for the input */
+}
+
+
+
+
+
+
+
+
+  
+#editmerchant {
+  width: 420px;
+  background-color: #b0bcbe;
+  border-radius: 12px;
+  padding: 10px; /* added padding for top, right, bottom as well */
+  height: auto; /* ensures height adapts to content */
+  max-height: 90vh; /* optional: prevents it from growing beyond screen */
+  overflow-y: auto; /* optional: adds scroll if content overflows */
+  box-sizing: border-box; /* ensures padding is included in width */
+}
+
+
+
+
+
+
+
+/*   #editmerchant{
+    width: 420px;
+    background-color: #b0bcbe;
+    border-radius: 12px; 
+    padding-left: 10px;  
+  } */
+
+  #editmerchantName2{
+    width: 250px;
+    background-color: #949899;
+    border-radius: 12px; 
+    font-size: small; 
+    color: white;
+    align-items: center;
+  }
+
+ 
+
+
+/*  for input box edit merchant inline style  */
+
+.edit-merchant-form{
+  display: flex; /* Enable flexbox */
+  align-items: center; /* Vertically align items */
+ 
+}
+
+.edit-merchant-form{
+  margin-right: 5px; /* Add some space between label and input */
+}
+
+
+
+
+.edit-merchant-formName{
+  display: flex; /* Enable flexbox */
+  align-items: center; /* Vertically align items */
+ 
+}
+
+.edit-merchant-formName{
+  margin-right: 5px; /* Add some space between label and input */
+  border-radius: 8px;   
+}
+
+
+
+ /* Basic table styling ////////////// for merchant table only //////////////////////  */
+ /* Basic table styling ////////////// for merchant table only //////////////////////  */
+
+ 
+
+
+
+
+
+#merchants-table td:nth-child(2),
+#merchants-table th:nth-child(2) {
+display: none;
+}
+
+#payments-table td:nth-child(2),
+#payments-table th:nth-child(2) {
+display: none;
+} 
+
+
+/*
+
+#merchants-table td:nth-child(5),
+#merchants-table th:nth-child(5) {
+  width: 20px;
+}
+
+#merchants-table td:nth-child(6),
+#merchants-table th:nth-child(6) {
+  width: 20px;
+}
+
+*/
+#merchants-table th:nth-child(1){
+  width: 3px;
+}
+
+
+#merchants-table th:nth-child(4){
+  width: 3px;
+}
+
+#merchants-table th:nth-child(3){
+  width: 3px;
+}
+
+
+
+
+
+
+
+
+/* Basic table styling    ////////// FOR CLAIMED MERCHANTS -search ONLY //////////////////// */
+
+#merchant-search {
+border-radius: 8px;
+color: rgb(15, 87, 15);
+background-color: #f0f0f0; /* Light gray */
+border-color: #3f3c3c; /* Slightly darker gray */
+}
+
+#merchant-search:hover {
+  background-color:  #08eec8; /* A slightly darker gray on hover */
+}
+
+
+#data {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px; /* Space between items */
+  background-color:  rgb(43, 41, 41);
+ 
+  height: 15%;
+  margin-top: 1px;
+ font-size: small;
+ color: rgb(250, 244, 244); /* Changes text color inside the div */
+  margin-left: 0px;
+ padding-left: 10px;
+ 
+ 
+}
+
+
+
+
+
+
+
+
+
+
+
+label {
+  margin-right: 5px; /* Space between label and input */
+}
+
+#total-today {
+  margin-top: 1px;
+  margin-right: 10px; /* If you want space after the input too */
+  background-color: #08eec8; /* Light gray */
+  width: 7%; /* Table takes full width of its container */
+  border-radius: 8px; /* Adjust the radius value for desired curvature */
+}
+
+
+
+#total-active {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: small;
+  height: 10px;
+  min-width: 60px;
+  margin-top: 1px;
+  margin-left: 4px; /* If you want space after the input too */
+ 
+  width: 6%; /* Table takes full width of its container */
+}
+
+#total-inactive {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: small;
+  height: 10px;
+  min-width: 60px;
+  margin-top: 1px;
+  margin-left: 4px; /* If you want space after the input too */
+ 
+  width: 6%; /* Table takes full width of its container */
+}
+
+
+
+
+
+
+
+
+
+
+/* Container for the table with scrolling */
+.table-container {
+
+  min-height: 450px; /* Set a maximum height for scrolling */
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: auto; /* Enable horizontal scrolling if needed */
+  border-top: 0px;
+  padding-left:2px;
+  
+  }
+  
+  /* Optional: Style the scrollbar (webkit browsers) */
+  .table-container::-webkit-scrollbar {
+  width: 12px; /* Adjust scrollbar width */
+  }
+  .table-container::-webkit-scrollbar-track {
+  background: #8ba3a3; /* Scrollbar track background */
+  }
+  .table-container::-webkit-scrollbar-thumb {
+  background: #494646; /* Scrollbar thumb color */
+  }
+  .table-container::-webkit-scrollbar-thumb:hover {
+  background: #e67c7c; /* Scrollbar thumb hover color */
+  }
+  
+  /* Make table header sticky */
+  
+  
+  
+  /* Table Styling */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th,
+  td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #c9c2c2;
+  }
+  
+  
+  #merchants-table th {
+   
+    height: 25px;
+    width: 10%;
+    font-size: 14px; /* Set font size for table headers */
+    padding: 5px;
+    border: #3f3c3c;
+    border-radius: 3px;
+   
+   /* font-weight: bold; /* Make headers bold (optional) */
+  }
+  
+  
+
+   /* ////////////////   TABLE MAIN ALL//////////////////// */
+    
+  #merchants-table th, #merchants-table td {
+      padding-inline: 2px;
+      position: sticky;
+    border: 1px solid #898b89;
+    padding: 5px;
+    text-align: center;
+    overflow: hidden;    /* Hide overflowing content */
+    text-overflow: ellipsis; /* Add ellipsis (...) for overflowing text */
+    }
+  
+    #merchants-table thead th {
+      position: sticky;
+      top: 0;
+      z-index: 100; /* Ensure it stays above other elements */
+      background-color: rgb(10, 219, 45); /* Or your preferred header background */
+     
+      }
+      
+  
+      #merchants-table td:nth-child(3) { /* Targets the 6 column */
+        text-align: left;
+      }
+
+      #merchants-table td:nth-child(4) { /* Targets the 6 column */
+        text-align: left;
+      }
+  
+  /* Footer styling */
+  #merchants-table tfoot {
+      position: sticky;
+      bottom: 0;
+      color: white;
+      font-size: small;
+      background-color:rgb(151, 5, 5);
+     
+  }
+  
+  
+
+
+ /* ////////////////   TABLE UNPAID 2  //////////////////// */
+    
+  #merchants-table2 th, #merchants-table2 td {
+      padding-inline: 2px;
+      position: sticky;
+    border: 1px solid #eef7ee;
+    padding: 5px;
+    text-align: center;
+    overflow: hidden;    /* Hide overflowing content */
+    text-overflow: ellipsis; /* Add ellipsis (...) for overflowing text */
+    }
+  
+    #merchants-table2 thead th {
+      position: sticky;
+      top: 0;
+      z-index: 100; /* Ensure it stays above other elements */
+      background-color: rgb(119, 4, 4); /* Or your preferred header background */
+     
+      }
+      
+  
+      #merchants-table2 td:nth-child(3) { /* Targets the 6 column */
+        text-align: left;
+      }
+
+      #merchants-table2 td:nth-child(4) { /* Targets the 6 column */
+        text-align: left;
+      }
+  
+  /* Footer styling */
+  #merchants-table2 tfoot {
+      position: sticky;
+      bottom: 0;
+      background-color:rgb(129, 4, 10);
+     
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  #claim-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th,
+  td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #c9c2c2;
+  }
+  
+  
+  #claim-table th {
+   
+    height: 10px;
+  
+    font-size: small; /* Set font size for table headers */
+    padding: 2px;
+    border: #3f3c3c;
+    border-radius: 3px;
+   
+   /* font-weight: bold; /* Make headers bold (optional) */
+  }
+  
+  #claim-table td {
+   
+    height: 10px;
+   
+    font-size: small; /* Set font size for table headers */
+
+  }
+    
+  #claim-table th,  #claim-table td {
+      padding-inline: 2px;
+      position: sticky;
+    border: 1px solid #898b89;
+    padding: 5px;
+    text-align: center;
+    overflow: hidden;    /* Hide overflowing content */
+    text-overflow: ellipsis; /* Add ellipsis (...) for overflowing text */
+    }
+  
+    #claim-table thead th {
+      position: sticky;
+      top: 0;
+      z-index: 100; /* Ensure it stays above other elements */
+      background-color: rgb(206, 7, 7); /* Or your preferred header background */
+     
+      }
+      
+  
+      #claim-table td:nth-child(3) { /* Targets the 6 column */
+        text-align: left;
+      }
+
+      #claim-table td:nth-child(4) { /* Targets the 6 column */
+        text-align: left;
+      }
+  
+  /* Footer styling */
+  #claim-table tfoot {
+      position: sticky;
+      bottom: 0;
+      background-color:rgb(182, 4, 4);
+     
+  }
+
+
+  #save-edit-merchant {
+    background-color: #ee0814;
+    color: white;
+    border-color: rgb(206, 199, 199);
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-left: 50px;
+    margin-top: 15px;
+    height: 35px;
+    width: 80px;
+    font-size: smaller;
+   
+}
+
+#save-edit-merchant:hover {
+    background-color: #0ab3f7;
+}
+  
+#cancel-edit-merchant {
+  background-color: #ee0814;
+  color: white;
+  border-color: rgb(206, 199, 199);
+  padding: 10px 15px;
+  cursor: pointer;
+  margin-left: 15px;
+  margin-top: 15px;
+  height: 35px;
+   width: 80px;
+  font-size: smaller;
+ 
+}
+
+#cancel-edit-merchant:hover {
+  background-color: #0ab3f7;
+}
+
+.edit-mer {
+  background-color: #ee0814;
+  color: white;
+  border-color: rgb(206, 199, 199);
+  padding: 10px 15px;
+  cursor: pointer;
+  margin-left: 15px;
+  margin-top: 15px;
+  height: 35px;
+  font-size: smaller;
+ 
+}
+
+.edit-mer:hover {
+  background-color: #0ab3f7;
+}
+
+
+  /*  ///////////// create bill div ////////////// */
+
+   #create-bill-div {
+           
+           
+           background-color:#b96505;
+           color: white;
+           display: fix;
+           align-items: center;
+           padding-left: 8px;
+           border-color: #3b3838;
+           height: 40px;  
+          flex-wrap: wrap;
+           border-width: 2px;    
+       } 
+
+
+   
+
+ #btnInBillTop {
+           
+           background-color:#b96505;
+           color: white;
+           display: flex;
+           align-items: center;
+           padding-left: 8px;
+           border-color: #3b3838;
+           height: 40px;  
+           width: 180px;
+          flex-wrap: wrap; /* allows wrap on small screens */
+           border-width: 2px;    
+          
+       }
+
+
+
+
+   #approvalNameDiv {
+           
+           
+           background-color:#4b2903;
+           color: white;
+           display: flex;
+           align-items: center;
+           padding-left: 8px;
+           border-color: #3b3838;
+           height: 40px;  
+           border-width: 2px;    
+           flex-wrap: wrap; /* allows wrap on small screens */
+       }
+
+
+    #unpaid-year-summary {
+           
+           
+           background-color:#351f05;
+           color: white;
+           display: flex;
+           align-items: center;
+           padding-top: 10px;
+           padding-left: 10px;
+           border-color: #3b3838;
+           height: 28px;  
+           border-width: 2px;    
+           flex-wrap: wrap; /* allows wrap on small screens */
+       }
+
+
+       
+#billingMonth {
+  border-radius: 8px;
+  color: rgb(15, 87, 15);
+  background-color: #f0f0f0; /* Light gray */
+  border-color: #222121; /* Slightly darker gray */
+  width: 88px;
+  height: 25px;
+   margin-top: 3px; 
+ /*  margin-left: 200px; */
+  }
+  
+  #billingMonth {
+  background-color:  #76f7dd; /* A slightly darker gray on hover */
+  }
+  
+
+  #billingMonth {
+    color: rgb(15, 87, 15);
+    background-color: #f0f0f0; /* Light gray */
+    border-color: #3f3c3c; /* Slightly darker gray */
+    }
+    
+    #billingMonth:hover {
+    background-color: #e0e0e0; /* A slightly darker gray on hover */
+    }
+
+
+
+
+#createbill {
+  background-color: rgba(84, 248, 8, 0.87); /* Slightly transparent red */
+  color: rgb(14, 13, 13);
+  padding: 6px 2px;
+  margin-left: 1px;
+  margin-top: 3px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: sans-serif;
+  width: 80px;
+
+  /* 🔄 Smooth transitions for both opacity and background */
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+
+ /*  opacity: 0.85; /* Dim the entire button slightly */ 
+}
+
+#createbill:hover {
+  background-color: rgb(24, 8, 253); /* Fully opaque background */
+  color: rgb(250, 242, 242);
+/*  opacity: 1; /* Full visibility  */ 
+}
+
+
+ /*  ///////////// select unpaid month div ////////////// */
+
+   #unpaid-month-div {
+           
+           
+           background-color:#6d400c;
+           color: white;
+           display: flex;
+           align-items: center;
+           padding-left: 8px;
+           border-color: #faf5f5;
+           height: 48px;  
+         
+           border-width: 2px;    
+       }
+
+#unpaidMonthSelect {
+    padding: 2px;
+    margin-bottom: 2px;
+    margin-left: 5px;
+    border: 1px solid #8a8484;
+    height: 25px;
+    width: 90px;
+    border-radius: 8px;   
+    background-color: #dde6e4;
+    font-size: smaller;
+}
+
+#unpaidMonthSelect:hover {
+  background-color: #1cd14a; /* A slightly darker gray on hover */
+}
+
+
+   #unpaidTotalResult {
+           
+           
+          /*  background-color:#573003; */
+           color: white;
+           display: flex;
+           align-items: center;
+           padding-left: 8px;
+           border-color: #faf5f5;
+            font-size: smaller;
+          
+       }
+
+
+
+
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+
+
+
+.collectorName {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* space between button and checkbox */
+  margin-bottom: 2px;
+  margin-left: 15px;
+  flex-wrap: wrap; /* allows wrap on small screens */
+}
+
+
+.actions-row {
+  display: flex;
+  align-items: center;
+   margin-left: 15px;
+  gap: 10px; /* space between button and checkbox */
+  margin-bottom: 10px;
+  flex-wrap: wrap; /* allows wrap on small screens */
+}
+
+.actions-row button {
+  padding: 6px 12px;
+  font-size: 14px;
+}
+
+.actions-row label {
+  font-size: 14px;
+  cursor: pointer;
+}
+
+
+
+
+
+
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+.modal-header2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 50px;
+}
+
+
+.modal-content h4 {
+ /*  margin-left: 35px;  push title to the right to avoid overlapping the close button */ 
+margin-right: 10px;
+min-width: 50px;
+
+}
+
+
+ h6 {
+    color: #fdfafa;               /* Text color */
+    font-size: 14px;           /* Font size */
+    font-weight: normal;         /* Font weight */
+    font-family: Verdana; /* Font family */
+    margin-top: 5px;  
+  /*   width: 10px; */
+    margin-bottom: 5px;        /* Top spacing */
+   /*  margin-bottom: 10px */;       /* Bottom spacing */
+    text-align: left;        /* Align center */
+  /*   background-color: #5e5858; */ /* Background color */
+    padding: 3px; 
+    padding-bottom: 4px;            /* Padding inside */
+    border-radius: 8px;        /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Shadow */
+  }
+
+
+
+  /* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 900; /* Sit on top */
+    left: 0;
+    top: 0;
+     padding: px;
+     inset: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+
+  
+
+
+  /* Modal Content/Box */
+
+.modal-content {
+  
+   background-color: #daeff3;
+    border: 2px solid #807e85;
+  margin: 1% auto; /* 15% from the top and centered */
+  margin-top: 50px;
+  margin-bottom: 15px;
+  padding: 2px;
+  border-radius: 8px;
+  width: fit-content;                /* Allow auto expansion */
+  max-width: 98vw;                  /* Don't overflow screen */
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+
+
+
+
+.modal-content {
+  position: relative; /* Required for absolute child positioning */
+}
+
+.modal .close {
+  position: absolute;
+  top: 2px;
+  left: 20px;
+  font-size: 35px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #c50808;           /* Make sure it's visible on light backgrounds */
+  z-index: 1000;         /* Stay on top */
+}
+
+
+.modal .close2 {
+  position: absolute;
+  top: 2px;
+  left: 20px;
+  font-size: 35px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #c50808;           /* Make sure it's visible on light backgrounds */
+  z-index: 1000;         /* Stay on top */
+}
+
+  /* The Close Button */
+  .close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close-button:hover,
+  .close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+
+
+
+
+
+/* Container background */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  background-color: #ffffff !important; /* force white background */
+  padding: 3px;
+  border-radius: 8px;
+}
+
+/* Table background */
+.responsive-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 500px;
+  background-color: #ffffff !important; /* force white background */
+  color: #333;
+  font-family: Arial, sans-serif;
+}
+
+/* Headings */
+.responsive-table th {
+  background-color: #f7f7f7;
+  font-weight: bold;
+  padding: 2px;
+  padding-right: 2px;
+  border: 3px solid #ccc;
+  text-align: left;
+}
+
+/* Cells */
+.responsive-table td {
+  padding: 2px;
+  border: 1px solid #ccc;
+  white-space: nowrap;
+  background-color: #ffffff !important; /* force each cell to be white */
+}
+
+/* Footer */
+.responsive-table tfoot td {
+  background-color: #f2f2f2 !important;
+  font-weight: bold;
+}
+
+
+
+#confirmBTN {
+  background-color: rgba(22, 6, 250, 0.6); /* Slightly transparent red */
+  color: white;
+  padding: 6px 6px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: sans-serif;
+  width: 180px;
+  margin-bottom: 5px;
+}
+
+
+
+
+#confirmBTN:hover {
+  background-color: rgb(55, 241, 8); /* Fully opaque background */
+ 
+}
+
+
+
+
+
+/* #unpaidMonthSelect {
+    padding: 2px;
+    margin-bottom: 2px;
+    margin-left: 5px;
+    border: 1px solid #8a8484;
+    height: 25px;
+    width: 90px;
+    border-radius: 8px;   
+    background-color: #dde6e4;
+    font-size: smaller;
+}
+
+#unpaidMonthSelect:hover {
+  background-color: #1cd14a;
+}
+ */
+
+
+
+
+
+
+
+.dropdown-with-label {
+  display: flex;
+
+  align-items: center;
+  gap: 5px;
+ 
+}
+
+.dropdown-with-label label {
+  font-weight: bold;
+  font-size: 16px;
+  color: #faf3f3;
+  
+  
+}
+
+.dropdown-with-label select {
+  padding: 2px;
+    /* margin-bottom: 2px; */
+    margin-top: 8px;
+    margin-left: 2px;
+    border: 1px solid #8a8484;
+    height: 25px;
+    min-width: 88px;
+    border-radius: 8px;   
+    background-color: #dde6e4;
+    font-size: smaller;
+}
+
+
+/* .dropdown-with-label select {
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 2px solid #44484d;
+  background-color: #d1d6db;
+  color: #333;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+  width: 100px;
+  margin-top: 1px;
+  margin-left: 1px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+} */
+
+
+
+

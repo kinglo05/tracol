@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Golden-Transsactions</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styleGoldenNEW.css">
+   
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+   
+    <style>
+       
+
+       .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        /* Modal content */
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            height: 550px;
+            max-width: 600px;
+            position: relative;
+        }
+
+        /* Close button */
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 40px;
+            cursor: pointer;
+        }
+
+        /* iFrame styling */
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+
+
+
+
+
+
+
+
+
+       #newPayments-title {
+                   
+                   
+                   background-color:#2e2929;
+                   color: white;
+                   display: flex;
+                   align-items: center;
+                   padding-left: 8px;
+                   border-color: #b4a5a5;
+                 
+                 
+                   height: 50px;      
+               }
+
+        #newPayments-title2 {
+                   
+                   
+                   background-color:#222;
+                   color: white;
+                   display: flex;
+                   align-items: center;
+                   padding-left: 8px;
+                   border-color: #8a8484;
+                   height: 50px; 
+                   font-size: xx-small;     
+               }
+
+
+        .menu-bar {
+            width: 100%;
+            height: 50px;
+            background-color: #3a3939;
+            color: white;
+            display: flex;
+            align-items: center;
+           
+          border-radius: 10px;
+           
+        }
+
+        .menu-bar button {
+            background-color: #158a80;
+            color: white;
+            border-color: rgb(206, 199, 199);
+            padding: 10px 15px;
+            cursor: pointer;
+            margin-left: 10px;
+            height: 35px;
+            font-size: smaller;
+           
+        }
+
+        .menu-bar button:hover {
+            background-color: #b80710;
+        }
+       
+
+
+        .menu-items {
+    display: flex;
+    gap: 15px; /* Space between menu items */
+  }
+
+
+#usernameHolder {
+ 
+ margin-left: 2px;
+ height: 5px;
+ margin-top: 1px;
+  
+  
+}
+
+
+
+
+        .main-content {
+            height: 100vh; /* Full height */
+            min-height: 600px;  
+            margin-left: 8px;
+            margin-top: 0px;
+            transition: margin-left 0.3s;
+            width: 100%;
+            background-color: rgb(180, 172, 172);
+          /*  border-top: 100px;   */
+          
+        }
+        
+    </style>
+
+
+
+<style>
+    body { font-family: Arial, sans-serif; padding: 1px; }
+    h2 { color: #2e2929; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+    th, td {
+        border: 1px solid #333;
+        padding: 8px;
+        text-align: left;
+        font-size: 10px;
+        height: 5px; /* 🔸 Set the desired cell height here */
+    }
+    th { background-color: #f0f0f0; }
+    .totals { margin-top: 20px; }
+    .totals p { font-size: 16px; margin: 5px 0; }
+    .logo { width: 150px; margin-bottom: 20px; }
+</style>
+
+
+
+
+
+
+
+
+</head>
+<body>
+
+  
+
+    <div class="sidebar" id="sidebar" >
+           <div class="sidebar-logo">
+            <img src="logo.png" alt="Tracollect Logo">
+        </div>
+        <div class="sidebar-body" id="sidebar-body">
+           <ul>
+            <li><a href="clients/billAdmin2025.html">CLIENTS/BILLS</a></li>
+              <li><a href="clients/disconnected/disconnected.html">DISCONNECTED CLIENTS</a></li>
+             <li><a href="addclient.html">ADD NEW CLIENT</a></li>
+            <li><a href="goldenADD.html">ADD NEW TRANSACTION</a></li>
+            <li><a href="report/report.html">GENERATE REPORT</a></li>
+           
+
+       </div>
+       <div hidden>    <input type="date" name="date-today" id="date-today">     </div>
+        <div class="logout-container">
+            <button id="logoutButton">Logout</button>
+        </div>
+    </div>
+
+    <div class="main-content" id="mainContent">
+        <div class="menu-bar">
+                 <button id="menubutton" onclick="toggleSidebar()"> &#9776; Menu</button>
+                 <div id="usernameHolder">  <h5 id="usernameDisplay" style="color: whitesmoke; margin-top: 1px; margin-bottom: 1px; margin-left: 10px;">Loading...</h5>  </div>
+               </div>
+
+    
+               <div>
+                <h3 style="color: rgb(247, 247, 252); margin-top: 5px; margin-bottom: 5px; margin-left: 10px;">
+                 Golden Collections </h3>
+                 
+                                        
+                                        <div id="newPayments-title2">                               
+                                            <label for="startDate" style="margin-right: 1px; width: 8%;">Start Date:</label>
+                                            <input  type="date" id="startDate">
+                                            <label for="endDate"style="margin-left: 10px; width: 8%;">End Date:</label>
+                                            <input  type="date" id="endDate">
+                                            <button id="filter" onclick="filterPayments(),filterPayments2()">Filter</button>     
+                                                                                              
+                                            </div>
+                             
+                                                       
+                                                         <div id="newPayments-title">
+                                                             <h5 style="color: rgb(236, 228, 228); margin-top: 5px; margin-bottom: 5px; margin-left: 1px;">
+                                                             Search here </h5>
+                                                             <input type="text" id="payment-search" placeholder="Search new payments" autocomplete="off"> 
+                                                             </div>
+                                                         
+
+
+
+
+
+
+
+            <div id="edit-payment-form" class="modal hidden" >
+                <div class="modal-content" id="editnewpayment" autocomplete="off">
+                 
+                    <h3>Edit Payment NEW</h3> 
+
+                    <label for="edit-clientName1">Client Name:</label>
+                     <input type="text" id="edit-clientName1"><br>
+                      <ul id="suggestionsList"></ul>
+
+                    <label for="edit-amount">Amount:</label>
+                    <input type="number" id="edit-amount"><br>
+                    
+
+                     <label for="address">Client Address:</label>
+                <select id="address" autocomplete="off"  required><br>
+                <option value="">Select Address</option>
+                 <option value="Asuncion">Asuncion</option>
+                 <option value="Amparo">Amparo</option>
+                 <option value="Isagani">Isagani</option>
+                 <option value="Macrohon">Macrohon-Proper</option>
+                 <option value="Combado">Combado</option>
+                 <option value="Lib-og">Lib-og</option>
+                 <option value="Bato-1">Bato-1</option>
+                 <option value="Bato-2">Bato-2</option>
+                 <option value="Nati">Nati</option>
+                 <option value="Acasia">Acasia</option>
+                 <option value="Baugo">Baugo</option>
+                 <option value="Lunas">Lunas</option>
+                 <option value="Cansirong">Cansirong</option>
+                 <option value="Rizal-Maasin">Rizal-Maasin</option>
+                 <option value="Cambooc">Cambooc</option>
+                 <option value="Hantag">Hantag</option>
+                  
+                 </select> <br>
+
+                <label for="edit-date">Date of Payment:</label>
+                <input type="date" id="edit-date" ><br>
+                  
+
+                    <label for="edit-status">Remove or Include</label>
+                    <select id="edit-status" autocomplete="off" required><br>
+                 
+                      <option value="new">Included</option>
+                      <option value="claimed">Remove</option>
+                  
+                 </select> <br>
+
+
+
+
+                    <button id="save-edit">Save</button>
+                    <button id="cancel-edit">Close</button>
+
+                   
+                    <input type="text" id="edit-idPay" hidden ><br>
+                    <input type="text" id="edit-fireKey" hidden ><br>
+                </div>
+            </div>
+
+
+
+
+                      <div id="edit-payment-formAssign" class="modal hidden">
+                       <div class="modal-content" id="editnewpaymentAssign">
+                <div id="divassignTitle"  class="divassignTitle">     <h3>Assign Trader</h3>  </div>
+                <div id="divrefAssign" class="divrefAssign"> Reference :<!-- <input type="number" id="edit-ref-numberAssign" placeholder="Input 4 digit" pattern="\d{4}"  > --> </div>
+                            <div id="divAmount" class="divAmount"> Amount :  <input type="number" id="edit-amountAssign" placeholder="Enter AMOUNT"></div>
+                            <div id="divAmount" class="divAmount"> Time :  <input type="text" id="timeEdit" readonly ></div>
+                     <div id="divNickName" class="divNickName" >  <label for="edit-merchantAssign">WHATSAPP Nickname</label>   </div>  
+                     <div id="divMerchantName" class="divMerchantName"> <input type="text" id="edit-merchantAssign" placeholder="Enter merchant name" autocomplete="off" ><br> </div>
+                             <ul id="suggestionsListAssign"></ul>
+                            
+                    
+                             <input type="text" id="edit-idPayAssign"  hidden readonly><br> 
+                             <button id="save-editAssign">Save</button>
+                             <button id="cancel-editAssign">Close</button>
+                             <input type="text" id="edit-fireKeyAssign" hidden readonly><br>
+                             
+                       </div>
+                </div>
+               <div class="table-container2"> 
+                   <table id="payments-table">
+                     <ul id="itemList"></ul>
+                     <thead>
+                    <tr>
+                        <th>No.</th> 
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>User</th>
+                        <th>Active</th>
+                        <th>Edit</th>
+                        
+                      </tr>
+                     </thead>
+                     <tbody>
+                     </tbody>
+                    <tfoot>     
+                    <td colspan="2" style="text-align: right;"><b>Total :</b></td>
+                    <td id="table-total">0.00</td>
+                     </tr>
+                     </tfoot>
+                     </table>
+                      </div>   
+
+
+                      <div id="data1" >      
+                      <button id="checkboxClaimed" type="submit" hidden></button>  
+                      </div>
+
+
+
+<div id="edit-payment-form2" class="modal hidden" >
+<div class="modal-content" id="editnewpayment2" autocomplete="off">
+
+<h3>Edit Payment NEW</h3> 
+
+<label for="exName2">Expenses Name:</label>
+<input type="text" id="exName2"><br>
+
+<label for="edit-amount2">Amount:</label>
+<input type="number" id="edit-amount2"><br>
+
+<label for="edit-date2">Date of Payment:</label>
+                <input type="date" id="edit-date2" ><br>
+                  
+
+                    <label for="edit-status2">Remove or Include</label>
+                    <select id="edit-status2" autocomplete="off" required><br>
+                 
+                      <option value="new">Included</option>
+                      <option value="claimed">Remove</option>
+                  
+                 </select> <br>
+
+
+<button id="save-edit2">Save</button>
+<button id="cancel-edit2">Close</button><br>
+
+
+<input type="text" id="edit-idPay2"  hidden><br>
+<input type="text" id="edit-fireKey2" hidden><br>
+</div>
+</div>
+
+
+
+
+               <div><h3>Golden Expenses</h3></div>
+               <div class="table-container"> 
+                <table id="payments-table2">
+                  <ul id="itemList"></ul>
+                  <thead>
+                 <tr>
+                     <th>No.</th> 
+                     <th>Date</th>
+                     <th>Amount</th>
+                     <th>Name</th>
+                     <th>User</th>
+                     <th>Active</th>
+                     <th>Edit</th>
+                     
+                   </tr>
+                   </thead>
+                   <tbody>
+                   </tbody>
+                   <tfoot>     
+                   <td colspan="2" style="text-align: right;"><b>Total :</b></td>
+                   <td id="table-total2">0.00</td>
+                  </tr>
+                  </tfoot>
+                  </table>
+                   </div>   
+
+                   <div id="data">
+                  <h3>
+                    <p>Total Colection : <span id="totalCollected">0</span></p>
+                    <p>Total Expenses : <span id="totalExpens">0</span></p>
+                    <p>Nablilin/Kuwang : <span id="finalNabilin">0</span></p> </h3>
+                  </div>
+                  <button id="checkboxClaimed2" type="submit" hidden></button>  
+                  </div>
+
+ <!-- ✅ REPORT BUTTON -->
+
+ 
+     </div>
+
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            var mainContent = document.getElementById("mainContent");
+            if (sidebar.style.left === "-250px" || sidebar.style.left === "") {
+                sidebar.style.left = "0";
+                mainContent.style.marginLeft = "250px";
+            } else {
+                sidebar.style.left = "-250px";
+                mainContent.style.marginLeft = "0";
+            }
+        }
+    </script>
+
+<!-- <script>
+    setInterval(() => {
+      const input = document.getElementById("edit-ref-numberAssign");
+      input.style.borderColor = input.style.borderColor === "red" ? "transparent" : "red";
+    }, 200);
+  </script> -->
+
+
+
+
+
+
+    <script src="scriptGoldenNEW.js"></script>
+    <script src="scriptGoldenNEW22.js"></script>
+ 
+</body>
+</html>
