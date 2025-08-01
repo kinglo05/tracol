@@ -112,7 +112,7 @@ const userInput = document.getElementById('user');
 
 const amountInput2 = document.getElementById('amount2');
 const refNumberInput2 = document.getElementById('ref-number2');
-const paymentTypeSelect2 = document.getElementById('payment-type2');
+//const paymentTypeSelect2 = document.getElementById('payment-type2');
 const timeInput2 = document.getElementById('time2');
 const dateInput2 = document.getElementById('date2');
 const userInput2 = document.getElementById('user2'); 
@@ -136,7 +136,7 @@ const statusCheckbox2 = document.getElementById('status-checkbox2');
 
 
 
-
+const amount1 =  document.getElementById('edit-amount2');
 
 
 
@@ -154,6 +154,7 @@ const editPaymentForm = document.getElementById('edit-payment-form');
 
 
 const editPaymentFormAssign = document.getElementById('edit-payment-formAssign');
+const editPaymentFormAssign2 = document.getElementById('edit-payment-formAssign2');
 
 
 const editUser = document.getElementById('edit-user');
@@ -430,8 +431,8 @@ data.forEach((payment, rowIndex) => {
   const addressCell = row.insertCell();
   addressCell.textContent = payment.address;
 
-  const statusCell = row.insertCell();
-  statusCell.textContent = payment.status;
+  const userCell= row.insertCell();
+   userCell.textContent = payment.user;
 
    
 
@@ -442,58 +443,17 @@ data.forEach((payment, rowIndex) => {
   // Add Checkbox cell
   const tablePayments = document.getElementById('payments-table').getElementsByTagName('tbody')[0];
 //  const selectAllCheckbox = document.getElementById('payment-sana-all');
-  const checkboxCell = row.insertCell();
-  const checkbox = document.createElement('input');
-  checkbox.type = 'checkbox';
-  // Set the initial checked state based on the status
-  checkbox.checked = payment.status === 'claimed'; 
-  
-  
-  
-    checkbox.addEventListener('change', (event) => {
-    event.stopPropagation(); // Prevent event from bubbling up
-    if (checkbox.checked) {
-      statusCell.textContent = 'claimed'; 
-      // Update the status in your Firebase database here
-      database.ref('goldenwifi/transactions' + payment.id).update({ status: 'claimed' });
-     
-    } else {
-      statusCell.textContent = 'new';
-      // Update the status in your Firebase database here
-      database.ref('goldenwifi/transactions' + payment.id).update({ status: 'new' });
-     
-    }
-  });  
-  
-  checkboxCell.appendChild(checkbox); 
+   const statusCell2 = row.insertCell();
+  statusCell2.textContent = payment.actionTo;
+
+
  
 
   // Add Edit button with data-row-index 
   const editCell = row.insertCell();
   editCell.innerHTML = `<button class="edit-button" data-row-index="${payment.id}">Edit</button>`;
 
-checkbox.addEventListener('change', (event) => {
-  event.stopPropagation(); // Prevent event from bubbling up
-  if (checkbox.checked) {
 
-    
-     statusCell.textContent = 'claimed'; 
-    // Update the status in your Firebase database here
-    database.ref('pgoldenwifi/transactions' + payment.id).update({ status: 'claimed' });
-    checkbox.disabled = true;
-    console.log("Status Change to CLAIMED");
-
-  } else {
-    statusCell.textContent = 'new';
-    // Update the status in your Firebase database here
-    database.ref('goldenwifi/transactions' + payment.id).update({ status: 'new' });
-  
-    console.log("Status change to NEW");
-
-  }
-
-
-});
 
 
 /////////////////////////////////// auto add /////////////////////////////
@@ -544,41 +504,6 @@ if (paymentsTableNew) {
     }
   }
 
-////////////////////////// test for checkbox claimed ALL /////////////////////////
-
-// // Your submit button
-const payTable = document.getElementById('payments-table'); // Your table ID
-
-checkboxClaimed.addEventListener('click', () => {
-  const rowsOr = payTable.querySelectorAll('tbody tr'); // Get all rows in the table body
-
-  payTable.forEach(rowsOr, rowIndex => {
-    const statusCellC = row.querySelector('td:nth-child(9)'); // Get the status cell (replace statusColumnIndex with the actual index)
-    const paymentKey =  rowIndex.id; //// ... get the payment key from the row ... 
-   
-   
-    if (statusCellC.textContent === 'new') { // Check if the status is 'new'
-      // Update the status in Firebase
-      database.ref(`goldenwifi/transactions/${paymentKey}`).update({
-        status: 'claimed'
-      })
-      .then(() => {
-        console.log(`goldenwifi/transactions ${paymentKey} updated to claimed`);
-        // ... you might want to update the status in the table cell as well ...
-        //statusCellC.textContent = 'claimedNO'; 
-      })
-      .catch(error => {
-        console.error(`Error updating payment ${paymentKey}:`, error);
-        // ... display an error message to the user ...
-      });
-    }
-  });
-});
-
-
-/////////////////////////////  // Event listener for Edit button //////////////////////////////
-/////////////////////////////  // Event listener for Edit button //////////////////////////////
-/////////////////////////////  // Event listener for Edit button //////////////////////////////
 
  editCell.addEventListener('click', (event) => {
  const button = event.target;
@@ -743,7 +668,7 @@ paymentSearchInput.addEventListener('input', () => {
 });
 
 
-  
+
 
 
 //cancel to hide add editform
@@ -751,11 +676,11 @@ cancelEditButton.addEventListener('click', () => {
 editPaymentForm.style.display = 'none'; 
 });
 
+
 cancelEditButtonAssign.addEventListener('click', () => {
   editPaymentFormAssign.style.display = 'none'; 
   });
   
-
 
 /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx FINAL EDIT SAVE xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxXXXXXXXXXXXXXXXXXXXXXX */
 /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx FINAL EDIT SAVE xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxXXXXXXXXXXXXXXXXXXXXXX */
@@ -932,23 +857,11 @@ function updateDisplay() {
 
  
    const TananActualNabilin = Number(totalcollection - totalExpenses) || 0;
-  /*  const todayNabilin =  Number(totalForTheDay - todayTrades) || 0;
-   const monthlyTrades = Number(overAllmonthlyTrades* 0.08);
-   document.getElementById("todayRemainingDeposit").innerText = Number(todayNabilin).toFixed(2); */
+
 
    document.getElementById("finalNabilin").innerText = Number(TananActualNabilin).toFixed(2);
    
-   
-
-   //////////// for monthly Net ///////////
   
-/*     const todayNetNabilin = Number(todayNabilin* 0.08);
-    const currentMonthIn = todayNetNabilin + monthlyTrades;
-    const  minusEspense = currentMonthIn - currentMonthExpenses;
-    document.getElementById("monthlyNet").innerText = Number(minusEspense).toFixed(2); */
-
-   /* console.log("PARA TESTING RESULT today nabilin  :",currentMonthIn, "-",  currentMonthExpenses 
-    ,"=" , minusEspense); */
 }
 
 updateDisplay();

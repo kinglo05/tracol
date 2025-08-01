@@ -196,54 +196,9 @@ margin-bottom: 5%;
 
 
 
-#add-payment {
-  
-  min-width: 200px;
-  min-height: 500px;
-  max-height: 100%;
-  background-color:#353333;
-  color: white;
-  align-items: center;
-  border-color: #8a8484;
-  align-items: center;
-}
 
 
 
-#add-payment {
-  position: fixed;
-  align-items: center;
- padding-left: 10px;
- padding-right: 10px;
-  margin-top: 15px; 
-  border-radius: 15px;
-  margin-left: 50px;
-}
-
-#payment-form {
-  margin-bottom: 20px;
-}
-
-.footer {
-  position: absolute;
-  bottom: 0;
-  min-width: 89%;
-  height: 12px;
-  margin-top: 1px;
-  margin-bottom: 2px;
-  border-radius: 5px;
-  text-align: center;
-  background: #4b4949;
-  padding: 5px;
-  z-index: 1000;
- 
-/*  background: transparent;
-  border: none;
-  outline: none;  */
- font-size: smaller;
-  color: rgb(196, 192, 192);
- 
-}
 
 
 
@@ -291,6 +246,91 @@ select {
   min-width: 218px;
 }
 
+
+
+#typeSelect {
+  margin-left: 15px;
+  width: 90%;
+}
+
+
+#transSelect {
+  min-width: 98%;
+}
+
+
+.form-section {
+  width: 98%;
+}
+
+.inputCollection {
+  margin-left: 20px;
+  width: 85%;
+}
+
+ #collectionAmount {
+  margin-left: 20px;
+  width: 85%;
+ }
+
+ #collectionName {
+  margin-left: 20px;
+  width: 85%;
+ }
+
+  #collectionDate {
+  margin-left: 20px;
+  width: 85%;
+ }
+
+
+  #saveCol {
+    margin-top: 30px;
+  margin-left: 20px;
+  width: 90%;
+ }
+
+  #expensesAmount {
+  margin-left: 20px;
+  width: 85%;
+ }
+
+  #expensesName {
+  margin-left: 20px;
+  width: 85%;
+ }
+
+  #expensesDate {
+  margin-left: 20px;
+  width: 85%;
+ }
+
+
+
+  #saveX {
+    margin-top: 30px;
+  margin-left: 20px;
+  width: 90%;
+ }
+
+
+
+
+#collectionForm {
+
+  min-height: 300px;
+  padding-bottom: 30px;
+  border-radius: 10px;
+  
+}
+
+#expensesForm {
+
+  min-height: 300px;
+  padding-bottom: 30px;
+  border-radius: 10px;
+  
+}
 
 
 /* Button Styling */

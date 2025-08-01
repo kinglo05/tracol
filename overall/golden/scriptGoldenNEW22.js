@@ -1,11 +1,6 @@
 
-//const cancelEditButtonAssign2 = document.getElementById("cancel-editAssign2");
-//const paymentSearchInput22 = document.getElementById('payment-search22');
-////////////////////////////   PAYMENTS TABLE1 - STARTS  HERE  /////////////////////
 
-// Firebase Configuration (Replace with your actual config)
-
-
+const editPaymentForm2 = document.getElementById('edit-payment-form2');
 
 
 const database2 = firebase.database();
@@ -45,6 +40,7 @@ database2.ref('goldenwifi/goldenExpenses').on('value', (snapshot) => {
     // Filter for payments with status 'new'
     if (
       payment2.status === 'new' &&
+    //  payment2.actionTo ==='approved' &&
       paymentDate >= startDate &&
       paymentDate <= endDate
     
@@ -59,6 +55,8 @@ database2.ref('goldenwifi/goldenExpenses').on('value', (snapshot) => {
         address: payment2.address,
         name: payment2.exName,
         status: payment2.status,
+        user: payment2.user,
+        actionTo: payment2.actionTo,
       
       
        
@@ -85,12 +83,12 @@ database2.ref('goldenwifi/goldenExpenses').on('value', (snapshot) => {
 
 
 
-function updatePaymentsTable2(data2) {
+function updatePaymentsTable2(data) {
 table2.innerHTML = ''; // Clear the table
 
 
 
-data2.forEach((payment2, rowIndex) => {
+data.forEach((payment2, rowIndex) => {
   const row = table2.insertRow();
 
 
@@ -112,8 +110,8 @@ data2.forEach((payment2, rowIndex) => {
 
   
 
-  const statusCell2= row.insertCell();
-  statusCell2.textContent = payment2.status;
+  const userCell2= row.insertCell();
+  userCell2.textContent = payment2.user;
 
 
     
@@ -122,59 +120,12 @@ data2.forEach((payment2, rowIndex) => {
   // Add Checkbox cell
   const tablePayments2 = document.getElementById('payments-table2').getElementsByTagName('tbody')[0];
 //  const selectAllCheckbox = document.getElementById('payment-sana-all');
-  const checkboxCell2 = row.insertCell();
-  const checkbox2 = document.createElement('input');
-  checkbox2.type = 'checkbox';
-  // Set the initial checked state based on the status
-  checkbox2.checked = payment2.status === 'claimed'; 
-  
-  
-  
-    checkbox2.addEventListener('change', (event) => {
-    event.stopPropagation(); // Prevent event from bubbling up
-    if (checkbox2.checked) {
-      statusCell2.textContent = 'claimed'; 
-      // Update the status in your Firebase database here
-      database2.ref('goldenwifi/goldenExpenses/' + payment2.id).update({ status: 'claimed' });
-     
-    } else {
-      statusCell2.textContent = 'new';
-      // Update the status in your Firebase database here
-      database.ref('goldenwifi/goldenExpenses/' + payment2.id).update({ status: 'new' });
-     
-    }
-  });  
-  
-  checkboxCell2.appendChild(checkbox2); 
- 
+  const statusCell2 = row.insertCell();
+  statusCell2.textContent = payment2.actionTo;
 
-  // Add Edit button with data-row-index 
+
   const editCell2 = row.insertCell();
-  editCell2.innerHTML = `<button class="edit-button" data-row-index="${payment2.id}">Edit</button>`;
-
-checkbox2.addEventListener('change', (event) => {
-  event.stopPropagation(); // Prevent event from bubbling up
-  if (checkbox2.checked) {
-
-    
-     statusCell2.textContent = 'claimed'; 
-    // Update the status in your Firebase database here
-    database2.ref('goldenwifi/goldenExpenses/' + payment2.id).update({ status: 'claimed' });
-    checkbox2.disabled = true;
-    console.log("Status Change to CLAIMED");
-
-  } else {
-    statusCell2.textContent = 'new';
-    // Update the status in your Firebase database here
-    database2.ref('goldenwifi/goldenExpenses/' + payment2.id).update({ status: 'new' });
-  
-    console.log("Status change to NEW");
-
-  }
-
-
-});
-
+  editCell2.innerHTML = `<button class="button2" data-row-index="${payment2.id}">Edit</button>`;
 
 /////////////////////////////////// auto add /////////////////////////////
 
@@ -261,414 +212,122 @@ checkboxClaimed2.addEventListener('click', () => {
 });
 
 
-/////////////////////////////  // Event listener for Edit button //////////////////////////////
+/////////////////////////////  // Event listener for Edit button22 //////////////////////////////
+/////////////////////////////  // Event listener for Edit button22 //////////////////////////////
+/////////////////////////////  // Event listener for Edit button22 //////////////////////////////
 
- editCell2.addEventListener('click', (event) => {
- const button = event.target;
- const firebaseKey2 = button.dataset.rowIndex;
- const rowData2 = tableData2.find(data2 => data2.firebaseKey2 === firebaseKey2);
+editCell2.addEventListener('click', (event) => {
+  const button2 = event.target;
+  const firebaseKey2 = button2.dataset.rowIndex;
+const rowData2 = tableData2.find(data => data.firebaseKey === firebaseKey2);
  
 
-    document.getElementById('edit-idPay2').value = rowData2.firebaseKey2;
-    document.getElementById('edit-amount2').value = rowData2.amount;
-  /*   document.getElementById('edit-ref-number').value = rowData.refNumber;
-  //  document.getElementById('edit-payment-type').value = rowData.paymentType;
-    document.getElementById('edit-time').value = rowData.time;
-    document.getElementById('edit-date').value = rowData.date; */
-  //  document.getElementById('edit-user').value = rowData.user;
-    document.getElementById('edit-status2').value = rowData2.status;
-   /*   document.getElementById('edit-merchant').value = rowData.merchantP; // Populate merchant  */
+ document.getElementById('edit-idPay2').value = firebaseKey2;
+ document.getElementById('edit-amount2').value = rowData2.amount;
+ document.getElementById('edit-date2').value = rowData2.date;
 
-    
-    // Show the modal display only to collect data in input fields next to save BTN /////
-   editPaymentForm2.style.display = 'block'; 
- 
-});
+ document.getElementById('edit-status2').value = rowData2.status;
+ const exx = document.getElementById('exName2').value = rowData2.name; 
+/* console.log(firebaseKey2 );
+ console.log(tableData2 ); */
 
-
-/////////////////////////////  // Event listener for Edit button aSSIGNMENT  //////////////////////////////
-
-/* assignCell2.addEventListener('click', (event) => {
-  const button = event.target;
-  const firebaseKey = button.dataset.rowIndex;
-  const rowData = tableData.find(data => data.firebaseKey === firebaseKey);
- 
-  
-  document.getElementById('edit-amountAssign2').value = rowData.amount;
-  document.getElementById('timeEdit2').value = rowData.time;
-     document.getElementById('edit-idPayAssign2').value = rowData.firebaseKey;
-     document.getElementById('edit-ref-numberAssign2').value =  rowData.refNumber;
-      document.getElementById('edit-merchantAssign2').value = rowData.merchantP; // Populate merchant 
-    
- 
-     
-     // Show the modal display only to collect data in input fields next to save BTN /////
-    editPaymentFormAssign2.style.display = 'block'; 
-  
- }); */
- 
-
-  });    
-
-
-//////////////////////////////////  populate merchant name ///////////////////////////////////
-
-/* const merchantInput = document.getElementById('edit-merchant');
-const suggestionsList = document.getElementById('suggestionsList');
-
-merchantInput.addEventListener('input', () => {
-  const searchTerm = merchantInput.value.toLowerCase();
-
-  if (searchTerm.length > 0) { 
-    database.ref('merchants')
-      .orderByChild('nameLower') // Make sure you have an index on the 'name' property in your rules
-      .startAt(searchTerm)
-      .endAt(searchTerm + '\uf8ff')
-      .limitToFirst(5)
-      .once('value')
-      .then((snapshot) => {
-        suggestionsList.innerHTML = ''; // Clear previous suggestions
-
-        snapshot.forEach((childSnapshot) => {
-          const merchantName = childSnapshot.val().name;
-          const listItem = document.createElement('li');
-          listItem.textContent = merchantName;
-
-          listItem.addEventListener('click', () => {
-            merchantInput.value = merchantName;
-            suggestionsList.innerHTML = ''; 
-          });
-
-          suggestionsList.appendChild(listItem);
-        });
-      })
-      .catch((error) => {
-        console.error("Error getting data: ", error);
-      });
-  } else {
-    suggestionsList.innerHTML = ''; // Clear suggestions if input is short
-  }
-});
-
-};
-
-
-//////////////////////////////////  populate merchant name for Assignment ///////////////////////////////////
-
-merchantInputAssign.addEventListener('input', () => {
-  const searchTerm = merchantInputAssign.value.toLowerCase();
-
-  if (searchTerm.length > 0) { 
-    database.ref('merchants')
-      .orderByChild('nameLower') // Make sure you have an index on the 'name' property in your rules
-      .startAt(searchTerm)
-      .endAt(searchTerm + '\uf8ff')
-      .limitToFirst(5)
-      .once('value')
-      .then((snapshot) => {
-        suggestionsListAssign.innerHTML = ''; // Clear previous suggestions
-
-        snapshot.forEach((childSnapshot) => {
-          const merchantName = childSnapshot.val().name;
-          const listItem = document.createElement('li');
-          listItem.textContent = merchantName;
-
-          listItem.addEventListener('click', () => {
-            merchantInputAssign.value = merchantName;
-            suggestionsListAssign.innerHTML = ''; 
-          });
-
-          suggestionsListAssign.appendChild(listItem);
-        });
-      })
-      .catch((error) => {
-        console.error("Error getting data: ", error);
-      });
-  } else {
-    suggestionsListAssign.innerHTML = ''; // Clear suggestions if input is short
-  }
-});
- */
-
-
-//////////////////////// Event listener for search input in merchant table ////////////////////////
-/* const merchantSearchInput2 = document.getElementById('merchant-search2');
-
-let timeoutId2;
-
-paymentSearchInput22.addEventListener('input', () => {
-  clearTimeout(timeoutId2); // Clear any previous timeout
-
-  timeoutId2 = setTimeout(() => {
-    const searchTerm = paymentSearchInput22.value.toLowerCase();
-
-    const filteredDataP2 = paymentsData2.filter((payment2) => {
-      return (
-        payment2?.amount?.toString().toLowerCase().includes(searchTerm) ||
-        payment2?.sender?.toString().toLowerCase().includes(searchTerm) ||
-        payment2?.refNumber?.toLowerCase().includes(searchTerm) ||
-        payment2?.time?.toLowerCase().includes(searchTerm) ||
-        payment2?.date?.toLowerCase().includes(searchTerm) ||
-        payment2?.paymentType?.toLowerCase().includes(searchTerm) ||
-        payment2?.save?.toLowerCase().includes(searchTerm) ||
-        payment2?.merchantP?.toLowerCase().includes(searchTerm)
-      );
-    });
-
-    updatePaymentsTable2(filteredDataP2);
-  }, 250); // Adjust delay to 250ms for better UX
-}); */
-
+  editPaymentForm2.style.display = 'block'; 
 
   
 
 
-//cancel to hide add editform
-/* cancelEditButton2.addEventListener('click', () => {
-editPaymentForm2.style.display = 'none'; 
 });
 
-cancelEditButtonAssign2.addEventListener('click', () => {
-  editPaymentFormAssign2.style.display = 'none'; 
-  }); */
-  
 
-/* const saveEditBtn2 = document.getElementById('save-edit2');
-const saveEditBtnAssign2 = document.getElementById('save-editAssign2');
+/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx FINAL EDIT SAVE xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxXXXXXXXXXXXXXXXXXXXXXX */
+/* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx FINAL EDIT SAVE xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxXXXXXXXXXXXXXXXXXXXXXX */
+
+
+
+const saveEditBtn2 = document.getElementById('save-edit2');
+const saveEditBtnAssign = document.getElementById('save-editAssign');
 
 
 saveEditBtn2.addEventListener('click', (event) => {
   const button = event.target;
-  const firebaseKey9 = button.dataset.rowIndex;
- 
-  const rowData = tableData.find(data => data.firebaseKey9 === firebaseKey9);
+  const firebaseKey2 = button.dataset.rowIndex;
+  const rowData = tableData2.find(data => data.firebaseKey === firebaseKey2);
 
   // 1. Get the merchant name from the input box:
-  //const merchantNameInput = document.getElementById('edit-merchant'); // Assuming 'merchantP' is the ID of your merchant name input
-  const merchantName = document.getElementById('edit-merchant').value;
-  async function getMerchantFirebaseKey(merchantName) {
-      try {
-          const merchantsRef = firebase.database().ref('merchants'); // Replace 'merchants' with your actual Firebase path
-          const snapshot = await merchantsRef.orderByChild('name').equalTo(merchantName).once('value'); // Assuming 'name' is the field where you store merchant names
+  const merchantName = document.getElementById('edit-clientName1').value;
 
-          if (snapshot.exists()) {
-              const merchantData = snapshot.val();
-              // Get the key (it will be the key of the first merchant found with that name)
-              const merchantKey = Object.keys(merchantData)[0];  // Get the first key
+              const newPayKeyPar2 = document.getElementById('edit-idPay2').value;
+              const newPayKey2 = newPayKeyPar2;
 
-              return merchantKey;
-          } else {
-              console.log("No merchant found with that name.");
-              return null; // Or handle the case where the merchant is not found
-          }
-      } catch (error) {
-          console.error("Error fetching merchant key:", error);
-          return null; // Or handle the error appropriately
-      }
-  } 
-
-
-  // 3. Call the function and save the key:
-  getMerchantFirebaseKey(merchantName)
-      .then(merchantFirebaseKey => {
-          if (merchantFirebaseKey) {
-              const newPayKeyPar = document.getElementById('edit-idPay').value;
-              const newPayKey = newPayKeyPar;
-
-              const updatedPaymentData2 = {
-
-               // firebasekey: document.getElementById('edit-idPay').value,
-                  amount: document.getElementById('edit-amount').value,
-                //  refNumber: document.getElementById('edit-ref-number').value,
-                //  paymentType: document.getElementById('edit-payment-type').value,
-                //  time: formattedTime,
-                 // date: document.getElementById('edit-date').value,
-                 // user: document.getElementById('edit-user').value,
-                  status: document.getElementById('edit-status').value,
-                //  merchantP: document.getElementById('edit-merchant').value,
-                  merchantKey: merchantFirebaseKey, // The new merchant Firebase Key
+              const updatedPaymentData = {
+                exName: document.getElementById('exName2').value,
+                   amount: document.getElementById('edit-amount2').value,
+                  status: document.getElementById('edit-status2').value,
+                 
+                  date: document.getElementById('edit-date2').value,
+                //  merchantKey: merchantFirebaseKey // The new merchant Firebase Key
               };
 
               // Update in Firebase (example)
-              firebase.database().ref(`goldenwifi/goldenExpenses/${newPayKey}`).update(updatedPaymentData2)
+              firebase.database().ref(`goldenwifi/goldenExpenses/${newPayKey2}`).update(updatedPaymentData)
                   .then(() => {
                     
                  
                 Swal.fire({
                   title: "Success!",
-                  text: "New payment edited successfully!",
+                  text: "Expenses edited successfully!",
                   icon: "success",
                   timer: 3000, // Closes after 3 seconds
                   showConfirmButton: false
                 });
                 
-                editPaymentForm.style.display = 'none'; 
+                editPaymentForm2.style.display = 'none'; 
 
-
-
-                    //  window.location.reload();
-                     
-               
                   })
                   .catch(error => {
                       console.error("Error updating payment data:", error);
-                      // ... error handling ...
                   });
 
-          } else {
-              // Handle the case where the merchant key was not found.
+        /*   } else {
               alert("Merchant not found. Please check the merchant name.");
-          }
+          } */
       });
-      //alert("Payment details updated successfully!");
-}); */
+});
 
 
 
-/* saveEditBtnAssign2.addEventListener('click', (event) => {
-  const button = event.target;
-  const firebaseKey9 = button.dataset.rowIndex;
- 
-  const rowData = tableData.find(data => data.firebaseKey9 === firebaseKey9);
-
-  const merchantName2= document.getElementById('edit-merchantAssign2').value;
-  async function getMerchantFirebaseKeyA2(merchantName) {
-      try {
-          const merchantsRef = firebase.database().ref('merchants'); // Replace 'merchants' with your actual Firebase path
-          const snapshot = await merchantsRef.orderByChild('name').equalTo(merchantName2).once('value'); // Assuming 'name' is the field where you store merchant names
-
-          if (snapshot.exists()) {
-              const merchantData = snapshot.val();
-              // Get the key (it will be the key of the first merchant found with that name)
-              const merchantKey = Object.keys(merchantData)[0];  // Get the first key
-
-              return merchantKey;
-          } else {
-              console.log("No merchant found with that name.");
-              return null; // Or handle the case where the merchant is not found
-          }
-      } catch (error) {
-          console.error("Error fetching merchant key:", error);
-          return null; // Or handle the error appropriately
-      }
-  } 
 
 
-  // 3. Call the function and save the key:
-  getMerchantFirebaseKeyA2(merchantName)
-      .then(merchantFirebaseKey => {
-          if (merchantFirebaseKey) {
-              const newPayKeyPar = document.getElementById('edit-idPayAssign').value;
-              const newPayKey = newPayKeyPar;
-             
-              const updatedPaymentData = {
-
-               // firebasekey: document.getElementById('edit-idPay').value,
-                  amount: document.getElementById('edit-amountAssign').value,
-                  refNumber: document.getElementById('edit-ref-numberAssign').value,
-                 // paymentType: document.getElementById('edit-payment-type').value,
-                  merchantP: document.getElementById('edit-merchantAssign').value,
-                  merchantKey: merchantFirebaseKey, // The new merchant Firebase Key
-              };
-
-              // Update in Firebase (example)
-              firebase.database().ref(`payments/${newPayKey}`).update(updatedPaymentData)
-                  .then(() => {
-                    
-                    
-                     
-
-                    Swal.fire({
-                      title: "Success!",
-                      text: "Trader assigned successfully!",
-                      icon: "success",
-                      timer: 3000, // Closes after 3 seconds
-                      showConfirmButton: false
-                    });
-
-                    editPaymentFormAssign.style.display = 'none'; 
-                   
-                     // window.location.reload();
-                     
-                    
-                  })
-                  .catch(error => {
-                      console.error("Error updating payment data:", error);
-                      // ... error handling ...
-                  });
-
-          } else {
-              // Handle the case where the merchant key was not found.
-              alert("Merchant not found. Please check the merchant name.");
-          }
-      });
-     
-}); */
-
-}
 
 
-/* const totalForTheDay2 = dateInput22.value; 
-const displaytodaytotal2 = document.getElementById('total-today');
-
-function dailypayments2() {
-  database.ref('payments').once('value', (paymentsSnapshot) => {
-    const payments = [];
-    paymentsSnapshot.forEach((paymentSnapshot) => {
-        const payment = paymentSnapshot.val();
-        //Only add payments with status new
-        if (payment.date === totalForTheDay) { //This is the added line
-            payments.push(payment);
-        }
-    });
-     
-     const todatNumberPayments = {};
-      const todayTotal = {};
-  
-      payments.forEach((payment) => {
-          if (payment.date && payment.amount) { // Check if merchantP and amount exist
-          
-              const paymentdate= payment.date;
-              const amount = parseFloat(payment.amount); // Parse amount as float
-  
-             if (!todatNumberPayments[paymentdate]) {
-              todatNumberPayments[paymentdate] = 0;
-              
-            }
-            todatNumberPayments[paymentdate]++;
-  
-              if (!todayTotal[paymentdate]) {
-                todayTotal[paymentdate] = 0;
-                 
-  
-              }
-              todayTotal[paymentdate] += amount;
-           
-           }
+cancelEditButton2.addEventListener('click', () => {
+  editPaymentForm2.style.display = 'none'; 
+  })
 
 
-           const paymentdate = (payment.date);
-           const totalForTheDay = (todayTotal[paymentdate] || 0).toFixed(2);
-           const pilakaresibo = (todatNumberPayments[paymentdate] || 0);
-           const eight1 = (totalForTheDay * 0.08).toFixed(2);
-           const eightPoint1 = (totalForTheDay * 0.085).toFixed(2);
-           const eight = (eight1 - 500).toFixed(2);
-           const eightPoint = (eightPoint1 - 500).toFixed(2);
-          
-document.getElementById('total-today').value = totalForTheDay;
-document.getElementById('total-resibo').value = pilakaresibo;
-document.getElementById('eight').value = eight;
 
 
-//localStorage.setItem("todayNew" ,  totalForTheDay);
 
 
-          })
-         
-        })
-      
-      };
-      dailypayments2();
 
- */
-           
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+
+
+
+  };    
+
+
+
+
+
+

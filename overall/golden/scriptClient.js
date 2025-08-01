@@ -25,7 +25,13 @@ firebase.auth().onAuthStateChanged((user) => {
     .then(snapshot => {
         if (snapshot.exists()) {
             const userData = snapshot.val();
-            document.getElementById("usernameDisplay").innerText = userData.email;
+            const email = userData.email;
+            const username = email.split("@")[0];
+            document.getElementById("usernameDisplay").innerText = "Welcome, " + username;
+             document.getElementById("theUser").value =username;
+          document.getElementById("areaCode").value = username;
+
+             
         } else {
             console.log("No user data found!");
         }
@@ -165,12 +171,14 @@ const dateInput22 = document.getElementById('date-today');
 
 
 
+const contactNum = document.getElementById('contactNum');
 
 /////////////////// ADDING NEW MERCHANT TO DATABASE ////////////////////////
 const submitNewClient = document.getElementById("submit-client");
+const userSaved = document.getElementById("theUser");
+const areaCode1 = document.getElementById('areaCode').value;
 
 submitNewClient.addEventListener('click', () => {
-
 
 
   const newMerchantName = clientNameIn.value; // Store the name for easier use
@@ -181,12 +189,15 @@ submitNewClient.addEventListener('click', () => {
       planAmount: planAmount.value,
       connectionType: connectionType.value,
       status:  "new",
+      areaCode:  userSaved.value,
       date: formattedDate,
-      user: userInput.value
+      contactNum: contactNum.value,
+      note: "",
+      user: userSaved.value
     
   };
 
-console.log("tusloka pa!!!!");
+
 
   // 1. Check if the merchant name already exists:
   const merchantsRef = firebase.database().ref('goldenwifi/goldenClients/');

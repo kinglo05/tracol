@@ -134,10 +134,14 @@
         </div>
         
         <div class="sidebar-body" id="sidebar-body">
-            <ul> 
-                <li><a href="goldenNEW.html">VIEW TRANSACTIONS</a></li>
-                 <li><a href="goldenADD.html">ADD NEW TRANSACTION</a></li>
-            <li><a href="report/report.html">GENERATE REPORT</a></li>
+            <ul>
+                 <li><a href="collectorNEW.html">CLIENTS/BILLS</a></li>
+                  <li><a href="../disconnected/disconnected2.html">DISCONNECTED CLIENTS</a></li>
+              
+                  <li id="addTransactionItem" style="display: none;">
+    <a href="collectorADDex.html">ADD NEW TRANSACTION</a>
+  </li>
+           
            <!--  <li><a href="addclient.html">ADD NEW CLIENT</a></li> -->
             </ul>
         </div>
@@ -163,7 +167,12 @@
           
        
 
-        <div id="add-payment">     
+             <input type="text" id="theUser" hidden>
+            
+
+        <div id="add-payment">    
+            
+             
             <br>
             <form id="payment-form">
                 
@@ -179,65 +188,67 @@
                 <option value="">Select Address</option>
                  <option value="Asuncion">Asuncion</option>
                  <option value="Amparo">Amparo</option>
-                 <option value="Isagani">Isagani</option>
-                 <option value="Macrohon">Macrohon-Proper</option>
-                 <option value="Combado">Combado</option>
-                 <option value="Lib-og">Lib-og</option>
-                 <option value="Bato-1">Bato-1</option>
+                  <option value="Acasia">Acasia</option>
+                  <option value="Bato-1">Bato-1</option>
                  <option value="Bato-2">Bato-2</option>
+                  <option value="Baugo">Baugo</option>
+                  <option value="Combado">Combado</option>
+                   <option value="Cambooc">Cambooc</option>
+                    <option value="Cansirong">Cansirong</option>
+                     <option value="Hanginan">Hanginan</option>
+                 <option value="Isagani">Isagani</option>
+                  <option value="Ichon">Ichon</option>
+
+                 <option value="Macrohon">Macrohon-Proper</option>
+                
+                 <option value="Lib-og">Lib-og</option>
+                 
                  <option value="Nati">Nati</option>
-                 <option value="Acasia">Acasia</option>
-                 <option value="Baugo">Baugo</option>
+                
+                
                  <option value="Lunas">Lunas</option>
-                 <option value="Cansirong">Cansirong</option>
+                
                  <option value="Rizal-Maasin">Rizal-Maasin</option>
-                 <option value="Cambooc">Cambooc</option>
+                
                  <option value="Hantag">Hantag</option>
                   
                  </select> <br>
 
 
-                  <label for="connectionType">Select Connection Type:</label>
+             
+
+
+                <label for="connectionType">Select Connection Type:</label>
                 <select id="connectionType" autocomplete="off" required><br>
                  <option value="Fiber">Fiber</option>
                  <option value="Antenna">Antenna</option>
                 </select> <br>
 
+                  
+                     <label for="areaCode"> Area Code:</label>
+                     <input type="text" id="areaCode" required readonly>
 
 
-                  <label for="clientStatus">Client Status:</label>
-                <select id="clientStatus" autocomplete="off" required><br>
-                 <option value="new">Active</option>
-                 <option value="none-active">Not Active</option>
-                </select> <br>
-
-                <!-- <label for="time">Time:</label>
-                <input type="time" id="time" ><br> -->
+            <label for="contactNum">Client contact #:</label>
+                <input type="text" id="contactNum" autocomplete="off"  placeholder="Write contact number" >
 
                 <label for="date">Date Connected:</label>
                 <input type="date" id="date" required><br>
 
 
-                <label for="userType">User:</label>
-                <select id="userType"><br>
-                 
-                 <option value="admin">admin</option>
-                 <option value="contructor">contractor</option>
-                </select> <br>
 
-               
-                <input type="text" id="merchant-pay" placeholder="Enter name/Leave blank" hidden><br>
-              
-                <ul id="suggestionsListMP"></ul>
-
-
-              
                 <button id="submit-client" type="submit">SAVE</button>
             </form>
             <input type="text" id="fireKey" hidden><br>
 
             <div class="footer" id="footer">
-              @lohwa    
+              @lohwa  
+              
+             
+
+                   <input type="text" id="merchant-pay" placeholder="Enter name/Leave blank" hidden><br>
+              
+                <ul id="suggestionsListMP"></ul>
             </div> 
         </div>
     </div>
@@ -253,6 +264,18 @@
                 sidebar.style.left = "-250px";
                 mainContent.style.marginLeft = "0";
             }
+
+    const addItem = document.getElementById("addTransactionItem");
+    const user = document.getElementById("theCollector").value;
+    if (addItem && user === "rasty") {
+      addItem.style.display = "list-item";
+      console.log("naa",user);
+    } else {
+      addItem.style.display = "none";
+        console.log("wala",user);
+    }
+
+
         }
     </script>
  <script src="scriptClient.js"></script>

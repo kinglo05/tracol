@@ -192,10 +192,12 @@
         </div>
         <div class="sidebar-body" id="sidebar-body">
            <ul>
+            <li><a href="clients/billAdmin2025.html">CLIENTS/BILLS</a></li>
+              <li><a href="clients/disconnected/disconnected.html">DISCONNECTED CLIENTS</a></li>
+             <li><a href="addclient.html">ADD NEW CLIENT</a></li>
             <li><a href="goldenADD.html">ADD NEW TRANSACTION</a></li>
-           
             <li><a href="report/report.html">GENERATE REPORT</a></li>
-            <li><a href="addclient.html">ADD NEW CLIENT</a></li>
+           
 
        </div>
        <div hidden>    <input type="date" name="date-today" id="date-today">     </div>
@@ -329,7 +331,7 @@
                         <th>Amount</th>
                         <th>Name</th>
                         <th>Address</th>
-                        <th>Status</th>
+                        <th>User</th>
                         <th>Active</th>
                         <th>Edit</th>
                         
@@ -357,21 +359,31 @@
 
 <h3>Edit Payment NEW</h3> 
 
-<input type="number" id="clientName"><br>
+<label for="exName2">Expenses Name:</label>
+<input type="text" id="exName2"><br>
+
 <label for="edit-amount2">Amount:</label>
 <input type="number" id="edit-amount2"><br>
-<!-- <label for="edit-ref-number">Reference Number:</label>
-<input type="number" id="edit-ref-number2" placeholder="Input 4 digit" pattern="\d{4}" required> -->
-<!-- <ul id="suggestionsList"></ul> -->
-<!-- <label for="edit-status">Status:</label>
-<input type="text" id="edit-status"  readonly ><br> -->
+
+<label for="edit-date2">Date of Payment:</label>
+                <input type="date" id="edit-date2" ><br>
+                  
+
+                    <label for="edit-status2">Remove or Include</label>
+                    <select id="edit-status2" autocomplete="off" required><br>
+                 
+                      <option value="new">Included</option>
+                      <option value="claimed">Remove</option>
+                  
+                 </select> <br>
+
 
 <button id="save-edit2">Save</button>
-<button id="cancel-edit2">Close</button>
+<button id="cancel-edit2">Close</button><br>
 
-<input type="text" id="edit-merchant2" placeholder="Enter merchant name" hidden><br>
+
 <input type="text" id="edit-idPay2"  hidden><br>
-<input type="text" id="edit-fireKey2"  hidden><br>
+<input type="text" id="edit-fireKey2" hidden><br>
 </div>
 </div>
 
@@ -388,7 +400,7 @@
                      <th>Date</th>
                      <th>Amount</th>
                      <th>Name</th>
-                     <th>Status</th>
+                     <th>User</th>
                      <th>Active</th>
                      <th>Edit</th>
                      

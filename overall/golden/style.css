@@ -290,8 +290,24 @@ select {
 #user {
   min-width: 218px;
 }
+#clientAddress {
+  min-width: 218px;
+}
+
+#connectionType {
+  min-width: 218px;
+}
+
+#areaCodeX {
+  min-width: 200px;
+}
 
 
+#submit-client {
+  margin-top: 15px;
+  margin-bottom: 10px;
+  min-width: 218px;
+}
 
 /* Button Styling */
 
