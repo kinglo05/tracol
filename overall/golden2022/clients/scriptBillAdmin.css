@@ -1043,7 +1043,7 @@ label {
 /* Container for the table with scrolling */
 .table-container {
 
-  min-height: 450px; /* Set a maximum height for scrolling */
+ max-height: 450px;
   overflow-y: auto; /* Enable vertical scrolling */
   overflow-x: auto; /* Enable horizontal scrolling if needed */
   border-top: 0px;
@@ -1798,6 +1798,7 @@ min-width: 50px;
     background-color: #dde6e4;
     font-size: smaller;
 }
+
 
 
 
