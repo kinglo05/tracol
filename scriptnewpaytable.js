@@ -345,7 +345,7 @@ merchantInputP.addEventListener('input', () => {
     suggestionsListMP.innerHTML = ''; // Clear suggestions if input is short
   }
 
-  filterPayments();
+ // filterPayments();
 });
 
 
@@ -1121,6 +1121,7 @@ document.getElementById('eight').value = eight1;
             };
             
             calculateDailyTrades();
+           filterPayments();
 
 
 
@@ -1128,6 +1129,7 @@ document.getElementById('eight').value = eight1;
 
 
            
+
 
 
 
