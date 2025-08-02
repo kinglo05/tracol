@@ -420,7 +420,7 @@ database.ref('payments').on('value', (snapshot) => {
 };
 
 
-
+window.onload = filterPayments();
 
 
 
@@ -1122,3 +1122,4 @@ document.getElementById('eight').value = eight1;
 
 
            
+
