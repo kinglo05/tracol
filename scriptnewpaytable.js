@@ -273,9 +273,9 @@ function setDefaultDates() {
   document.getElementById("startDate").value = formatDate(today);
   document.getElementById("endDate").value = formatDate(today);
 
-  const startD = formatDate(today);
+  //const startD = formatDate(today);
   
-  filterPayments(startD);
+//  filterPayments(startD);
 }
 
 // Run function on page load
@@ -1128,6 +1128,7 @@ document.getElementById('eight').value = eight1;
 
 
            
+
 
 
 
