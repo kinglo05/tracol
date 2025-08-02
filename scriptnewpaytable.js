@@ -276,7 +276,7 @@ function setDefaultDates() {
 
 // Run function on page load
 window.onload = setDefaultDates;
-
+window.onload = filterPayments();
 
 
 
@@ -420,7 +420,7 @@ database.ref('payments').on('value', (snapshot) => {
 };
 
 
-window.onload = filterPayments();
+
 
 
 
@@ -1122,4 +1122,5 @@ document.getElementById('eight').value = eight1;
 
 
            
+
 
