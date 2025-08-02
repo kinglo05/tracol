@@ -777,3 +777,6 @@ function parseTime(timeStr) {
 
     return new Date(0, 0, 0, hours, minutes); // Use a fixed date with time
 }
+
+
+filterPayments();
