@@ -272,11 +272,15 @@ function setDefaultDates() {
 
   document.getElementById("startDate").value = formatDate(today);
   document.getElementById("endDate").value = formatDate(today);
+
+  const startD = formatDate(today);
+  
+  filterPayments(startD);
 }
 
 // Run function on page load
 window.onload = setDefaultDates;
-window.onload = filterPayments();
+ // window.onload = filterPayments();
 
 
 
@@ -340,6 +344,8 @@ merchantInputP.addEventListener('input', () => {
   } else {
     suggestionsListMP.innerHTML = ''; // Clear suggestions if input is short
   }
+
+  filterPayments();
 });
 
 
@@ -1122,5 +1128,6 @@ document.getElementById('eight').value = eight1;
 
 
            
+
 
 
