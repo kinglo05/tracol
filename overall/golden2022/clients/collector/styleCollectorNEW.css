@@ -400,6 +400,12 @@ button:hover {
 
 
 
+
+
+
+
+
+
  #top2Btn {
     display: flex;
     flex-wrap: wrap;              /* allow wrapping on smaller screens */
@@ -413,6 +419,132 @@ button:hover {
     flex: 1 1 auto;               /* allow items to shrink and grow */
     min-width: 120px;             /* optional: control how narrow items can get */
   }
+
+
+
+ #dueDateDiv {
+    display: flex;
+    flex-wrap: wrap;              /* allow wrapping on smaller screens */
+    gap: 10px;                    /* space between items */
+    align-items: center;          /* vertical alignment */
+    justify-content: space-between;  /* spread items evenly or change to center/start */
+    padding: 5px;
+  }
+
+ #dueDateDiv > * {
+    flex: 1 1 auto;               /* allow items to shrink and grow */
+    min-width: 120px;             /* optional: control how narrow items can get */
+  }
+
+
+ #unpaid-month-div3 {
+    display: flex;
+    flex-wrap: wrap;              /* allow wrapping on smaller screens */
+    gap: 10px;                    /* space between items */
+    align-items: center;          /* vertical alignment */
+    justify-content: space-between;  /* spread items evenly or change to center/start */
+    padding: 5px;
+  }
+
+ #unpaid-month-div3 > * {
+    flex: 1 1 auto;               /* allow items to shrink and grow */
+            /* optional: control how narrow items can get */
+  }
+  
+
+
+
+
+
+
+   #toggleDueDateBtn15 {
+  background-color: rgba(77, 80, 82, 0.6); /* Slightly transparent red */
+  color: rgb(255, 251, 251);
+  padding: 6px 6px;
+  border: none;
+  border-radius: 1px; 
+  cursor: pointer;
+  font-size: 12px;
+  font-family: verdana;
+  border-radius: 5px;
+ 
+  /* 🔄 Smooth transitions for both opacity and background */
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+ opacity: 1; 
+}
+ 
+
+
+#toggleDueDateBtn15:hover {
+  background-color: rgb(4, 239, 247); /* Fully opaque background */
+  opacity: 1; /* Full visibility */
+   color: rgb(8, 8, 8);
+}
+
+
+
+
+#toggleDueDateBtnEnd {
+  background-color: rgba(77, 80, 82, 0.6); /* Slightly transparent red */
+  color: rgb(255, 251, 251);
+  padding: 6px 6px;
+  border: none;
+  border-radius: 1px; 
+  cursor: pointer;
+  font-size: 12px;
+  font-family: verdana;
+   border-radius: 5px;
+ /*  margin-left: 175px;
+  */
+
+  /* 🔄 Smooth transitions for both opacity and background */
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+
+ /*  opacity: 0.85; */ /* Dim the entire button slightly */
+}
+
+#toggleDueDateBtnEnd:hover {
+  background-color: rgb(6, 128, 199); /* Fully opaque background */
+  opacity: 1; /* Full visibility */
+   color: rgb(247, 241, 241);
+}
+
+
+
+
+#pendingTotal {
+  background-color: rgba(13, 6, 243, 0.6); /* Slightly transparent red */
+  color: rgb(255, 251, 251);
+  padding: 6px 6px;
+  border: none;
+  border-radius: 1px; 
+  cursor: pointer;
+  font-size: 12px;
+  font-family: verdana;
+   border-radius: 5px;
+ /*  margin-left: 175px;
+  */
+
+  /* 🔄 Smooth transitions for both opacity and background */
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+
+ /*  opacity: 0.85; */ /* Dim the entire button slightly */
+}
+
+#pendingTotal {
+ width: 100%;
+}
+
+
+
+#pendingTotal:hover {
+  background-color: rgb(6, 128, 199); /* Fully opaque background */
+  opacity: 1; /* Full visibility */
+   color: rgb(247, 241, 241);
+}
+
+
+
 
 
 
@@ -632,6 +764,18 @@ input:hover {
     height: 30px;
      width: 150px;  
 }
+
+
+#modeOfPay { 
+    height: 30px;
+     width: 150px;  
+}
+
+#dueDate { 
+    height: 30px;
+     width: 150px;  
+}
+
 
 #client-address1:hover {
   background-color: #0baaf3; /* A slightly darker gray on hover */
@@ -1043,7 +1187,7 @@ label {
 /* Container for the table with scrolling */
 .table-container {
 
- max-height: 510px;
+  min-height: 450px; /* Set a maximum height for scrolling */
   overflow-y: auto; /* Enable vertical scrolling */
   overflow-x: auto; /* Enable horizontal scrolling if needed */
   border-top: 0px;
@@ -1507,6 +1651,61 @@ label {
 
 
 
+      /*  ///////////////// for total collections below //////////////////////
+ */
+
+
+  #unpaid-month-div2 {
+           
+           
+           background-color:#766450;
+           color: white;
+           display: flex;
+           align-items: center;
+           padding-left: 8px;
+           border-color: #faf5f5;
+           height: 48px;  
+         
+           border-width: 2px;    
+       }
+
+#unpaidMonthSelect2 {
+    padding: 2px;
+    margin-bottom: 2px;
+    margin-left: 5px;
+    border: 1px solid #8a8484;
+    height: 25px;
+    width: 90px;
+    border-radius: 8px;   
+    background-color: #71968e;
+    font-size: smaller;
+}
+
+#unpaidMonthSelect2:hover {
+  background-color: #1cd14a; /* A slightly darker gray on hover */
+}
+
+
+   #unpaidTotalResult2 {
+           
+           
+          /*  background-color:#573003; */
+           color: white;
+           display: flex;
+           align-items: center;
+           padding-left: 8px;
+           border-color: #faf5f5;
+            font-size: smaller;
+          
+       }
+
+
+
+
+
+
+
+
 
         iframe {
             width: 100%;
@@ -1786,4 +1985,50 @@ min-width: 50px;
 
 
 
+   /* ////////////////////// for dropmonth total collections //////////////// */
 
+   .dropdown-with-label2 {
+  display: flex;
+
+  align-items: center;
+  gap: 5px;
+ 
+}
+
+.dropdown-with-label2 label {
+  font-weight: bold;
+  font-size: 16px;
+  color: #faf3f3;
+  
+  
+}
+
+.dropdown-with-label2 select {
+  padding: 2px;
+    /* margin-bottom: 2px; */
+    margin-top: 8px;
+    margin-left: 2px;
+    border: 1px solid #8a8484;
+    height: 25px;
+    min-width: 88px;
+    border-radius: 8px;   
+    background-color: #dde6e4;
+    font-size: smaller;
+}
+
+
+ #planModal {
+
+position:fixed;
+top:30%; 
+left:50%; 
+transform:translate(-50%, -50%);
+background:white;
+border:1px solid #ccc; 
+padding:20px; 
+box-shadow:0 0 10px #999;
+ z-index:1000;
+
+
+
+ }
