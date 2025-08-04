@@ -570,6 +570,29 @@ EditSubmit3.addEventListener('click', () => {
 
 
 
+ function sortTableByClientName() {
+    const table = document.getElementById("merchants-table");
+    const tbody = table.querySelector("tbody");
+    const rows = Array.from(tbody.querySelectorAll("tr"));
+
+    rows.sort((a, b) => {
+      const nameA = a.children[2].textContent.trim().toLowerCase(); // 3rd column (ClientName)
+      const nameB = b.children[2].textContent.trim().toLowerCase();
+      return nameA.localeCompare(nameB);
+    });
+
+    // Re-append sorted rows
+    rows.forEach((row, index) => {
+      row.children[0].textContent = index + 1; // Re-number the 'No.' column
+      tbody.appendChild(row);
+    });
+  }
+
+  // Call the function after table is loaded
+  sortTableByClientName();
+
+
+
 
 
 
@@ -1966,6 +1989,7 @@ window.addEventListener("DOMContentLoaded", () => {
   loadClientTable(); // load clients first
  // updateMerchantTable3();
 });
+
 
 
 
