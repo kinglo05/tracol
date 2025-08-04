@@ -28,9 +28,11 @@ firebase.auth().onAuthStateChanged((user) => {
             const username = email.split("@")[0];
             document.getElementById("usernameDisplay").innerText = "Welcome, " + username;
             document.getElementById("theCollector").value =username;
+            document.getElementById("userTop").value = username
             
               loadGoldenClientsByUser(username);
                populateUnpaidMonthDropdown();
+               populateUnpaidMonthDropdown2();
              //  loadGoldenClientsByUser(username);
 
              
@@ -278,7 +280,6 @@ function handleMerchantSearchInput3() {
     // Show or hide row based on match
     row.style.display = matchFound ? "" : "none";
   });
- 
 }
 
 
@@ -342,6 +343,12 @@ function updateMerchantTable(data, username, searchTerm = "") {
   const noteCell = row.insertCell();
   noteCell.textContent = merchant.note;
 
+  const dueDateCell = row.insertCell();
+  dueDateCell.textContent = merchant.dueDate;
+
+   const modeOfPayCell = row.insertCell();
+  modeOfPayCell.textContent = merchant.modeOfPay;
+
   const merchantKey = (merchant.id);
 
   const editMerchantCell = row.insertCell();
@@ -364,6 +371,8 @@ button2.dataset.clientId = merchant.id; // 👈 set data attribute
   document.getElementById('status').value = merchant.status || "";
   document.getElementById('planAmount').value = merchant.planAmount || "";
   document.getElementById('client-address1').value = merchant.address || "";
+  document.getElementById('dueDate').value = merchant.dueDate || "";
+
 
   // Show the form/modal
   editMerchantForm.style.display = 'block';
@@ -391,6 +400,7 @@ EditSubmit.addEventListener('click', () => {
        nameLower: nameTo.toLowerCase(), 
        contactNum: document.getElementById('contactNum2').value,
        note: document.getElementById('note').value,
+       dueDate: document.getElementById('dueDate').value,
        planAmount:  document.getElementById('planAmount').value, 
         status:  document.getElementById('status').value,
       address: document.getElementById('client-address1').value,
@@ -423,7 +433,6 @@ EditSubmit.addEventListener('click', () => {
 
 });
   });
-
 }; 
 
 
@@ -568,8 +577,14 @@ EditSubmit3.addEventListener('click', () => {
 
 });
   });
-  
 }; 
+
+
+
+
+
+  
+
 
 
 
@@ -591,7 +606,7 @@ function closeEditDisconnected() {
 
 
 function toggleDivs(button) {
-  const ids = [ "unpaid-month-div", "unpaidTotalResult"];
+  const ids = [ "unpaid-month-div","unpaid-month-div2", "unpaid-month-div3" ,"unpaidTotalResult", "unpaidTotalResult2"];
   const isAnyVisible = ids.some(id => document.getElementById(id).style.display === "block");
 
   ids.forEach(id => {
@@ -848,6 +863,8 @@ function loadClientTable(username, searchTerm = "") {
       const noteData = notesData?.[clientKey]?.note || "";
        const clientAddress = notesData?.[clientKey]?.address || "";
        const status = notesData?.[clientKey]?.status || "";
+        const dueDate = notesData?.[clientKey]?.dueDate || "";
+        const modeOfPay = notesData?.[clientKey]?.modeOfPay || "";
 
       const displayNote = noteData !== "" 
 
@@ -869,6 +886,8 @@ function loadClientTable(username, searchTerm = "") {
         <td>${clientAddress}</td>
          <td>${clientAreaCode}</td>
         <td onclick="addReminder('${clientKey}')" style="cursor: pointer;">${displayNote}</td>
+         <td>${dueDate}</td>
+          <td>${modeOfPay}</td>
          <td>${status}</td>
         <td><span class="status-label">${unpaidCount >= 2 ? `⚠ Overdue (${unpaidCount})` : "Unpaid"}</span></td>
       `;
@@ -884,6 +903,7 @@ function loadClientTable(username, searchTerm = "") {
    // calculateUnpaidGrandTotalForYear();
 
     populateUnpaidMonthDropdown();
+     populateUnpaidMonthDropdown2();
     calculateUnpaidGrandTotalForYear();
   });
 }
@@ -1032,6 +1052,90 @@ function loadSavedPayments2(username ) {
 
 
 
+ const toggleBtn15 = document.getElementById("toggleDueDateBtn15");
+  let filterActive = false;
+
+  toggleBtn15.addEventListener("click", () => {
+    const table = document.getElementById("merchants-table2");
+    const rows = table.querySelectorAll("tbody tr");
+
+    filterActive = !filterActive;
+
+    rows.forEach(row => {
+      const dueDateCell = row.cells[7]; // 9th column is index 8
+      if (!dueDateCell) return;
+
+      const dueDateText = dueDateCell.textContent.trim();
+      const day = parseInt(dueDateText);
+
+      //const isDueDateMatch = day === 15 || (day >= 28 && day <= 31);
+
+       const isDueDateMatch = day === 15;
+
+
+     //  const isDueDateMatch = (day >= 28 && day <= 31);
+
+      if (filterActive) {
+        // Show only matching due dates
+        row.style.display = isDueDateMatch ? "" : "none";
+      } else {
+        // Show all
+        row.style.display = "";
+      }
+    });
+
+    toggleBtn15.textContent = filterActive 
+      ? "Show All Clients" 
+      : "Show 15th Duedate";
+  });
+
+  
+
+
+ const toggleBtn2 = document.getElementById("toggleDueDateBtnEnd");
+  let filterActive2 = false;
+
+  toggleBtn2.addEventListener("click", () => {
+    const table = document.getElementById("merchants-table2");
+    const rows = table.querySelectorAll("tbody tr");
+
+    filterActive = !filterActive;
+
+    rows.forEach(row => {
+      const dueDateCell = row.cells[7]; // 9th column is index 8
+      if (!dueDateCell) return;
+
+      const dueDateText = dueDateCell.textContent.trim();
+      const day = parseInt(dueDateText);
+
+      //const isDueDateMatch = day === 15 || (day >= 28 && day <= 31);
+
+      // const isDueDateMatch = day === 15;
+
+
+       const isDueDateMatch = (day >= 28 && day <= 31);
+
+      if (filterActive) {
+        // Show only matching due dates
+        row.style.display = isDueDateMatch ? "" : "none";
+      } else {
+        // Show all
+        row.style.display = "";
+      }
+    });
+
+    toggleBtn2.textContent = filterActive 
+      ? "Show All Clients" 
+      : "Show End of Month Duedate";
+  });
+
+
+
+
+
+
+
+
 
 
 
@@ -1158,12 +1262,6 @@ function loadSavedPayments(username) {
   });
    sortTableByClientName();
 }
-
-
-
-
-
-
 
 
 
@@ -1302,6 +1400,8 @@ function loadSavedPayments3(username) {
 
 
 
+
+
  function sortTableByClientName() {
     const table = document.getElementById("merchants-table");
     const tbody = table.querySelector("tbody");
@@ -1320,9 +1420,10 @@ function loadSavedPayments3(username) {
     });
   }
 
- 
+  // Call the function after table is loaded
+ // sortTableByClientName();
 
-function sortTableByClientName2() {
+ function sortTableByClientName2() {
     const table = document.getElementById("merchants-table2");
     const tbody = table.querySelector("tbody");
     const rows = Array.from(tbody.querySelectorAll("tr"));
@@ -1341,8 +1442,7 @@ function sortTableByClientName2() {
   }
 
 
-
-function sortTableByClientName3() {
+   function sortTableByClientName3() {
     const table = document.getElementById("merchants-table3");
     const tbody = table.querySelector("tbody");
     const rows = Array.from(tbody.querySelectorAll("tr"));
@@ -1359,8 +1459,6 @@ function sortTableByClientName3() {
       tbody.appendChild(row);
     });
   }
-
-
 
 
 
@@ -1491,8 +1589,6 @@ function calculateUnpaidTotalsPerMonth() {
 
 
 
-
-
 function displayUnpaidTotals(totalsPerMonth) {
   const container = document.getElementById("unpaid-monthly-summary");
   container.innerHTML = ""; // Clear old content
@@ -1590,6 +1686,152 @@ function calculateUnpaidForSelectedMonth() {
 
 
 
+   //////////////////// SECOND GROUP FOR TOTAL STARTS HERE ////////
+
+   function populateUnpaidMonthDropdown2() {
+  const dropdown2 = document.getElementById("unpaidMonthSelect2");
+
+  firebase.database().ref("goldenwifi/monthly-bills").once("value").then(snapshot => {
+    const clients = snapshot.val();
+    if (!clients) return;
+
+    const monthSet = new Set();
+
+    Object.values(clients).forEach(client => {
+      if (!client.bills) return;
+
+      Object.keys(client.bills).forEach(monthKey => {
+        monthSet.add(monthKey); // Format: "YYYY-MM"
+      });
+    });
+
+    const sortedMonths = Array.from(monthSet).sort(); // Ascending
+
+    dropdown2.innerHTML = ""; // Clear existing
+
+    sortedMonths.forEach(monthKey => {
+      const option = document.createElement("option");
+      option.value = monthKey;
+      option.textContent = new Date(monthKey + "-01").toLocaleString('default', {
+        month: 'short', year: 'numeric'
+      });
+      dropdown2.appendChild(option);
+    });
+
+    // 🟡 Set default to current month
+    const now = new Date();
+    const currentMonthKey = now.toISOString().slice(0, 7); // "YYYY-MM"
+
+    if (sortedMonths.includes(currentMonthKey)) {
+      dropdown2.value = currentMonthKey;
+    } else if (sortedMonths.length > 0) {
+      dropdown2.selectedIndex = sortedMonths.length - 1; // last available month
+    }
+
+    // Trigger initial calculation
+  calculateUnpaidForSelectedMonth2();
+  });
+}
+
+
+
+function calculateUnpaidForSelectedMonth2() {
+  const selectedMonth = document.getElementById("unpaidMonthSelect2").value;
+  const currentUser = firebase.auth().currentUser;
+
+  if (!currentUser) {
+    console.error("No logged in user.");
+    return;
+  }
+
+  const userName = currentUser.email.split("@")[0].toLowerCase();
+  let totalUnpaid = 0;
+
+
+
+  firebase.database().ref("goldenwifi/monthly-bills").once("value").then(snapshot => {
+    const clients = snapshot.val();
+    if (!clients) return;
+
+    Object.values(clients).forEach(client => {
+      if (!client.bills || !client.bills[selectedMonth]) return;
+
+      const bill = client.bills[selectedMonth];
+
+
+ Object.entries(client.bills).forEach(([monthKey, bill]) => {
+        const status = bill.status || "Paid";
+        const amount = parseFloat(bill.planAmount || 0);
+        const areaCode1 = (bill.areaCode || userName);
+
+        if (monthKey === selectedMonth && status === "Paid" && userName === areaCode1 ) {
+          totalUnpaid += amount;
+        }
+      });
+
+    });
+
+    // 🟢 Display result
+    const resultBox = document.getElementById("unpaidTotalResult2");
+    const displayMonth = new Date(selectedMonth + "-01").toLocaleString('default', {
+      month: 'short', year: 'numeric'
+    });
+
+    resultBox.textContent = `Total approved payments for ${displayMonth}: ₱${totalUnpaid.toLocaleString('en-PH', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    })}`
+
+
+    /* // ✅ Display total unpaid
+    document.getElementById("unpaidTotalDisplay").textContent =
+      `₱ ${totalUnpaid.toFixed(2)}`; */
+  });
+}
+
+
+/* function displayUnpaidTotals2(totalsPerMonth) {
+  const container = document.getElementById("unpaid-monthly-summary");
+  container.innerHTML = ""; // Clear old content
+
+  const table = document.createElement("table");
+  table.innerHTML = `
+    <thead>
+      <tr><th>Month</th><th>Total Unpaid</th></tr>
+    </thead>
+    <tbody></tbody>
+  `;
+
+  const tbody = table.querySelector("tbody");
+
+  // Sort months chronologically
+  Object.keys(totalsPerMonth).sort().forEach(monthKey => {
+    const amount = totalsPerMonth[monthKey];
+    const readableMonth = new Date(monthKey + "-01").toLocaleString('default', {
+      month: 'short',
+      year: 'numeric'
+    });
+
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${readableMonth}</td>
+      <td>₱${amount.toLocaleString('en-PH', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      })}</td>
+    `;
+    tbody.appendChild(row);
+  });
+
+  container.appendChild(table);
+}
+ */
+
+
+
+
+
+
 
 
 function calculateUnpaidGrandTotalForYear(year = new Date().getFullYear()) {
@@ -1646,11 +1888,11 @@ const modal = document.getElementById("collectorModal");
 
 
 // Global variable to store selected collector
-let selectedCollector = null;
+let selectedCollector2 = null;
 
-function selectCollector(name) {
-  selectedCollector = name;
-  console.log("✅ Collector selected:", selectedCollector);
+function pendingCollection() {
+  selectedCollector2 =  document.getElementById("userTop").value;
+  console.log("✅ Collector selected:", selectedCollector2);
 //openBtn.addEventListener("click", () => {
   modal.style.display = "block";
  loadUnpaidBillsWithFilters(); 
@@ -1669,13 +1911,13 @@ function selectCollector(name) {
 function loadUnpaidBillsWithFilters() {
   const tableBody = document.querySelector("#unpaidTable tbody");
   const totalAmountCell = document.getElementById("totalAmountCell");
-  const userTop = document.getElementById("userTop").value = selectedCollector;
+ const userTop = document.getElementById("userTop").value;
 
   // Check if a collector has been selected
-  if (!selectedCollector) {
+/*   if (!selectedCollector) {
     console.warn("⛔ No collector selected!");
     return;
-  }
+  } */
 
   tableBody.innerHTML = "";
   totalAmountCell.textContent = "₱0.00";
@@ -1691,20 +1933,23 @@ function loadUnpaidBillsWithFilters() {
       Object.entries(bills).forEach(([monthKey, billData]) => {
         if (
           billData.status === "Unpaid" &&
-          billData.collector === selectedCollector &&
+          billData.collector === userTop &&
           billData.actionTo === "pending"
         ) {
           const amount = parseFloat(billData.planAmount || 0);
           totalAmount += amount;
+
+          const modeOfPay = billData.modeOfPay;
 
          const row = document.createElement("tr");
 row.innerHTML = `
   <td>${billData.name || "—"}</td>
   <td>${billData.address2 || "—"}</td>
   <td>${monthKey}</td>
-  <td onclick="editPlan('${clientKey}', '${monthKey}')" style="cursor: pointer;">
-    ₱${amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
-  </td>
+   <td>${billData.planAmount || "_"}</td>
+
+   <td onclick="editPlan('${clientKey}','${monthKey}')" style="cursor: pointer;">${modeOfPay || "_"}</td>
+
   <td>${billData.actionTo}</td>
   <td>
     <input type="checkbox" class="row-checkbox" 
@@ -1725,18 +1970,19 @@ tableBody.appendChild(row);
 
 
 
-//////////////////////////// FOR EXPENSES COLLECTOR //////////////////
+//////////////////////////// FOR pending COLLECTOR //////////////////
 
 
 function loadUnpaidBillsWithFiltersCollector() {
   const tableBody2 = document.querySelector("#expensesTable tbody");
   const totalAmountCell2 = document.getElementById("totalAmountCell2");
-  const userTop2 = document.getElementById("userTop").value = selectedCollector;
+ const userTop = document.getElementById("userTop").value;
 
-  if (!selectedCollector) {
+
+/*   if (!selectedCollector) {
     console.warn("⛔ No collector selected!");
     return;
-  }
+  } */
 
   tableBody2.innerHTML = "";
   totalAmountCell2.textContent = "₱0.00";
@@ -1750,7 +1996,7 @@ function loadUnpaidBillsWithFiltersCollector() {
       if (
         billData.status === "new" &&
         billData.actionTo === "pending" &&
-        billData.user === selectedCollector // check 'user', not 'collector'
+        billData.user === userTop // check 'user', not 'collector'
       ) {
         const amount = parseFloat(billData.amount || 0);
         totalAmount2 += amount;
@@ -1760,9 +2006,7 @@ function loadUnpaidBillsWithFiltersCollector() {
           <td>${billData.exName || "—"}</td>
           <td>${billData.transType || "—"}</td>
           <td>${billData.date || "_"}</td>
-          <td onclick="editPlan('${firebaseKey}')" style="cursor: pointer;">
-            ₱${amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
-          </td>
+         <td>${billData.amount || "_"}</td>
           <td>${billData.actionTo}</td>
           <td>
             <input type="checkbox" class="row-checkbox"
@@ -1785,9 +2029,112 @@ function loadUnpaidBillsWithFiltersCollector() {
 
 
 
+/*  let selectedClientKey = "";
+  let selectedMonthKey = "";
+
+  function editPlan(clientKey, monthKey) {
+    selectedClientKey = clientKey;
+    selectedMonthKey = monthKey;
+    document.getElementById("planModal").style.display = "block";
+    //console.log("masmamsasa");
+  }
+
+  function closePlanModal() {
+    document.getElementById("planModal").style.display = "none";
+    document.getElementById("customAmount").style.display = "none";
+    document.getElementById("planSelect").value = "cash"; // reset
+    document.getElementById("customAmount").value = "";
+  }
+
+  // Show custom input when 'Custom...' is selected
+  document.getElementById("planSelect").addEventListener("change", function() {
+    const custom = document.getElementById("customAmount");
+    if (this.value === "Custom") {
+      custom.style.display = "block";
+      custom.focus();
+    } else {
+      custom.style.display = "none";
+    } 
+  });
+
+  function confirmPlanEdit() {
+    let amount = document.getElementById("planSelect").value;
+     if (amount === "Custom") {
+      amount = document.getElementById("customAmount").value;
+    }
+
+    if (!amount || isNaN(amount)) {
+      alert("Please enter a valid amount.");
+      return;
+    } 
+
+    const path = `goldenwifi/monthly-bills/${selectedClientKey}/bills/${selectedMonthKey}`;
+
+    firebase.database().ref(path).update({
+      modeOfPay: amount
+    }).then(() => {
+      closePlanModal();
+      loadUnpaidBillsWithFilters();
+      console.log(`Updated modeOfPay to ₱${amount} for ${selectedMonthKey}`);
+    });
+  }
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      /*     <td onclick="editPlan('${firebaseKey}')" style="cursor: pointer;">
+            ₱${amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+          </td> */
+
 
 
 function editPlan(clientKey,monthKey) {
+  const popUp = prompt("Enter new Amount:");
+//  const monthKey = `${year}-${month}`;
+  const path = `goldenwifi/monthly-bills/${clientKey}/bills/${monthKey}`;
+
+
+
+   // const formattedAmount = (amount); // ✅ Format to 2 decimals
+
+    firebase.database().ref(path).update({
+      modeOfPay: popUp
+    }).then(() => {
+      loadUnpaidBillsWithFilters();
+      console.log(`Updated planAmount to ₱${popUp} for ${monthKey}`);
+    });
+  }
+
+ 
+
+
+
+
+
+
+
+
+
+
+/* 
+function editPlan2(clientKey,monthKey) {
   const popUp = prompt("Enter new Amount:");
  // const monthKey = `${year}-${month}`;
   const path = `goldenwifi/monthly-bills/${clientKey}/bills/${monthKey}`;
@@ -1805,11 +2152,28 @@ function editPlan(clientKey,monthKey) {
     firebase.database().ref(path).update({
       planAmount: formattedAmount
     }).then(() => {
-      loadUnpaidBillsWithFilters();
+      loadUnpaidBillsWithFilters2();
       console.log(`Updated planAmount to ₱${formattedAmount} for ${monthKey}`);
     });
   }
-}
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2027,8 +2391,6 @@ window.addEventListener("DOMContentLoaded", () => {
   loadClientTable(); // load clients first
  // updateMerchantTable3();
 });
-
-
 
 
 
