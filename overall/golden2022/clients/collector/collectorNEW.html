@@ -220,6 +220,43 @@ margin-top: 1px;
                    </div>
 
 
+          <!--  ///////////////////////// FOR TOTAL COLLECTION /////////////// -->
+
+
+                            <div id="unpaid-month-div2" style="display: none;">
+                      
+
+                     <div class="dropdown-with-label2">
+                   <h6 >Select Month :</h6>
+                  
+                     <select id="unpaidMonthSelect2" onchange="calculateUnpaidForSelectedMonth2()">
+                     <!-- Options will be populated dynamically -->
+                      </select>
+                   <div id="unpaidTotalResult2" style="display: none; margin-top: 2px;"></div>
+                      </div>
+
+
+                   </div>
+
+
+
+                    <!--  ///////////////////////// show total collections/////////////// -->
+
+
+                            <div id="unpaid-month-div3" style="display: none;">
+                      
+
+                     <button id="pendingTotal" onclick="pendingCollection()">Show Collection total</button> 
+
+
+                   </div>
+
+
+
+
+
+
+
                    <!--  <div id="unpaidTotalResult" style="display: none; margin-top: 2px;"></div> -->
                      <div id="unpaid-year-summary" style="display: none;"></div>
   
@@ -265,6 +302,9 @@ margin-top: 1px;
                        <input type="text" id="merchantSearchBox" placeholder="Search Active Clients"  oninput="handleMerchantSearchInput()"  autocomplete="off">  <!--  oninput="handleMerchantSearchInput()" -->
                      </div>
 
+         
+          
+
     <div class="table-container">   
       <!--  <button onclick="refreshTable()">🔄 Refresh Table</button>               --> 
   <table id="merchants-table">
@@ -278,6 +318,8 @@ margin-top: 1px;
         <th>Date</th>
         <th>Collector</th>
         <th>Note</th>
+        <th>Due-Date</th>
+        <th>Mode</th>
         <th>Actions</th>
        
        
@@ -294,6 +336,8 @@ margin-top: 1px;
         <td>2025-07-01</td>
         <th>Collector</th>
         <th>Note</th>
+        <th>Due-Date</th>
+        <th>Mode</th>
         <th>Actions</th>
        
       
@@ -308,7 +352,7 @@ margin-top: 1px;
     </tbody>
     <tfoot>
       <tr>
-        <td id="table-totalM" colspan="10" style="text-align: left;">All active clients</td>
+        <td id="table-totalM" colspan="8">All active clients</td>
       </tr>
     </tfoot>
   </table>
@@ -318,8 +362,15 @@ margin-top: 1px;
 
 
 
+ <div id="dueDateDiv">
+             <button id="toggleDueDateBtn15" >Show 15th Duedate</button>
+              <button id="toggleDueDateBtnEnd" >Show End of Month Duedate</button>
+            </div>
+
+
 
 <div class="table-container"> 
+  
  <table id="merchants-table2">
     <thead>
       <tr>
@@ -330,6 +381,8 @@ margin-top: 1px;
         <th>Address</th>
         <th>Collector</th>
         <th> Add-Note</th>
+        <th>Due-Date</th>
+        <th>Mode</th>
         <th>Status</th>
          <th>Bills</th> <!-- ✅ Add this if missing -->
       </tr>
@@ -343,6 +396,8 @@ margin-top: 1px;
         <td>123 Main St</td>
         <td>Collector</td>
         <th>Add-Note</th>
+        <th>Due-Date</th>
+        <th>Mode</th>
         <th>Status</th>
          <th>Bills</th> <!-- ✅ Add this if missing -->
         <td>
@@ -356,7 +411,7 @@ margin-top: 1px;
     </tbody>
     <tfoot>
       <tr>
-       <td id="table-totalM2" colspan="10" style="text-align: left;">All active clients bills</td>
+        <td id="table-totalM2" colspan="10">All active clients bills</td>
       </tr>
     </tfoot>
   </table>
@@ -380,7 +435,7 @@ margin-top: 1px;
  Unpaid Bills Collector:<input type="text" id="userTop">
 </div>
    <div class="actions-row">
-  <button id="confirmBTN" onclick="markSelectedAsPaid(), markSelectedExp()">Mark Selected as APPROVED</button>
+ <!--  <button id="confirmBTN" onclick="markSelectedAsPaid(), markSelectedExp()">Mark Selected as APPROVED</button> -->
   <label>
     <input type="checkbox" id="selectAllCheckbox"> Select All
   </label>
@@ -514,8 +569,119 @@ margin-top: 1px;
 
 
 
+        <!--   ////////////////////////////  table for pending payments total /////////////
+ -->
 
 
+
+     
+<div id="collectorModal" class="modal">
+  <div class="modal-content">
+
+
+
+
+    
+  <div id="planModal" style="display: none;">
+      <label for="planSelect">Select Mode of Payment:</label>
+     <select id="planSelect">
+   
+    <option value="cash">Cash</option>
+     <option value="gcash">Gcash</option>
+     <option value="1000">₱1000</option>
+    <option value="Custom">Custom...</option> 
+  </select>
+  <input type="number" id="customAmount" placeholder="Enter custom amount" style="display:none; margin-top:10px;" />
+  <br><br>
+  <button onclick="confirmPlanEdit()">Confirm</button>
+  <button onclick="closePlanModal()">Cancel</button>
+</div>
+
+
+
+
+
+
+    
+   <div class="modal-header">
+   <div> <span class="close" onclick="closeModal()">&times;</span></div>
+  </div>
+
+  <br><br>
+  <div class="collectorName">
+ Unpaid Bills Collector:<input type="text" id="userTop">
+</div>
+   <div class="actions-row">
+  <button id="confirmBTN" onclick="markSelectedAsPaid()">Mark Selected as APPROVED</button>
+  <label>
+    <input type="checkbox" id="selectAllCheckbox" hidden> Select All
+  </label>
+</div>
+     COLLECTIONS
+    <table id="unpaidTable" class="responsive-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Address</th>
+          <th>Month</th>
+          <th>Amount</th>
+          <!--  <th>Mode</th> -->
+          <th>Mode</th>
+          
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3" style="text-align: right;"><strong>Total Collected:</strong></td>
+          <td id="totalAmountCell" style="font-weight: bold;">₱0.00</td>
+          <td colspan="2"></td>
+        </tr>
+      </tfoot>
+    </table>
+    <br><br>
+
+
+
+
+
+
+
+
+ <div class="actions-row">
+  <button id="confirmBTNex" onclick="markSelectedExp()">Mark Expenses as APPROVED</button>
+  <label>
+    <input type="checkbox" id="selectAllCheckboxEX"> Select All
+  </label>
+</div>
+    EXPENSES RECORDS
+ <table id="expensesTable" class="responsive-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Address</th>
+          <th>Month</th>
+          <th>Amount</th>
+          <th>Status</th>
+          <th>Select</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3" style="text-align: right;"><strong>Total Expenses:</strong></td>
+          <td id="totalAmountCell2" style="font-weight: bold;">₱0.00</td>
+          <td colspan="2"></td>
+        </tr>
+      </tfoot>
+    </table>
+<br>
+
+     <div id="newPayments-title"></div>
+  </div>
+
+</div>
 
 
 
@@ -574,6 +740,24 @@ margin-top: 1px;
                  <option value="Hantag">Hantag</option>
                   
                  </select> <br>
+                 
+                  
+                <!--  <label for="modeOfPay" >Mode of Payment</label> -->
+                   <select id="modeOfPay" type="text" hidden ><br>
+                 <option value="gcash">Gcash</option>
+                <option value="cash">Cash</option>
+                 </select>
+
+
+                  <label for="dueDate" >Due Date</label>
+                   <select id="dueDate" type="number" required><br>
+                 <option value="15">15th</option>
+                <option value="30">end-of-month</option>
+                 </select>
+
+
+
+
 
 
                      <label for="note" >Add Reminder</label>
@@ -591,7 +775,7 @@ margin-top: 1px;
                     <button id="save-edit-merchant">Save</button>
                     <button id="cancel-edit-merchant">Close</button>
                     <input type="text" id="edit-id-m" hidden ><br> 
-                    <input type="text" id="edit-merChantId" hidden><br>
+                    <input type="text" id="edit-merChantId" hidden ><br>
                     <input type="text" id="edit-num-paymentst" hidden><br>  
 
                 </div>
@@ -839,5 +1023,4 @@ margin-top: 1px;
 
 
 </body>
-
 </html>
