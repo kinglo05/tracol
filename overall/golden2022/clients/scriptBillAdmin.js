@@ -1621,6 +1621,7 @@ row.innerHTML = `
   <td onclick="editPlan('${clientKey}', '${monthKey}')" style="cursor: pointer;">
     ₱${amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
   </td>
+   <td>${billData.modeOfPay || "_"}</td>
   <td>${billData.actionTo}</td>
   <td>
     <input type="checkbox" class="row-checkbox" 
@@ -1939,6 +1940,7 @@ window.addEventListener("DOMContentLoaded", () => {
   loadClientTable(); // load clients first
  // updateMerchantTable3();
 });
+
 
 
 
