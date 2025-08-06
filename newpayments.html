@@ -14,15 +14,81 @@
     <style>
        
 
-  #toggleBtn {
+
+  /* Full screen overlay */
+  .modal-overlay {
+    display: none; /* hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* semi-transparent background */
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Modal box */
+  .modal-content {
+    background: white;
+    padding: 20px;
+    width: 80%;
+    max-width: 800px;
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    animation: fadeIn 0.3s ease;
+  }
+
+  /* Close button */
+  .close-btn {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  /* Optional fade in */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#toggleBtn {
   position: fixed;
   bottom: 20px;
   right: 20px;
   z-index: 999;
 
-  width: 180px;
-  height: 30px;
-  border-radius: 20%;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
   background-color: #007bff;
   color: white;
   border: none;
@@ -47,7 +113,6 @@
     font-size: 16px;
   }
 }
-
 
 
 
@@ -86,13 +151,7 @@
             cursor: pointer;
         }
 
-        /* iFrame styling */
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
+      
 
 
 
@@ -234,7 +293,7 @@
 
     <div class="main-content" id="mainContent">
 
-         <button id="toggleBtn" > <small>Total Received <span id="totalDisplay">0</span></small></button>
+          <button id="toggleBtn" onclick="toggleTableModal1(this)">📊<br><small>Show Total</small></button>
 
 
         <div class="menu-bar">
@@ -246,9 +305,7 @@
                <div>
                 <h3 style="color: rgb(247, 247, 252); margin-top: 5px; margin-bottom: 5px; margin-left: 10px;">
                  NEW GCASH REALTIME </h3>
-                 <h4 style="color: rgb(47, 4, 240); margin-top: 5px; margin-bottom: 5px; margin-left: 2px;  margin-right: 2px;">  
-                    <a href="home.html">ADD NEW PAYMENT</a> </h4> 
-                 
+                
 
 
                                 <!--   ////////////////// for date only /////////////// -->
@@ -258,7 +315,7 @@
                                             <input  type="date" id="startDate2" hidden>
                                             
                                             <input  type="date" id="endDate2" hidden>
-                                                                      
+                                                                                    
                                           </div>
 
 
@@ -286,7 +343,13 @@
                                                              </div>
                                                          
 
-
+                      <!-- Modal Overlay -->
+                      <div id="tableModal1" class="modal-overlay">
+                        <div class="modal-content">
+                          <button id="closeModalBtn" class="close-btn">&times;</button>
+                          <iframe id="totalSentIframe" src="" width="100%" height="500px" style="border: none;"></iframe>
+                        </div>
+                      </div>
 
 
 
@@ -361,8 +424,10 @@
 
         <!--    //////////////////       for total only ///////////////// -->
                  
+                   
 
-                      <div class="table-container2 " hidden> 
+                  <div class="table-container2 hidden-table">
+                 <h5>   MAIN ACCOUNT TOTAL RECEIEVED TODAY </h5>
                    <table id="payments-table2">
                      <ul id="itemList"></ul>
                      <thead>
@@ -382,9 +447,7 @@
                         <th>Device</th>
                         <th>Status</th>
                         <th>Sender</th>
-                       <th> Trade <input type="checkbox" id="payment-sana-all2" hidden> </th> 
-                        <th>Edit</th>
-                        
+                       
                       </tr>
                      </thead>
                      <tbody>
@@ -395,8 +458,8 @@
                      </tr>
                      </tfoot>
                      </table>
-
-                      </div>   
+                     </div>
+                   
 
               <!--    //////////////////       for total only ends here ///////////////// -->         
 
@@ -409,7 +472,7 @@
 
 
 
-               <div class="table-container"> 
+              <div class="table-container">
                    <table id="payments-table">
                      <ul id="itemList"></ul>
                      <thead>
@@ -475,6 +538,7 @@
                             </div>
 
 
+         
 
 
 
@@ -517,4 +581,3 @@
 
 </body>
 </html>
-
