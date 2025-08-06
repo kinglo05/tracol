@@ -14,6 +14,46 @@
     <style>
        
 
+  #toggleBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+
+  width: 180px;
+  height: 30px;
+  border-radius: 20%;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  font-size: 18px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  cursor: pointer;
+  padding: 5px;
+  line-height: 1.1;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#toggleBtn:hover {
+  background-color: #0056b3;
+  transform: scale(1.1);
+}
+
+@media (max-width: 480px) {
+  #toggleBtn {
+    width: 60px;
+    height: 60px;
+    font-size: 16px;
+  }
+}
+
+
+
+
+
+
+
        .modal {
             display: none;
             position: fixed;
@@ -193,6 +233,10 @@
     </div>
 
     <div class="main-content" id="mainContent">
+
+         <button id="toggleBtn" > <small>Total Received <span id="totalDisplay">0</span></small></button>
+
+
         <div class="menu-bar">
                  <button id="menubutton" onclick="toggleSidebar()"> &#9776; Menu</button>
                  <div id="usernameHolder">  <h5 id="usernameDisplay" style="color: whitesmoke; margin-top: 1px; margin-bottom: 1px; margin-left: 10px;">Loading...</h5>  </div>
@@ -205,6 +249,26 @@
                  <h4 style="color: rgb(47, 4, 240); margin-top: 5px; margin-bottom: 5px; margin-left: 2px;  margin-right: 2px;">  
                     <a href="home.html">ADD NEW PAYMENT</a> </h4> 
                  
+
+
+                                <!--   ////////////////// for date only /////////////// -->
+
+                                               <div>                
+                                           
+                                            <input  type="date" id="startDate2" hidden>
+                                            
+                                            <input  type="date" id="endDate2" hidden>
+                                            <button id="filter" >Filter</button hidden>                                               
+                                          </div>
+
+
+
+
+
+
+
+
+
                                         
                                         <div id="newPayments-title2">                               
                                             <label for="startDate" style="margin-right: 1px; width: 8%;">Start Date:</label>
@@ -295,6 +359,56 @@
                 </div>
 
 
+        <!--    //////////////////       for total only ///////////////// -->
+                 
+
+                      <div class="table-container2 " hidden> 
+                   <table id="payments-table2">
+                     <ul id="itemList"></ul>
+                     <thead>
+                    <tr>
+                        <th>No.</th> 
+                        <th>Assign</th>
+                        <th>Amount</th>
+                        <th>Ref#</th>
+                        <th>Time</th>
+                        <th>Merchant</th>
+                        <th>Date</th>
+                        <th>Add_Note</th>
+                        <th>Type</th>
+                        <th>User</th>
+                        <th>Text</th>
+                        <th>Save</th>
+                        <th>Device</th>
+                        <th>Status</th>
+                        <th>Sender</th>
+                       <th> Trade <input type="checkbox" id="payment-sana-all2" hidden> </th> 
+                        <th>Edit</th>
+                        
+                      </tr>
+                     </thead>
+                     <tbody>
+                     </tbody>
+                    <tfoot>     
+                    <td colspan="2" id="table-totalW2" style="text-align: right;"><b>Total :</b></td>
+                    <td id="table-total2">0.00</td>
+                     </tr>
+                     </tfoot>
+                     </table>
+
+                      </div>   
+
+              <!--    //////////////////       for total only ends here ///////////////// -->         
+
+
+
+
+
+
+
+
+
+
                <div class="table-container"> 
                    <table id="payments-table">
                      <ul id="itemList"></ul>
@@ -323,16 +437,25 @@
                      <tbody>
                      </tbody>
                     <tfoot>     
-                    <td colspan="2" style="text-align: right;"><b>Total :</b></td>
+                    <td colspan="2" id="table-totalW" style="text-align: right;"><b>Total :</b></td>
                     <td id="table-total">0.00</td>
                      </tr>
                      </tfoot>
                      </table>
+
                       </div>   
 
 
+
+
+
+
+
+
+
+
                       <div id="data1" >
-                        <label for="total-today">CODES:</label>
+                       <!--  <label for="total-today">Today :</label> -->
                         <input type="text" id="total-today" readonly> 
                            <label for="total-resibo">No.:</label>
                           <input type="text" id="total-resibo" readonly>
@@ -357,6 +480,13 @@
 
      
      </div>
+
+
+
+
+
+
+
 
     <script>
         function toggleSidebar() {
@@ -383,5 +513,7 @@
 
 
     <script src="scriptnewpaytable.js"></script>
+
+
 </body>
 </html>
