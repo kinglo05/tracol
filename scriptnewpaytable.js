@@ -364,10 +364,7 @@ const dateInput22 = document.getElementById('date-today');
   dateInput22.value = formattedDate2; 
 
 
-      
-
-
-
+               
 
 
   
@@ -490,10 +487,11 @@ database.ref('payments').on('value', (snapshot) => {
 
 
 
+
+
 document.addEventListener("DOMContentLoaded", function() {
   filterPayments();
 });
-
 
 
 
@@ -1188,13 +1186,53 @@ document.getElementById('eight').value = eight1;
               });
             };
             
-            calculateDailyTrades();
+          //  calculateDailyTrades();
 
 
 
 
 
+/* function toggleTableModal1() {
+  const modal = document.getElementById("tableModal1");
+  const iframe = document.getElementById("totalSentIframe");
 
-           
+  if (modal.style.display === "none" || modal.style.display === "") {
+    modal.style.display = "block";
+    iframe.src = "totalSent.html";
+  } else {
+    modal.style.display = "none";
+    iframe.src = ""; // unload to free memory (optional)
+  }
+} */
+
+function toggleTableModal1() {
+  const modal = document.getElementById("tableModal1");
+  const iframe = document.getElementById("totalSentIframe");
+
+  // Show modal
+  modal.style.display = "flex";
+  iframe.src = "totalSent.html";
+}
+
+// Close button
+document.getElementById("closeModalBtn").addEventListener("click", function () {
+  const modal = document.getElementById("tableModal1");
+  const iframe = document.getElementById("totalSentIframe");
+
+  modal.style.display = "none";
+  iframe.src = ""; // Clear iframe
+});
+
+
+
+window.addEventListener("click", function(event) {
+  const modal = document.getElementById("tableModal1");
+  const content = document.querySelector(".modal-content");
+
+  if (event.target === modal) {
+    modal.style.display = "none";
+    document.getElementById("totalSentIframe").src = "";
+  }
+});
 
 
