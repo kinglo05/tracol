@@ -16,7 +16,6 @@ const database = firebase.database();
 
 
 
-
 // Firebase Auth Listener to Check if User is Logged In
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
@@ -52,6 +51,44 @@ firebase.auth().onAuthStateChanged((user) => {
   }
 });
 
+
+
+
+
+
+
+
+
+
+
+
+/* 
+// Firebase Auth Listener to Check if User is Logged In
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    console.log("User is logged in:", user.uid);
+
+    // Fetch user data from Firebase Database
+    firebase.database().ref("users/" + user.uid).once("value")
+    .then(snapshot => {
+        if (snapshot.exists()) {
+            const userData = snapshot.val();
+            document.getElementById("usernameDisplay").innerText =  userData.email;
+        } else {
+            console.log("No user data found!");
+        }
+    })
+    .catch(error => {
+        console.error("Error fetching user data:", error);
+    });
+     
+     
+  } else {
+      console.log("No user is signed in. Redirecting to login...");
+      window.location.href = "index.html"; // Redirect if not logged in
+  } 
+});
+ */
 
 
 
@@ -262,6 +299,31 @@ function showAlert(message, duration = 3000) {
 }
 
 
+/* function setDefaultDates2() {
+  const today2 = new Date();
+  const yesterday2 = new Date();
+  yesterday2.setDate(today.getDate() - 1); // Get yesterday's date
+
+  // Format dates as YYYY-MM-DD for input fields
+  const formatDate2 = (date) => date.toISOString().split("T")[0];
+
+  document.getElementById("startDate2").value = formatDate2(today2);
+  document.getElementById("endDate2").value = formatDate2(today2);
+}
+
+// Run function on page load
+window.onload = setDefaultDates2;
+
+ */
+
+
+
+
+
+
+
+
+
 function setDefaultDates() {
   const today = new Date();
   const yesterday = new Date();
@@ -270,17 +332,16 @@ function setDefaultDates() {
   // Format dates as YYYY-MM-DD for input fields
   const formatDate = (date) => date.toISOString().split("T")[0];
 
+
   document.getElementById("startDate").value = formatDate(today);
   document.getElementById("endDate").value = formatDate(today);
-
-  //const startD = formatDate(today);
-  
-//  filterPayments(startD);
+   document.getElementById("startDate2").value = formatDate(today);
+  document.getElementById("endDate2").value = formatDate(today);
 }
 
 // Run function on page load
 window.onload = setDefaultDates;
- // window.onload = filterPayments();
+
 
 
 
@@ -301,6 +362,250 @@ const dateInput22 = document.getElementById('date-today');
   const formattedDate2 = `${year}-${month}-${day}`;
 
   dateInput22.value = formattedDate2; 
+
+
+               
+
+           /////////////////////////////  FOR MONITORING STARTS HERE ////////////////
+
+
+      ////////////////////////////   GFUNDS  - STARTS  HERE  /////////////////////
+
+
+
+
+
+
+const table2 = document.getElementById('payments-table2').getElementsByTagName('tbody')[0];
+const tableData2 = [];
+
+
+let paymentsData2 = []; // Store the fetched payment data
+
+function filterPayments2() {
+
+database.ref('Gfunds').on('value', (snapshot) => {
+  tableData2.length = 0; // Clear existing data
+  paymentsData2 = [];
+  const currentDate = new Date();
+
+  const selectedStartDate2 = document.getElementById("startDate2").value;
+  const selectedEndDate2 = document.getElementById("endDate2").value;
+
+  //const dateToday = 
+  const startDate2 = new Date(selectedStartDate2); // Example: "2024-03-01"
+  const endDate2 = new Date(selectedEndDate2); // Example: "2024-03-25"
+
+  snapshot.forEach((childSnapshot) => {
+    const firebaseKey = childSnapshot.key; // Get the Firebase key
+    const payment = childSnapshot.val(); // Get the payment data
+    const paymentDate = new Date(payment.date); // Ensure payment.date is in a valid format
+
+
+    if (
+      payment.status === 'new' &&
+      paymentDate >= startDate2 &&
+      paymentDate <= endDate2
+    
+    
+    ) {
+      paymentsData2.push({ id: firebaseKey, ...payment });
+
+      const rowData = {
+        firebaseKey: firebaseKey, // Store the key
+        amount: payment.amount,
+        refNumber: payment.refNumber,
+        paymentType: payment.paymentType,
+        time: payment.time,
+        date: payment.date,
+        note: payment.note,
+        user: payment.user,
+        merchantP: payment.merchantP,
+        status: payment.status,
+       save: payment.save,
+        message: payment.message,
+        timestamp: payment.timestamp
+      };
+
+      tableData2.push(rowData);
+    }
+  });
+
+  paymentsData2.sort((a, b) => {
+    const dateTimeA = new Date(`${a.date} ${a.time}`);
+    const dateTimeB = new Date(`${b.date} ${b.time}`);
+    return dateTimeB - dateTimeA; // Newest first
+  });
+
+
+  updatePaymentsTable2(paymentsData2); // Initial table population
+});
+};
+
+
+
+
+// 4. Add the Firebase listener AFTER the function is defined
+  const dbRef = firebase.database().ref("Gfunds");
+
+  dbRef.on("child_added", function(snapshot) {
+    filterPayments2(); // Called when new data is added
+  });
+
+  // (Optional) Also detect updates/removals
+  dbRef.on("child_changed", function(snapshot) {
+    filterPayments2();
+  });
+
+  dbRef.on("child_removed", function(snapshot) {
+    filterPayments2();
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+function updatePaymentsTable2(data) {
+table2.innerHTML = ''; // Clear the table
+
+
+
+data.forEach((payment, rowIndex) => {
+  const row = table2.insertRow();
+
+
+  const rowIndexCell = row.insertCell();
+  rowIndexCell.textContent = rowIndex + 1;
+
+  const assignCell = row.insertCell();
+  assignCell.innerHTML = `<button class="edit-button-assign" data-row-index="${payment.id}">+</button>`;
+
+  const amountCell = row.insertCell();
+  amountCell.textContent = payment.amount;
+
+  const refNumberCell = row.insertCell();
+  refNumberCell.textContent = payment.refNumber;
+
+  const timeCell = row.insertCell();
+  timeCell.textContent = payment.time;
+ 
+////////insert name here//////////////
+const merchantCell = row.insertCell();
+  merchantCell.textContent = payment.merchantP; 
+
+  const dateCell = row.insertCell();
+  dateCell.textContent = payment.date;
+
+  const noteCell = row.insertCell();
+  noteCell.textContent = payment.note;
+
+  const paymentTypeCell = row.insertCell();
+  paymentTypeCell.textContent = payment.paymentType;
+
+  const userCell = row.insertCell();
+  userCell.textContent = payment.user;
+
+  const textCell = row.insertCell();
+  textCell.textContent = payment.message;
+
+  const saveCell = row.insertCell();
+  saveCell.textContent = payment.save;
+
+  const deviceCell = row.insertCell();
+  deviceCell.textContent = payment.device;
+  
+
+  const statusCell = row.insertCell();
+  statusCell.textContent = payment.status;
+
+  const senderCell = row.insertCell();
+  senderCell.textContent = payment.sender;
+
+
+
+/////////////////////////////////// auto add /////////////////////////////
+
+
+const paymentsTableNew2 = document.getElementById('payments-table2');
+
+// Check if the table exists before proceeding
+if (paymentsTableNew2) {
+    const tableBody = paymentsTableNew2.querySelector('tbody');
+
+    // Check if the tbody exists
+    if(tableBody){
+         const totalAmountSpanNew2 = document.getElementById('table-total2'); 
+         const totalDisplay = document.getElementById('totalDisplay');
+                
+
+
+        function calculateTotalNew2() {
+          itemList.innerHTML = ""; // Clear existing list
+            let totalNew = 0;
+            const amountCells = tableBody.querySelectorAll('td:nth-child(3)');
+
+            amountCells.forEach(cell => {
+                const amountNew = parseFloat(cell.textContent) || 0;
+                totalNew += amountNew;
+                 const forOverAllNew = totalNew.toFixed(2);
+                 document.getElementById("totalDisplay").textContent = forOverAllNew;
+                
+                
+
+                
+
+            
+            });
+
+            if (totalAmountSpanNew2) { // Check if the total amount span exists
+                totalAmountSpanNew2.textContent = totalNew.toFixed(2);
+                totalDisplay.textContent =  totalNew.toFixed(2);
+                /* localStorage.setItem("overAllNew", forOverAllNew); */
+          
+            } else {
+                console.error("Total amount span element not found!");
+            }
+        }
+
+        calculateTotalNew2(); // Initial calculation
+
+        const observer = new MutationObserver(calculateTotalNew2);
+        const config = { childList: true, subtree: true };
+
+        observer.observe(tableBody, config);
+    } else {
+        console.error("Table body (tbody) not found!");
+    }
+  }
+
+////////////////////////// test for checkbox claimed ALL /////////////////////////
+
+// // Your submit button
+const payTable2 = document.getElementById('payments-table2'); // Your table ID
+
+
+  });    
+
+
+
+};
+
+
+
+
+
+
+
+           /////////////////////////////  FOR MONITORING ENDS - HERE ////////////////
+
+
 
 
 
@@ -344,8 +649,6 @@ merchantInputP.addEventListener('input', () => {
   } else {
     suggestionsListMP.innerHTML = ''; // Clear suggestions if input is short
   }
-
- // filterPayments();
 });
 
 
@@ -424,6 +727,10 @@ database.ref('payments').on('value', (snapshot) => {
   updatePaymentsTable(paymentsData); // Initial table population
 });
 };
+
+
+
+
 
 
 
@@ -1121,7 +1428,6 @@ document.getElementById('eight').value = eight1;
             };
             
             calculateDailyTrades();
-           filterPayments();
 
 
 
@@ -1129,8 +1435,3 @@ document.getElementById('eight').value = eight1;
 
 
            
-
-
-
-
-
