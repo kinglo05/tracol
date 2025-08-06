@@ -376,7 +376,7 @@ const dateInput22 = document.getElementById('date-today');
 
 
 
-const table2 = document.getElementById('payments-table2').getElementsByTagName('tbody')[0];
+/* const table2 = document.getElementById('payments-table2').getElementsByTagName('tbody')[0];
 const tableData2 = [];
 
 
@@ -567,7 +567,7 @@ if (paymentsTableNew2) {
             if (totalAmountSpanNew2) { // Check if the total amount span exists
                 totalAmountSpanNew2.textContent = totalNew.toFixed(2);
                 totalDisplay.textContent =  totalNew.toFixed(2);
-                /* localStorage.setItem("overAllNew", forOverAllNew); */
+               
           
             } else {
                 console.error("Total amount span element not found!");
@@ -601,7 +601,9 @@ const payTable2 = document.getElementById('payments-table2'); // Your table ID
 
 
 
+ */
 
+ /* localStorage.setItem("overAllNew", forOverAllNew); */
 
            /////////////////////////////  FOR MONITORING ENDS - HERE ////////////////
 
@@ -1435,3 +1437,4 @@ document.getElementById('eight').value = eight1;
 
 
            
+
