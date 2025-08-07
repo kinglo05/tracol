@@ -32,14 +32,19 @@
   /* Modal box */
   .modal-content {
     background: white;
-    padding: 20px;
-    width: 80%;
+    padding: 1px;
+    width: 90%;
     max-width: 800px;
     border-radius: 8px;
     position: relative;
     box-shadow: 0 0 15px rgba(0,0,0,0.4);
     animation: fadeIn 0.3s ease;
   }
+
+
+
+
+
 
   /* Close button */
   .close-btn {
@@ -136,11 +141,24 @@
             margin: 10% auto;
             padding: 20px;
             border-radius: 8px;
-            width: 80%;
-            height: 550px;
+            width: 100%;
+            height: 100%;
             max-width: 600px;
             position: relative;
         }
+
+         /* Modal content */
+        .modal-conten2t {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 100%;
+            height: 100%;
+            max-width: 600px;
+            position: relative;
+        }
+
 
         /* Close button */
         .close {
@@ -305,8 +323,9 @@
                <div>
                 <h3 style="color: rgb(247, 247, 252); margin-top: 5px; margin-bottom: 5px; margin-left: 10px;">
                  NEW GCASH REALTIME </h3>
-                 <a href="addUnrecord.html"> <h4 style="color: rgb(158, 6, 148); margin-top: 5px; margin-bottom: 5px; margin-left: 12px;">
+                 <a href="addUnrecord.html"> <h4 style="color: rgb(158, 6, 148); margin-top: 5px; margin-bottom: 5px; margin-left: 13px;">
                  ADD PAYMENT-MAIN </h4></a>
+                
 
 
                                 <!--   ////////////////// for date only /////////////// -->
@@ -346,9 +365,9 @@
 
                       <!-- Modal Overlay -->
                       <div id="tableModal1" class="modal-overlay">
-                        <div class="modal-content">
+                        <div class="modal-content2">
                           <button id="closeModalBtn" class="close-btn">&times;</button>
-                          <iframe id="totalSentIframe" src="" width="100%" height="500px" style="border: none;"></iframe>
+                          <iframe id="totalSentIframe" src="" width="100%" height="100%" style="border: none;"></iframe>
                         </div>
                       </div>
 
@@ -395,18 +414,22 @@
 
 
 
-<div id="edit-payment-formAssign" class="modal hidden">
+
+
+
+
+                      <div id="edit-payment-formAssign" class="modal hidden">
                        <div class="modal-content" id="editnewpaymentAssign">
                  
-                <div id="divassignTitle"  class="divassignTitle">     <h3>Add Note</h3>  </div>
+                <div id="divassignTitle"  class="divassignTitle">     <h3>Assign Trader</h3>  </div>
 
-                <div id="divrefAssign" class="divrefAssign"> Reference :<input type="number" id="edit-ref-numberAssign" placeholder="Input 4 digit" pattern="\d{4}" required > </div>
+                <div id="divrefAssign" class="divrefAssign"> Reference :<input type="number" id="edit-ref-numberAssign" placeholder="Input 4 digit" pattern="\d{4}"  > </div>
               
-                            <div id="divAmount" class="divAmount"> Amount :  <input type="number" id="edit-amountAssign" placeholder="Enter AMOUNT" ></div>
+                            <div id="divAmount" class="divAmount"> Amount :  <input type="number" id="edit-amountAssign" placeholder="Enter AMOUNT"></div>
                             <div id="divAmount" class="divAmount"> Time :  <input type="text" id="timeEdit" ></div>
                              <div id="divAmount" class="divAmount"> Add Note! :  <input type="text" id="note"  ></div>
-                      <div id="divNickName" class="divNickName" >  <label for="edit-merchantAssign">WHATSAPP Nickname</label>   </div>   
-                     <div id="divMerchantName" class="divMerchantName"> <input type="text" id="edit-merchantAssign" placeholder="Enter merchant name" autocomplete="off" required><br> </div>
+                     <div id="divNickName" class="divNickName" >  <label for="edit-merchantAssign">WHATSAPP Nickname</label>   </div>  
+                     <div id="divMerchantName" class="divMerchantName"> <input type="text" id="edit-merchantAssign" placeholder="Enter merchant name" autocomplete="off" ><br> </div>
                              <ul id="suggestionsListAssign"></ul>
                             
                     
@@ -416,11 +439,47 @@
                              <input type="text" id="edit-fireKeyAssign" hidden readonly><br>
                              
                        </div>
-</div>
+                </div>
 
 
+        <!--    //////////////////       for total only ///////////////// -->
+                 
+                   
 
-                      
+                  <div class="table-container2 hidden-table">
+                 <h5>   MAIN ACCOUNT TOTAL RECEIEVED TODAY </h5>
+                   <table id="payments-table2">
+                     <ul id="itemList"></ul>
+                     <thead>
+                    <tr>
+                        <th>No.</th> 
+                        <th>Assign</th>
+                        <th>Amount</th>
+                        <th>Ref#</th>
+                        <th>Time</th>
+                        <th>Merchant</th>
+                        <th>Date</th>
+                        <th>Add_Note</th>
+                        <th>Type</th>
+                        <th>User</th>
+                        <th>Text</th>
+                        <th>Save</th>
+                        <th>Device</th>
+                        <th>Status</th>
+                        <th>Sender</th>
+                       
+                      </tr>
+                     </thead>
+                     <tbody>
+                     </tbody>
+                    <tfoot>     
+                    <td colspan="2" id="table-totalW2" style="text-align: right;"><b>Total :</b></td>
+                    <td id="table-total2">0.00</td>
+                     </tr>
+                     </tfoot>
+                     </table>
+                     </div>
+                   
 
               <!--    //////////////////       for total only ends here ///////////////// -->         
 
@@ -542,7 +601,3 @@
 
 </body>
 </html>
-
-
-
-
