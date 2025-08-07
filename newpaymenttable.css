@@ -687,10 +687,41 @@ border: 1px solid #eef0ee; /* Example: A light gray border for the input */
 .modal-content {
   background-color: #fefefe;
   margin: 15% auto; 
-  padding: 20px;
+  padding: 1px;
   border: 1px solid #888;
   width: 30%; 
 }
+
+
+
+
+/* Modal Content/Box */
+.modal-content2 {
+     
+  margin: 5% auto; /* 15% from the top and centered */
+ padding: 1px;
+  border: 1px solid #bfbdc4;
+  width: 99%; /* Could be more or less, depending on screen size */
+}
+
+.modal-content2 {
+    background: rgb(226, 1, 1);
+    padding-top: 2px;
+   
+ height: 600px;
+    margin-top: 1px;
+    max-width: 800px;
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    animation: fadeIn 0.3s ease;
+  }
+
+
+
+
+
+
 
 .close-modal {
   color: #aaa;
@@ -818,6 +849,44 @@ background: #e67c7c; /* Scrollbar thumb hover color */
 
 
 
+
+/* Container for the table with scrolling */
+.table-container2 {
+
+max-height: 450px; /* Set a maximum height for scrolling */
+overflow-y: auto; /* Enable vertical scrolling */
+overflow-x: auto; /* Enable horizontal scrolling if needed */
+border-top: 0px;
+
+}
+
+/* Optional: Style the scrollbar (webkit browsers) */
+.table-container2::-webkit-scrollbar {
+width: 20px; /* Adjust scrollbar width */
+}
+.table-container2::-webkit-scrollbar-track {
+background: #cbcfcf; /* Scrollbar track background */
+}
+.table-container2::-webkit-scrollbar-thumb {
+background: #494646; /* Scrollbar thumb color */
+}
+.table-container2::-webkit-scrollbar-thumb:hover {
+background: #e67c7c; /* Scrollbar thumb hover color */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Table Styling */
 table {
   width: 100%;
@@ -879,6 +948,60 @@ td {
 #payments-table td:nth-child(6) { /* Targets the 6 column */
   text-align: left;
 }
+
+
+
+
+ /*  //////////////////////// for table monitor /////////////////////// */
+
+   #payments-table2 th, #payments-table2 td {
+    padding-inline: 2px;
+    position: sticky;
+  border: 1px solid #898b89;
+  padding: 5px;
+  text-align: center;
+  overflow: hidden;    /* Hide overflowing content */
+  text-overflow: ellipsis; /* Add ellipsis (...) for overflowing text */
+  }
+
+  #payments-table2 thead th {
+    position: sticky;
+    top: 0;
+    z-index: 100; /* Ensure it stays above other elements */
+    background-color: rgb(9, 243, 243); /* Or your preferred header background */
+   
+    }
+    
+
+
+
+/* Footer styling */
+#payments-table2 tfoot {
+    position: sticky;
+    bottom: 0;
+    background-color:rgb(9, 243, 243);
+   
+}
+
+
+#payments-table2 td:nth-child(6) { /* Targets the 6 column */
+  text-align: left;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1269,6 +1392,13 @@ input[type="text"],
 
 
 
+ .hidden-table {
+  display: none;
+}
+
+.visible-table {
+  display: block;
+} 
 
 
 
