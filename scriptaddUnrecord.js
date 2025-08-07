@@ -173,7 +173,7 @@ submitNewPayment.addEventListener('click', () => {
   } */
 
   // Check if refNumber and amount already exist in the database
-  const paymentsRef = firebase.database().ref('Gfunds');
+/*   const paymentsRef = firebase.database().ref('Gfunds');
   paymentsRef.orderByChild('refNumber').equalTo(refNumber).once('value', snapshot => {
       if (snapshot.exists()) {
           let duplicate = false;
@@ -198,7 +198,9 @@ submitNewPayment.addEventListener('click', () => {
           savePayment2(refNumber, amount); // Save if refNumber doesn't exist
          
       }
-  });
+  }); */
+
+   savePayment2(refNumber, amount); // Save if refNumber doesn't exist
 });
 
 
@@ -299,6 +301,7 @@ merchantInputP.addEventListener('input', () => {
     suggestionsListMP.innerHTML = ''; // Clear suggestions if input is short
   }
 });
+
 
 
 
