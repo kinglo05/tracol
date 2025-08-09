@@ -617,7 +617,7 @@ input:hover {
 
 #status { 
     height: 30px;
-     width: 150px;  
+     width: 165px;  
 }
 
 #client-address1:hover {
@@ -630,7 +630,7 @@ input:hover {
 
 #client-address1 { 
     height: 30px;
-     width: 150px;  
+     width: 165px;  
 }
 
 #client-address1:hover {
@@ -645,6 +645,17 @@ input:hover {
 #userTop:hover {
   background-color: #0baaf3; /* A slightly darker gray on hover */
 }
+
+#areaCodeX { 
+    height: 30px;
+     width: 165px;  
+}
+
+#areaCodeX:hover {
+  background-color: #0baaf3; /* A slightly darker gray on hover */
+}
+
+
 
 
 
@@ -1043,7 +1054,8 @@ label {
 /* Container for the table with scrolling */
 .table-container {
 
- max-height: 510px;
+  max-height: 510px;
+  /* min-height: 300px; /* Set a maximum height for scrolling */ 
   overflow-y: auto; /* Enable vertical scrolling */
   overflow-x: auto; /* Enable horizontal scrolling if needed */
   border-top: 0px;
@@ -1130,6 +1142,7 @@ label {
   #merchants-table tfoot {
       position: sticky;
       bottom: 0;
+       text-align: left;
       background-color:rgb(9, 243, 243);
      
   }
@@ -1169,6 +1182,7 @@ label {
   /* Footer styling */
   #merchants-table2 tfoot {
       position: sticky;
+       text-align: left;
       bottom: 0;
       background-color:rgb(9, 188, 233);
      
@@ -1212,6 +1226,7 @@ label {
   /* Footer styling */
   #merchants-table3 tfoot {
       position: sticky;
+       text-align: left;
       bottom: 0;
       background-color: rgb(118, 8, 10); /* Or your preferred header background */
      color: #ccc;
@@ -1798,8 +1813,6 @@ min-width: 50px;
     background-color: #dde6e4;
     font-size: smaller;
 }
-
-
 
 
 
