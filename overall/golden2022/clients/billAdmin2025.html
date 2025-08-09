@@ -12,7 +12,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
     <style>
 
-
 #toggleBtn {
   position: fixed;
   bottom: 20px;
@@ -46,7 +45,6 @@
     font-size: 16px;
   }
 }
-
 
 
        #newPayments-title {
@@ -337,7 +335,7 @@ margin-top: 1px;
     </tbody>
     <tfoot>
       <tr>
-       <td id="table-totalM" colspan="10" style="text-align: left;">All active clients bills</td>
+        <td id="table-totalM" colspan="10" style="text-align: left;">All active clients</td>
 
       </tr>
     </tfoot>
@@ -386,7 +384,7 @@ margin-top: 1px;
     </tbody>
     <tfoot>
       <tr>
-       <td id="table-totalM2" colspan="10" style="text-align: left;">All active clients bills</td>
+        <td id="table-totalM2" colspan="10" style="text-align: left;">All active clients bills</td>
 
       </tr>
     </tfoot>
@@ -424,7 +422,6 @@ margin-top: 1px;
           <th>Address</th>
           <th>Month</th>
           <th>Amount</th>
-             <th>Mode</th>
           <th>Status</th>
           <th>Select</th>
         </tr>
@@ -569,7 +566,7 @@ margin-top: 1px;
                 <div class="modal-content" id="editmerchant">
                   <div id="edit-title-top">  Edit Client Details and Status </div>
                    
-                    <label for="edit-client-name" class="whatsNickname" >Client Name</label>
+                    <label for="edit-client-name" class="whatsNickname" >Edit Name</label>
                   <b>  <input type="text" id="edit-merchant-name" > </b><br>
                   
                     <label for="status" >Disconnect / Reconnect</label>
@@ -578,17 +575,17 @@ margin-top: 1px;
                 <option value="disconnected">Disconnected</option>
                  </select>
 
-                    <label for="contactNum2" >Contact Number</label>
+                    <label for="contactNum2" >Edit Number</label>
                     <input type="number" id="contactNum2" placeholder="Add client number" autocomplete="off" ><br>
 
-                     <label for="planAmount" >Monthly Plan Amount</label>
+                     <label for="planAmount" >Edit Plan Amount</label>
                     <input type="number" id="planAmount"  autocomplete="off" ><br>
 
 
                    
                   
 
-                  <label for="client-address1">Client Address:</label>
+                  <label for="client-address1">Edit Address:</label>
                 <select id="client-address1" autocomplete="off"  required><br>
                 <option value="">Select Address</option>
                  <option value="Asuncion">Asuncion</option>
@@ -613,11 +610,22 @@ margin-top: 1px;
                  </select> <br>
 
 
+                 <label for="areaCodeX">Edit Area Code:</label>
+                <select id="areaCodeX" ><br>
+                 <option value="rasty">Rasty Area</option>
+                <option value="armox">Armox Area-Macrohon</option>
+                <option value="dennis">Dennis Area-Bukid</option>
+                <option value="admin">Admin</option>
+                </select> <br>
+
+
+
+
                      <label for="note" >Add Reminder</label>
                     <input type="text" id="note" placeholder="Say Something" autocomplete="off" ><br>
-                           <input type="text" id="edit-merchant-email" hidden >
+                           <input type="text" id="edit-merchant-email" hidden>
                          <input type="text" id="mer-general-total"   hidden><br>
-                    <input type="text" id="edit-new-pay"   readonly hidden>
+                    <input type="text" id="edit-new-pay"   readonly hidden >
                 
                     <input type="text" id="edit-new-remain" autocomplete="off" hidden>
                 
@@ -705,9 +713,9 @@ margin-top: 1px;
 
                     <button id="save-edit-merchant3">Save</button>
                     <button id="cancel-edit-merchant3" onclick="closeEditDisconnected()">Close</button>
-                    <input type="text" id="edit-id-m3" hidden ><br> 
-                    <input type="text" id="edit-merChantId3" hidden><br>
-                    <input type="text" id="edit-num-paymentst3" hidden><br>  
+                    <input type="text" id="edit-id-m3"  ><br> 
+                    <input type="text" id="edit-merChantId3" ><br>
+                    <input type="text" id="edit-num-paymentst3" ><br>  
 
                 </div>
             </div>
@@ -838,7 +846,4 @@ margin-top: 1px;
    <!--  <script src="tableclientOnly.js"></script> -->
 
 </body>
-
 </html>
-
-
