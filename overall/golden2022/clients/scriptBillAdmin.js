@@ -298,6 +298,8 @@ button2.dataset.clientId = merchant.id; // 👈 set data attribute
   document.getElementById('status').value = merchant.status || "";
   document.getElementById('planAmount').value = merchant.planAmount || "";
   document.getElementById('client-address1').value = merchant.address || "";
+  document.getElementById('areaCodeX').value = merchant.areaCode || "";
+
 
   // Show the form/modal
   editMerchantForm.style.display = 'block';
@@ -328,6 +330,7 @@ EditSubmit.addEventListener('click', () => {
        planAmount:  document.getElementById('planAmount').value, 
         status:  document.getElementById('status').value,
       address: document.getElementById('client-address1').value,
+      areaCode: document.getElementById('areaCodeX').value,
       
  };
    /*  database.ref(path).update({ planAmount: planAmount2 }) */
@@ -972,7 +975,7 @@ sortedMonthKeys.forEach(monthKey => {
     const footerCell = document.getElementById("table-totalM2");
     if (footerCell) footerCell.colSpan = theadRow.children.length;
   });
-  sortTableByClientNameUN();
+   sortTableByClientNameUN();
 }
 
 
@@ -1097,7 +1100,7 @@ sortedMonthKeys.forEach(monthKey => {
     const footerCell = document.getElementById("table-totalM");
     if (footerCell) footerCell.colSpan = theadRow.children.length;
   });
-   sortTableByClientName(); 
+  sortTableByClientName();
 }
 
 
@@ -1231,6 +1234,7 @@ function loadSavedPayments3(username) {
 
 
 
+
  function sortTableByClientName() {
     const table = document.getElementById("merchants-table");
     const tbody = table.querySelector("tbody");
@@ -1247,7 +1251,6 @@ function loadSavedPayments3(username) {
       row.children[0].textContent = index + 1; // Re-number the 'No.' column
       tbody.appendChild(row);
     });
-   
   }
 
   // Call the function after table is loaded
@@ -1293,10 +1296,6 @@ function sortTableByClientName3() {
       tbody.appendChild(row);
     });
   }
-
-
-
-
 
 
 
@@ -1621,7 +1620,6 @@ row.innerHTML = `
   <td onclick="editPlan('${clientKey}', '${monthKey}')" style="cursor: pointer;">
     ₱${amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
   </td>
-   <td>${billData.modeOfPay || "_"}</td>
   <td>${billData.actionTo}</td>
   <td>
     <input type="checkbox" class="row-checkbox" 
@@ -1938,10 +1936,9 @@ function closeModal3() {
 
 window.addEventListener("DOMContentLoaded", () => {
   loadClientTable(); // load clients first
+ // sortTableByClientName();
  // updateMerchantTable3();
 });
-
-
 
 
 
