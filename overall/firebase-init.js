@@ -32,3 +32,41 @@ const appCheck = initializeAppCheck(app, {
 export const db = getDatabase(app);
 
 console.log("✅ Firebase + App Check initialized");
+
+
+
+  firebase.initializeApp(firebaseConfig);
+                const db = firebase.database();
+        
+        
+                const database = firebase.database();
+        
+        
+        // Firebase Auth Listener to Check if User is Logged In
+        firebase.auth().onAuthStateChanged((user) => {
+          if (user) {
+            console.log("User is logged in:", user.uid);
+        
+            // Fetch user data from Firebase Database
+            firebase.database().ref("users/" + user.uid).once("value")
+            .then(snapshot => {
+                if (snapshot.exists()) {
+                    const userData = snapshot.val();
+                    document.getElementById("usernameDisplay").innerText = userData.email;
+                 // console.log("user is login");
+                } else {
+                    console.log("No user data found!");
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching user data:", error);
+            });
+             
+             
+          } else {
+              console.log("No user is signed in. Redirecting to login...");
+              window.location.href = "../index.html"; // Redirect if not logged in
+          } 
+        });
+        
+
