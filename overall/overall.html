@@ -257,7 +257,20 @@
             }
         }
     </script>
-   
+
+
+
+ <script type="module" src="/firebase-init.js"></script>
+    <script type="module">
+        import { db } from "/firebase-init.js";
+        import { ref, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+        // Example write to DB
+      //  set(ref(db, "test/message"), "Hello world!");
+    </script>
+
+
+    
    <script src="overall.js"></script>
 
 
@@ -272,3 +285,4 @@
    
   
   
+
