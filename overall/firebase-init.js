@@ -36,7 +36,7 @@ console.log("✅ Firebase + App Check initialized");
 
 
   firebase.initializeApp(firebaseConfig);
-                const db = firebase.database();
+             //   const db = firebase.database();
         
         
                 const database = firebase.database();
@@ -69,4 +69,5 @@ console.log("✅ Firebase + App Check initialized");
           } 
         });
         
+
 
