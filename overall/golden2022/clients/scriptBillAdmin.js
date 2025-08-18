@@ -28,6 +28,7 @@ firebase.auth().onAuthStateChanged((user) => {
             const username = email.split("@")[0];
             document.getElementById("usernameDisplay").innerText = "Welcome, " + username;
             document.getElementById("theCollector").value =username;
+          document.getElementById("theUser").value =username;  
             
               loadGoldenClientsByUser(username);
 
@@ -947,16 +948,19 @@ sortedMonthKeys.forEach(monthKey => {
             if (currentStatus === "Unpaid") {
               const confirmPaid = confirm("Are you sure you want to mark this client as PAID?");
               if (!confirmPaid) return;
+              username = document.getElementById("theUser").value
               newStatus = "Paid";
               actionToStatus = "approved";
-              firebase.database().ref(path).update({ status: newStatus, actionTo: actionToStatus })
+              whoApproved1 = username;
+              firebase.database().ref(path).update({ status: newStatus, actionTo: actionToStatus, whoApproved: whoApproved1 })
                 .then(() => location.reload());
             } else {
               const redo = confirm("Are you Sure You don’t received Payment From this Client for this Month?");
               if (!redo) return;
               newStatus = "Unpaid";
               actionToStatus = "pending";
-              firebase.database().ref(path).update({ status: newStatus, actionTo: actionToStatus });
+               whoApproved1 = "";
+              firebase.database().ref(path).update({ status: newStatus, actionTo: actionToStatus,  whoApproved: whoApproved1 });
             }
 
             button.textContent = newStatus;
@@ -1200,15 +1204,21 @@ function loadSavedPayments3(username) {
 
           if (currentStatus === "Unpaid") {
             const confirmPaid = confirm("Are you sure you want to mark this client as PAID?");
-            if (!confirmPaid) return;
-            newStatus = "Paid";
-            actionToStatus = "approved";
+           if (!confirmPaid) return;
+              username = document.getElementById("theUser").value
+              newStatus = "Paid";
+              actionToStatus = "approved";
+              whoApproved1 = username;
+              firebase.database().ref(path).update({ status: newStatus, actionTo: actionToStatus, whoApproved: whoApproved1 })
+                .then(() => location.reload());
           } else {
             const redo = confirm("Are you sure you didn’t receive payment from this client?");
             if (!redo) return;
-            newStatus = "Unpaid";
-            actionToStatus = "pending";
-          }
+              newStatus = "Unpaid";
+              actionToStatus = "pending";
+               whoApproved1 = "";
+              firebase.database().ref(path).update({ status: newStatus, actionTo: actionToStatus,  whoApproved: whoApproved1 });
+            }
 
           firebase.database().ref(path).update({ status: newStatus, actionTo: actionToStatus })
             .then(() => {
@@ -1746,12 +1756,14 @@ function markSelectedAsPaid() {
   selectedCheckboxes.forEach(checkbox => {
     const clientKey = checkbox.dataset.client;
     const monthKey = checkbox.dataset.month;
+      const username = document.getElementById("theUser").value;
     const path = `goldenwifi/monthly-bills/${clientKey}/bills/${monthKey}`;
 
     // Push promise to array
     const updatePromise = firebase.database().ref(path).update({
       status: "Paid",
-      actionTo: "approved"
+      actionTo: "approved",
+       whoApproved: username,
     });
 
     updates.push(updatePromise);
@@ -1939,6 +1951,7 @@ window.addEventListener("DOMContentLoaded", () => {
  // sortTableByClientName();
  // updateMerchantTable3();
 });
+
 
 
 
