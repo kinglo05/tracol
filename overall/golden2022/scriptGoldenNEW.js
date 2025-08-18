@@ -254,7 +254,7 @@ function showAlert(message, duration = 3000) {
 }
 
 
-function setDefaultDates() {
+/* function setDefaultDates() {
   const today = new Date();
   const yesterday = new Date();
   yesterday.setDate(today.getDate() - 1); // Get yesterday's date
@@ -267,7 +267,7 @@ function setDefaultDates() {
 }
 
 // Run function on page load
-window.onload = setDefaultDates;
+window.onload = setDefaultDates; */
 
 
 
@@ -287,12 +287,36 @@ const dateInput22 = document.getElementById('date-today');
   const month = ('0' + (today.getMonth() + 1)).slice(-2); // Add leading zero if needed
   const day = ('0' + today.getDate()).slice(-2); // Add leading zero if needed
   const formattedDate2 = `${year}-${month}-${day}`;
-
-  dateInput22.value = formattedDate2; 
-
-
+//
+//  dateInput22.value = formattedDate2; 
 
 
+
+let startInput = document.getElementById("startDate").value;
+let endInput = document.getElementById("endDate").value;
+
+let startDate, endDate;
+
+if (startInput && endInput) {
+  // Use selected dates
+  startDate = new Date(startInput);
+  endDate = new Date(endInput);
+  endDate.setHours(23, 59, 59, 999);
+} else {
+  // Auto-set to current month
+  const today = new Date();
+
+  // 1st day of current month
+  startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+
+  // Last day of current month
+  endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+  endDate.setHours(23, 59, 59, 999);
+
+  // (Optional) also update the input fields so user sees it
+  document.getElementById("startDate").value = startDate.toISOString().split("T")[0];
+  document.getElementById("endDate").value = endDate.toISOString().split("T")[0];
+}
 
   
 /////////////////////////// POPULATE MERCHANT NAME //////////////////////// 
@@ -874,10 +898,15 @@ window.addEventListener("storage", function(event) {
 });
 
 
-updateDisplay();
 
 
 
 
+  window.onload = function () {
+ updateDisplay();
+ filterPayments();
+ filterPayments2();
+ 
+  };
 
            
