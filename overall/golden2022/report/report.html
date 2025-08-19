@@ -35,7 +35,7 @@
     <br>
     <input type="text" id="usernameDisplay" hidden>
     <!-- <button onclick="applyFilter()">Filter</button> -->
-    <button id="filter" onclick=" applyFilter(); filterPayments(); filterPayments22();  loadUnpaidBillsWithFilters1();  selectedDateCollections(); lohwaExpenses(); rastyExpenses(); adminExpenses();" >3.Filter</button>
+    <button id="filter" onclick=" applyFilter(), filterPayments(), filterPayments22(),  lohwaBillsApproved(),  selectedDateCollections(), lohwaExpenses(), rastyExpenses(), adminExpenses()" >3.Filter</button>
     
     <button id="pdfBtn" onclick="saveReportAsPDF()">Save as PDF</button>
     </div>
@@ -55,7 +55,7 @@
            <p><strong>NET Income:</strong> <span id="overAllTotal">0.00</span></p>
         
          <br>
-         <p>Lohwa total collections received:  <span id="totalField">0</span></p>
+         <p>Lohwa total collections receieved:<span id="totalField">0</span></p>
          <p>Total bills lohwa Approved:  <span id="countField">0</span></p>
           <p>Lohwa Expenses:<span id="lohwaExpenses">0</span></p>
 
@@ -174,8 +174,8 @@
 
 
 
-let startInput = document.getElementById("startDate").value;
-let endInput = document.getElementById("endDate").value;
+ let startInput = document.getElementById("startDate").value;
+let endInput = document.getElementById("endDate").value; 
 
 let startDate, endDate;
 
@@ -265,7 +265,7 @@ function selectedDateCollections() {
 
 
 
-function loadUnpaidBillsWithFilters1() {
+function lohwaBillsApproved() {
   firebase.database().ref("goldenwifi/monthly-bills").once("value").then(snapshot => {
     const startDate = new Date(document.getElementById("startDate").value);
     const endDate = new Date(document.getElementById("endDate").value);
@@ -281,7 +281,7 @@ function loadUnpaidBillsWithFilters1() {
       Object.keys(billData.bills).forEach(monthKey => {
         const record = billData.bills[monthKey];
 
-        const billDate = new Date(record.date);
+        const billDate = new Date(record.dateOfPayment);
         const actionTo = (record.actionTo || "").trim().toLowerCase();
         const whoApproved = (record.whoApproved || "").trim().toLowerCase();
 
@@ -399,7 +399,12 @@ function filterPayments22() {
       const data = child.val();
       const date = new Date(data.date);
 
-      if (date >= startDate && date <= endDate) {
+      if (
+        date >= startDate &&
+         date <= endDate &&
+          data.status === "new"
+        
+        ) {
         const row = tableBody.insertRow();
         row.insertCell(0).textContent = count++;
         row.insertCell(1).textContent = data.date;
@@ -415,6 +420,9 @@ function filterPayments22() {
     updateFinal();
   });
 }
+
+
+
 
 
 
@@ -439,7 +447,7 @@ function lohwaExpenses() {
         date >= startDate && 
         date <= endDate &&
         data.user === "lohwa" &&
-        data.actionTo ==="approved" &&
+      //  data.actionTo ==="approved" &&
          data.status === "new"
 
       
@@ -520,6 +528,7 @@ function adminExpenses() {
         date >= startDate && 
         date <= endDate &&
         data.user === "admin" &&
+       
         data.actionTo ==="approved" &&
         data.status === "new"
 
@@ -593,8 +602,9 @@ function saveReportAsPDF() {
     applyFilter();
     filterPayments();
     filterPayments22();
-    loadUnpaidBillsWithFilters1();
+   // loadUnpaidBillsWithFilters1();
     selectedDateCollections();
+    lohwaBillsApproved()
     lohwaExpenses();
     rastyExpenses();
     adminExpenses();
@@ -626,4 +636,3 @@ function saveReportAsPDF() {
 
 </body>
 </html>
-
