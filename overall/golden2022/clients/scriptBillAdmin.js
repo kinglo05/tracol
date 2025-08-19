@@ -27,8 +27,8 @@ firebase.auth().onAuthStateChanged((user) => {
             const email = userData.email;
             const username = email.split("@")[0];
             document.getElementById("usernameDisplay").innerText = "Welcome, " + username;
-            document.getElementById("theCollector").value =username;
-          document.getElementById("theUser").value =username;  
+            document.getElementById("theCollector").value =username; 
+             document.getElementById("theUser").value =username;  
             
               loadGoldenClientsByUser(username);
 
@@ -424,6 +424,9 @@ EditSubmit.addEventListener('click', () => {
   const noteCell = row.insertCell();
   noteCell.textContent = merchant.note;
 
+    const approvedByCell = row.insertCell();
+approvedByCell.textContent = merchant.n;
+
   const merchantKey = (merchant.id);
 
   const editMerchantCell3 = row.insertCell();
@@ -793,6 +796,7 @@ function loadClientTable(username, searchTerm = "") {
       const clientName = latestUnpaidBill.name || "";
       const clientAddress1 = latestUnpaidBill.address2 || "";
       const clientACode = latestUnpaidBill.areaCode || "";
+       const approver = latestUnpaidBill.whoApproved || "";
       
        const clientNote = latestUnpaidBill.note || "";
 
@@ -1019,6 +1023,9 @@ sortedMonthKeys.forEach(monthKey => {
 
         if (!clientBills[clientKey]) clientBills[clientKey] = {};
         clientBills[clientKey][monthKey] = bill.status || "Unpaid";
+
+       
+
       });
     });
 
@@ -1060,6 +1067,7 @@ sortedMonthKeys.forEach(monthKey => {
         }
 
         const status = clientBills[clientKey][monthKey];
+       
         const path = `goldenwifi/monthly-bills/${clientKey}/bills/${monthKey}`;
 
         const td = document.createElement("td");
@@ -1068,6 +1076,11 @@ sortedMonthKeys.forEach(monthKey => {
         const button = document.createElement("button");
         button.textContent = status;
         const isPaid = status === "Paid";
+
+       
+
+      
+
         button.style.backgroundColor = isPaid ? "green" : "";
         button.style.color = isPaid ? "white" : "";
 
@@ -1080,12 +1093,23 @@ sortedMonthKeys.forEach(monthKey => {
             if (!confirmPaid) return;
             newStatus = "Paid";
             actionToStatus = "approved";
-          } else {
-            const redo = confirm("Are you sure you didn’t receive payment from this client?");
-            if (!redo) return;
-            newStatus = "Unpaid";
-            actionToStatus = "pending";
-          }
+             username = document.getElementById("theUser").value
+              newStatus = "Paid";
+              actionToStatus = "approved";
+              whoApproved1 = username;
+              firebase.database().ref(path).update({ status: newStatus, actionTo: actionToStatus, whoApproved: whoApproved1 })
+                .then(() => location.reload());
+
+
+          
+           } else {
+              const redo = confirm("Are you Sure You don’t received Payment From this Client for this Month?");
+              if (!redo) return;
+              newStatus = "Unpaid";
+              actionToStatus = "pending";
+               whoApproved1 = "";
+              firebase.database().ref(path).update({ status: newStatus, actionTo: actionToStatus,  whoApproved: whoApproved1 });
+            }
 
           firebase.database().ref(path).update({ status: newStatus, actionTo: actionToStatus })
             .then(() => {
@@ -1094,11 +1118,13 @@ sortedMonthKeys.forEach(monthKey => {
               button.style.color = newStatus === "Paid" ? "white" : "";
             });
         });
-
+       
         td.appendChild(button);
         row.appendChild(td);
       });
     });
+
+   
 
     // 4. Adjust footer colspan
     const footerCell = document.getElementById("table-totalM");
@@ -1106,6 +1132,8 @@ sortedMonthKeys.forEach(monthKey => {
   });
   sortTableByClientName();
 }
+
+
 
 
 
@@ -1204,21 +1232,15 @@ function loadSavedPayments3(username) {
 
           if (currentStatus === "Unpaid") {
             const confirmPaid = confirm("Are you sure you want to mark this client as PAID?");
-           if (!confirmPaid) return;
-              username = document.getElementById("theUser").value
-              newStatus = "Paid";
-              actionToStatus = "approved";
-              whoApproved1 = username;
-              firebase.database().ref(path).update({ status: newStatus, actionTo: actionToStatus, whoApproved: whoApproved1 })
-                .then(() => location.reload());
+            if (!confirmPaid) return;
+            newStatus = "Paid";
+            actionToStatus = "approved";
           } else {
             const redo = confirm("Are you sure you didn’t receive payment from this client?");
             if (!redo) return;
-              newStatus = "Unpaid";
-              actionToStatus = "pending";
-               whoApproved1 = "";
-              firebase.database().ref(path).update({ status: newStatus, actionTo: actionToStatus,  whoApproved: whoApproved1 });
-            }
+            newStatus = "Unpaid";
+            actionToStatus = "pending";
+          }
 
           firebase.database().ref(path).update({ status: newStatus, actionTo: actionToStatus })
             .then(() => {
@@ -1756,7 +1778,8 @@ function markSelectedAsPaid() {
   selectedCheckboxes.forEach(checkbox => {
     const clientKey = checkbox.dataset.client;
     const monthKey = checkbox.dataset.month;
-      const username = document.getElementById("theUser").value;
+    const username = document.getElementById("theUser").value;
+                   
     const path = `goldenwifi/monthly-bills/${clientKey}/bills/${monthKey}`;
 
     // Push promise to array
@@ -1951,7 +1974,6 @@ window.addEventListener("DOMContentLoaded", () => {
  // sortTableByClientName();
  // updateMerchantTable3();
 });
-
 
 
 
