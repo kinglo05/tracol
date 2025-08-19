@@ -258,12 +258,15 @@ saveEditBtn2.addEventListener('click', (event) => {
 
               const newPayKeyPar2 = document.getElementById('edit-idPay2').value;
               const newPayKey2 = newPayKeyPar2;
+              /*  const userNi =  document.getElementById("usernameDisplay").value;
+                console.log("the userni sa 222", userNi ); */
+               
 
               const updatedPaymentData = {
                 exName: document.getElementById('exName2').value,
                    amount: document.getElementById('edit-amount2').value,
                   status: document.getElementById('edit-status2').value,
-                 
+                  user: document.getElementById("theUser").value,
                   date: document.getElementById('edit-date2').value,
                 //  merchantKey: merchantFirebaseKey // The new merchant Firebase Key
               };
@@ -272,6 +275,7 @@ saveEditBtn2.addEventListener('click', (event) => {
               firebase.database().ref(`goldenwifi/goldenExpenses/${newPayKey2}`).update(updatedPaymentData)
                   .then(() => {
                     
+                      editPaymentForm2.style.display = 'none'; 
                  
                 Swal.fire({
                   title: "Success!",
@@ -281,7 +285,7 @@ saveEditBtn2.addEventListener('click', (event) => {
                   showConfirmButton: false
                 });
                 
-                editPaymentForm2.style.display = 'none'; 
+              
 
                   })
                   .catch(error => {
