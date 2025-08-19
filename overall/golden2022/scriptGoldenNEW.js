@@ -18,7 +18,7 @@ const database = firebase.database();
 
 
 // Firebase Auth Listener to Check if User is Logged In
-firebase.auth().onAuthStateChanged((user) => {
+/* firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     console.log("User is logged in:", user.uid);
 
@@ -42,6 +42,44 @@ firebase.auth().onAuthStateChanged((user) => {
       window.location.href = "index.html"; // Redirect if not logged in
   } 
 });
+ */
+
+
+// Firebase Auth Listener to Check if User is Logged In
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    console.log("User is logged in:", user.uid);
+
+    // Fetch user data from Firebase Database
+    firebase.database().ref("users/" + user.uid).once("value")
+    .then(snapshot => {
+       if (snapshot.exists()) {
+            const userData = snapshot.val();
+            const email = userData.email;
+            const username = email.split("@")[0];
+            document.getElementById("usernameDisplay").innerText = "Welcome, " + username;
+         
+             document.getElementById("theUser").value =username;  
+            
+             
+         
+            
+            
+        } else {
+            console.log("No user data found!");
+        }
+    })
+    .catch(error => {
+        console.error("Error fetching user data:", error);
+    });
+     
+     
+  } else {
+      console.log("No user is signed in. Redirecting to login...");
+      window.location.href = "index.html"; // Redirect if not logged in
+  } 
+});
+
 
 
 
@@ -750,15 +788,20 @@ saveEditBtn.addEventListener('click', (event) => {
           if (merchantFirebaseKey) {
               const newPayKeyPar = document.getElementById('edit-idPay').value;
               const newPayKey = newPayKeyPar;
-
+              const userNi =  document.getElementById("theUser").value;
+                console.log("the userni", userNi );
+               
               const updatedPaymentData = {
                   clientName: document.getElementById('edit-clientName1').value,
                    amountNew: document.getElementById('edit-amount').value,
+                    user: document.getElementById("theUser").value,
                   status: document.getElementById('edit-status').value,
                   address: document.getElementById('address').value,
                   date: document.getElementById('edit-date').value,
                   merchantKey: merchantFirebaseKey // The new merchant Firebase Key
               };
+
+
 
               // Update in Firebase (example)
               firebase.database().ref(`goldenwifi/transactions/${newPayKey}`).update(updatedPaymentData)
