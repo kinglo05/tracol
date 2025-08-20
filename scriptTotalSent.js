@@ -572,7 +572,7 @@ if (merchantInputAssign && suggestionsListAssign) {
 /**********************
  * “Show Total” modal (kept as-is)
  **********************/
-function toggleTableModal1() {
+/* function toggleTableModal1() {
   const modal = document.getElementById("tableModal1");
   const iframe = document.getElementById("totalSentIframe");
   modal.style.display = "flex";
@@ -585,7 +585,7 @@ document.getElementById("closeModalBtn")?.addEventListener("click", function () 
   const iframe = document.getElementById("totalSentIframe");
   modal.style.display = "none";
   iframe.src = "";
-});
+}); */
 
 window.addEventListener("click", function (e) {
   const modal = document.getElementById("tableModal1");
@@ -595,3 +595,4 @@ window.addEventListener("click", function (e) {
     document.getElementById("totalSentIframe").src = "";
   }
 });
+
