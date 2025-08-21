@@ -207,14 +207,25 @@ function recalcNumbersAndTotals() {
 /**
  * Insert/Update a single payment row (called by child_added / child_changed).
  */
+/**
+ * Insert/Update a single payment row (called by child_added / child_changed).
+ */
 function upsertPaymentRow(paymentId, data) {
   // cache current row data for searching
   currentRowsData.set(paymentId, data);
 
   let tr = rowIndexById.get(paymentId);
   if (!tr) {
+    // create new row
     tr = buildRow(paymentId, data);
-    if (paymentsTBody) paymentsTBody.appendChild(tr);
+    if (paymentsTBody) {
+      // insert at TOP instead of bottom
+      if (paymentsTBody.firstChild) {
+        paymentsTBody.insertBefore(tr, paymentsTBody.firstChild);
+      } else {
+        paymentsTBody.appendChild(tr);
+      }
+    }
     rowIndexById.set(paymentId, tr);
   } else {
     // Replace existing row to keep it simple and safe
@@ -222,6 +233,7 @@ function upsertPaymentRow(paymentId, data) {
     paymentsTBody.replaceChild(newTr, tr);
     rowIndexById.set(paymentId, newTr);
   }
+
   recalcNumbersAndTotals();
 }
 
@@ -402,12 +414,12 @@ async function computeTodayNewTotal() {
         count += 1;
         sum += parseFloat(p.amount || 0);
       
+       
       }
      
       if (p?.date === todayISO) {
         countToday += 1;
         sumToday += parseFloat(p.amount || 0);
-      
       
       }
 
@@ -420,7 +432,6 @@ async function computeTodayNewTotal() {
     console.error("computeTodayNewTotal error:", e);
   }
 }
-
 
 async function computeTodayClaimedTotal() {
   try {
@@ -494,7 +505,9 @@ if (btnSaveAssign) {
         amount: parseFloat(assignAmountInput.value || "0"),
         refNumber: assignRefInput.value || "",
         note: assignNoteInput.value || "",
-        merchantP: assignNickInput.value || ""
+        merchantP: assignNickInput.value || "",
+       merchantKey: id
+
       };
       await db.ref(`payments/${id}`).update(payload);
       Swal.fire({ title: "Assigned", icon: "success", timer: 1500, showConfirmButton: false });
@@ -529,16 +542,19 @@ if (merchantInput && suggestionsList) {
           .once("value");
 
         snap.forEach(child => {
-          const name = child.val()?.name;
-          if (!name) return;
-          const li = document.createElement("li");
-          li.textContent = name;
-          li.addEventListener("click", () => {
-            merchantInput.value = name;
-            suggestionsList.innerHTML = "";
-          });
-          suggestionsList.appendChild(li);
-        });
+  const name = child.val()?.name;
+  const key = child.key; // THIS is the Firebase key
+  if (!name) return;
+  const li = document.createElement("li");
+  li.textContent = name;
+  li.addEventListener("click", () => {
+    merchantInputAssign.value = name;
+    merchantInputAssign.dataset.key = key; // store key in a data attribute
+    suggestionsListAssign.innerHTML = "";
+  });
+  suggestionsListAssign.appendChild(li);
+});
+
       } catch (e) {
         console.error("Merchant suggest error:", e);
       }
@@ -608,5 +624,3 @@ window.addEventListener("click", function (e) {
     document.getElementById("totalSentIframe").src = "";
   }
 });
-
-
