@@ -1,4 +1,4 @@
-// Firebase Configuration (Replace with your actual config)
+
 const firebaseConfig = {
   apiKey: "AIzaSyCYe3m5O6X1-q47u1w1GQ4bT8pAvJ5tzq8",
   authDomain: "tracollector.firebaseapp.com",
@@ -15,40 +15,30 @@ const app = firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
 
- // Firebase Auth Listener to Check if User is Logged In
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     console.log("User is logged in:", user.uid);
 
-    // Check UID or Email
-    const allowedUID = "SUILZCLhDWWXJDQxizZKWPDms1a2";
-    const allowedEmail = "lohwa@gmail.com";
-
-    if (user.uid !== allowedUID && user.email !== allowedEmail) {
-      console.warn("Unauthorized user. Redirecting...");
-      window.location.href = "unauthorized.html"; // Or any page you prefer
-      return; // Stop further code
-    }
-
-    // Fetch user data from Firebase Database
+   
     firebase.database().ref("users/" + user.uid).once("value")
-      .then(snapshot => {
+    .then(snapshot => {
         if (snapshot.exists()) {
-          const userData = snapshot.val();
-          document.getElementById("usernameDisplay").innerText = userData.email;
+            const userData = snapshot.val();
+            document.getElementById("usernameDisplay").innerText = "Welcome, " + userData.email;
         } else {
-          console.log("No user data found!");
+            console.log("No user data found!");
         }
-      })
-      .catch(error => {
+    })
+    .catch(error => {
         console.error("Error fetching user data:", error);
-      });
-
+    });
+     
+     
   } else {
-    console.log("No user is signed in. Redirecting to login...");
-    window.location.href = "index.html"; // Redirect if not logged in
-  }
-});    
+      console.log("No user is signed in. Redirecting to login...");
+      window.location.href = "index.html"; // Redirect if not logged in
+  } 
+});
 
 
 
@@ -71,7 +61,7 @@ const addMerchantForm = document.getElementById("add-merchant-form");
 const newMerchantNameInput = document.getElementById("new-merchant-name");
 const newMerchantEmailInput = document.getElementById("new-merchant-email");
 const newMerchantAddressInput = document.getElementById("new-merchant-address");
-//const cancelAddMerchantBtn = document.getElementById("cancel-add-merchant");
+
 const merchantStatusInput = document.getElementById("new-merchant-total");
 const submitNewMerchantButton = document.getElementById('submit-merchant');
 const addMerchantButton = document.getElementById('add-merchant-button');
@@ -93,7 +83,7 @@ const totalNewPayment = document.getElementById('new-pay');
 const remainPayment = document.getElementById('new-remain');
 const merchantBarrowed = document.getElementById('new-borrowed');
 const editCountNoPayments = document.getElementById('edit-num-paymentst');
-//const editTotalNewPayment = document.getElementById('edit-new-pay');
+
 const editRemainPayment = document.getElementById('edit-new-remain');
 const editMerchantBarrowed = document.getElementById('edit-new-borrowed');
 const merGeneralTotal = document.getElementById('mer-general-total');
@@ -101,7 +91,7 @@ const editMerchantName = document.getElementById('edit-merchant-name').value;
   const editMerchantEmail = document.getElementById('edit-merchant-email').value;
   const editMerchantRemain = document.getElementById('edit-new-remain').value;
   const editMerchantID = document.getElementById('edit-merChantId').value;
-  //const  tableClaim = document.getElementById('claim-table').getElementsByTagName('tbody')[0];
+
   const merchantSearchInput9 = document.getElementById('merchant-search');
 
   const tableMerchant = document.getElementById('merchants-table').getElementsByTagName('tbody')[0];
@@ -173,13 +163,12 @@ submitNewMerchantButton.addEventListener('click', () => {
   const merchantsRef = firebase.database().ref('merchants');
   merchantsRef.orderByChild('nameLower').equalTo(newMerchantAccount.nameLower).once('value', (snapshot) => {
       if (snapshot.exists()) {
-          // Merchant name already exists, show an alert:
-        //  window.location.href = 'home.html';
+       
           alert('Merchant name already exists. Please enter a different name.');
           newMerchantNameInput.value = ""; // Optionally clear the input field
           return; // Stop further execution
       } else {
-          // 2. If the name is unique, proceed with saving:
+       
           const newMerchantRef = merchantsRef.push();
           const newMerchantKey = newMerchantRef.key;
 
@@ -216,7 +205,7 @@ submitNewMerchantButton.addEventListener('click', () => {
 });
 
 
-//cancel to hide add merchant modal
+
 cancelAddMerchantBtn.addEventListener('click', () => {
   addMerchantForm.style.display = 'none'; 
   });
@@ -226,10 +215,10 @@ cancelAddMerchantBtn.addEventListener('click', () => {
 
 
 
-//const editMerchantCell = document.getElementById('EditMerchantF');
+
 const tableDataM = [];
 
-//Fetch data from Firebase and display in the table
+
 let merchantData = []; // Store the fetched payment data
 database.ref('merchants').on('value', (snapshot) => {
   tableDataM.length = 0; // Clear existing data
@@ -262,8 +251,7 @@ database.ref('merchants').on('value', (snapshot) => {
   });
 
   updateMerchantTable(merchantData);
-  //calculateAndDisplayMerchantPayments(merchantData);
- 
+
 
 });
 
@@ -277,30 +265,27 @@ merchantSearchInput9.addEventListener('input', () => {
     timeoutId = setTimeout(() => {
         const searchTerm = merchantSearchInput9.value.toLowerCase();
 
-        // Optimization 1: Check if the search term is empty
+   
         if (!searchTerm) {
          updateMerchantTable(merchantData);
-         // updateMerchantTable(merchantData, merchantNumPayments, merchantTotalPayments); // Show all merchants
+     
             return; // Exit early if the search term is empty
         }
 
-        // Optimization 2: Use a more efficient filtering method if possible
-        // If merchant.id is always a string, avoid toLowerCase() on it.
 
         const filteredData = merchantData.filter((merchant) => {
             const merchantName = merchant.name.toLowerCase();
             const merchantEmail = merchant.email.toLowerCase();
           
             return (
-             //   merchantId.includes(searchTerm) || // No toLowerCase() if merchant.id is already a string.
+        
                 merchantName.includes(searchTerm) ||
                 merchantEmail.includes(searchTerm) 
-             //   merchantRemaining.includes(searchTerm) ||
-             //   merchantBorrowed.includes(searchTerm)
+           
             );
         });
        
-       // updateMerchantTable(filteredData, merchantNumPayments, merchantTotalPayments);
+   
 
        updateMerchantTable(filteredData);
 
@@ -308,17 +293,13 @@ merchantSearchInput9.addEventListener('input', () => {
 });    /////////search ends here ///////////////
 
 
-
-
-
-//function updateMerchantTable(data, merchantNumPayments, merchantTotalPayments) {
   function updateMerchantTable(data) {
   tableMerchant.innerHTML = ''; // Clear the table
   data.forEach((merchant, rowIndex) => {
 
   const row = tableMerchant.insertRow();
 
-  // Create table cells and populate them with data
+
 
   const rowIndexCell = row.insertCell();
   rowIndexCell.textContent = rowIndex + 1;
@@ -387,8 +368,7 @@ editMerchantBTN.addEventListener('click', () => {
       timer: 2000, // Closes after 3 seconds
       showConfirmButton: false 
     });
-   
-   /*  editMerchantForm.style.display = 'none';  */
+
 
   })
   .catch(error => {
@@ -410,13 +390,16 @@ let paymentsDataC = []; // Store the fetched payment data
  database.ref('payments').on('value', (snapshot) => {
   tableDataC.length = 0; // Clear existing data
   paymentsDataC = [];
-  const merTag = document.getElementById('edit-id-m').value = merchant.id;  
+/*   const merTag = document.getElementById('edit-id-m').value = merchant.id; */     
+  const merTag = document.getElementById('edit-merchant-name').value;  // = merchant.id;
+
   snapshot.forEach((childSnapshot) => {
     const paymentC = childSnapshot.val();
     const firebaseKeyC = childSnapshot.key; // Get the Firebase key
 
     // Filter for payments with status 'new'
-    if (paymentC.status === 'new' && paymentC.merchantKey == merTag) {
+  /*   if (paymentC.status === 'new' && paymentC.merchantKey == merTag) { */
+       if (paymentC.status === 'new' && paymentC.merchantP == merTag) {  
       paymentsDataC.push({ id: firebaseKeyC, ...paymentC });
      
       const rowDataC = {
@@ -647,10 +630,6 @@ const paymentsTableE = document.getElementById('claim-table');    ////.getElemen
         editMerchantFormName.style.display = 'none'; 
 
 
-
-         // console.log("Payment data updated successfully.");
-        // alert("MERCHANT NAME/NOONES ACCOUNT SAVED SUCCESSFULLY"); 
-        //  window.location.reload();
       })
       .catch(error => {
           console.error("Error updating payment data:", error);
@@ -723,7 +702,7 @@ function updatePaymentsTableCName(data) {
   };    //////////////END OF UPDATEPAYMETSTABLE last for name change only ///////////////// 
 
 
-     ///////////////// start of trading table calculate for name only //////////////////////////
+  
     
      const paymentsTableEName = document.getElementById('claim-tableName');    ////.getElementsByTagName('tbody')[0];
    
@@ -733,7 +712,7 @@ function updatePaymentsTableCName(data) {
           // Check if the tbody exists
           if(tableBodyEName){
           
-           //   const totalAmountSpanEName = document.getElementById('edit-new-payName');
+        
              
             const TananTananName = document.getElementById('mer-general-totalName');
             const editMerchantNameName = document.getElementById('edit-merchant-nameName');
@@ -773,36 +752,19 @@ function updatePaymentsTableCName(data) {
       
         };  
          
-        
-        
-        
-        ////////////////// end of trading table calculate /////////////////////
+
     
         })     /////////////////////////////  // Event listener for EditCell for name //////////////////////////////
-             /////////////////////////////  // Event listener for EditCell  for name//////////////////////////////   
-              /////////////////////////////  // Event listener for EditCell //////////////////////////////
-
-
-
-
-
-
-
-
-
-
-
-
-
+       
   });
 }; 
 
 
 //cancel to hide add editform
-cancelEditButtonMerchant.addEventListener('click', () => {
-  editMerchantForm.style.display = 'none'; 
-   location.reload(); // Refresh the page
-});
+ cancelEditButtonMerchant.addEventListener('click', () => {
+  editMerchantForm.style.display = "none";
+  location.reload(); // Refresh the page
+}); 
  
 
 cancelEditButtonMerchantName.addEventListener('click', () => {
@@ -812,20 +774,13 @@ cancelEditButtonMerchantName.addEventListener('click', () => {
 
 
 
-/* document.addEventListener("mousedown", function(event) {
-  let modal = document.getElementById('editmerchant');
-   
-   if (modal && !modal.contains(event.target)) {
-     editMerchantForm.style.display = "none";
-   }
- });  */
- 
 
  document.addEventListener("mousedown", function(event) {
   let modal = document.getElementById('editmerchantName2');
    
    if (modal && !modal.contains(event.target)) {
      editMerchantFormName.style.display = "none";
+     
    }
  }); 
 
@@ -862,15 +817,3 @@ function closeModal() {
 }; 
 
 
-
-
-
-
-/*  document.addEventListener("mousedown", function(event) {
-  var sidebar = document.getElementById("sidebar");
-            var mainContent = document.getElementById("mainContent");
-   
-   if (modal && !modal.contains(event.target)) {
-     editMerchantFormName.style.display = "none";
-   }
- });  */
