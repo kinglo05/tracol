@@ -1008,7 +1008,8 @@ td {
 
 
 #table-total {
-  color: transparent;        /* Hide text */
+  /* color: transparent;  */       /* Hide text */
+  color: red;
   transition: color 0.3s;    /* Smooth transition */
   cursor: pointer;           /* Optional: show pointer on hover */
 }
@@ -1140,7 +1141,8 @@ label {
 
 
 #total-today {
-  color: transparent;           /* hide text */
+/*   color: transparent;  */          /* hide text */
+color: red;
   transition: color 0.3s ease;  /* smooth effect */
 }
 
