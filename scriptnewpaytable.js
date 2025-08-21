@@ -394,20 +394,33 @@ async function computeTodayNewTotal() {
     const q = db.ref("payments").orderByChild("date").startAt(todayISO).endAt(todayISO);
     const snap = await q.once("value");
     let count = 0, sum = 0;
+     let countToday = 0, sumToday = 0;
+    
     snap.forEach((child) => {
       const p = child.val();
       if (p?.date === todayISO && p?.status === "new") {
         count += 1;
         sum += parseFloat(p.amount || 0);
+      
       }
+     
+      if (p?.date === todayISO) {
+        countToday += 1;
+        sumToday += parseFloat(p.amount || 0);
+      
+      
+      }
+
+
     });
-    if (totalTodayEl) totalTodayEl.value = sum.toFixed(2);
+    if (totalTodayEl) totalTodayEl.value = sumToday.toFixed(2);
     if (totalResiboEl) totalResiboEl.value = String(count);
     if (eightEl) eightEl.value = (sum * 0.08).toFixed(2);
   } catch (e) {
     console.error("computeTodayNewTotal error:", e);
   }
 }
+
 
 async function computeTodayClaimedTotal() {
   try {
@@ -595,3 +608,4 @@ window.addEventListener("click", function (e) {
     document.getElementById("totalSentIframe").src = "";
   }
 });
+
