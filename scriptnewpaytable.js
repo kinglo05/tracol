@@ -415,7 +415,7 @@ async function computeTodayNewTotal() {
     });
     if (totalTodayEl) totalTodayEl.value = sumToday.toFixed(2);
     if (totalResiboEl) totalResiboEl.value = String(count);
-    if (eightEl) eightEl.value = (sum * 0.08).toFixed(2);
+    if (eightEl) eightEl.value = (sumToday * 0.08).toFixed(2);
   } catch (e) {
     console.error("computeTodayNewTotal error:", e);
   }
@@ -608,4 +608,5 @@ window.addEventListener("click", function (e) {
     document.getElementById("totalSentIframe").src = "";
   }
 });
+
 
