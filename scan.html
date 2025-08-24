@@ -16,7 +16,7 @@
   
   
   video, canvas {
-      max-width: 100%;
+      max-height: 50%;
       width: 100%;
       border: 1px solid #ccc;
       border-radius: 8px;
@@ -51,6 +51,23 @@
       font-size: 13px;
       margin: 0;
     }
+
+   #scanBtn {
+    font-size: 20px;        /* Bigger text */
+    padding: 12px 24px;     /* Bigger clickable area */
+    border-radius: 8px;     /* Rounded corners */
+    background-color: #007bff; /* Nice blue color */
+    color: white;           /* White text */
+    border: none;           /* Remove border */
+    cursor: pointer;        /* Pointer on hover */
+    transition: 0.2s;       /* Smooth hover effect */
+  }
+
+  #scanBtn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+
+    
   </style>
 </head>
 <body>
@@ -332,4 +349,5 @@ firebase.auth().onAuthStateChanged((user) => {
   </script>
 </body>
 </html>
+
 
