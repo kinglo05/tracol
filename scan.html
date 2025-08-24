@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>GCash Payment Scanner</title>
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+
+  
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
+
+    
+  <style>
+  
+  
+  video, canvas {
+      max-width: 60%;
+      width: 80%;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px;
+      font-size: 16px;
+    }
+    #previewBox {
+      margin-top: 15px;
+      padding: 10px;
+      border: 1px solid #444;
+      border-radius: 8px;
+      background: #f9f9f9;
+      display: none;
+    }
+    #previewBox input {
+      width: 90%;
+      padding: 6px;
+      margin: 4px 0;
+      font-size: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .error {
+      border: 2px solid red !important;
+      background: #ffe6e6;
+    }
+    .note {
+      color: red;
+      font-size: 13px;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+    <div id="usernameHolder">  <h5 id="usernameDisplay" style="color: rgb(237, 236, 243); margin-top: 1px; margin-bottom: 1px; margin-left: 10px;">Loading...</h5>  </div>
+  <h2>GCash Payment Scanner</h2>
+
+  <video id="video" autoplay playsinline></video>
+  <br>
+  <button id="scanBtn">📷 Scan</button>
+  <p id="result"></p>
+
+  <!-- Editable Preview Section -->
+  <div id="previewBox">
+    <h3>Preview & Confirm</h3>
+    <p><b>Amount:</b><br>
+      <input type="text" id="prevAmount"><br>
+      <span id="noteAmount" class="note"></span>
+    </p>
+    <p><b>Reference:</b><br>
+      <input type="text" id="prevRef"><br>
+      <span id="noteRef" class="note"></span>
+    </p>
+    <p><b>Date:</b><br>
+      <input type="text" id="prevDate"><br>
+      <span id="noteDate" class="note"></span>
+    </p>
+    <p><b>Time:</b><br>
+      <input type="text" id="prevTime"><br>
+      <span id="noteTime" class="note"></span>
+    </p>
+    <button id="confirmBtn">✅ Confirm & Save</button>
+    <button id="cancelBtn">❌ Cancel</button>
+  </div>
+
+  <script>
+    // Firebase Config (replace with yours)
+    const firebaseConfig = {
+      apiKey: "AIzaSyCYe3m5O6X1-q47u1w1GQ4bT8pAvJ5tzq8",
+  authDomain: "tracollector.firebaseapp.com",
+  databaseURL: "https://tracollector-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "tracollector",
+  storageBucket: "tracollector.firebasestorage.app",
+  messagingSenderId: "520928034041",
+  appId: "1:520928034041:web:1e5facfbe4ddb5e55e7628",
+  measurementId: "G-YPW4TB6P51"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+
+     const app = firebase.initializeApp(firebaseConfig); 
+     const database = firebase.database();
+
+
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    console.log("User is logged in:", user.uid);
+
+    // Fetch user data from Firebase Database
+    firebase.database().ref("users/" + user.uid).once("value")
+    .then(snapshot => {
+        if (snapshot.exists()) {
+            const userData = snapshot.val();
+            document.getElementById("usernameDisplay").innerText = "Welcome, " + userData.email;
+        } else {
+            console.log("No user data found!");
+        }
+    })
+    .catch(error => {
+        console.error("Error fetching user data:", error);
+    });
+     
+     
+  } else {
+      console.log("No user is signed in. Redirecting to login...");
+      window.location.href = "index.html"; // Redirect if not logged in
+  } 
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    const video = document.getElementById("video");
+    let capturedData = {};
+
+    // Start camera
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+      .then(stream => {
+        video.srcObject = stream;
+      })
+      .catch(err => alert("Camera error: " + err));
+
+
+
+
+
+
+
+  function formatDateToISO(dateString) {
+  try {
+    const dateObj = new Date(dateString);
+    if (!isNaN(dateObj)) {
+      // Format in local time (YYYY-MM-DD)
+      const year = dateObj.getFullYear();
+      const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+      const day = String(dateObj.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+  } catch (e) {}
+  return "";
+}
+
+
+
+
+
+
+    function extractFields(text) {
+      let amount = null;
+      let refNumber = null;
+      let date = null;
+      let time = null;
+
+      // Amount
+      const amountMatch = text.match(/(?:₱|PHP|Amount)\s*[+\-]?([\d,]+(?:\.\d{2})?)/i);
+      if (amountMatch) {
+        amount = parseFloat(amountMatch[1].replace(/,/g, ""));
+      }
+
+      // Reference number
+      const refMatch = text.match(/\b(\d{10,})/);
+      if (refMatch) {
+        refNumber = refMatch[1].replace(/[^0-9]/g, "");
+      }
+
+      // Date + Time
+      const dateTimeMatch = text.match(/([A-Za-z]{3,9}\s+\d{1,2},\s+\d{4})\s+(\d{1,2}:\d{2}\s*(?:AM|PM))/i);
+      if (dateTimeMatch) {
+        date = dateTimeMatch[1];
+        time = dateTimeMatch[2];
+      }
+
+      return { amount, refNumber, date, time };
+    }
+
+    // Validate inputs and highlight issues
+    function validateInputs() {
+      let isValid = true;
+
+      // Amount
+      const amt = document.getElementById("prevAmount");
+      const noteAmt = document.getElementById("noteAmount");
+      if (!amt.value || isNaN(amt.value) || parseFloat(amt.value) <= 0) {
+        amt.classList.add("error");
+        noteAmt.textContent = "⚠ Invalid amount";
+        isValid = false;
+      } else {
+        amt.classList.remove("error");
+        noteAmt.textContent = "";
+      }
+
+      // Reference
+      const ref = document.getElementById("prevRef");
+      const noteRef = document.getElementById("noteRef");
+      if (!/^\d{10,}$/.test(ref.value)) {
+        ref.classList.add("error");
+        noteRef.textContent = "⚠ Reference should be at least 10 digits";
+        isValid = false;
+      } else {
+        ref.classList.remove("error");
+        noteRef.textContent = "";
+      }
+
+      // Date
+      const date = document.getElementById("prevDate");
+      const noteDate = document.getElementById("noteDate");
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(date.value)) {
+        date.classList.add("error");
+        noteDate.textContent = "⚠ Use YYYY-MM-DD format";
+        isValid = false;
+      } else {
+        date.classList.remove("error");
+        noteDate.textContent = "";
+      }
+
+      // Time
+      const time = document.getElementById("prevTime");
+      const noteTime = document.getElementById("noteTime");
+      if (time.value && !/^\d{1,2}:\d{2}\s?(AM|PM)$/i.test(time.value)) {
+        time.classList.add("error");
+        noteTime.textContent = "⚠ Use format hh:mm AM/PM";
+        isValid = false;
+      } else {
+        time.classList.remove("error");
+        noteTime.textContent = "";
+      }
+
+      return isValid;
+    }
+
+    // Handle Scan button
+    document.getElementById("scanBtn").addEventListener("click", async () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      const { data: { text } } = await Tesseract.recognize(canvas, "eng");
+
+      const { amount, refNumber, date, time } = extractFields(text);
+      
+
+      if (amount && refNumber) {
+        capturedData = {
+          amount,
+          refNumber,
+          date: formatDateToISO(date || new Date()),
+          time: time || ""
+        };
+
+        // Fill preview inputs
+        document.getElementById("prevAmount").value = capturedData.amount;
+        document.getElementById("prevRef").value = capturedData.refNumber;
+        document.getElementById("prevDate").value = capturedData.date;
+        document.getElementById("prevTime").value = capturedData.time;
+        document.getElementById("previewBox").style.display = "block";
+
+        validateInputs();
+      } else {
+        document.getElementById("result").innerText = "⚠️ Could not extract payment details. Try again.";
+      }
+    });
+
+    // Confirm button → save to Firebase
+    document.getElementById("confirmBtn").addEventListener("click", () => {
+      if (!validateInputs()) {
+        alert("⚠ Please fix highlighted fields before saving.");
+        return;
+      }
+
+      capturedData = {
+        amount: document.getElementById("prevAmount").value,
+        refNumber: document.getElementById("prevRef").value,
+        date: document.getElementById("prevDate").value,
+        time: document.getElementById("prevTime").value,
+        status: "new",
+        save: "scanned"
+      };
+
+      const newRef = db.ref("payments").push();
+      const save = "scaned";
+       const status = "new";
+      newRef.set(capturedData);
+      document.getElementById("result").innerText =
+        `✅ Saved! Amount: ${capturedData.amount}, Ref: ${capturedData.refNumber}, Date: ${capturedData.date}, saving: ${save}, status: ${status}, Time: ${capturedData.time || "N/A"}`;
+      document.getElementById("previewBox").style.display = "none";
+    });
+
+    // Cancel button → discard
+    document.getElementById("cancelBtn").addEventListener("click", () => {
+      capturedData = {};
+      document.getElementById("previewBox").style.display = "none";
+      document.getElementById("result").innerText = "❌ Scan cancelled.";
+    });
+  </script>
+</body>
+</html>
