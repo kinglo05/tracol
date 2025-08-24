@@ -15,12 +15,16 @@
   <style>
   
   
-  video, canvas {
-      height: 60px;
-      width: 75%;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
+ video, canvas {
+  width: 80%;                /* Control overall size */
+  aspect-ratio: 2 / 1;       /* Width:Height = 2:1 → height is 50% of width */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  object-fit: cover;         /* Ensures video fills the box nicely */
+  display: block;            /* Avoids inline spacing issues */
+  margin: 0 auto;            /* Center horizontally */
+}
+
     button {
       margin-top: 10px;
       padding: 10px;
@@ -349,6 +353,7 @@ firebase.auth().onAuthStateChanged((user) => {
   </script>
 </body>
 </html>
+
 
 
 
