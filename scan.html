@@ -15,43 +15,55 @@
     
   <style>
   
- .video-container {
+/* Video container to center content */
+
+
+/* Responsive video */
+#video-container video,
+#video-container canvas {
+  width: 100%;          /* full width of container */
+  height: auto;         /* keeps correct aspect ratio */
+  max-width: 100%;      /* prevent overflow */
+  border-radius: 12px;  /* optional: rounded corners */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+
+  #video-container {
     position: relative;
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
   }
 
-  video {
-    width: 80%;
+  #video {
+    width: 100%;
     height: auto;
-    border-radius: 8px;
+    display: block;
   }
 
   /* Dark overlay */
-  .overlay {
+ #overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
     pointer-events: none;
-    clip-path: inset(0 0 0 0);
   }
 
-  /* Scanner guide box */
- #scanBox {
-  position: absolute;
-  border: 3px dashed #00ffcc;
-  border-radius: 8px;
-  resize: both;
-  overflow: auto;
-  min-width: 80px;
-  min-height: 80px;
-  max-width: 90%;
-  max-height: 90%;
-  cursor: move;
-  box-sizing: border-box;
-}
+  #scanBox {
+    position: absolute;
+    border: 3px solid lime;
+    border-radius: 8px;
+    resize: both;
+    overflow: hidden;
+    min-width: 100px;
+    min-height: 80px;
+    box-sizing: border-box;
+  }
 
 /* Make resize handles bigger */
 #scanBox::-webkit-resizer {
@@ -110,7 +122,7 @@
     button {
       margin-top: 10px;
       padding: 10px;
-      font-size: 16px;
+      font-size: 20px;
     }
     #previewBox {
       margin-top: 15px;
@@ -155,13 +167,21 @@
 
 <!--   <video id="video" autoplay playsinline></video> -->
 
-<div class="video-container" id="videoContainer">
+
+<div id="video-container">
+  <video id="video" autoplay playsinline></video>
+  <div id="overlay"></div>
+  <div id="scanBox"></div>
+</div>
+
+
+<!-- <div class="video-container" id="videoContainer">
   <video id="video" autoplay playsinline></video>
   <div class="overlay"></div>
   <div id="scanBox" class="scan-box">
     <div class="laser"></div>
   </div>
-</div>
+</div> -->
 
 <div class="controls">
   <label>Contrast: 
@@ -268,13 +288,11 @@ firebase.auth().onAuthStateChanged((user) => {
 
 
 
-const video = document.getElementById("video");
-//const scanBox = document.getElementById("scanBox");
-const overlay = document.getElementById("overlay");
-const container = document.getElementById("videoContainer");
-
-// Initialize scan box
+// Initialize scan box after video loads
 video.addEventListener("loadedmetadata", () => {
+  const scanBox = document.getElementById("scanBox");
+  if (!scanBox) return;
+
   const defaultWidth = video.clientWidth * 0.5;
   const defaultHeight = video.clientHeight * 0.3;
   const defaultX = (video.clientWidth - defaultWidth) / 2;
@@ -284,9 +302,13 @@ video.addEventListener("loadedmetadata", () => {
   scanBox.style.height = defaultHeight + "px";
   scanBox.style.left = defaultX + "px";
   scanBox.style.top = defaultY + "px";
-
-  updateOverlay();
 });
+
+
+
+
+
+
 
 // Enable drag + resize
 interact("#scanBox")
@@ -328,29 +350,34 @@ interact("#scanBox")
 
 // Update overlay cut-out
 function updateOverlay() {
-  const videoRect = container.getBoundingClientRect();
-  const boxRect = scanBox.getBoundingClientRect();
+  const scanBox = document.getElementById("scanBox");
+  const overlay = document.getElementById("overlay");
+  const video = document.getElementById("video");
+  const container = document.getElementById("video-container"); // ✅ correct id now
 
-  const left = boxRect.left - videoRect.left;
-  const top = boxRect.top - videoRect.top;
-  const right = videoRect.width - (boxRect.right - videoRect.left);
-  const bottom = videoRect.height - (boxRect.bottom - videoRect.top);
+  if (!scanBox || !overlay || !video || !container) return;
+
+  const scanRect = scanBox.getBoundingClientRect();
+  const containerRect = container.getBoundingClientRect();
+
+  const top = scanRect.top - containerRect.top;
+  const left = scanRect.left - containerRect.left;
+  const right = containerRect.right - scanRect.right;
+  const bottom = containerRect.bottom - scanRect.bottom;
 
   overlay.style.clipPath = `polygon(
-    0 0, 
-    100% 0, 
+    0% 0%, 
+    100% 0%, 
     100% 100%, 
-    0 100%, 
-    0 ${top}px, 
+    0% 100%, 
+    0% ${top}px, 
     ${left}px ${top}px, 
-    ${left}px ${top + boxRect.height}px, 
-    ${left + boxRect.width}px ${top + boxRect.height}px, 
-    ${left + boxRect.width}px ${top}px, 
-    ${left}px ${top}px, 
-    0 ${top}px
+    ${left}px ${scanRect.bottom - containerRect.top}px, 
+    ${scanRect.right - containerRect.left}px ${scanRect.bottom - containerRect.top}px, 
+    ${scanRect.right - containerRect.left}px ${top}px, 
+    ${left}px ${top}px
   )`;
 }
-
 
 
 
@@ -709,7 +736,52 @@ document.getElementById("scanBtn").addEventListener("click", async () => {
       document.getElementById("previewBox").style.display = "none";
       document.getElementById("result").innerText = "❌ Scan cancelled.";
     });
+
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const video = document.getElementById("video");
+  const scanBox = document.getElementById("scanBox");
+  const overlay = document.getElementById("overlay");
+  const container = document.getElementById("video-container");
+
+  if (!video || !scanBox || !overlay) {
+    console.warn("Missing video, scanBox, or overlay in DOM.");
+    return;
+  }
+
+  function centerScanBox() {
+    const containerWidth = container.offsetWidth;
+    const containerHeight = container.offsetHeight;
+
+    const boxWidth = containerWidth * 0.6;
+    const boxHeight = containerHeight * 0.4;
+
+    scanBox.style.width = boxWidth + "px";
+    scanBox.style.height = boxHeight + "px";
+    scanBox.style.left = (containerWidth - boxWidth) / 2 + "px";
+    scanBox.style.top = (containerHeight - boxHeight) / 2 + "px";
+
+    updateOverlay();
+  }
+
+
+
+  // Auto-center on load & resize
+  window.addEventListener("load", centerScanBox);
+  window.addEventListener("resize", centerScanBox);
+
+  // Update overlay if scanBox resizes manually
+  new ResizeObserver(updateOverlay).observe(scanBox);
+
+  centerScanBox();
+});
+
+
+
+
+
   </script>
 </body>
 </html>
-
