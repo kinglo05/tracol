@@ -54,48 +54,33 @@
     pointer-events: none;
   }
 
-  #scanBox {
-    position: absolute;
-    border: 3px solid lime;
-    border-radius: 8px;
-    resize: both;
-    overflow: hidden;
-    min-width: 200px;
-    min-height: 90px;
-    box-sizing: border-box;
-  }
-
-/* Make resize handles bigger */
-#scanBox::-webkit-resizer {
-  width: 40px;
-  height: 40px;
-  background: rgba(0, 255, 204, 0.5);
-  border-radius: 4px;
-}
-
-/* Add "corner brackets" look for scanner feel */
-#scanBox::before,
-#scanBox::after {
-  content: "";
+ #scanBox {
   position: absolute;
-  width: 20px;
-  height: 20px;
-  border: 3px solid #00ffcc;
+  border: 3px solid lime;
+  border-radius: 8px;
+  min-width: 100px;
+  min-height: 80px;
+  box-sizing: border-box;
+  touch-action: none; /* important for mobile gestures */
 }
 
-#scanBox::before {
-  top: -3px;
-  left: -3px;
-  border-right: none;
-  border-bottom: none;
+/* Corner resize handles */
+.scan-handle {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background: rgba(0, 255, 204, 0.7);
+  border: 2px solid white;
+  border-radius: 50%;
+  z-index: 10;
 }
 
-#scanBox::after {
-  bottom: -3px;
-  right: -3px;
-  border-left: none;
-  border-top: none;
-}
+/* Position the 4 handles */
+.scan-handle.br { bottom: -12px; right: -12px; cursor: se-resize; }
+.scan-handle.bl { bottom: -12px; left: -12px; cursor: sw-resize; }
+.scan-handle.tr { top: -12px; right: -12px; cursor: ne-resize; }
+.scan-handle.tl { top: -12px; left: -12px; cursor: nw-resize; }
+
 
 
   /* Laser scanning line */
@@ -171,7 +156,13 @@
 <div id="video-container">
   <video id="video" autoplay playsinline></video>
   <div id="overlay"></div>
-  <div id="scanBox"></div>
+<div id="scanBox">
+  <div class="scan-handle tl"></div>
+  <div class="scan-handle tr"></div>
+  <div class="scan-handle bl"></div>
+  <div class="scan-handle br"></div>
+</div>
+
 </div>
 
 
@@ -768,9 +759,81 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+//const scanBox = document.getElementById("scanBox");
+const handles = document.querySelectorAll(".scan-handle");
+
+handles.forEach(handle => {
+  handle.addEventListener("touchstart", startResize, { passive: false });
+  handle.addEventListener("mousedown", startResize);
+});
+
+function startResize(e) {
+  e.preventDefault();
+  const isTouch = e.type === "touchstart";
+  const startX = isTouch ? e.touches[0].clientX : e.clientX;
+  const startY = isTouch ? e.touches[0].clientY : e.clientY;
+
+  const rect = scanBox.getBoundingClientRect();
+  const startWidth = rect.width;
+  const startHeight = rect.height;
+  const startLeft = rect.left;
+  const startTop = rect.top;
+
+  const handleClass = e.target.classList;
+
+  function resize(ev) {
+    const clientX = isTouch ? ev.touches[0].clientX : ev.clientX;
+    const clientY = isTouch ? ev.touches[0].clientY : ev.clientY;
+
+    let newWidth = startWidth;
+    let newHeight = startHeight;
+    let newLeft = startLeft;
+    let newTop = startTop;
+
+    if (handleClass.contains("br")) {
+      newWidth = startWidth + (clientX - startX);
+      newHeight = startHeight + (clientY - startY);
+    }
+    if (handleClass.contains("bl")) {
+      newWidth = startWidth - (clientX - startX);
+      newLeft = startLeft + (clientX - startX);
+      newHeight = startHeight + (clientY - startY);
+    }
+    if (handleClass.contains("tr")) {
+      newWidth = startWidth + (clientX - startX);
+      newHeight = startHeight - (clientY - startY);
+      newTop = startTop + (clientY - startY);
+    }
+    if (handleClass.contains("tl")) {
+      newWidth = startWidth - (clientX - startX);
+      newLeft = startLeft + (clientX - startX);
+      newHeight = startHeight - (clientY - startY);
+      newTop = startTop + (clientY - startY);
+    }
+
+    scanBox.style.width = newWidth + "px";
+    scanBox.style.height = newHeight + "px";
+    scanBox.style.left = newLeft + "px";
+    scanBox.style.top = newTop + "px";
+
+    updateOverlay();
+  }
+
+  function stopResize() {
+    document.removeEventListener(isTouch ? "touchmove" : "mousemove", resize);
+    document.removeEventListener(isTouch ? "touchend" : "mouseup", stopResize);
+  }
+
+  document.addEventListener(isTouch ? "touchmove" : "mousemove", resize, { passive: false });
+  document.addEventListener(isTouch ? "touchend" : "mouseup", stopResize);
+}
+
+
+
+
   // Auto-center on load & resize
-  window.addEventListener("load", centerScanBox);
-  window.addEventListener("resize", centerScanBox);
+/*   window.addEventListener("load", centerScanBox);
+  window.addEventListener("resize", centerScanBox); */
 
   // Update overlay if scanBox resizes manually
   new ResizeObserver(updateOverlay).observe(scanBox);
@@ -785,4 +848,3 @@ document.addEventListener("DOMContentLoaded", () => {
   </script>
 </body>
 </html>
-
