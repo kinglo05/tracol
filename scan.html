@@ -395,19 +395,43 @@ function updateOverlay() {
 
 
 
-  function formatDateToISO(dateString) {
+function formatDateToISO(dateString) {
   try {
-    const dateObj = new Date(dateString);
-    if (!isNaN(dateObj)) {
-      // Format in local time (YYYY-MM-DD)
-      const year = dateObj.getFullYear();
-      const month = String(dateObj.getMonth() + 1).padStart(2, "0");
-      const day = String(dateObj.getDate()).padStart(2, "0");
+    if (dateString instanceof Date) {
+      // Already a Date object
+      const year = dateString.getFullYear();
+      const month = String(dateString.getMonth() + 1).padStart(2, "0");
+      const day = String(dateString.getDate()).padStart(2, "0");
       return `${year}-${month}-${day}`;
     }
-  } catch (e) {}
+
+    // Parse manually to avoid UTC shift
+    const match = dateString.match(/([A-Za-z]{3,9})\s+(\d{1,2}),\s+(\d{4})/);
+    if (match) {
+      const monthName = match[1];
+      const day = parseInt(match[2], 10);
+      const year = parseInt(match[3], 10);
+
+      const months = {
+        January: 0, February: 1, March: 2, April: 3, May: 4, June: 5,
+        July: 6, August: 7, September: 8, October: 9, November: 10, December: 11
+      };
+
+      const month = months[monthName] ?? new Date().getMonth();
+      const dateObj = new Date(year, month, day); // ✅ Local time, no UTC shift
+
+      const yyyy = dateObj.getFullYear();
+      const mm = String(dateObj.getMonth() + 1).padStart(2, "0");
+      const dd = String(dateObj.getDate()).padStart(2, "0");
+
+      return `${yyyy}-${mm}-${dd}`;
+    }
+  } catch (e) {
+    console.error("formatDateToISO error:", e);
+  }
   return "";
 }
+
 
 
 
@@ -433,11 +457,16 @@ function updateOverlay() {
       }
 
       // Date + Time
-      const dateTimeMatch = text.match(/([A-Za-z]{3,9}\s+\d{1,2},\s+\d{4})\s+(\d{1,2}:\d{2}\s*(?:AM|PM))/i);
-      if (dateTimeMatch) {
-        date = dateTimeMatch[1];
-        time = dateTimeMatch[2];
-      }
+     // Matches both "Mar 15, 2025 3:45 PM" and "March 15, 2025 - 03:45PM"
+const dateTimeMatch = text.match(/([A-Za-z]{3,9}\s+\d{1,2},\s+\d{4})\s*[-]?\s*(\d{1,2}:\d{2}\s*(?:AM|PM)?)/i);
+
+if (dateTimeMatch) {
+  date = dateTimeMatch[1].trim();
+  time = dateTimeMatch[2].trim();
+}
+
+
+
 
       return { amount, refNumber, date, time };
     }
@@ -485,11 +514,15 @@ function updateOverlay() {
       // Time
       const time = document.getElementById("prevTime");
       const noteTime = document.getElementById("noteTime");
-      if (time.value && !/^\d{1,2}:\d{2}\s?(AM|PM)$/i.test(time.value)) {
-        time.classList.add("error");
-        noteTime.textContent = "⚠ Use format hh:mm AM/PM";
-        isValid = false;
-      } else {
+
+     if (time.value && !/^(\d{1,2}:\d{2}\s?(AM|PM)?|\d{2}:\d{2})$/i.test(time.value)) {
+  time.classList.add("error");
+  noteTime.textContent = "⚠ Use format hh:mm AM/PM or HH:mm";
+  isValid = false;
+}
+
+      
+      else {
         time.classList.remove("error");
         noteTime.textContent = "";
       }
