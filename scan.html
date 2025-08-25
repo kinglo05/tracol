@@ -39,15 +39,52 @@
   }
 
   /* Scanner guide box */
-  .scan-box {
-    position: absolute;
-    border: 3px solid rgba(0, 255, 0, 0.8);
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(0, 255, 0, 0.6);
-    pointer-events: all;
-    touch-action: none;
-    overflow: hidden; /* contain laser inside */
-  }
+ #scanBox {
+  position: absolute;
+  border: 3px dashed #00ffcc;
+  border-radius: 8px;
+  resize: both;
+  overflow: auto;
+  min-width: 80px;
+  min-height: 80px;
+  max-width: 90%;
+  max-height: 90%;
+  cursor: move;
+  box-sizing: border-box;
+}
+
+/* Make resize handles bigger */
+#scanBox::-webkit-resizer {
+  width: 24px;
+  height: 24px;
+  background: rgba(0, 255, 204, 0.5);
+  border-radius: 4px;
+}
+
+/* Add "corner brackets" look for scanner feel */
+#scanBox::before,
+#scanBox::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #00ffcc;
+}
+
+#scanBox::before {
+  top: -3px;
+  left: -3px;
+  border-right: none;
+  border-bottom: none;
+}
+
+#scanBox::after {
+  bottom: -3px;
+  right: -3px;
+  border-left: none;
+  border-top: none;
+}
+
 
   /* Laser scanning line */
   .laser {
@@ -675,3 +712,4 @@ document.getElementById("scanBtn").addEventListener("click", async () => {
   </script>
 </body>
 </html>
+
