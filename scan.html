@@ -11,24 +11,64 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
     
   <style>
   
-    video, canvas {
-    
-      width: 80%;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
-/*  video, canvas {
-  width: 100%;                 Control overall size 
-  aspect-ratio: 1 / 1;        Width:Height = 2:1 → height is 50% of width 
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  object-fit: cover;          Ensures video fills the box nicely 
-  display: block;             Avoids inline spacing issues 
-  margin: 0 auto;             Center horizontally 
-} */
+ .video-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  video {
+    width: 80%;
+    height: auto;
+    border-radius: 8px;
+  }
+
+  /* Dark overlay */
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    pointer-events: none;
+    clip-path: inset(0 0 0 0);
+  }
+
+  /* Scanner guide box */
+  .scan-box {
+    position: absolute;
+    border: 3px solid rgba(0, 255, 0, 0.8);
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.6);
+    pointer-events: all;
+    touch-action: none;
+    overflow: hidden; /* contain laser inside */
+  }
+
+  /* Laser scanning line */
+  .laser {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: rgba(0, 255, 0, 0.9);
+    box-shadow: 0 0 8px rgba(0, 255, 0, 0.8);
+    animation: scanAnim 2s linear infinite;
+  }
+
+  @keyframes scanAnim {
+    0% { top: 0; opacity: 1; }
+    45% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { top: 100%; opacity: 1; }
+  }
+
+
 
     button {
       margin-top: 10px;
@@ -61,20 +101,11 @@
       margin: 0;
     }
 
-   #scanBtn {
-    font-size: 30px;        /* Bigger text */
-    padding: 12px 24px;     /* Bigger clickable area */
-    border-radius: 8px;     /* Rounded corners */
-    background-color: #007bff; /* Nice blue color */
-    color: white;           /* White text */
-    border: none;           /* Remove border */
-    cursor: pointer;        /* Pointer on hover */
-    transition: 0.2s;       /* Smooth hover effect */
-  }
 
-  #scanBtn:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-  }
+
+
+
+
 
     
   </style>
@@ -83,10 +114,50 @@
     <div id="usernameHolder">  <h5 id="usernameDisplay" style="color: rgb(237, 236, 243); margin-top: 1px; margin-bottom: 1px; margin-left: 10px;">Loading...</h5>  </div>
   <h2>GCash Payment Scanner</h2>
 
+
+
+<!--   <video id="video" autoplay playsinline></video> -->
+
+<div class="video-container" id="videoContainer">
   <video id="video" autoplay playsinline></video>
+  <div class="overlay"></div>
+  <div id="scanBox" class="scan-box">
+    <div class="laser"></div>
+  </div>
+</div>
+
+<div class="controls">
+  <label>Contrast: 
+    <input type="range" id="contrastSlider" min="100" max="400" value="200"> 
+    <span id="contrastValue">200%</span>
+  </label>
+  
+  <label>Brightness: 
+    <input type="range" id="brightnessSlider" min="50" max="200" value="120"> 
+    <span id="brightnessValue">120%</span>
+  </label>
+
+  <label>
+    <input type="checkbox" id="grayscaleToggle"> Grayscale
+  </label>
+</div>
+
+
+<button id="scanBtn">📷 Scan</button>
+<div id="result"></div>
+
+
+
+
+<!-- Interact.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+
+
+
+<!-- 
   <br>
   <button id="scanBtn">📷 Scan</button>
-  <p id="result"></p>
+  <p id="result"></p> -->
 
   <!-- Editable Preview Section -->
   <div id="previewBox">
@@ -160,6 +231,88 @@ firebase.auth().onAuthStateChanged((user) => {
 
 
 
+const video = document.getElementById("video");
+//const scanBox = document.getElementById("scanBox");
+const overlay = document.getElementById("overlay");
+const container = document.getElementById("videoContainer");
+
+// Initialize scan box
+video.addEventListener("loadedmetadata", () => {
+  const defaultWidth = video.clientWidth * 0.5;
+  const defaultHeight = video.clientHeight * 0.3;
+  const defaultX = (video.clientWidth - defaultWidth) / 2;
+  const defaultY = (video.clientHeight - defaultHeight) / 2;
+
+  scanBox.style.width = defaultWidth + "px";
+  scanBox.style.height = defaultHeight + "px";
+  scanBox.style.left = defaultX + "px";
+  scanBox.style.top = defaultY + "px";
+
+  updateOverlay();
+});
+
+// Enable drag + resize
+interact("#scanBox")
+  .draggable({
+    listeners: {
+      move(event) {
+        const target = event.target;
+        const x = (parseFloat(target.getAttribute("data-x")) || 0) + event.dx;
+        const y = (parseFloat(target.getAttribute("data-y")) || 0) + event.dy;
+
+        target.style.transform = `translate(${x}px, ${y}px)`;
+        target.setAttribute("data-x", x);
+        target.setAttribute("data-y", y);
+
+        updateOverlay();
+      }
+    }
+  })
+  .resizable({
+    edges: { left: true, right: true, bottom: true, top: true }
+  })
+  .on("resizemove", function (event) {
+    const target = event.target;
+    let x = parseFloat(target.getAttribute("data-x")) || 0;
+    let y = parseFloat(target.getAttribute("data-y")) || 0;
+
+    target.style.width = event.rect.width + "px";
+    target.style.height = event.rect.height + "px";
+
+    x += event.deltaRect.left;
+    y += event.deltaRect.top;
+
+    target.style.transform = `translate(${x}px, ${y}px)`;
+    target.setAttribute("data-x", x);
+    target.setAttribute("data-y", y);
+
+    updateOverlay();
+  });
+
+// Update overlay cut-out
+function updateOverlay() {
+  const videoRect = container.getBoundingClientRect();
+  const boxRect = scanBox.getBoundingClientRect();
+
+  const left = boxRect.left - videoRect.left;
+  const top = boxRect.top - videoRect.top;
+  const right = videoRect.width - (boxRect.right - videoRect.left);
+  const bottom = videoRect.height - (boxRect.bottom - videoRect.top);
+
+  overlay.style.clipPath = `polygon(
+    0 0, 
+    100% 0, 
+    100% 100%, 
+    0 100%, 
+    0 ${top}px, 
+    ${left}px ${top}px, 
+    ${left}px ${top + boxRect.height}px, 
+    ${left + boxRect.width}px ${top + boxRect.height}px, 
+    ${left + boxRect.width}px ${top}px, 
+    ${left}px ${top}px, 
+    0 ${top}px
+  )`;
+}
 
 
 
@@ -171,8 +324,7 @@ firebase.auth().onAuthStateChanged((user) => {
 
 
 
-
-    const video = document.getElementById("video");
+   // const video = document.getElementById("video");
     let capturedData = {};
 
     // Start camera
@@ -291,38 +443,203 @@ firebase.auth().onAuthStateChanged((user) => {
     }
 
     // Handle Scan button
-    document.getElementById("scanBtn").addEventListener("click", async () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-      const { data: { text } } = await Tesseract.recognize(canvas, "eng");
+ // Handle Scan button
+/* document.getElementById("scanBtn").addEventListener("click", async () => {
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
 
-      const { amount, refNumber, date, time } = extractFields(text);
-      
+  const videoRect = video.getBoundingClientRect();
+  const scanRect = scanBox.getBoundingClientRect();
 
-      if (amount && refNumber) {
-        capturedData = {
-          amount,
-          refNumber,
-          date: formatDateToISO(date || new Date()),
-          time: time || ""
-        };
+  const scaleX = video.videoWidth / videoRect.width;
+  const scaleY = video.videoHeight / videoRect.height;
 
-        // Fill preview inputs
-        document.getElementById("prevAmount").value = capturedData.amount;
-        document.getElementById("prevRef").value = capturedData.refNumber;
-        document.getElementById("prevDate").value = capturedData.date;
-        document.getElementById("prevTime").value = capturedData.time;
-        document.getElementById("previewBox").style.display = "block";
+  const roiX = (scanRect.left - videoRect.left) * scaleX;
+  const roiY = (scanRect.top - videoRect.top) * scaleY;
+  const roiWidth = scanRect.width * scaleX;
+  const roiHeight = scanRect.height * scaleY;
 
-        validateInputs();
-      } else {
-        document.getElementById("result").innerText = "⚠️ Could not extract payment details. Try again.";
-      }
-    });
+  canvas.width = roiWidth;
+  canvas.height = roiHeight;
+
+  ctx.drawImage(video, roiX, roiY, roiWidth, roiHeight, 0, 0, roiWidth, roiHeight);
+
+  const { data: { text } } = await Tesseract.recognize(canvas, "eng");
+
+  const { amount, refNumber, date, time } = extractFields(text);
+
+
+
+  document.getElementById("scanBtn").addEventListener("click", async () => {
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  const videoRect = video.getBoundingClientRect();
+  const scanRect = scanBox.getBoundingClientRect();
+
+  const scaleX = video.videoWidth / videoRect.width;
+  const scaleY = video.videoHeight / videoRect.height;
+
+  const roiX = (scanRect.left - videoRect.left) * scaleX;
+  const roiY = (scanRect.top - videoRect.top) * scaleY;
+  const roiWidth = scanRect.width * scaleX;
+  const roiHeight = scanRect.height * scaleY;
+
+  canvas.width = roiWidth;
+  canvas.height = roiHeight;
+
+  // ✅ Apply contrast & brightness filter before drawing
+  // contrast(200%) doubles contrast, brightness(120%) makes it slightly brighter
+ ctx.filter = "contrast(200%) brightness(120%)";
+//  ctx.filter = "contrast(220%) brightness(130%) grayscale(100%)";
+
+  ctx.drawImage(video, roiX, roiY, roiWidth, roiHeight, 0, 0, roiWidth, roiHeight);
+
+  // (Optional) remove filter so it doesn’t affect later drawings
+  ctx.filter = "none";
+
+  // OCR on enhanced image
+  const { data: { text } } = await Tesseract.recognize(canvas, "eng");
+
+  const { amount, refNumber, date, time } = extractFields(text);
+
+  if (amount && refNumber) {
+    capturedData = {
+      amount,
+      refNumber,
+      date: formatDateToISO(date || new Date()),
+      time: time || ""
+    };
+
+    document.getElementById("prevAmount").value = capturedData.amount;
+    document.getElementById("prevRef").value = capturedData.refNumber;
+    document.getElementById("prevDate").value = capturedData.date;
+    document.getElementById("prevTime").value = capturedData.time;
+    document.getElementById("previewBox").style.display = "block";
+
+    validateInputs();
+  } else {
+    document.getElementById("result").innerText =
+      "⚠️ Could not extract payment details. Try again.";
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+  if (amount && refNumber) {
+    capturedData = {
+      amount,
+      refNumber,
+      date: formatDateToISO(date || new Date()),
+      time: time || ""
+    };
+
+    document.getElementById("prevAmount").value = capturedData.amount;
+    document.getElementById("prevRef").value = capturedData.refNumber;
+    document.getElementById("prevDate").value = capturedData.date;
+    document.getElementById("prevTime").value = capturedData.time;
+    document.getElementById("previewBox").style.display = "block";
+
+    validateInputs();
+  } else {
+    document.getElementById("result").innerText =
+      "⚠️ Could not extract payment details. Try again.";
+  }
+});
+
+ */
+
+const contrastSlider = document.getElementById("contrastSlider");
+const brightnessSlider = document.getElementById("brightnessSlider");
+const contrastValue = document.getElementById("contrastValue");
+const brightnessValue = document.getElementById("brightnessValue");
+const grayscaleToggle = document.getElementById("grayscaleToggle");
+const videoEl = document.getElementById("video");
+const scanBox = document.getElementById("scanBox");
+
+// 🎥 Apply live preview filters
+function updateVideoFilter() {
+  const contrast = contrastSlider.value;
+  const brightness = brightnessSlider.value;
+  contrastValue.textContent = contrast + "%";
+  brightnessValue.textContent = brightness + "%";
+  const grayscale = grayscaleToggle.checked ? "grayscale(100%)" : "none";
+  videoEl.style.filter = `contrast(${contrast}%) brightness(${brightness}%) ${grayscale}`;
+}
+
+contrastSlider.addEventListener("input", updateVideoFilter);
+brightnessSlider.addEventListener("input", updateVideoFilter);
+grayscaleToggle.addEventListener("change", updateVideoFilter);
+
+// ✅ Initial filter apply
+updateVideoFilter();
+
+document.getElementById("scanBtn").addEventListener("click", async () => {
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  const videoRect = videoEl.getBoundingClientRect();
+  const scanRect = scanBox.getBoundingClientRect();
+
+  const scaleX = videoEl.videoWidth / videoRect.width;
+  const scaleY = videoEl.videoHeight / videoRect.height;
+
+  const roiX = (scanRect.left - videoRect.left) * scaleX;
+  const roiY = (scanRect.top - videoRect.top) * scaleY;
+  const roiWidth = scanRect.width * scaleX;
+  const roiHeight = scanRect.height * scaleY;
+
+  canvas.width = roiWidth;
+  canvas.height = roiHeight;
+
+  // ⚡ Apply same filter to capture as live video
+  const contrast = contrastSlider.value;
+  const brightness = brightnessSlider.value;
+  const grayscale = grayscaleToggle.checked ? "grayscale(100%)" : "none";
+  ctx.filter = `contrast(${contrast}%) brightness(${brightness}%) ${grayscale}`;
+
+  ctx.drawImage(videoEl, roiX, roiY, roiWidth, roiHeight, 0, 0, roiWidth, roiHeight);
+
+  ctx.filter = "none";
+
+  // Run OCR
+  const { data: { text } } = await Tesseract.recognize(canvas, "eng");
+
+  const { amount, refNumber, date, time } = extractFields(text);
+
+  if (amount && refNumber) {
+    capturedData = {
+      amount,
+      refNumber,
+      date: formatDateToISO(date || new Date()),
+      time: time || ""
+    };
+
+    document.getElementById("prevAmount").value = capturedData.amount;
+    document.getElementById("prevRef").value = capturedData.refNumber;
+    document.getElementById("prevDate").value = capturedData.date;
+    document.getElementById("prevTime").value = capturedData.time;
+    document.getElementById("previewBox").style.display = "block";
+
+    validateInputs();
+  } else {
+    document.getElementById("result").innerText =
+      "⚠️ Could not extract payment details. Try adjusting contrast/brightness or toggling grayscale.";
+  }
+});
+
+
+
 
     // Confirm button → save to Firebase
     document.getElementById("confirmBtn").addEventListener("click", () => {
@@ -358,14 +675,3 @@ firebase.auth().onAuthStateChanged((user) => {
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
