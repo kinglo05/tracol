@@ -34,8 +34,7 @@ firebase.auth().onAuthStateChanged((user) => {
 
              loadClientTable(username);
                loadSavedPayments2(username); // Pass the username
-             //  toggleAddClient(username);
-             
+            loadDisconnectionTable3(username);
          
             
             
@@ -145,23 +144,20 @@ navItems.forEach(item => {
 
 
   
-let merchantData = []; // ✅ Declare merchantData globally
+//let merchantData = []; // ✅ Declare merchantData globally
 let timeoutId;
 
+// ======================= FIREBASE LOAD =======================
 
-
+// Load clients by user (filter status = "new")
 function loadGoldenClientsByUser(username) {
-  const tableDataM = [];
-  let merchantData = [];
-
   if (!username) {
     console.error("Username is empty — please check login input.");
     return;
   }
 
-  database.ref('goldenwifi/goldenClients/').on('value', (snapshot) => {
-    tableDataM.length = 0;
-    merchantData = [];
+  database.ref("goldenwifi/goldenClients/").on("value", (snapshot) => {
+    const merchantData = [];
 
     snapshot.forEach((childSnapshot) => {
       const merchant = childSnapshot.val();
@@ -169,208 +165,239 @@ function loadGoldenClientsByUser(username) {
 
       if (merchant.status === "new") {
         merchantData.push({ id: firebaseKeyM, ...merchant });
-
-        const rowDataM = {
-          firebaseKey: firebaseKeyM,
-          email: merchant.address,
-          name: merchant.name,
-          nameLower: merchant.nameLower,
-          remaining: merchant.planAmount
-        };
-
-        tableDataM.push(rowDataM);
       }
     });
 
-    updateMerchantTable(merchantData);
-    updateMerchantTable3(merchantData);
-  
-
+    // Update both tables
+    updateMerchantTable("#merchants-table", merchantData);
+  //  updateMerchantTable("#merchants-table3", merchantData, true);
   });
 }
 
+// One-time load of merchantData (if needed globally)
+let merchantData = [];
+firebase
+  .database()
+  .ref("goldenwifi/goldenClients/")
+  .once("value")
+  .then((snapshot) => {
+    merchantData = Object.values(snapshot.val() || {});
+  });
 
-
-
-// Load merchant data from Firebase first
- firebase.database().ref("goldenwifi/goldenClients/").once("value").then(snapshot => {
-  const data = snapshot.val();
-  
-  // Convert from object to array (if needed)
-  merchantData = Object.values(data || {});
-  
-}); 
-
-
-
-
-
+// ======================= SEARCH HANDLER =======================
 
 function handleMerchantSearchInput() {
-  const searchTerm = document.getElementById("merchantSearchBox").value.trim();
-  if (Array.isArray(allClientsTable)) {
-   
-    updateMerchantTable(allClientsTable, searchTerm);
-     loadSavedPayments(allClientsTable, searchTerm);
-      
+  const searchTerm = document
+    .getElementById("merchantSearchBox")
+    .value.trim()
+    .toLowerCase();
+
+  if (Array.isArray(merchantData)) {
+    updateMerchantTable("#merchants-table", merchantData, false, searchTerm);
+   // updateMerchantTable("#merchants-table3", merchantData, true, searchTerm);
+    loadSavedPayments(merchantData, searchTerm);
   } else {
-    console.warn("allClientsTable is not an array");
+    console.warn("merchantData is not an array");
   }
 }
 
+// ======================= TABLE RENDERER =======================
 
+/**
+ * Renders merchants into a given table
+ * @param {string} tableSelector - The table (with tbody) to populate
+ * @param {Array} data - Merchant array
+ * @param {boolean} isTable3 - Whether this is the second table
+ * @param {string} searchTerm - Search term
+ */
+function updateMerchantTable(
+  tableSelector,
+  data,
+  isTable3 = false,
+  searchTerm = ""
+) {
+  const tableBody = document.querySelector(`${tableSelector} tbody`);
+  if (!tableBody) return;
 
-
-  /////////////// ORIGINAL UPDATEMERCHANT TABLE ORIGINAL ////////////
-
-  function updateMerchantTable(data, searchTerm = "") {
-    const tableBody = document.querySelector("#merchants-table tbody");
-  tableBody.innerHTML = ''; // Clear the table
-
- let index = 1;
+  tableBody.innerHTML = ""; // Clear table
   const normalizedSearch = searchTerm.toLowerCase();
 
   data.forEach((merchant, rowIndex) => {
-
-   const name = merchant.name?.toLowerCase() || "";
+    const name = merchant.name?.toLowerCase() || "";
     const address = merchant.address?.toLowerCase() || "";
-    //const id = merchant.id?.toLowerCase() || "";
     const areaCode = merchant.areaCode?.toLowerCase() || "";
 
-    // ✅ Filter by search term in name, address, id, or areaCode
+    // ✅ Filter
     if (
       !name.includes(normalizedSearch) &&
       !address.includes(normalizedSearch) &&
-     
       !areaCode.includes(normalizedSearch)
     ) {
-      return; // Skip if no match
+      return;
     }
 
-  const row = tableMerchant.insertRow();
+    const row = tableBody.insertRow();
 
-  // Create table cells and populate them with data
+    row.insertCell().textContent = rowIndex + 1;
+    row.insertCell().textContent = merchant.id;
+    row.insertCell().textContent = merchant.name;
+    row.insertCell().textContent = merchant.planAmount;
+    row.insertCell().textContent = merchant.address;
+    row.insertCell().textContent = merchant.date;
+    row.insertCell().textContent = merchant.areaCode;
+    row.insertCell().textContent = merchant.note;
 
-  const rowIndexCell = row.insertCell();
-  rowIndexCell.textContent = rowIndex + 1;
-  //rowIndexCell.textContent = merchant.id;
+    if (isTable3) {
+      row.insertCell().textContent = merchant.n || "";
+    }
 
-  const merchantKeyCell = row.insertCell();
-  merchantKeyCell.textContent = merchant.id;
-  //fireKeyCell.textContent = payment.merchantKey;
+    // Edit button
+    const editCell = row.insertCell();
+    const btn = document.createElement("button");
+    btn.textContent = "Edit";
+    btn.className = isTable3
+    ? "edit-button-merchant3"
+      : "edit-button-merchant";
+    btn.dataset.clientId = merchant.id;
+    editCell.appendChild(btn);
 
-  const nameCell = row.insertCell();
-  nameCell.textContent = merchant.name;
+    btn.addEventListener("click", (event) => {
+      const clientId = event.currentTarget.dataset.clientId;
 
-      const planCell = row.insertCell();
-  planCell.textContent = merchant.planAmount;
+      if (isTable3) {
+        // Fill form for table3
+        document.getElementById("edit-merChantId3").value = clientId;
+        document.getElementById("edit-merchant-name3").value =
+          merchant.name || "";
+        document.getElementById("note3").value = merchant.note || "";
+        document.getElementById("status3").value = merchant.status || "";
+        document.getElementById("planAmount3").value = merchant.planAmount || "";
+        document.getElementById("client-address3").value =
+          merchant.address || "";
 
-  const emailCell = row.insertCell();
-  emailCell.textContent = merchant.address;
+        editMerchantForm3.style.display = "block";
+      } else {
+        // Fill form for table1
+        document.getElementById("edit-merChantId").value = clientId;
+        document.getElementById("edit-merchant-name").value =
+          merchant.name || "";
+        document.getElementById("contactNum2").value =
+          merchant.contactNum || "";
+        document.getElementById("note").value = merchant.note || "";
+        document.getElementById("status").value = merchant.status || "";
+        document.getElementById("planAmount").value = merchant.planAmount || "";
+        document.getElementById("client-address1").value =
+          merchant.address || "";
+        document.getElementById("areaCodeX").value = merchant.areaCode || "";
 
-    const conDateCell = row.insertCell();
-  conDateCell.textContent = merchant.date;
-
-   const areaCodeCell = row.insertCell();
-  areaCodeCell.textContent = merchant.areaCode;
-
-  const noteCell = row.insertCell();
-  noteCell.textContent = merchant.note;
-
-  const merchantKey = (merchant.id);
-
-  const editMerchantCell = row.insertCell();
-  editMerchantCell.innerHTML = `<button id="editClientF" class="edit-button-merchant" data-row-index="${merchant.id}">Edit</button>`;
-
-  editMerchantCell.addEventListener('click', (event) => {
-
-const button2 =  document.getElementById('editClientF');
-button2.textContent = "Edit";
-button2.className = "edit-button-merchant";
-button2.dataset.clientId = merchant.id; // 👈 set data attribute
-
-
-  const firebaseKey = button2.dataset.clientId; // ✅ Correct way
-
-  document.getElementById('edit-merChantId').value = firebaseKey;
-  document.getElementById('edit-merchant-name').value = merchant.name || "";
-  document.getElementById('contactNum2').value = merchant.contactNum || "";
-  document.getElementById('note').value = merchant.note || "";
-  document.getElementById('status').value = merchant.status || "";
-  document.getElementById('planAmount').value = merchant.planAmount || "";
-  document.getElementById('client-address1').value = merchant.address || "";
-  document.getElementById('areaCodeX').value = merchant.areaCode || "";
-
-
-  // Show the form/modal
-  editMerchantForm.style.display = 'block';
-    })   
-    
-
-
-///////////////////// EDIT MERCHANT SAVE BUTTON  ///////////////////////////
-
-// Get the Save button element
-const EditSubmit = document.getElementById('save-edit-merchant');
-
-EditSubmit.addEventListener('click', () => {
- // const clientId = merchant.id;
-// console.log("mao ni id :", clientId);
-
- // updateMerchantTable(data,filteredDataM, merchantTotalPayments, merchantNumPayments, payment)
-   const editMerchantIDName = document.getElementById('edit-merChantId').value;
-    const nameTo = document.getElementById('edit-merchant-name').value;
-  
-
-
-  const editClientData = {
-       name: nameTo,
-       nameLower: nameTo.toLowerCase(), 
-       contactNum: document.getElementById('contactNum2').value,
-       note: document.getElementById('note').value,
-       planAmount:  document.getElementById('planAmount').value, 
-        status:  document.getElementById('status').value,
-      address: document.getElementById('client-address1').value,
-      areaCode: document.getElementById('areaCodeX').value,
-      
- };
-   /*  database.ref(path).update({ planAmount: planAmount2 }) */
-   database.ref(`goldenwifi/goldenClients/${editMerchantIDName}`).update(editClientData)
-  .then(() => {
-
-   
-
-     Swal.fire({
-      title: "Success!",
-      text: "CHANGES SAVED SUCCESSFULLY",
-      icon: "success",
-      timer: 2000, // Closes after 3 seconds
-      showConfirmButton: false 
+        editMerchantForm.style.display = "block";
+      }
     });
-   
-    editMerchantForm.style.display = 'none'; 
-   
-
-    loadSavedPayments();
-//console.log("mao ni details :" ,editMerchantIDName);
-
-  })
-  .catch(error => {
-      console.error("Error updating payment data:", error);
-      // ... error handling ...
-  }); 
-
-});
   });
-}; 
+}
+
+// ======================= SAVE HANDLERS =======================
+
+// Save handler for table 1
+document
+  .getElementById("save-edit-merchant")
+  .addEventListener("click", () => {
+    const editMerchantIDName =
+      document.getElementById("edit-merChantId").value;
+    const nameTo = document.getElementById("edit-merchant-name").value;
+
+    const editClientData = {
+      name: nameTo,
+      nameLower: nameTo.toLowerCase(),
+      contactNum: document.getElementById("contactNum2").value,
+      note: document.getElementById("note").value,
+      planAmount: document.getElementById("planAmount").value,
+      status: document.getElementById("status").value,
+      address: document.getElementById("client-address1").value,
+      areaCode: document.getElementById("areaCodeX").value,
+    };
+
+    database
+      .ref(`goldenwifi/goldenClients/${editMerchantIDName}`)
+      .update(editClientData)
+      .then(() => {
+        Swal.fire({
+          title: "Success!",
+          text: "CHANGES SAVED SUCCESSFULLY",
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+        editMerchantForm.style.display = "none";
+        loadSavedPayments();
+      })
+      .catch((error) => {
+        console.error("Error updating client:", error);
+      });
+  });
+
+// Save handler for table 3
+document
+  .getElementById("save-edit-merchant3")
+  .addEventListener("click", () => {
+    const editMerchantIDName =
+      document.getElementById("edit-merChantId3").value;
+    const nameTo = document.getElementById("edit-merchant-name3").value;
+
+    const editClientData = {
+    
+    
+     
+      status: "disconnected",   //document.getElementById("status3").value,
+     
+    };
+
+    database
+      .ref(`goldenwifi/goldenClients/${editMerchantIDName}`)
+      .update(editClientData)
+      .then(() => {
+        Swal.fire({
+          title: "Success!",
+          text: "CHANGES SAVED SUCCESSFULLY",
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+        editMerchantForm3.style.display = "none";
+        loadSavedPayments();
+      })
+      .catch((error) => {
+        console.error("Error updating client:", error);
+      });
+  });
 
 
+function handleMerchantSearchInput3() {
+  const searchTerm = document.getElementById("merchantSearchBox3").value.trim().toLowerCase();
 
+  const table = document.getElementById("merchants-table333");
+  const rows = table.querySelectorAll("tbody tr");
+
+  rows.forEach((row) => {
+    const cells = row.querySelectorAll("td");
+    let matchFound = false;
+
+    // Check each cell for the search term
+    cells.forEach((cell) => {
+      if (cell.textContent.toLowerCase().includes(searchTerm)) {
+        matchFound = true;
+      }
+    });
+
+    // Show or hide row based on match
+    row.style.display = matchFound ? "" : "none";
+  });
+}
 
 
   /////////////// ORIGINAL UPDATEMERCHANT TABLE 33333333   ////////////
 
-  function updateMerchantTable3(data, searchTerm = "") {
+  /*function updateMerchantTable3(data, searchTerm = "") {
     const tableBody = document.querySelector("#merchants-table3 tbody");
   tableBody.innerHTML = ''; // Clear the table
 
@@ -444,7 +471,7 @@ button3.dataset.clientId = merchant.id; // 👈 set data attribute
 
   document.getElementById('edit-merChantId3').value = firebaseKey;
   document.getElementById('edit-merchant-name3').value = merchant.name || "";
- /*  document.getElementById('contactNum23').value = merchant.contactNum || ""; */
+
   document.getElementById('note3').value = merchant.note || "";
   document.getElementById('status3').value = merchant.status || "";
   document.getElementById('planAmount3').value = merchant.planAmount || "";
@@ -481,7 +508,7 @@ EditSubmit3.addEventListener('click', () => {
       address: document.getElementById('client-address3').value,
       
  };
-   /*  database.ref(path).update({ planAmount: planAmount2 }) */
+ 
    database.ref(`goldenwifi/goldenClients/${editMerchantIDName3}`).update(editClientData3)
   .then(() => {
 
@@ -510,38 +537,170 @@ EditSubmit3.addEventListener('click', () => {
 });
   });
 }; 
+ */
 
 
+function toggleTableModal3() {
+  document.getElementById("tableModal3").style.display = "block";
+  const username = document.getElementById("theCollector").value;
+ // loadClientTable(username);
+loadDisconnectionTable3();
 
 
-
-
-
-
-
-
-
-
-
-
-function handleMerchantSearchInput3() {
-  const searchTerm = document.getElementById("merchantSearchBox3").value.trim();
-  if (Array.isArray(allClientsTable)) {
-   
-    updateMerchantTable3(allClientsTable, searchTerm);
-     loadSavedPayments3(allClientsTable, searchTerm);
-      
-  } else {
-    console.warn("allClientsTable is not an array");
-  }
+ //console.log("ang nag gamit:" , username);
 }
+
+
+
+
+
+async function loadDisconnectionTable3(username) {
+  const tableBody = document.querySelector("#merchants-table3 tbody");
+  tableBody.innerHTML = "";
+
+  // 🔹 Get monthly bills
+  const monthlyBillsSnap = await firebase.database()
+    .ref("goldenwifi/monthly-bills")
+    .get();
+  const allClientsBills = monthlyBillsSnap.val() || {};
+
+  // 🔹 Get golden clients info
+  const goldenClientsSnap = await firebase.database()
+    .ref("goldenwifi/goldenClients")
+    .get();
+  const allClientsInfo = goldenClientsSnap.val() || {};
+
+  let rowIndex = 1;
+
+  Object.keys(allClientsBills).forEach(clientKey => {
+    const clientData = allClientsBills[clientKey] || {};
+    const bills = clientData.bills || {};
+
+    // 🔹 Check if this client belongs to the current app user
+    const clientInfo = allClientsInfo[clientKey] || {};
+    if (!clientInfo || clientInfo.areaCode !== username) {
+      return; // skip this client
+    } 
+
+    let totalUnpaid = 0;
+    let unpaidCount = 0;
+    let latestBill = null;
+
+    Object.keys(bills).forEach(monthKey => {
+      const bill = bills[monthKey];
+
+      if (bill.status && bill.status.toLowerCase() === "unpaid") {
+        const amount = parseFloat(bill.planAmount) || 0;
+        totalUnpaid += amount;
+        unpaidCount++;
+      }
+
+      latestBill = bill; // keep last one
+    });
+
+    // 🔹 Only include clients with >= 2 unpaid bills
+    if (unpaidCount < 2) {
+      return;
+    }
+
+    const clientName = clientInfo.name || "Unknown Client";
+    const plan = latestBill?.planAmount || "";
+    const address = clientInfo.address || latestBill?.address2 || "";
+    const date = latestBill?.date || "";
+    const collector = latestBill?.collector || "";
+    const note = latestBill?.note || "";
+
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${rowIndex++}</td>
+      <td class="hidden-col">${clientKey}</td>
+      <td>${clientName}</td>
+      <td>${plan}</td>
+      <td>${address}</td>
+      <td>${date}</td>
+      <td>${collector}</td>
+      <td>${note}</td>
+      <td>${unpaidCount} = ${totalUnpaid}</td>
+      <td>
+    
+        <button onclick="disconnectClient('${clientKey}')">Disconnect</button>
+      </td>
+    `;
+    tableBody.appendChild(tr);
+  });
+
+  // 🔹 Update footer
+  const footer = document.getElementById("table-totalM3");
+  footer.textContent = `For disconnection clients: ${rowIndex - 1} records loaded`;
+}
+
+
+
+
+
+
+
+
+
+let currentEditKey3 = null;
+
+function openEditModal3(clientKey, client) {
+  currentEditKey3 = clientKey;
+  document.getElementById("editName3").value = client.name || "";
+  document.getElementById("editPlan3").value = client.plan || "";
+  document.getElementById("editAddress3").value = client.address || "";
+  document.getElementById("editCollector3").value = client.collector || "";
+  document.getElementById("editNote3").value = client.note || "";
+  document.getElementById("editModal3").style.display = "block";
+
+
+}
+
+function closeEditModal3() {
+  document.getElementById("editModal3").style.display = "none";
+  currentEditKey3 = null;
+}
+
+function saveEditClient3() {
+  if (!currentEditKey3) return;
+
+  const updatedClient = {
+    name: document.getElementById("editName3").value,
+    plan: document.getElementById("editPlan3").value,
+    address: document.getElementById("editAddress3").value,
+    collector: document.getElementById("editCollector3").value,
+    note: document.getElementById("editNote3").value,
+  };
+
+  firebase
+    .database()
+    .ref("goldenwifi/goldenClients/" + currentEditKey3)
+    .update(updatedClient)
+    .then(() => {
+      alert("Client updated successfully ✅");
+      closeEditModal3();
+      loadDisconnectionTable3(document.getElementById("usernameInput").value);
+    })
+    .catch(err => {
+      console.error("Error updating client:", err);
+      alert("Failed to update client ❌");
+    });
+}
+
+
+
+
+
+
+
+ 
 
 
 
 function closeEditDisconnected() {
   document.getElementById("edit-merchant-form3").style.display = "none";
-  updateMerchantTable3(allClientsTable, searchTerm);
-     loadSavedPayments3(allClientsTable, searchTerm);
+ // updateMerchantTable3(allClientsTable, searchTerm);
+   //  loadSavedPayments3(allClientsTable, searchTerm);
 } 
 
 
@@ -615,11 +774,6 @@ loadSavedPayments();
 
 
 
-
-
-//////////////////////////// ADD MONTHLY BILLS ///////////////////////
-
-
 function addMonthlyBills() {
   const selectedMonth = document.getElementById("billingMonth").value;
   if (!selectedMonth) {
@@ -629,52 +783,46 @@ function addMonthlyBills() {
 
   const [year, month] = selectedMonth.split("-");
   const currentDate = new Date().toISOString().split('T')[0];
-  const columnTitle = new Date(`${year}-${month}-01`).toLocaleString('default', { month: 'long' }) + " " + year;
+  const columnTitle = new Date(`${year}-${month}-01`)
+    .toLocaleString('default', { month: 'long' }) + " " + year;
   const monthKey = `${year}-${month}`;
 
   const table = document.getElementById("merchants-table");
   const theadRow = table.querySelector("thead tr");
   const rows = table.querySelectorAll("tbody tr");
-   const theUser = document.getElementById("theCollector");
+  const theUser = document.getElementById("theCollector").value;
 
-  // Prevent duplicate column header
+  // Add column header dynamically if not already present
   const existingHeaders = Array.from(theadRow.children).map(th => th.textContent.trim());
-  if (existingHeaders.includes(columnTitle)) {
-    alert(`${columnTitle} column already exists.`);
-    return;
+  if (!existingHeaders.includes(columnTitle)) {
+    const th = document.createElement("th");
+    th.textContent = columnTitle;
+    theadRow.appendChild(th);
   }
 
   let createdCount = 0;
-  let pendingClients = rows.length;
+  const promises = [];
 
   rows.forEach(row => {
     const cells = row.querySelectorAll("td");
-    if (cells.length < 4) {
-      pendingClients--;
-      return;
-    }
+    if (cells.length < 4) return;
 
     const firebaseKey = cells[1].textContent.trim();  // Client Key
     const clientName = cells[2].textContent.trim();   // Client Name
     const planText = cells[3].textContent.trim();     // ₱500
-     const address2 = cells[4].textContent.trim();
-      const areaCode2 = cells[6].textContent.trim();
-      const note = cells[7].textContent.trim();
+    const address2 = cells[4]?.textContent.trim() || "";
+    const areaCode2 = cells[6]?.textContent.trim() || "";
+    const note = cells[7]?.textContent.trim() || "";
     const planAmount = parseFloat(planText.replace(/[₱,]/g, ''));
 
-    if (isNaN(planAmount)) {
-      pendingClients--;
-      return;
-    }
+    if (isNaN(planAmount)) return;
 
     const path = `goldenwifi/monthly-bills/${firebaseKey}/bills/${monthKey}`;
 
-    // First check if bill already exists
-    firebase.database().ref(path).once("value").then(snapshot => {
+    const billPromise = firebase.database().ref(path).once("value").then(snapshot => {
       if (snapshot.exists()) {
         console.log(`⚠️ Bill already exists for ${clientName} in ${monthKey}`);
       } else {
-        // Bill does not exist, create it
         const paymentData = {
           clientKey: firebaseKey,
           name: clientName,
@@ -683,56 +831,60 @@ function addMonthlyBills() {
           address2: address2,
           areaCode: areaCode2,
           actionTo: "Collected",
-          dateOfPayment: formattedDate,
+          dateOfPayment: "",
           collector: "",
           note: note,
-          whoGenerate: theUser.value,
+          whoGenerate: theUser,
           status: "Unpaid"
         };
 
-        firebase.database().ref(path).set(paymentData)
-          .then(() => {
-            createdCount++;
-            console.log(`✅ Bill created for ${clientName} in ${monthKey}`);
-          });
+        return firebase.database().ref(path).set(paymentData).then(() => {
+          createdCount++;
+
+          // ✅ Add button cell dynamically for the new month
+          const td = document.createElement("td");
+          td.setAttribute("data-month", monthKey);
+
+          const button = document.createElement("button");
+          button.textContent = "✔ Collected";
+          button.style.cssText = `
+            font-size: 12px;
+            color: black;
+            padding: 4px 8px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            background-color: #f0f0f0;
+            width: 65px;
+            cursor: pointer;
+          `;
+
+          td.appendChild(button);
+          row.appendChild(td);
+
+          console.log(`✅ Bill created for ${clientName} in ${monthKey}`);
+        });
       }
-
-      pendingClients--;
-
-      // Once all clients are checked, proceed to update the table
-    
-        if (pendingClients === 0) {
-        if (createdCount === 0) {
-          alert(`All bills for ${columnTitle} already exist`);
-           location.reload(); // Reload to show updated columns
-        } else {
-          alert(`${createdCount} bill(s) successfully created for each active clients fot the month of  ${columnTitle}.`);
-          location.reload(); // Reload to show updated columns
-          
-        }
-        }
-
-           /*  loadSavedPayments();
-            loadSavedPayments2();
-            populateUnpaidMonthDropdown();
-            calculateUnpaidGrandTotalForYear();  */
-
-
-           loadClientTable();
-           
     });
 
-
+    promises.push(billPromise);
   });
- 
+
+  Promise.all(promises).then(() => {
+    if (createdCount === 0) {
+      alert(`All bills for ${columnTitle} already exist.`);
+    } else {
+      alert(`${createdCount} bill(s) successfully created for the month of ${columnTitle}.`);
+    }
+  });
 }
+
+
 
 
 
 
 //////////////////////// load client table here //////////////////////
 
-//let editMerchantIDName = {};
 
 let allClientsData = {}; // Global variable to store full data
 let allClientsTable = {}; // Global variable to store full data
@@ -771,7 +923,7 @@ function loadClientTable(username, searchTerm = "") {
     loadSavedPayments2(username, billsData); // ✅ Pass both args!
      loadSavedPayments(username, notesData); // ✅ Pass both args!
   
-    loadSavedPayments3(username, notesData); // ✅ Pass both args!
+   // loadSavedPayments3(username, notesData); // ✅ Pass both args!
   
 
 
@@ -822,6 +974,8 @@ function loadClientTable(username, searchTerm = "") {
       const displayNote = noteData !== "" 
 
      
+
+
      
         ? noteData 
         : '<span title="Add Reminder">📝</span>';
@@ -831,6 +985,18 @@ function loadClientTable(username, searchTerm = "") {
         row.classList.add("highlight-unpaid");
       }
 
+               // ✅ Fix: define variable first
+let displayStatus = status;
+
+if (status.toLowerCase() === "new") {
+  displayStatus = "Active";
+} else if (status.toLowerCase() === "disconnected") {
+  displayStatus = "Disconnected";
+}
+
+
+
+
       row.innerHTML = `
         <td>${index++}</td>
         <td class="hidden-col">${clientKey}</td>
@@ -839,7 +1005,7 @@ function loadClientTable(username, searchTerm = "") {
         <td>${clientAddress}</td>
          <td>${clientAreaCode}</td>
         <td onclick="addReminder('${clientKey}')" style="cursor: pointer;">${displayNote}</td>
-         <td>${status}</td>
+         <td>${displayStatus}</td>
         <td><span class="status-label">${unpaidCount >= 2 ? `⚠ Overdue (${unpaidCount})` : "Unpaid"}</span></td>
       `;
       tableBody.appendChild(row);
@@ -848,10 +1014,7 @@ function loadClientTable(username, searchTerm = "") {
     // ✅ After rows are ready, now add dynamic month columns with buttons
     loadSavedPayments2(username, billsData);
      
-  
-   // updateMerchantTable(allClientsTable, searchTerm);
-//loadSavedPayments(username, notesData);
-  // loadSavedPayments();
+
     populateUnpaidMonthDropdown();
     calculateUnpaidGrandTotalForYear();
   });
@@ -1138,7 +1301,7 @@ sortedMonthKeys.forEach(monthKey => {
 
 
 
-function loadSavedPayments3(username) {
+/*function loadSavedPayments3(username) {
   const table = document.getElementById("merchants-table3");
   const theadRow = table.querySelector("thead tr");
   const rows = table.querySelectorAll("tbody tr");
@@ -1178,14 +1341,7 @@ function loadSavedPayments3(username) {
     const sortedMonthKeys = Object.keys(monthMap).sort();
 
     // 2. Add headers for new months
-    sortedMonthKeys.forEach(monthKey => {
-      const displayTitle = monthMap[monthKey];
-      if (!existingHeaders.includes(displayTitle)) {
-        const newTh = document.createElement("th");
-        newTh.textContent = displayTitle;
-        theadRow.appendChild(newTh);
-      }
-    });
+   
 
     // 3. Filter clients with exactly 2 unpaid bills and render buttons
     rows.forEach(row => {
@@ -1217,42 +1373,9 @@ function loadSavedPayments3(username) {
         const status = clientBills[clientKey][monthKey];
         const path = `goldenwifi/monthly-bills/${clientKey}/bills/${monthKey}`;
 
-        const td = document.createElement("td");
-        td.setAttribute("data-month", monthKey);
-
-        const button = document.createElement("button");
-        button.textContent = status;
-        const isPaid = status === "Paid";
-        button.style.backgroundColor = isPaid ? "green" : "";
-        button.style.color = isPaid ? "white" : "";
-
-        button.addEventListener("click", () => {
-          const currentStatus = button.textContent;
-          let newStatus, actionToStatus;
-
-          if (currentStatus === "Unpaid") {
-            const confirmPaid = confirm("Are you sure you want to mark this client as PAID?");
-            if (!confirmPaid) return;
-            newStatus = "Paid";
-            actionToStatus = "approved";
-          } else {
-            const redo = confirm("Are you sure you didn’t receive payment from this client?");
-            if (!redo) return;
-            newStatus = "Unpaid";
-            actionToStatus = "pending";
-          }
-
-          firebase.database().ref(path).update({ status: newStatus, actionTo: actionToStatus })
-            .then(() => {
-              button.textContent = newStatus;
-              button.style.backgroundColor = newStatus === "Paid" ? "green" : "";
-              button.style.color = newStatus === "Paid" ? "white" : "";
-            });
-        });
-
-        td.appendChild(button);
-        row.appendChild(td);
+     
       });
+
     });
 
     // 4. Adjust footer colspan
@@ -1261,6 +1384,138 @@ function loadSavedPayments3(username) {
   });
   sortTableByClientName3();
 }
+
+ */
+
+
+
+async function loadDisconnectionTable3(username) {
+  const tableBody = document.querySelector("#merchants-table333 tbody");
+  tableBody.innerHTML = "";
+
+  // 🔹 Get monthly bills
+  const monthlyBillsSnap = await firebase.database()
+    .ref("goldenwifi/monthly-bills")
+    .get();
+  const allClientsBills = monthlyBillsSnap.val() || {};
+
+  // 🔹 Get golden clients info
+  const goldenClientsSnap = await firebase.database()
+    .ref("goldenwifi/goldenClients")
+    .get();
+  const allClientsInfo = goldenClientsSnap.val() || {};
+
+  let rowIndex = 1;
+
+  Object.keys(allClientsBills).forEach(clientKey => {
+    const clientData = allClientsBills[clientKey] || {};
+    const bills = clientData.bills || {};
+
+    // 🔹 Check if this client belongs to the current app user
+    const clientInfo = allClientsInfo[clientKey] || {};
+    if (!clientInfo) {
+      return; // skip this client
+    } 
+
+    let totalUnpaid = 0;
+    let unpaidCount = 0;
+    let latestBill = null;
+
+    Object.keys(bills).forEach(monthKey => {
+      const bill = bills[monthKey];
+
+      if (bill.status && bill.status.toLowerCase() === "unpaid") {
+        const amount = parseFloat(bill.planAmount) || 0;
+        totalUnpaid += amount;
+        unpaidCount++;
+      }
+
+      latestBill = bill; // keep last one
+    });
+
+    // 🔹 Only include clients with >= 2 unpaid bills
+    if (unpaidCount < 2) {
+      return;
+    }
+
+    const clientName = clientInfo.name || "Unknown Client";
+     const status= clientInfo.status || "";
+    const plan = latestBill?.planAmount || "";
+    const address = clientInfo.address || latestBill?.address2 || "";
+    const date = latestBill?.date || "";
+    const collector = latestBill?.areaCode || "";
+    const note = latestBill?.note || "";
+
+
+    // ✅ Fix: define variable first
+let displayStatus = status;
+
+if (status.toLowerCase() === "new") {
+  displayStatus = "Active";
+} else if (status.toLowerCase() === "disconnected") {
+  displayStatus = "Disconnected";
+}
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${rowIndex++}</td>
+      <td class="hidden-col">${clientKey}</td>
+      <td>${clientName}</td>
+      <td>${plan}</td>
+      <td>${address}</td>
+      <td>${date}</td>
+      <td>${collector}</td>
+       <td>${displayStatus}</td> 
+      <td>${note}</td>
+      <td>${unpaidCount} = ${totalUnpaid}</td>
+      <td>
+    
+      
+        <button onclick="disconnectClient('${clientKey}','${clientName}','${status}')">Disconnect</button>
+      </td>
+    `;
+    tableBody.appendChild(tr);
+     
+  });
+ 
+  // 🔹 Update footer
+  const footer = document.getElementById("table-totalM333");
+  footer.textContent = `For disconnection clients: ${rowIndex - 1} records loaded`;
+}
+
+
+
+
+
+
+function disconnectClient(clientKey, clientName, status) {
+//  alert("🚨 Do you want to disconnect client : " + clientKey + clientName);
+//    alert("🚨 Do you want to disconnect client : "  + clientName + "  ?");
+
+  document.getElementById('edit-merChantId3').value = clientKey;
+    document.getElementById('edit-merchant-name3').value = clientName;
+
+    document.getElementById('status3').value = status;
+
+      editMerchantForm3.style.display = 'block';
+  // Later: you can add logic here to update the client status in Firebase
+  // Example:
+  // firebase.database().ref("goldenwifi/goldenClients/" + clientKey).update({ status: "For Disconnection" });
+}
+
+
+
+
+
+
+
+function closeEditDisconnected() {
+  
+  document.getElementById("edit-merchant-form3").style.display = "none";
+   const username = document.getElementById("theCollector").value;
+//   loadDisconnectionTable3(username);
+//location.reload();
+} 
+
 
 
 
@@ -1312,7 +1567,7 @@ function sortTableByClientNameUN() {
 
 
 function sortTableByClientName3() {
-    const table = document.getElementById("merchants-table3");
+    const table = document.getElementById("merchants-table333");
     const tbody = table.querySelector("tbody");
     const rows = Array.from(tbody.querySelectorAll("tr"));
 
