@@ -519,50 +519,32 @@ margin-top: 1px;
   <div class="table-container"> 
       <!--  <button onclick="refreshTable()">🔄 Refresh Table</button>               --> 
   <table id="merchants-table3">
-    <thead>
-      <tr>
-        <th>No.</th>
-        <th class="hidden-col">Firebase-Key</th>
-        <th>ClientName</th>
-        <th>Plan</th>
-        <th>Address</th>
-        <th>Date</th>
-        <th>Collector</th>
-        <th>Note</th>
-        <th>Actions</th>
-       
-       
-        
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>1</td>
-        <td class="hidden-col">CL001</td>
-        <td>John Doe</td>
-        <td>₱500</td>
-        <td>123 Main St</td>
-        <td>2025-07-01</td>
-        <th>Collector</th>
-        <th>Note</th>
-        <th>Actions</th>
-       
-      
-        <td>
-          <button class="pay-btn3">Unpaid</button>
-        </td>
-        <td>
-          <button class="editClient3">Edit</button>
-        </td>
-      </tr>
-      <!-- Add more client rows here -->
-    </tbody>
-    <tfoot>
-      <tr>
-        <td id="table-totalM3" colspan="10">For disconnection clients</td>
-      </tr>
-    </tfoot>
-  </table>
+  <thead>
+    <tr>
+      <th>No.</th>
+      <th class="hidden-col">Firebase-Key</th>
+      <th>ClientName</th>
+      <th>Plan</th>
+      <th>Address</th>
+      <th>Date</th>
+      <th>Collector</th>
+      <th>Note</th>
+      <th>Total Unpaid</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <!-- Rows will be inserted here by JS -->
+  </tbody>
+
+  <tfoot>
+    <tr>
+      <td id="table-totalM3" colspan="9">For disconnection clients</td>
+    </tr>
+  </tfoot>
+</table>
+
  </div> 
  </div> 
 </div>
@@ -575,6 +557,43 @@ margin-top: 1px;
 
 
      
+
+<!-- Edit Client Modal -->
+<div id="editModal3" class="modal" style="display:none;">
+  <div class="modal-content">
+    <h3>Edit Client</h3>
+    <label>Client Name:</label>
+    <input type="text" id="editName3"><br>
+    <label>Plan:</label>
+    <input type="text" id="editPlan3"><br>
+    <label>Address:</label>
+    <input type="text" id="editAddress3"><br>
+    <label>Collector:</label>
+    <input type="text" id="editCollector3"><br>
+    <label>Note:</label>
+    <input type="text" id="editNote3"><br><br>
+
+    <button id="saveEditBtn3">Save</button>
+    <button id="cancelEditBtn3">Cancel</button>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div id="collectorModal" class="modal">
   <div class="modal-content">
 
