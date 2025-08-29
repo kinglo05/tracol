@@ -167,7 +167,7 @@ margin-top: 1px;
             <li><a href="../report/report.html">GENERATE REPORT</a></li>
          </ul>
 
-      <input type="text" id="theCollector" hidden >
+      <input type="text" id="theCollector" hidden>
 
     </div>
     <div hidden>    <input type="date" name="date-today" id="date-today">     </div>
@@ -261,7 +261,7 @@ margin-top: 1px;
 
 
 
-       <input type="text" id="theUser" hidden> 
+       <input type="text" id="theUser" > 
 
 <!-- <button id="toggleBtn" onclick="toggleTableModal1()">📊 Show Table</button> -->
  <button id="toggleBtn" onclick="toggleTableModal1(this)">📊<br><small>Show Clients</small></button>
@@ -308,6 +308,7 @@ margin-top: 1px;
         <th>Actions</th>
        
        
+       
         
       </tr>
     </thead>
@@ -322,6 +323,7 @@ margin-top: 1px;
         <th>Collector</th>
         <th>Note</th>
         <th>Actions</th>
+       
        
       
         <td>
@@ -438,6 +440,7 @@ margin-top: 1px;
     <br><br>
 
 
+    
  <div class="actions-row">
   <button id="confirmBTNex" onclick="markSelectedExp()">Mark Expenses as APPROVED</button>
   <label>
@@ -497,7 +500,7 @@ margin-top: 1px;
 
   <div class="table-container"> 
       <!--  <button onclick="refreshTable()">🔄 Refresh Table</button>               --> 
-  <table id="merchants-table3">
+<!--   <table id="merchants-table3">
     <thead>
       <tr>
         <th>No.</th>
@@ -508,10 +511,7 @@ margin-top: 1px;
         <th>Date</th>
         <th>Collector</th>
         <th>Note</th>
-        <th>Actions</th>
-       
-       
-        
+        <th>Actions</th> 
       </tr>
     </thead>
     <tbody>
@@ -534,15 +534,49 @@ margin-top: 1px;
           <button class="editClient3">Edit</button>
         </td>
       </tr>
-      <!-- Add more client rows here -->
+    
     </tbody>
     <tfoot>
       <tr>
         <td id="table-totalM3" colspan="10">For disconnection clients</td>
       </tr>
     </tfoot>
-  </table>
- </div> 
+  </table> -->
+
+  <table id="merchants-table333">
+  <thead>
+    <tr>
+      <th>No.</th>
+      <th class="hidden-col">Firebase-Key</th>
+      <th>ClientName</th>
+      <th>Plan</th>
+      <th>Address</th>
+      <th>Date</th>
+      <th>Collector</th>
+       <th>Status</th>
+      <th>Note</th>
+      <th>Total Unpaid</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <!-- Rows will be inserted here by JS -->
+  </tbody>
+
+  <tfoot>
+    <tr>
+      <td id="table-totalM333" colspan="9">For disconnection clients</td>
+    </tr>
+  </tfoot>
+</table>
+
+
+
+
+
+
+</div> 
  </div> 
 </div>
 
@@ -653,54 +687,22 @@ margin-top: 1px;
 
              <div id="edit-merchant-form3" class="modal hidden">
                 <div class="modal-content" id="editmerchant3">
-                  <div id="edit-title-top3">  Edit for disconnection Status </div>
+                  <div id="edit-title-top3">  Are you sure you want to disconect? </div>
                    
                     <label for="edit-client-name3" class="whatsNickname" >Client Name</label>
                   <b>  <input type="text" id="edit-merchant-name3" readonly> </b><br>
                   
-                    <label for="status3" >Disconnect / Reconnect</label>
-                   <select id="status3" required><br>
-                 <option value="new">Active</option>
-                <option value="disconnected">Disconnected</option>
-                 </select>
-
-                    <label for="contactNum3" >Contact Number</label>
-                    <input type="number" id="contactNum3" placeholder="Add client number" autocomplete="off" ><br>
-
-                  
-                    <input type="number" id="planAmount3"  autocomplete="off" hidden><br>
-
+                    <label for="status3" >Current Status</label>
+                  <input type="text" id="status3" readonly>
+                 
 
                    
                   
 
-                  <label for="client-address3">Client Address:</label>
-                <select id="client-address3" autocomplete="off"  required><br>
-                <option value="">Select Address</option>
-                 <option value="Asuncion">Asuncion</option>
-                 <option value="Amparo">Amparo</option>
-                  <option value="Acasia">Acasia</option>
-                  <option value="Bato-1">Bato-1</option>
-                 <option value="Bato-2">Bato-2</option>
-                  <option value="Baugo">Baugo</option>
-                  <option value="Combado">Combado</option>
-                   <option value="Cambooc">Cambooc</option>
-                    <option value="Cansirong">Cansirong</option>
-                     <option value="Hanginan">Hanginan</option>
-                 <option value="Isagani">Isagani</option>
-                  <option value="Ichon">Ichon</option>
-                 <option value="Macrohon">Macrohon-Proper</option>
-                 <option value="Lib-og">Lib-og</option>
-                 <option value="Nati">Nati</option>
-                 <option value="Lunas">Lunas</option>
-                 <option value="Rizal-Maasin">Rizal-Maasin</option>
-                 <option value="Hantag">Hantag</option>
+                
+
+                   
                   
-                 </select> <br>
-
-
-                     <label for="note3" >Add Reminder</label>
-                    <input type="text" id="note3" placeholder="Say Something" autocomplete="off" ><br>
                            <input type="text" id="edit-merchant-email3" hidden >
                          <input type="text" id="mer-general-total3"   hidden><br>
                     <input type="text" id="edit-new-pay"   readonly hidden>
@@ -711,11 +713,11 @@ margin-top: 1px;
 
 
 
-                    <button id="save-edit-merchant3">Save</button>
-                    <button id="cancel-edit-merchant3" onclick="closeEditDisconnected()">Close</button>
-                    <input type="text" id="edit-id-m3"  ><br> 
-                    <input type="text" id="edit-merChantId3" ><br>
-                    <input type="text" id="edit-num-paymentst3" ><br>  
+                    <button id="save-edit-merchant3">Yes</button>
+                    <button id="cancel-edit-merchant3" onclick="closeEditDisconnected()">Cancel</button>
+                    <input type="text" id="edit-id-m3" hidden ><br> 
+                    <input type="text" id="edit-merChantId3" hidden><br>
+                    <input type="text" id="edit-num-paymentst3" hidden ><br>  
 
                 </div>
             </div>
