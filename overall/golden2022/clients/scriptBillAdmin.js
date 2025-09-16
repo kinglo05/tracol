@@ -599,7 +599,7 @@ async function loadDisconnectionTable3(username) {
     });
 
     // 🔹 Only include clients with >= 2 unpaid bills
-    if (unpaidCount < 2) {
+    if (unpaidCount < 3) {
       return;
     }
 
@@ -2229,6 +2229,7 @@ window.addEventListener("DOMContentLoaded", () => {
  // sortTableByClientName();
  // updateMerchantTable3();
 });
+
 
 
 
