@@ -129,181 +129,169 @@ if (linkPath === currentPage2) {
 
 
 
-// Global Variables
-//let currentUserId = user.uid; // Replace with actual user authentication logic
-//let editPaymentId = null; // Store the ID of the payment being edited
+
 
 const dateInput22 = document.getElementById('date-today');
   const today = new Date();
 
-  // Format the date as YYYY-MM-DD (required for input type="date")
-  const year = today.getFullYear();
-  const month = ('0' + (today.getMonth() + 1)).slice(-2); // Add leading zero if needed
-  const day = ('0' + today.getDate()).slice(-2); // Add leading zero if needed
-  const formattedDate2 = `${year}-${month}-${day}`;
+// === Setup Date Inputs ===
 
-  dateInput22.value = formattedDate2; 
+const startOfPrevMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
 
+function formatDate(date) {
+  return date.toISOString().split('T')[0];
+}
 
+const startInput = document.getElementById("start-date");
+const endInput = document.getElementById("end-date");
 
+startInput.value = formatDate(startOfPrevMonth);
+endInput.value = formatDate(today);
 
-  
+// === Global Variables ===
+let merchantData = [];
+let currentListener = null;
 
-
-
-////////////////////////////   PAYMENTS TABLE1 - STARTS  HERE  /////////////////////
-
-
-
-const paymentsRef = database.ref("payments");
-let merchantData = []; // Store merchant sums
-
+// === Main Function to Fetch Data ===
 function fetchAndDisplaySums() {
-    const paymentsRef2 = database.ref("payments");
+  const startDate = startInput.value;
+  const endDate = endInput.value;
 
-    paymentsRef2.on("value", (snapshot) => {
-        let merchantSums = {};
-        let totalSumAll = 0;
+  // Detach old listener for speed & prevent duplication
+  if (currentListener) currentListener.off();
 
-        snapshot.forEach((childSnapshot) => {
-            const payment = childSnapshot.val();
+  const ref = database
+    .ref("payments")
+    .orderByChild("date")
+    .startAt(startDate)
+    .endAt(endDate);
 
-            if (payment.status === "new") {
-                const merchant = payment.merchantP;
-                const amount = parseFloat(payment.amount) || 0;
+  currentListener = ref;
 
-                if (!merchantSums[merchant]) {
-                    merchantSums[merchant] = 0;
-                }
-                merchantSums[merchant] += amount;
-                totalSumAll += amount;
-            }
-        });
+  ref.on("value", (snapshot) => {
+    let merchantSums = {};
+    let totalSumAll = 0;
 
-        // Convert object to array
-        merchantData = Object.entries(merchantSums).map(([name, amount]) => ({
-            name,
-            amount
-        }));
+    snapshot.forEach((childSnapshot) => {
+      const payment = childSnapshot.val();
+      if (payment.status === "new") {
+        const merchant = payment.merchantP || "(No Name)";
+        const amount = parseFloat(payment.amount) || 0;
 
-        document.getElementById("totalSum").innerText = totalSumAll.toFixed(2);
-        localStorage.setItem("totalSumAll" , totalSumAll);
-
-        // Default sorting
-        sortTable("amount", true);
-    });
-}
-
-function sortTable(type, initial = false) {
-    let sortOrder = 1; // 1 = ascending, -1 = descending
-
-    if (!initial) {
-        const header = document.querySelector(`th[onclick="sortTable('${type}')"]`);
-        const currentText = header.innerText;
-
-        if (currentText.includes("▲")) {
-            sortOrder = -1;
-            header.innerText = header.innerText.replace("▲", "▼");
-        } else {
-            sortOrder = 1;
-            header.innerText = header.innerText.replace("▼", "▲");
-        }
-    }
-
-    merchantData.sort((a, b) => {
-        return type === "amount"
-            ? (b.amount - a.amount) * sortOrder
-            : a.name.localeCompare(b.name) * sortOrder;
+        if (!merchantSums[merchant]) merchantSums[merchant] = 0;
+        merchantSums[merchant] += amount;
+        totalSumAll += amount;
+      }
     });
 
-    filterTable(); // Apply filter after sorting
-}
+    merchantData = Object.entries(merchantSums).map(([name, amount]) => ({
+      name,
+      amount,
+    }));
 
-function filterTable() {
-    const searchQuery = document.getElementById("payment-search").value.toLowerCase();
-    const tableBody = document.getElementById("tableBody");
-    tableBody.innerHTML = "";
+    document.getElementById("totalSum").innerText = totalSumAll.toFixed(2);
+    localStorage.setItem("totalSumAll", totalSumAll);
 
-    merchantData
-        .filter((merchant) => merchant.name.toLowerCase().includes(searchQuery))
-        .forEach((merchant) => {
-            const row = `<tr>
-                <td>${merchant.name}</td>
-                <td>${merchant.amount.toFixed(2)}</td>
-            </tr>`;
-            tableBody.innerHTML += row;
-        });
-}
-
-fetchAndDisplaySums();
-
-
-
-function addnoname() {
-    const paymentsRef22 = database.ref("payments");
-
-    paymentsRef22.on("value", (snapshot) => {
-        let merchantSums2 = {};
-        let totalSumNoname = 0;
-
-        snapshot.forEach((childSnapshot) => {
-            const payment = childSnapshot.val();
-
-            if (payment.merchantP === "" && payment.status === "new") {
-                const merchant = payment.merchantP;
-                const amount = parseFloat(payment.amount) || 0;
-
-                if (!merchantSums2[merchant]) {
-                    merchantSums2[merchant] = 0;
-                }
-                merchantSums2[merchant] += amount;
-                totalSumNoname += amount;
-            }
-        });
-
-        // Convert object to array
-       /*  merchantData = Object.entries(merchantSums2).map(([name, amount]) => ({
-            name,
-            amount
-        }));
- */
-    
-        localStorage.setItem("totalSumNoname" , totalSumNoname);
-    
-
-    });
-}
-
-
-
-addnoname();
-
-
-
-
-
-function updateDisplay() {
-    let totalSumNoname = localStorage.getItem("totalSumNoname"); ////used
-    let totalSumAll = localStorage.getItem("totalSumAll");
-     
-    const totalDeposit =  Number(totalSumAll - totalSumNoname) || 0;
-     
-    document.getElementById("totalMerchantDeposit").innerText = totalDeposit.toFixed(2);
-  
-
-  }
-  
-  updateDisplay();
-  
-  // Listen for storage updates
-  window.addEventListener("storage", function(event) {
-    if (event.key  === "totalSumNoname","totalSumAll") {
-        updateDisplay();
-    }
+    sortTable("amount", true);
   });
-  
+}
 
-  updateDisplay();
+// === Sorting ===
+function sortTable(type, initial = false) {
+  let sortOrder = 1;
+
+  if (!initial) {
+    const header = document.querySelector(`th[onclick="sortTable('${type}')"]`);
+    if (header) {
+      const currentText = header.innerText;
+      if (currentText.includes("▲")) {
+        sortOrder = -1;
+        header.innerText = currentText.replace("▲", "▼");
+      } else {
+        sortOrder = 1;
+        header.innerText = currentText.replace("▼", "▲");
+      }
+    }
+  }
+
+  merchantData.sort((a, b) =>
+    type === "amount"
+      ? (b.amount - a.amount) * sortOrder
+      : a.name.localeCompare(b.name) * sortOrder
+  );
+
+  filterTable();
+}
+
+// === Search / Filter Display ===
+function filterTable() {
+  const searchQuery = document.getElementById("payment-search").value.toLowerCase();
+  const tableBody = document.getElementById("tableBody");
+  tableBody.innerHTML = "";
+
+  merchantData
+    .filter((m) => m.name.toLowerCase().includes(searchQuery))
+    .forEach((m) => {
+      const row = `<tr>
+        <td>${m.name}</td>
+        <td>${m.amount.toFixed(2)}</td>
+      </tr>`;
+      tableBody.innerHTML += row;
+    });
+}
+
+// === Handle "(No Name)" Merchants ===
+function addNoName() {
+  const startDate = startInput.value;
+  const endDate = endInput.value;
+
+  const ref = database
+    .ref("payments")
+    .orderByChild("date")
+    .startAt(startDate)
+    .endAt(endDate);
+
+  ref.on("value", (snapshot) => {
+    let totalSumNoname = 0;
+
+    snapshot.forEach((childSnapshot) => {
+      const payment = childSnapshot.val();
+      if (payment.merchantP === "" && payment.status === "new") {
+        totalSumNoname += parseFloat(payment.amount) || 0;
+      }
+    });
+
+    localStorage.setItem("totalSumNoname", totalSumNoname);
+    updateDisplay();
+  });
+}
+
+// === Update Totals ===
+function updateDisplay() {
+  const totalSumNoname = parseFloat(localStorage.getItem("totalSumNoname")) || 0;
+  const totalSumAll = parseFloat(localStorage.getItem("totalSumAll")) || 0;
+  const totalDeposit = totalSumAll - totalSumNoname;
+
+  document.getElementById("totalMerchantDeposit").innerText = totalDeposit.toFixed(2);
+}
+
+// === Event Listeners ===
+startInput.addEventListener("change", () => {
+  fetchAndDisplaySums();
+  addNoName();
+});
+
+endInput.addEventListener("change", () => {
+  fetchAndDisplaySums();
+  addNoName();
+});
+
+document.getElementById("payment-search")?.addEventListener("input", filterTable);
+
+// === Initial Load ===
+fetchAndDisplaySums();
+addNoName();
+updateDisplay();
 
 
 
