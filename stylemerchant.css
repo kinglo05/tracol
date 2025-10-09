@@ -986,3 +986,22 @@ label {
   background-color: #0ab3f7;
 }
 
+
+
+  #filter-btnTotal {
+    background-color: #07c550;
+    color: white;
+    border-color: rgb(206, 199, 199);
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-left: 2px;
+    margin-top: 15px;
+    height: 35px;
+    width: 100px;
+    font-size: smaller;
+   
+}
+
+#filter-btnTotal:hover {
+    background-color: #0ab3f7;
+}
