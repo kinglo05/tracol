@@ -56,15 +56,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
        #newPayments-title {
            
            
@@ -238,7 +229,7 @@ margin-top: 1px;
                     </tbody>
                     <tfoot>
                         <tr>
-                          <!--  <td colspan="2" style="text-align: right;"><b>Total:</b></td>-->
+                     
                             <td id="table-totalM">0.00</td>
                         </tr>
                     </tfoot>
@@ -305,7 +296,7 @@ margin-top: 1px;
                     <input type="text" id="edit-merchant-email"  ><br>
                     <label for="mer-general-total" >Over-all Total:</label>
                <div class="total-container"  id="total-container"> <input type="text" id="mer-general-total"  readonly><br>  </div>                    
-                 <!--   <label for="edit-num-paymentst" hidden >No. of Payments</label>-->
+           
                    
                     <label for="edit-new-pay"  >Total NewPayments:</label>
                     <input type="text" id="edit-new-pay"   readonly><br>
@@ -314,11 +305,14 @@ margin-top: 1px;
                     <label for="edit-new-borrowed" >Barrowed:</label>
                     <input type="text" id="edit-new-borrowed"  style="display: inline-block;  background-color: #cde4eb;" autocomplete="off"><br>
 
-                  
-
-                    <!-----/////////////////////////////////////////////////////--------
-                           ////////////////////////////////////////////////////---------
-                        //////////////////////  fot trading table --------------------->
+       <div class="date-filter">
+  <label>Start Date:</label>
+  <input type="date" id="start-date">
+  <label>End Date:</label>
+  <input type="date" id="end-date">
+  <br>
+  <button id="filter-btnTotal">Apply Filter</button>
+</div>
 
 
                         <table id="claim-table">
@@ -329,7 +323,7 @@ margin-top: 1px;
                                     <th>Amount</th>
                                     <th>Ref#</th>
                                     <th>Time</th>
-                                    <th hidden>Date </th>
+                                    <th>Date </th>
                                     <th hidden>Payment Type</th>
                                     <th hidden>User</th>
                                     <th hidden>Merchant</th>
@@ -350,21 +344,24 @@ margin-top: 1px;
                     </tr>
                     </tfoot>    
                         </table>
-            
 
+
+                        <div>
                     <button id="save-edit-merchant">Save</button>
                     <button id="cancel-edit-merchant">Close</button>
                     <input type="text" id="edit-id-m" hidden ><br> 
                     <input type="text" id="edit-merChantId" hidden><br>
                     <input type="text" id="edit-num-paymentst" hidden><br>  
-
+                    </div>
 
                 </div>
+
+                    
+
+
             </div>   
             
-            
-
-               <!-----/////////////////////////////  fot edit merchant name only--------------------->
+ 
      
              
                <div id="edit-merchant-formName"class="modal hidden">
@@ -422,21 +419,10 @@ margin-top: 1px;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
                     <button class="edit-mer" id="save-edit-merchantName">Save</button>
                     <button class="edit-mer" id="cancel-edit-merchantName">Close</button>
-                    <input type="text" id="edit-id-mName"  hidden ><br> 
-                    <input type="text" id="edit-merChantIdName" hidden><br>
+                    <input type="text" id="edit-id-mName"   ><br> 
+                    <input type="text" id="edit-merChantIdName" ><br>
         
         
                 </div>
@@ -444,15 +430,6 @@ margin-top: 1px;
         
 
 
-
-
-
-
-
-
-
-                        
-                    <!-- Modal structure -->
                     <div id="frameModal" class="modal">
                         <div class="modal-content">
                             <span class="close" onclick="closeModal()">&times;</span>
@@ -461,28 +438,7 @@ margin-top: 1px;
                     </div>
 
 
-
-
-
-
-
-
-
-
         </div>
-
-
-
-
-       
-
-    
-
-
-
-
-
-
 
 
      
