@@ -609,6 +609,18 @@ input:hover {
 
 
 
+#add-bill-month { 
+    height: 30px;
+     width: 165px;  
+}
+
+#add-bill-month:hover {
+  background-color: #0baaf3; /* A slightly darker gray on hover */
+}
+
+
+
+
 
 
 
@@ -1177,6 +1189,12 @@ label {
 
       #merchants-table2 td:nth-child(4) { /* Targets the 6 column */
         text-align: left;
+      }
+
+
+          #merchants-table2 td:nth-child(7) { /* Targets the 6 column */
+        text-align: left;
+        width: 8%;
       }
   
   /* Footer styling */
@@ -1815,4 +1833,208 @@ min-width: 50px;
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#monthly-bills-section {
+  margin-top: 15px;
+  background: #f8f8f8;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.month-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 6px 0;
+}
+
+.month-row input {
+  width: 100px;
+  padding: 4px;
+}
+
+.markPaidBtn, .saveBillBtn, .deleteBillBtn {
+  margin-left: 5px;
+  border: none;
+  background: #eee;
+  padding: 4px 6px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.markPaidBtn {
+  background: #00800022;
+}
+
+.markPaidBtn:hover {
+  background: #00aa0055;
+}
+
+.deleteBillBtn {
+  background: #ffcccc;
+}
+
+.deleteBillBtn:hover {
+  background: #ff9999;
+}
+
+
+
+mark {
+  background-color: #ffe15a;
+  color: black;
+  padding: 0 2px;
+  border-radius: 3px;
+}
+
+
+
+
+
+
+  #add-bill-section {
+    background-color: #f7faff; /* soft light blue background */
+    border: 1px solid #d0e3ff; /* subtle border */
+    border-radius: 12px;
+    padding: 20px;
+    width: 300px;
+    margin: 30px auto; /* centers horizontally */
+    text-align: center; /* centers text & inline elements */
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); /* soft shadow */
+  }
+
+  #add-bill-section h4 {
+    margin-bottom: 15px;
+    color: #0056b3;
+  }
+
+  #add-bill-section label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+
+  #add-bill-section input,
+  #add-bill-section select {
+    width: 90%;
+    padding: 6px 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    text-align: center;
+  }
+
+  #add-bill-section button {
+    margin-top: 15px;
+    padding: 8px 15px;
+    background-color: #0078ff;
+    width: 40%;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease-in-out;
+  }
+
+  #add-bill-section button:hover {
+    background-color: #005ec7;
+  }
+
+
+
+  
+  /* ===== UNPAID BILLS SECTION ===== */
+  #bills-section {
+    background-color: #f9fcff; /* soft background */
+    border: 1px solid #d0e3ff;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  #bills-section h4 {
+    text-align: center;
+    color: #004a99;
+    margin-bottom: 15px;
+  }
+
+  /* ===== TABLE STYLING ===== */
+  #bills-section table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  #bills-section th, 
+  #bills-section td {
+    border: 1px solid #d0d7e2;
+    padding: 10px 12px;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  #bills-section th {
+    background-color: #e6f0ff;
+    color: #003c80;
+    font-weight: bold;
+  }
+
+  #bills-section tbody tr:nth-child(even) {
+    background-color: #f8fbff;
+  }
+
+  #bills-section tbody tr:hover {
+    background-color: #eaf4ff;
+    transition: background-color 0.2s;
+  }
+
+  /* ===== BUTTON STYLING ===== */
+  #bills-section button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background-color 0.2s, transform 0.1s;
+  }
+
+  #bills-section button:hover {
+    transform: scale(1.05);
+  }
+
+  #bills-section .edit-bill-btn {
+    background-color: #007bff;
+    color: #fff;
+  }
+
+  #bills-section .edit-bill-btn:hover {
+    background-color: #005ec2;
+  }
+
+  #bills-section .delete-bill-btn {
+    background-color: #dc3545;
+    color: #fff;
+  }
+
+  #bills-section .delete-bill-btn:hover {
+    background-color: #b02a37;
+  }
 
