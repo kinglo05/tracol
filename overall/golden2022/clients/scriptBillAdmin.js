@@ -204,127 +204,6 @@ function handleMerchantSearchInput() {
 
 // ======================= TABLE RENDERER =======================
 
-/**
- * Renders merchants into a given table
-//  * @param {string} tableSelector - The table (with tbody) to populate
-//  * @param {Array} data - Merchant array
-//  * @param {boolean} isTable3 - Whether this is the second table
-//  * @param {string} searchTerm - Search term
-//  */
-// function updateMerchantTable(
-//   tableSelector,
-//   data,
-//   isTable3 = false,
-//   searchTerm = ""
-// ) {
-//   const tableBody = document.querySelector(`${tableSelector} tbody`);
-//   if (!tableBody) return;
-
-//   tableBody.innerHTML = ""; // Clear table
-//   const normalizedSearch = searchTerm.toLowerCase();
-
-//   data.forEach((merchant, rowIndex) => {
-//     const name = merchant.name?.toLowerCase() || "";
-//     const address = merchant.address?.toLowerCase() || "";
-//     const areaCode = merchant.areaCode?.toLowerCase() || "";
-
-//     // ✅ Filter
-//     if (
-//       !name.includes(normalizedSearch) &&
-//       !address.includes(normalizedSearch) &&
-//       !areaCode.includes(normalizedSearch)
-//     ) {
-//       return;
-//     }
-
-//     const row = tableBody.insertRow();
-
-//     row.insertCell().textContent = rowIndex + 1;
-//     row.insertCell().textContent = merchant.id;
-//     row.insertCell().textContent = merchant.name;
-//     row.insertCell().textContent = merchant.planAmount;
-//     row.insertCell().textContent = merchant.address;
-//     row.insertCell().textContent = merchant.date;
-//     row.insertCell().textContent = merchant.areaCode;
-//     row.insertCell().textContent = merchant.note;
-
-//     if (isTable3) {
-//       row.insertCell().textContent = merchant.n || "";
-//     }
-
-//     // Edit button
-//     const editCell = row.insertCell();
-//     const btn = document.createElement("button");
-//     btn.textContent = "Edit";
-//     btn.className = isTable3
-//     ? "edit-button-merchant3"
-//       : "edit-button-merchant";
-//     btn.dataset.clientId = merchant.id;
-//     editCell.appendChild(btn);
-
-//     btn.addEventListener("click", (event) => {
-//       const clientId = event.currentTarget.dataset.clientId;
-
-//       if (isTable3) {
-//         // Fill form for table3
-//         document.getElementById("edit-merChantId3").value = clientId;
-//         document.getElementById("edit-merchant-name3").value =
-//           merchant.name || "";
-//         document.getElementById("note3").value = merchant.note || "";
-//         document.getElementById("status3").value = merchant.status || "";
-//         document.getElementById("planAmount3").value = merchant.planAmount || "";
-//         document.getElementById("client-address3").value =
-//           merchant.address || "";
-
-//         editMerchantForm3.style.display = "block";
-//       } 
-//     });
-//   });
-// }
-
-// ======================= SAVE HANDLERS =======================
-
-// Save handler for table 2
-// document
-//   .getElementById("save-edit-merchant")
-//   .addEventListener("click", () => {
-//     const editMerchantIDName =
-//       document.getElementById("edit-merChantId").value;
-//     const nameTo = document.getElementById("edit-merchant-name").value;
-//     const clientId = document.getElementById("edit-merChantId").value;
-
-//     const editClientData = {
-//       name: nameTo,
-//       nameLower: nameTo.toLowerCase(),
-//       contactNum: document.getElementById("contactNum2").value,
-//       note: document.getElementById("note").value,
-//       planAmount: document.getElementById("planAmount").value,
-//       status: document.getElementById("status").value,
-//       address: document.getElementById("client-address1").value,
-//       areaCode: document.getElementById("areaCodeX").value,
-//       dueDate: document.getElementById("dueDate").value,
-//     };
-
-//     database
-//       .ref(`goldenwifi/goldenClients/${editMerchantIDName}`)
-//       .update(editClientData)
-//       .then(() => {
-//         Swal.fire({
-//           title: "Success!",
-//           text: "CHANGES SAVED SUCCESSFULLY",
-//           icon: "success",
-//           timer: 2000,
-//           showConfirmButton: false,
-//         });
-//       //  editMerchantForm.style.display = "none";
-//        // loadSavedPayments2();
-//        loadClientTable();
-//        loadUnpaidBills(clientId);
-//       })
-//       .catch((error) => {
-//         console.error("Error updating client:", error);
-//       });
-//   });
 
 
 // Save handler for table 3
@@ -1352,7 +1231,7 @@ function loadUnpaidBills(clientId) {
             displayMonth: new Date(`${year}-${month}-01`).toLocaleString("default", { month: "long" }),
             planAmount: bill.planAmount || "0",
             dueDate: bill.dueDate || "",
-            remarks: bill.note || ""
+          //  remarks: bill.note || ""
           });
         }
       });
@@ -1370,7 +1249,7 @@ function loadUnpaidBills(clientId) {
           <td>${bill.displayMonth}</td>
           <td>₱${bill.planAmount}</td>
           <td>${bill.dueDate}</td>
-          <td>${bill.remarks}</td>
+      
           <td>
             <button class="edit-bill-btn" data-month="${bill.monthKey}">Edit</button>
             <br><br>
@@ -2113,6 +1992,7 @@ window.addEventListener("DOMContentLoaded", () => {
  // sortTableByClientName();
  // updateMerchantTable3();
 });
+
 
 
 
