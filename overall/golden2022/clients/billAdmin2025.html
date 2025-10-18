@@ -261,17 +261,13 @@ margin-top: 1px;
 
 
 
-       <input type="text" id="theUser" hidden> 
+       <input type="text" id="theUser" hidden>  
 
 <!-- <button id="toggleBtn" onclick="toggleTableModal1()">📊 Show Table</button> -->
- <button id="toggleBtn" onclick="toggleTableModal1(this)">📊<br><small>Show Clients</small></button>
+ <!-- <button id="toggleBtn" onclick="toggleTableModal1(this)">📊<br><small>Show Clients</small></button> -->
 
-
-
- 
-
-   
-  <div id="tableModal1" class="modal">
+  <div id="tableModal1" class="modal"></div>
+  <div id="tableModal1" style="display: none;" >
   <div class="modal-content">
 
    <div class="modal-header2">
@@ -289,7 +285,8 @@ margin-top: 1px;
                     <div id="newPayments-title">
                       <h5 style="color: rgb(236, 228, 228); margin-top: 5px; margin-bottom: 5px; margin-left: 1px;">
                        Search here </h5>
-                       <input type="text" id="merchantSearchBox" placeholder="Search Active Clients"  oninput="handleMerchantSearchInput()"  autocomplete="off">  <!--  oninput="handleMerchantSearchInput()" -->
+                       <input type="text" id="merchantSearchBox" placeholder="Search Active Clients"   autocomplete="off"> 
+              <!-- <input type="text" id="merchantSearchBox" placeholder="Search Active Clients"  oninput="handleMerchantSearchInput()"  autocomplete="off">  -->
                      </div>
 
     <div class="table-container">   
@@ -349,6 +346,29 @@ margin-top: 1px;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div class="table-container"> 
  <table id="merchants-table2">
     <thead>
@@ -361,7 +381,9 @@ margin-top: 1px;
         <th>Collector</th>
         <th> Add-Note</th>
         <th>Status</th>
-         <th>Bills</th> <!-- ✅ Add this if missing -->
+        <th>Duedate</th>
+        <th>Edit</th>
+       
       </tr>
     </thead>
     <tbody>
@@ -374,7 +396,9 @@ margin-top: 1px;
         <td>Collector</td>
         <th>Add-Note</th>
         <th>Status</th>
-         <th>Bills</th> <!-- ✅ Add this if missing -->
+        <th>Duedate</th>
+        <th>Edit</th>
+     
         <td>
           <button class="pay-btn2">Collected</button>
         </td>
@@ -585,6 +609,155 @@ margin-top: 1px;
 
 
 
+<div id="edit-merchant-form" class="modal hidden">
+  <div class="modal-content" id="editmerchant">
+    <div id="edit-title-top">Edit Client Details and Status</div>
+
+    <label for="edit-client-name" class="whatsNickname">Edit Name</label>
+    <b><input type="text" id="edit-merchant-name"></b><br>
+
+    <label for="status">Disconnect / Reconnect / Delete</label>
+    <select id="status" required>
+      <option value="new">Active</option>
+      <option value="disconnected">Disconnected</option>
+       <option value="hide">Delete</option>
+    </select><br>
+
+    <label for="contactNum2">Edit Number</label>
+    <input type="number" id="contactNum2" placeholder="Add client number" autocomplete="off"><br>
+
+    <label for="planAmount">Edit Plan Amount</label>
+    <input type="number" id="planAmount" autocomplete="off"><br>
+
+     <label for="dueDate">Edit Due Date</label>
+    <input type="number" id="dueDate" autocomplete="off"><br>
+
+    <label for="client-address1">Edit Address:</label>
+    <select id="client-address1" autocomplete="off" required>
+      <option value="">Select Address</option>
+      <option value="Asuncion">Asuncion</option>
+      <option value="Amparo">Amparo</option>
+      <option value="Acasia">Acasia</option>
+      <option value="Bato-1">Bato-1</option>
+      <option value="Bato-2">Bato-2</option>
+      <option value="Baugo">Baugo</option>
+      <option value="Combado">Combado</option>
+      <option value="Cambooc">Cambooc</option>
+      <option value="Cansirong">Cansirong</option>
+      <option value="Hanginan">Hanginan</option>
+      <option value="Isagani">Isagani</option>
+      <option value="Ichon">Ichon</option>
+      <option value="Macrohon">Macrohon-Proper</option>
+      <option value="Lib-og">Lib-og</option>
+      <option value="Nati">Nati</option>
+      <option value="Lunas">Lunas</option>
+      <option value="Rizal-Maasin">Rizal-Maasin</option>
+      <option value="Hantag">Hantag</option>
+    </select><br>
+
+    <label for="areaCodeX">Edit Area Code:</label>
+    <select id="areaCodeX">
+      <option value="rasty">Rasty Area</option>
+      <option value="armox">Armox Area-Macrohon</option>
+      <option value="dennis">Dennis Area-Bukid</option>
+      <option value="admin">Admin</option>
+    </select><br>
+
+    <label for="note">Add Reminder</label>
+    <input type="text" id="note" placeholder="Say Something" autocomplete="off"><br>
+
+     
+    <button id="save-edit-merchant">Save</button>
+    <button id="cancel-edit-merchant">Close</button>
+
+
+     <input type="text" id="edit-merchant-email" hidden>
+    <input type="text" id="mer-general-total" hidden><br>
+    <input type="text" id="edit-new-pay" readonly hidden>
+    <input type="text" id="edit-new-remain" autocomplete="off" hidden>
+    <input type="text" id="edit-merChantId" hidden><br>
+    <input type="text" id="edit-num-paymentst" hidden>
+
+    <!-- =================== NEW SECTION BELOW =================== -->
+<div id="bills-section">
+  <h4>📅 Unpaid Bills for <span id="currentYearLabel"></span></h4>
+  <table>
+    <thead>
+      <tr>
+        <th>Month</th>
+        <th>Amount</th>
+        <th>Due Date</th>
+        <th>Note</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="bills-list"></tbody>
+  </table>
+</div>
+
+
+<script>
+  document.getElementById("currentYearLabel").textContent = new Date().getFullYear();
+</script>
+
+  <!-- =================== END NEW SECTION =================== -->
+
+    <!-- =================== add bill section=================== -->
+
+<div id="add-bill-section">
+  <h4>➕ Add New Bill for <span id="addBillYear"></span></h4>
+
+  <label for="add-bill-month">Month:</label>
+  <select id="add-bill-month"></select><br>
+
+  <label for="add-bill-note">Note/Remarks:</label>
+  <input type="text" id="add-bill-note" placeholder="Optional" /><br>
+
+  <button id="save-new-bill">💾 Add Bill</button>
+</div>
+
+
+
+
+
+
+    <!-- =================== END NEW SECTION =================== -->
+ <button id="cancel-edit-merchant2">Close</button>
+   
+  </div>
+</div>
+
+
+
+
+ <!-- //////////////////////////// MERCHANT FORM EDIT TESTTING ///////////////////// -->
+
+
+
+ <!-- Hidden by default -->
+<!-- <div id="editMerchantFormtTest" style="display:none;">
+  <h3>Edit Merchant</h3>
+  <form id="merchantEditForm">
+    <input type="hidden" id="edit-merChantId">
+    <label>Name</label>
+    <input type="text" id="edit-merchant-name"><br>
+    <label>Contact #</label>
+    <input type="text" id="contactNum2"><br>
+    <label>Note</label>
+    <input type="text" id="note"><br>
+    <label>Status</label>
+    <input type="text" id="status"><br>
+    <label>Plan Amount</label>
+    <input type="number" id="planAmount"><br>
+    <label>Address</label>
+    <input type="text" id="client-address1"><br>
+    <label>Area Code</label>
+    <input type="text" id="areaCodeX"><br>
+
+    <button type="submit">Save Changes</button>
+    <button type="button" onclick="closeEditForm()">Cancel</button>
+  </form>
+</div> -->
 
 
 
@@ -592,90 +765,6 @@ margin-top: 1px;
 
 
 
-
-
-
-
-             <div id="edit-merchant-form" class="modal hidden">
-                <div class="modal-content" id="editmerchant">
-                  <div id="edit-title-top">  Edit Client Details and Status </div>
-                   
-                    <label for="edit-client-name" class="whatsNickname" >Edit Name</label>
-                  <b>  <input type="text" id="edit-merchant-name" > </b><br>
-                  
-                    <label for="status" >Disconnect / Reconnect</label>
-                   <select id="status" required><br>
-                 <option value="new">Active</option>
-                <option value="disconnected">Disconnected</option>
-                 </select>
-
-                    <label for="contactNum2" >Edit Number</label>
-                    <input type="number" id="contactNum2" placeholder="Add client number" autocomplete="off" ><br>
-
-                     <label for="planAmount" >Edit Plan Amount</label>
-                    <input type="number" id="planAmount"  autocomplete="off" ><br>
-
-
-                   
-                  
-
-                  <label for="client-address1">Edit Address:</label>
-                <select id="client-address1" autocomplete="off"  required><br>
-                <option value="">Select Address</option>
-                 <option value="Asuncion">Asuncion</option>
-                 <option value="Amparo">Amparo</option>
-                  <option value="Acasia">Acasia</option>
-                  <option value="Bato-1">Bato-1</option>
-                 <option value="Bato-2">Bato-2</option>
-                  <option value="Baugo">Baugo</option>
-                  <option value="Combado">Combado</option>
-                   <option value="Cambooc">Cambooc</option>
-                    <option value="Cansirong">Cansirong</option>
-                     <option value="Hanginan">Hanginan</option>
-                 <option value="Isagani">Isagani</option>
-                  <option value="Ichon">Ichon</option>
-                 <option value="Macrohon">Macrohon-Proper</option>
-                 <option value="Lib-og">Lib-og</option>
-                 <option value="Nati">Nati</option>
-                 <option value="Lunas">Lunas</option>
-                 <option value="Rizal-Maasin">Rizal-Maasin</option>
-                 <option value="Hantag">Hantag</option>
-                  
-                 </select> <br>
-
-
-                 <label for="areaCodeX">Edit Area Code:</label>
-                <select id="areaCodeX" ><br>
-                 <option value="rasty">Rasty Area</option>
-                <option value="armox">Armox Area-Macrohon</option>
-                <option value="dennis">Dennis Area-Bukid</option>
-                <option value="admin">Admin</option>
-                </select> <br>
-
-
-
-
-                     <label for="note" >Add Reminder</label>
-                    <input type="text" id="note" placeholder="Say Something" autocomplete="off" ><br>
-                           <input type="text" id="edit-merchant-email" hidden>
-                         <input type="text" id="mer-general-total"   hidden><br>
-                    <input type="text" id="edit-new-pay"   readonly hidden >
-                
-                    <input type="text" id="edit-new-remain" autocomplete="off" hidden>
-                
-                           <input type="text" id="edit-new-borrowed"  hidden >
-
-
-
-                    <button id="save-edit-merchant">Save</button>
-                    <button id="cancel-edit-merchant">Close</button>
-                    <input type="text" id="edit-id-m"  hidden><br> 
-                    <input type="text" id="edit-merChantId" hidden><br>
-                    <input type="text" id="edit-num-paymentst" hidden><br>  
-
-                </div>
-            </div> 
-            
 
 
 
@@ -849,4 +938,3 @@ margin-top: 1px;
 
 </body>
 </html>
-
