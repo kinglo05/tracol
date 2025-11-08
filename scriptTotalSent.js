@@ -136,7 +136,7 @@ function buildRow(paymentId, p) {
   assignTd.appendChild(assignBtn);
 
   const amountTd = col(p.amount);
-  const refTd = col(p.refNumber);
+  const toAddTd = col(p.toAdd);
   const timeTd = col(p.time);
   const merchantTd = col(p.merchantP);
   const dateTd = col(p.date);
@@ -175,7 +175,7 @@ function buildRow(paymentId, p) {
   editTd.appendChild(editBtn);
 
   [
-    idxTd, assignTd, amountTd, refTd, timeTd, merchantTd, dateTd, noteTd,
+    idxTd, assignTd, amountTd, toAddTd, timeTd, merchantTd, dateTd, noteTd,
     typeTd, userTd, textTd, saveTd, deviceTd, statusTd, senderTd, tradeTd, editTd
   ].forEach(td => tr.appendChild(td));
 
@@ -272,7 +272,7 @@ function attachPaymentsStream(startISO, endISO) {
     if (p.status === "new") {
       upsertPaymentRow(id, {
         amount: p.amount ?? "",
-        refNumber: p.refNumber ?? "",
+        toAdd: p.toAdd ?? "",
         time: p.time ?? "",
         merchantP: p.merchantP ?? "",
         date: p.date ?? "",
@@ -300,7 +300,7 @@ function attachPaymentsStream(startISO, endISO) {
     }
     upsertPaymentRow(id, {
       amount: p.amount ?? "",
-      refNumber: p.refNumber ?? "",
+      toAdd: p.toAdd ?? "",
       time: p.time ?? "",
       merchantP: p.merchantP ?? "",
       date: p.date ?? "",
@@ -362,7 +362,7 @@ if (searchInput) {
         const hay =
           (String(data.amount) + " " +
            String(data.sender) + " " +
-           String(data.refNumber) + " " +
+           String(data.toAdd) + " " +
            String(data.time) + " " +
            String(data.date) + " " +
            String(data.paymentType) + " " +
@@ -445,7 +445,7 @@ function openAssignModal(paymentId, data) {
   if (!modalAssign) return;
   assignPayIdInput.value = paymentId;
   assignAmountInput.value = data.amount ?? "";
-  assignRefInput.value = data.refNumber ?? "";
+  assignRefInput.value = data.toAdd ?? "";
   assignTimeInput.value = data.time ?? "";
   assignNoteInput.value = data.note ?? "";
   assignNickInput.value = data.merchantP ?? "";
@@ -479,7 +479,7 @@ if (btnSaveAssign) {
       const id = assignPayIdInput.value;
       const payload = {
         amount: parseFloat(assignAmountInput.value || "0"),
-        refNumber: assignRefInput.value || "",
+        toAdd: assignRefInput.value || "",
         note: assignNoteInput.value || "",
         merchantP: assignNickInput.value || ""
       };
