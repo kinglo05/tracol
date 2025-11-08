@@ -221,7 +221,7 @@ function savePayment2(refNumber, amount) {  // Correctly placed *inside* the cal
   
 
   const newPayment = {
-      amount: amount, // Use the validated amount
+      toAdd: amount, // Use the validated amount
       refNumber: refNumber, // Use the validated refNumber
       paymentType: paymentType.value,
       time:formattedTime,
