@@ -623,6 +623,36 @@ button:hover {
 }
 
 
+  /* styles.css */.clear-icon {
+    background-color:#007bff; 
+    color: white;
+    border: none;
+    padding: 1%;
+    margin-top: 5px;
+    margin-left: 5px;
+   
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 10px;
+    font-family: sans-serif;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+    width: 60px;
+    height: 33px;
+  
+   
+  }.clear-icon:hover {
+    background-color: #0069d9; 
+    transform: translateY(-1px);
+   
+  }.clear-icon:active {
+    background-color: #0062cc;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    transform: translateY(1px);
+  
+  }
+
+
 
 
 
@@ -1401,6 +1431,7 @@ input[type="text"],
 .visible-table {
   display: block;
 } 
+
 
 
 
