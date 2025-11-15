@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GCASHPAY</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="newpaymenttable.css">
+   
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+   
+    <style>
+       
+
+
+  /* Full screen overlay */
+  .modal-overlay {
+    display: none; /* hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6); /* semi-transparent background */
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Modal box */
+  .modal-content {
+    background: white;
+    padding: 1px;
+    width: 90%;
+    max-width: 800px;
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    animation: fadeIn 0.3s ease;
+  }
+
+
+
+
+
+
+  /* Close button */
+  .close-btn {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  /* Optional fade in */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#toggleBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  font-size: 18px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  cursor: pointer;
+  padding: 5px;
+  line-height: 1.1;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#toggleBtn:hover {
+  background-color: #0056b3;
+  transform: scale(1.1);
+}
+
+@media (max-width: 480px) {
+  #toggleBtn {
+    width: 60px;
+    height: 60px;
+    font-size: 16px;
+  }
+}
+
+
+
+
+
+
+       .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        /* Modal content */
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 100%;
+            height: 100%;
+            max-width: 600px;
+            position: relative;
+        }
+
+         /* Modal content */
+        .modal-conten2t {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 100%;
+            height: 100%;
+            max-width: 600px;
+            position: relative;
+        }
+
+
+        /* Close button */
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 40px;
+            cursor: pointer;
+        }
+
+      
+
+
+
+
+
+
+
+
+
+       #newPayments-title {
+                   
+                   
+                   background-color:#2e2929;
+                   color: white;
+                   display: flex;
+                   align-items: center;
+                   padding-left: 8px;
+                   border-color: #b4a5a5;
+                 
+                 
+                   height: 50px;      
+               }
+
+        #newPayments-title2 {
+                   
+                   
+                   background-color:#222;
+                   color: white;
+                   display: flex;
+                   align-items: center;
+                   padding-left: 8px;
+                   border-color: #8a8484;
+                   height: 50px; 
+                   font-size: xx-small;     
+               }
+
+
+        .menu-bar {
+            width: 100%;
+            height: 50px;
+            background-color: #3a3939;
+            color: white;
+            display: flex;
+            align-items: center;
+           
+          border-radius: 10px;
+           
+        }
+
+        .menu-bar button {
+            background-color: #158a80;
+            color: white;
+            border-color: rgb(206, 199, 199);
+            padding: 10px 15px;
+            cursor: pointer;
+            margin-left: 10px;
+            height: 35px;
+            font-size: smaller;
+           
+        }
+
+        .menu-bar button:hover {
+            background-color: #b80710;
+        }
+       
+
+
+        .menu-items {
+    display: flex;
+    gap: 15px; /* Space between menu items */
+  }
+
+/*   .date-today {
+
+    margin-right: 10px;
+  }
+
+  .date-today input {
+    padding: 5px;
+  } */
+
+
+
+
+
+
+
+#usernameHolder {
+ 
+ margin-left: 2px;
+ height: 5px;
+ margin-top: 1px;
+  
+  
+}
+
+
+
+
+        .main-content {
+            height: 100vh; /* Full height */
+            min-height: 600px;  
+            margin-left: 8px;
+            margin-top: 0px;
+            transition: margin-left 0.3s;
+            width: 100%;
+            background-color: rgb(180, 172, 172);
+          /*  border-top: 100px;   */
+          
+        }
+        
+    </style>
+
+
+</head>
+<body>
+
+  
+
+    <div class="sidebar" id="sidebar" >
+           <div class="sidebar-logo">
+            <img src="logo.png" alt="Tracollect Logo">
+        </div>
+        <div class="sidebar-body" id="sidebar-body">
+           <ul>
+            <li><a href="home.html">ADD NEW PAYMENT</a></li>
+            <li><a href="newpayments.html">NEW-PAYMENTS</a></li>
+            <li><a href="claimed.html">CLAIMED-PAYMENTS</a></li>
+            <li><a href="merchant.html">MERCHANTS</a></li>
+            <li><a href="utilities.html">UTILITIES</a></li>
+            </ul>
+
+       </div>
+       <div hidden>    <input type="date" name="date-today" id="date-today">     </div>
+        <div class="logout-container">
+            <button id="logoutButton">Logout</button>
+        </div>
+    </div>
+
+    <div class="main-content" id="mainContent">
+
+          <button id="toggleBtn" onclick="toggleTableModal1(this)">📊<br><small>Show Total</small></button>
+
+
+        <div class="menu-bar">
+                 <button id="menubutton" onclick="toggleSidebar()"> &#9776; Menu</button>
+                 <div id="usernameHolder">  <h5 id="usernameDisplay" style="color: whitesmoke; margin-top: 1px; margin-bottom: 1px; margin-left: 10px;">Loading...</h5>  </div>
+               </div>
+
+    
+               <div>
+                <h3 style="color: rgb(247, 247, 252); margin-top: 5px; margin-bottom: 5px; margin-left: 10px;">
+                 NEW GCASH REALTIME </h3>
+                 <a href="addUnrecord.html"> <h4 style="color: rgb(158, 6, 148); margin-top: 5px; margin-bottom: 5px; margin-left: 13px;">
+                 ADD PAYMENT-MAIN </h4></a>
+                
+
+
+                                <!--   ////////////////// for date only /////////////// -->
+
+                                               <div>                
+                                           
+                                            <input  type="date" id="startDate2" hidden>
+                                            
+                                            <input  type="date" id="endDate2" hidden>
+                                                                                    
+                                          </div>
+
+
+
+
+
+
+
+
+
+                                        
+                                        <div id="newPayments-title2">                               
+                                            <label for="startDate" style="margin-right: 1px; width: 8%;">Start Date:</label>
+                                            <input  type="date" id="startDate">
+                                            <label for="endDate"style="margin-left: 10px; width: 8%;">End Date:</label>
+                                            <input  type="date" id="endDate">
+                                            <button id="filter" onclick="filterPayments()">Filter</button>                                               
+                                            </div>
+                             
+                                                       
+                                                         <div id="newPayments-title">
+                                                             <h5 style="color: rgb(236, 228, 228); margin-top: 5px; margin-bottom: 5px; margin-left: 1px;">
+                                                             Search here </h5>
+                                                             <input type="text" id="payment-search" placeholder="Search new payments" autocomplete="off"> 
+                                                             </div>
+                                                         
+
+                      <!-- Modal Overlay -->
+                      <div id="tableModal1" class="modal-overlay">
+                        <div class="modal-content2">
+                          <button id="closeModalBtn" class="close-btn">&times;</button>
+                          <iframe id="totalSentIframe" src="" width="100%" height="100%" style="border: none;"></iframe>
+                        </div>
+                      </div>
+
+
+
+
+
+            <div id="edit-payment-form" class="modal hidden" >
+                <div class="modal-content" id="editnewpayment" autocomplete="off">
+                 
+                    <h3>Edit Payment NEW</h3> 
+                    <label for="edit-amount">Amount:</label>
+                    <input type="number" id="edit-amount"><br>
+                 //   <label for="edit-ref-number">Reference Number:</label>
+                  //  <input type="number" id="edit-ref-number" placeholder="Input 4 digit" pattern="\d{4}" required>
+                  <!--   <label  for="edit-payment-type">Payment Type:</label> -->
+                   <!--  <select id="edit-payment-type"></br>
+                        <option value="gcash">GCASH</option>
+                        <option value="cashin">CASHIN</option>
+                        <option value="bank">BANK</option>
+                    </select> <br>
+                    <label for="edit-time">Time:</label>
+                    <input type="time" id="edit-time"><br>
+                    <label for="edit-date">Date:</label>
+                    <input type="date" id="edit-date"><br>
+                    <label for="edit-user">User:</label>
+                    <input type="text" id="edit-user" readonly ><br>              -->       
+                   
+                    <ul id="suggestionsList"></ul>
+                    <label for="edit-status">Status:</label>
+                    <input type="text" id="edit-status"  readonly ><br>
+
+                    <button id="save-edit">Save</button>
+                    <button id="cancel-edit">Close</button>
+
+                    <input type="text" id="edit-merchant" placeholder="Enter merchant name" hidden><br>
+                    <input type="text" id="edit-idPay"  hidden><br>
+                    <input type="text" id="edit-fireKey"  hidden><br>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+                      <div id="edit-payment-formAssign" class="modal hidden">
+                       <div class="modal-content" id="editnewpaymentAssign">
+                 
+                <div id="divassignTitle"  class="divassignTitle">     <h3>Assign Trader</h3>  </div>
+
+                <div id="divrefAssign" class="divrefAssign"> Reference :<input type="number" id="edit-ref-numberAssign" placeholder="Input 4 digit" pattern="\d{4}"  > </div>
+              
+                            <div id="divAmount" class="divAmount"> Amount :  <input type="number" id="edit-amountAssign" placeholder="Enter AMOUNT"></div>
+                            <div id="divAmount" class="divAmount"> Time :  <input type="text" id="timeEdit" ></div>
+
+                             <div id="divAmount" class="divAmount"> Add Note! :  <input type="text" id="note"  >
+                             Change Date :  <input type="date" id="dateEdit"  >
+                            </div>
+                     <div id="divNickName" class="divNickName" >  <label for="edit-merchantAssign">WHATSAPP Nickname</label>   </div>  
+                     <div id="divMerchantName" class="divMerchantName"> <input type="text" id="edit-merchantAssign" placeholder="Enter merchant name" autocomplete="off" ><br> </div>
+                             <ul id="suggestionsListAssign"></ul>
+                            
+                    
+                             <input type="text" id="edit-idPayAssign"   readonly><br> 
+                             <button id="save-editAssign">Save</button>
+                             <button id="cancel-editAssign">Close</button>
+                             <input type="text" id="edit-fireKeyAssign"  readonly><br>
+                             
+                       </div>
+                </div>
+
+
+        <!--    //////////////////       for total only ///////////////// -->
+                 
+                   
+
+                  <div class="table-container2 hidden-table">
+                 <h5>   MAIN ACCOUNT TOTAL RECEIEVED TODAY </h5>
+                   <table id="payments-table2">
+                     <ul id="itemList"></ul>
+                     <thead>
+                    <tr>
+                        <th>No.</th> 
+                        <th>Assign</th>
+                        <th>Amount</th>
+                        <th>Ref#</th>
+                        <th>Time</th>
+                        <th>Merchant</th>
+                        <th>Date</th>
+                        <th>Add_Note</th>
+                        <th>Type</th>
+                        <th>User</th>
+                        <th>Text</th>
+                        <th>Save</th>
+                        <th>Device</th>
+                        <th>Status</th>
+                        <th>Sender</th>
+                       
+                      </tr>
+                     </thead>
+                     <tbody>
+                     </tbody>
+                    <tfoot>     
+                    <td colspan="2" id="table-totalW2" style="text-align: right;"><b>Total :</b></td>
+                    <td id="table-total2">0.00</td>
+                     </tr>
+                     </tfoot>
+                     </table>
+                     </div>
+                   
+
+              <!--    //////////////////       for total only ends here ///////////////// -->         
+
+
+
+
+
+
+
+
+
+
+              <div class="table-container">
+                   <table id="payments-table">
+                     <ul id="itemList"></ul>
+                     <thead>
+                    <tr>
+                        <th>No.</th> 
+                        <th>Assign</th>
+                        <th>Amount</th>
+                        <th>Ref#</th>
+                        <th>Time</th>
+                        <th>Merchant</th>
+                        <th>Date</th>
+                        <th>Add_Note</th>
+                        <th>Type</th>
+                        <th>User</th>
+                        <th>Text</th>
+                        <th>Save</th>
+                        <th>Device</th>
+                        <th>Status</th>
+                        <th>Sender</th>
+                       <th> Trade <input type="checkbox" id="payment-sana-all" hidden> </th> 
+                        <th>Edit</th>
+                        
+                      </tr>
+                     </thead>
+                     <tbody>
+                     </tbody>
+                    <tfoot>     
+                    <td colspan="2" id="table-totalW" style="text-align: right;"><b>Total :</b></td>
+                    <td id="table-total">0.00</td>
+                     </tr>
+                     </tfoot>
+                     </table>
+
+                      </div>   
+
+
+
+
+
+
+
+
+
+
+                      <div id="data1" >
+                       <!--  <label for="total-today">Today :</label> -->
+                        <input type="text" id="total-today" readonly> 
+                           <label for="total-resibo">No.:</label>
+                          <input type="text" id="total-resibo" readonly>
+
+           
+
+                      <div id="data">
+                        <input type="text" id="eight"> |
+                       <!--   <input type="text" id="eightFive"> | -->
+                          <input type="text" id="total-claimed" readonly>|
+                            <input type="text" id="total-resiboClaimed" readonly>|
+                            <input type="text" id="eightC"> |
+                               </div>
+
+                      
+                               <button id="checkboxClaimed" type="submit" hidden></button>  
+                            </div>
+
+
+         
+
+
+
+     
+     </div>
+
+
+
+
+
+
+
+
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            var mainContent = document.getElementById("mainContent");
+            if (sidebar.style.left === "-250px" || sidebar.style.left === "") {
+                sidebar.style.left = "0";
+                mainContent.style.marginLeft = "250px";
+            } else {
+                sidebar.style.left = "-250px";
+                mainContent.style.marginLeft = "0";
+            }
+        }
+    </script>
+
+<script>
+    setInterval(() => {
+      const input = document.getElementById("edit-ref-numberAssign");
+      input.style.borderColor = input.style.borderColor === "red" ? "transparent" : "red";
+    }, 200);
+  </script>
+
+
+
+
+    <script src="scriptnewpaytable.js"></script>
+
+
+</body>
+</html>
