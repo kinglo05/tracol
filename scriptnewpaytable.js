@@ -332,6 +332,15 @@ function attachPaymentsStream(startISO, endISO) {
   });
 }
 
+
+
+document.getElementById("clear-payment-search").addEventListener("click", function () {
+  const input = document.getElementById("payment-search");
+  input.value = "";
+  input.dispatchEvent(new Event("input")); // triggers your search function if you use input listener
+});
+
+
 /**********************
  * Filter button (date range)
  **********************/
@@ -624,3 +633,4 @@ window.addEventListener("click", function (e) {
     document.getElementById("totalSentIframe").src = "";
   }
 });
+
