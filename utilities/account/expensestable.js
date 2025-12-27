@@ -124,6 +124,10 @@ const now = new Date();
 const currentMonth = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}`; // Example: "2025-03"
 
 
+
+
+
+
 // Get all the <li> elements
 const navItems = document.querySelectorAll('ul li');
 
@@ -195,7 +199,8 @@ database.ref('accounts').on('value', (snapshot) => {
         note : payment.note,   
         status: payment.status,
         pincode: payment.pincode,
-        cpInserted: payment.cpInserted,  
+        cpInserted: payment.cpInserted,
+         editeddate: payment.editeddate,  
 
 
       };
@@ -251,7 +256,17 @@ data.forEach((payment, rowIndex) => {
   const noteCell = row.insertCell();
   noteCell.textContent = payment.note;
 
- 
+
+  const editeddateCell = row.insertCell();
+  editeddateCell.textContent = payment.editeddate;
+
+
+
+
+
+  
+
+    
    //////////////////////////// ALL ABOUT CHECKBOX SELECTION STARTS HERE  /////////////////////////// 
   
   // Add Checkbox cell
@@ -296,13 +311,17 @@ editCell.addEventListener('click', (event) => {
   const button = event.target;
   
   const firebaseKey = button.dataset.rowIndex;
+  const editeddate2 = dateInput22;
   const rowData = tableData.find(data => data.firebaseKey === firebaseKey);
   
 
   document.getElementById('edit-idPay').value = rowData.firebaseKey;
   document.getElementById('account-type1').value = rowData.accounttype;
   document.getElementById('accountName1').value = rowData.accountName;
- 
+   
+
+    
+    
     document.getElementById('accountnumberAA').value = rowData.accountnumber;
    
     document.getElementById('phoneInserted').value = rowData.cpInserted;
@@ -310,10 +329,27 @@ editCell.addEventListener('click', (event) => {
     document.getElementById('pincode2').value = rowData.pincode;
     document.getElementById('status1').value = rowData.status;
     document.getElementById('note').value = rowData.note;
+    document.getElementById('editeddate').value = formattedDate2; 
     // document.getElementById('edit-merchant').value = rowData.merchantP; // Populate merchant 
+ 
+  
 
+   // console.log("NGALAN diri sa edit:" ,AB);
+   console.log("mao ni date" + editeddate2);
+
+    /* console.log("mao ni name" , AB) */;
+    
+   
 
     editPaymentForm.style.display = 'block';
+
+    // Show the modal display only to collect data in input fields next to save BTN /////
+  
+/////////////////////////////  // Event listener for Edit button aSSIGNMENT  //////////////////////////////
+
+
+
+
 
    const saveEditBtn = document.getElementById('save-edit');
    saveEditBtn.addEventListener('click', () => {
@@ -331,6 +367,8 @@ editCell.addEventListener('click', (event) => {
                   pincode: document.getElementById('pincode2').value,
                   status: document.getElementById('status1').value,
                   note: document.getElementById('note').value,
+                    editeddate: document.getElementById('editeddate').value,
+                  // editeddate: dateInput22,
 
 
                    
@@ -352,7 +390,7 @@ editCell.addEventListener('click', (event) => {
                    
                    editPaymentForm.style.display = 'none'; 
    
-   
+   console.log("mao ni date" + dateInput22);
    
                         // window.location.reload();
                         
@@ -364,9 +402,20 @@ editCell.addEventListener('click', (event) => {
                      });
                   window.location.reload();
              }
+
+                 // Handle the case where the merchant key was not found.
+              
+                
+         
+         //alert("Payment details updated successfully!");
    );
 
+
+
 });
+
+
+
 
 
 assignCell2.addEventListener('click', (event) => {
@@ -615,6 +664,10 @@ document.getElementById('eightFive').value = eightPoint;
         window.location.href = "addaccount.html";
       });
 
+
+
+
+     
 
 
       function copyText() {
