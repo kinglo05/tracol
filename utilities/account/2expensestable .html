@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Accounts-Table</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="expensestable.css">
+   
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+   
+    <style>
+       
+
+
+
+#newPayments-title {
+           
+           
+            background-color:#222;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding-left: 8px;
+            border-color: #8a8484;
+            height: 50px;      
+        }
+
+
+        .menu-bar {
+            width: 100%;
+            height: 50px;
+            background-color: #3a3939;
+            color: white;
+            display: flex;
+            align-items: center;
+           
+          border-radius: 10px;
+           
+        }
+
+        .menu-bar button {
+            background-color: #158a80;
+            color: white;
+            border-color: rgb(206, 199, 199);
+            padding: 10px 15px;
+            cursor: pointer;
+            margin-left: 10px;
+            height: 35px;
+            font-size: smaller;
+           
+        }
+
+        .menu-bar button:hover {
+            background-color: #b80710;
+        }
+       
+
+
+        .menu-items {
+    display: flex;
+    gap: 15px; /* Space between menu items */
+  }
+
+  .date-today {
+    margin-left: auto; /* Pushes it to the right */
+    margin-right: 10px;
+  }
+
+  .date-today input {
+    padding: 5px;
+  }
+
+
+
+
+  #date-today {
+  margin-top: 0px;
+ float: right;
+  background-color: #d3d8d7; /* Light gray */
+  width: 10%; /* Table takes full width of its container */
+  border-radius: 8px; /* Adjust the radius value for desired curvature */
+  min-width: 80px;
+  height: 5px;
+}
+
+
+#usernameHolder {
+ 
+ margin-left: 2px;
+ height: 5px;
+ margin-top: 1px;
+  
+  
+}
+
+
+
+
+        .main-content {
+            height: 100vh; /* Full height */
+            min-height: 600px;  
+            margin-left: 1px;
+            margin-top: 0px;
+            transition: margin-left 0.3s;
+            width: 100%;
+            background-color: rgb(180, 172, 172);
+          /*  border-top: 100px;   */
+          
+        }
+        
+    </style>
+
+
+</head>
+<body>
+
+  
+
+    <div class="sidebar" id="sidebar" >
+           <div class="sidebar-logo">
+        </div>
+        <div class="sidebar-body" id="sidebar-body">
+           <ul>
+            <li><a href="../../utilities.html">Back TO UTILITIES</a></li>
+            <li><a href="../../newpayments.html">NEW-PAYMENTS</a></li>
+            <li><a href="../../claimed.html">CLAIMED-PAYMENTS</a></li>
+            <li><a href="../../merchant.html">MERCHANTS</a></li>
+            <li><a href="../../home.html">ADD NEW-PAYMENTS</a></li>
+            </ul>
+
+       </div>
+       <div hidden>    <input type="date" name="date-today" id="date-today">     </div>
+        <div class="logout-container">
+            <button id="logoutButton">Logout</button>
+        </div>
+    </div>
+
+    <div class="main-content" id="mainContent">
+        <div class="menu-bar">
+                 <button id="menubutton" onclick="toggleSidebar()"> &#9776; Menu</button>
+                 <div id="usernameHolder">  <h5 id="usernameDisplay" style="color: whitesmoke; margin-top: 1px; margin-bottom: 1px; margin-left: 10px;">Loading...</h5>  </div>
+               </div>
+
+
+              
+    
+                                <div>
+                                    
+
+                                       <h3 style="color: rgb(46, 49, 240); margin-top: 5px; margin-bottom: 5px; margin-left: 10px;">
+                                        Accounts to Use </h3> <input type="text" id="monthInput" hidden readonly>
+
+                                        <button id="add-merchant-button">Add New Account</button>
+
+                                <div id="newPayments-title">
+             
+                                  <!--   <div>
+                                    <button id="add-merchant-button">Add Merchant</button>
+                                   </div> -->
+
+
+
+
+                
+                             <h5 style="color: rgb(7, 199, 247); margin-top: 5px; margin-bottom: 5px; margin-left: 1px;">
+                                    Search active </h5>
+                
+                               <input type="text" id="payment-search" placeholder="Search active account" autocomplete="off"> 
+                              </div>
+
+
+
+
+
+
+
+            <div id="edit-payment-formE" class="modal hidden" >
+                <div class="modal-content" id="editnewpaymentE" autocomplete="off">
+                 
+                    <h3>Edit Account </h3> 
+                
+                    <input type="text" id="account-type1" placeholder="Type name" autocomplete="off" >
+
+                  
+    
+                    <label for="accountName1">Account Name:</label>
+                    <input type="text" id="accountName1" placeholder="Type name" autocomplete="off" >
+                   
+                    <label for="accountnumberAA">Account Number</label>
+                    <input type="number" id="accountnumberAA" placeholder="input number" autocomplete="off" >
+
+
+                    
+                    <label for="pincode2">Pincode:</label>
+                    <input type="number" id="pincode2" placeholder="Pin code" autocomplete="off" >
+
+                    <label for="phoneInserted">Cellphone Inserted</label>
+                    <input type="text" id="phoneInserted" placeholder="where this account Inserted" autocomplete="off" >
+
+                  
+                   
+                    <label for="status1">Change Account Status:</label>
+                    <select id="status1" autocomplete="off"><br>
+                     <option value="active">active</option>
+                     <option value="inactive">inactive</option>
+                    <!-- <option value="hold">On Hold</option> -->
+                    </select> 
+
+
+
+
+
+
+
+                    <label for="note">Reminder about the account:</label>
+                    <input type="text" id="note" placeholder="Add note here" autocomplete="off" ><br>
+
+                     <label for="editeddate">Date Edited</label>
+                    <input type="date" id="editeddate" ><br>
+    
+
+
+
+
+
+                    <input type="text" id="edit-idPay"  hidden><br>
+                    <input type="text" id="edit-fireKey" hidden><br>
+
+
+                    
+                  
+                   
+
+                    <button id="save-edit">Save</button>
+                    <button id="cancel-edit">Close</button>
+
+                  
+                   
+                   
+                </div>
+            </div>
+
+
+
+
+
+               <div class="table-container"> 
+                   <table id="payments-table">
+                     <ul id="itemList"></ul>
+                     <thead>
+                    <tr>
+                        <th>No.</th> 
+                        <th>Copy Details</th>
+                        <th>Type</th>
+                        <th>Name</th>
+                        <th>Number</th>
+                        <th>PinCode</th>
+                        <th>Status</th>
+                        <th>Phone</th>
+                        <th>Note</th>
+                        <th>editedDate</th>
+
+                       <th> Transfer <input type="checkbox" id="payment-sana-all" hidden> </th> 
+                        <th>Edit</th>
+                       
+                        
+                      </tr>
+                     </thead>
+                     <tbody>
+                     </tbody>
+                    <tfoot>     
+              <!--      <td colspan="0" style="text-align: right;"><b>Total :</b></td>  -->
+                    <td id="table-total">0.00</td>
+                     </tr>
+                     </tfoot>
+                     </table>
+                      </div>   
+
+
+                      <div id="data1" hidden>
+                       <!--  <label for="total-today">Today :</label> -->
+                        <input type="text" id="total-today" readonly> 
+                        <!--    <label for="total-resibo">No. of Reciept :</label> -->
+                          <input type="text" id="total-resibo" readonly>
+                              </div>
+
+          
+                               <button id="checkboxClaimed" type="submit" hidden></button>  
+                            </div>
+
+
+
+            <div id="edit-payment-formAssign" class="modal hidden">
+                <div class="modal-content" id="editnewpaymentAssign">
+          
+         <div id="divassignTitle"  class="divassignTitle">     <h3>Copy Account Details</h3>  </div>
+
+         <div id="divrefAssign" class="divrefAssign" hidden>     Reference :   <input type="number" id="edit-ref-numberAssign" placeholder="Input 4 digit" pattern="\d{4}"  readonly > </div>
+       
+
+
+                     <div id="divAmount" class="divAmount">  
+
+                   
+                        
+                    <p> <span id="accountTypeE">0</span><br>
+                     <span id="accountNameE">0</span><br>
+                    <span id="accountNumberE">0</span></p>
+                        
+          
+                    </div>
+              
+
+                      <div id="divMerchantName" class="divMerchantName" > 
+                      <button id="save-editAssign" onclick="copyText()">Copy</button>
+
+
+
+                      <button id="cancel-editAssign">Close</button>
+
+                    </div>
+
+
+                      <input type="text" id="edit-fireKeyAssign" hidden readonly><br>
+                      
+                </div>
+         </div>
+
+
+          <!-- //////////////////// for the lower table Paid///////////////////////////// -->
+
+
+         <iframe id="expensesIframe" src="inactive/expensestable.html" frameborder="0"></iframe> 
+
+
+     </div>
+
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            var mainContent = document.getElementById("mainContent");
+            if (sidebar.style.left === "-250px" || sidebar.style.left === "") {
+                sidebar.style.left = "0";
+                mainContent.style.marginLeft = "250px";
+            } else {
+                sidebar.style.left = "-250px";
+                mainContent.style.marginLeft = "0";
+            }
+        }
+    </script>
+    <script src="expensestable.js"></script>
+</body>
+</html>
