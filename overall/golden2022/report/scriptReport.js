@@ -69,7 +69,20 @@ firebase.auth().onAuthStateChanged((user) => {
 
 function loadUnpaidBillsWithFilters() {
   firebase.database().ref("goldenwifi/monthly-bills").once("value").then(snapshot => {
+
+  const startDate = new Date(document.getElementById("startDate").value);
+    const endDate = new Date(document.getElementById("endDate").value);
+
+    // Convert to YYYY-MM
+    const startMonthKey = `${startDate.getFullYear()}-${String(startDate.getMonth() + 1).padStart(2, "0")}`;
+    const endMonthKey = `${endDate.getFullYear()}-${String(endDate.getMonth() + 1).padStart(2, "0")}`;
+
+
+
+
+
     let total = 0;
+    let count = 0;
 
     snapshot.forEach(childSnap => {
       const billData = childSnap.val();
@@ -78,42 +91,54 @@ function loadUnpaidBillsWithFilters() {
       Object.keys(billData.bills).forEach(monthKey => {
         const record = billData.bills[monthKey];
 
-        const billDate = new Date(record.date);
+       // const billDate = new Date(record.date);
+        const billDate = new Date(monthKey);
         const status = record.status;
         const actionTo = record.actionTo;
         const whoApproved = (record.whoApproved || "").trim();
         const amount = parseFloat(
-          (record.amount || "").toString().replace(/[^0-9.]/g, "")
+          (record.planAmount || "").toString().replace(/[^0-9.]/g, "")
         ) || 0;
 
         let passed = true;
 
-        if (!(billDate >= new Date(startDate) && billDate <= new Date(endDate))) {
-          console.log(`❌ Skipped [${monthKey}] - Date out of range: ${record.date}`);
+
+
+        // if (!(billDate >= new Date(startDate) && billDate <= new Date(endDate))) {
+
+         if (!(monthKey >= startMonthKey && monthKey <= endMonthKey)) {
+
+          // if (monthKey >= startMonthKey && monthKey <= endMonthKey)
+
+        //  console.log(`❌ Skipped [${monthKey}] - Date out of range: ${record.date}`);
           passed = false;
         }
         if (status !== "Paid") {
-          console.log(`❌ Skipped [${monthKey}] - Status not 'Paid': ${status}`);
+        //  console.log(`❌ Skipped [${monthKey}] - Status not 'Paid': ${status}`);
           passed = false;
         }
         if (actionTo !== "approved") {
-          console.log(`❌ Skipped [${monthKey}] - actionTo not 'approved': ${actionTo}`);
+         // console.log(`❌ Skipped [${monthKey}] - actionTo not 'approved': ${actionTo}`);
           passed = false;
         }
         if (whoApproved !== "lohwa") {
-          console.log(`❌ Skipped [${monthKey}] - whoApproved mismatch: ${whoApproved}`);
+         // console.log(`❌ Skipped [${monthKey}] - whoApproved mismatch: ${whoApproved}`);
           passed = false;
         }
 
         if (passed) {
-          console.log(`✅ Included [${monthKey}] - Amount: ${amount}`);
+         // console.log(`✅ Included [${monthKey}] - Amount: ${amount}`);
+          
+          count++;
           total += amount;
         }
       });
     });
 
-    console.log("🔢 Final Total:", total);
-    document.getElementById("totalField").textContent = total.toFixed(2);
+     //  console.log("Final Total from JS:", count);
+   document.getElementById("countField").textContent = count;
+  document.getElementById("totalField").textContent = total.toFixed(2);
+// updateFinal();
   });
 }
 
