@@ -35,7 +35,7 @@
     <br>
     <input type="text" id="usernameDisplay" hidden>
     <!-- <button onclick="applyFilter()">Filter</button> -->
-    <button id="filter" onclick=" applyFilter(), filterPayments(), filterPayments22(),  lohwaBillsApproved(),  selectedDateCollections(), lohwaExpenses(), rastyExpenses(), adminExpenses(), lohwaAddCollect()" >3.Filter</button>
+    <button id="filter" onclick=" applyFilter(), filterPayments(), filterPayments22(),  lohwaBillsApproved(),  selectedDateCollections(), lohwaExpenses(), rastyExpenses(), adminExpenses(), lohwaAddCollect(), loadUnpaidBillsWithFilters()" >3.Filter</button>
     
     <button id="pdfBtn" onclick="saveReportAsPDF()">Save as PDF</button>
     </div>
@@ -48,15 +48,19 @@
     <p id="reportRange">Date range will be shown here</p>
 
     <div class="summary">
-        <p><strong>Selected date total collections:</strong> <span id="totalFieldSelected">0</span></p>
-         <p><strong>Total bills Approved: </strong> <span id="countFieldSelected">0</span></p>
-        <p><strong>Additional income:</strong> <span id="totalCollected" >0.00</span></p>
+        <p><strong>Selected date total collections:</strong> <span id="overAllCollection">0</span></p>
+        <p>Collector/Admin Collections: <span id="totalFieldSelected">0</span></p>
+         <p>Total bills Approved:  <span id="countFieldSelected1">0</span></p>
+        <p>Additional income: <span id="totalCollected" >0.00</span></p>
+        <p>Lohwa total collections:<span id="totalField">0</span></p>
         <p><strong>Total Expenses:</strong> <span id="totalExpens">0.00</span></p>
            <p><strong>NET Income:</strong> <span id="overAllTotal">0.00</span></p>
         
          <br>
-         <p>Lohwa total collections receieved:<span id="totalField">0</span></p>
+         
          <p>Total bills lohwa Approved:  <span id="countField">0</span></p>
+
+           <!-- <p>Total bills count from extended js:  <span id="totalFieldEx2">0</span></p> -->
            <p>Lohwa additional collections:<span id="lohwaAddCollect">0</span></p>
 
           <p>Lohwa Expenses:<span id="lohwaExpenses">0</span></p>
@@ -245,7 +249,7 @@ function selectedDateCollections() {
           billDate >= startDate &&
           billDate <= endDate &&
           actionTo === "approved" 
-         // whoApproved === "lohwa"
+         // && whoApproved === "lohwa"
         ) {
           total += amount;
           count++; // ✅ count this bill
@@ -253,11 +257,11 @@ function selectedDateCollections() {
       });
     });
 
-    console.log("🔢 Final Total:", total, "| Count:", count);
+    console.log("Final Total final", total, "| Count:", count);
 
     // Show results in the DOM
     document.getElementById("totalFieldSelected").textContent = total.toFixed(2);
-    document.getElementById("countFieldSelected").textContent = count; // ✅ needs an element in HTML
+    document.getElementById("countFieldSelected1").textContent = count; // ✅ needs an element in HTML
   });
 }
 
@@ -265,8 +269,27 @@ function selectedDateCollections() {
 
 
 
+function applyFilter() {
+        const startDate = document.getElementById("startDate").value;
+        const endDate = document.getElementById("endDate").value;
+        document.getElementById("reportRange").textContent = `From ${startDate} to ${endDate}`;
+
+    
+    filterPayments();
+     lohwaBillsApproved()
+    filterPayments22();
+  //  loadUnpaidBillsWithFilters();
+    selectedDateCollections();
+   // lohwaBillsApproved()
+    lohwaExpenses();
+    rastyExpenses();
+    adminExpenses();
+    lohwaAddCollect();
+    loadUnpaidBillsWithFilters();
+    updateFinal()
 
 
+    }
 
 
 
@@ -276,9 +299,20 @@ function selectedDateCollections() {
 
 function lohwaBillsApproved() {
   firebase.database().ref("goldenwifi/monthly-bills").once("value").then(snapshot => {
-    const startDate = new Date(document.getElementById("startDate").value);
-    const endDate = new Date(document.getElementById("endDate").value);
-    endDate.setHours(23, 59, 59, 999); // include full end day
+    // const startDate = new Date(document.getElementById("startDate").value);
+    // const endDate = new Date(document.getElementById("endDate").value);
+    // endDate.setHours(23, 59, 59, 999); // include full end day
+
+const startDate = new Date(document.getElementById("startDate").value);
+startDate.setDate(1);
+startDate.setHours(0, 0, 0, 0);
+
+const endDate = new Date(document.getElementById("endDate").value);
+endDate.setMonth(endDate.getMonth() + 1, 0); // last day of month
+endDate.setHours(23, 59, 59, 999);
+
+
+
 
     let total = 0;
     let count = 0; // ✅ new counter
@@ -297,6 +331,8 @@ function lohwaBillsApproved() {
         const rawAmount = record.planAmount || "0";
         const cleaned = rawAmount.toString().replace(/[^0-9.]/g, "");
         const amount = cleaned ? parseFloat(cleaned) : 0;
+         
+
 
         if (
           billDate >= startDate &&
@@ -307,17 +343,32 @@ function lohwaBillsApproved() {
           total += amount;
           count++; // ✅ count this bill
         }
+        
       });
+
+     // console.log(" Final Total uproved HTML:", total.toFixed(2));
     });
 
-    console.log("🔢 Final Total:", total, "| Count:", count);
+
+   // //////////////// no display total lohwa /////////////
+
+      
+    // console.log(" Final Total uproved HTML:", count);
 
     // Show results in the DOM
-    document.getElementById("totalField").textContent = total.toFixed(2);
-    document.getElementById("countField").textContent = count; // ✅ needs an element in HTML
-     updateFinal();
+   // document.getElementById("totalField2").textContent = total.toFixed(2);
+  //  document.getElementById("countField").textContent = count; // ✅ needs an element in HTML
+   //  updateFinal();
   });
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -341,7 +392,7 @@ function filterPayments() {
 
   const paymentsRef = firebase.database().ref("goldenwifi/transactions");
   const tableBody = document.querySelector("#payments-table tbody");
-  const totalField = document.getElementById("table-total");
+  const totalFieldTable = document.getElementById("table-total");
 
   tableBody.innerHTML = ""; // clear previous results
   let total = 0;
@@ -369,8 +420,77 @@ function filterPayments() {
       }
     });
 
-    totalField.textContent = total.toFixed(2);
+    totalFieldTable.textContent = total.toFixed(2);
     document.getElementById("totalCollected").textContent = total.toFixed(2);
+   // updateFinal();
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function filterPayments22() {
+  const startDate = new Date(document.getElementById("startDate").value);
+  const endDate = new Date(document.getElementById("endDate").value);
+  endDate.setHours(23, 59, 59, 999);
+
+  const expensesRef = firebase.database().ref("goldenwifi/goldenExpenses");
+  const tableBody = document.querySelector("#payments-table2 tbody");
+  const totalField22 = document.getElementById("table-total2");
+  tableBody.innerHTML = "";
+  let total = 0;
+
+  expensesRef.once("value", snapshot => {
+    let count = 1;
+    snapshot.forEach(child => {
+      const data = child.val();
+      const date = new Date(data.date);
+
+      if (
+        date >= startDate &&
+         date <= endDate &&
+          data.status === "new"
+        
+        ) {
+        const row = tableBody.insertRow();
+        row.insertCell(0).textContent = count++;
+        row.insertCell(1).textContent = data.date;
+        row.insertCell(2).textContent = parseFloat(data.amount).toFixed(2);
+        row.insertCell(3).textContent = data.exName || "";
+        row.insertCell(4).textContent = data.user || "";
+        total += parseFloat(data.amount);
+      }
+    });
+
+    totalField22.textContent = total.toFixed(2);
+    document.getElementById("totalExpens").textContent = total.toFixed(2);
     updateFinal();
   });
 }
@@ -378,6 +498,49 @@ function filterPayments() {
 
 
 
+
+
+
+
+
+
+
+function lohwaExpenses() {
+  const startDate = new Date(document.getElementById("startDate").value);
+  const endDate = new Date(document.getElementById("endDate").value);
+  endDate.setHours(23, 59, 59, 999);
+
+  const expensesRef = firebase.database().ref("goldenwifi/goldenExpenses");
+//  const tableBody = document.querySelector("#payments-table2 tbody");
+  const totalFieldx = document.getElementById("table-total2");
+//  tableBody.innerHTML = "";
+  let total = 0;
+
+  expensesRef.once("value", snapshot => {
+    let count = 1;
+    snapshot.forEach(child => {
+      const data = child.val();
+      const date = new Date(data.date);
+
+      if (
+        date >= startDate && 
+        date <= endDate &&
+        data.user === "lohwa" &&
+      //  data.actionTo ==="approved" &&
+         data.status === "new"
+
+      
+      ) {
+       
+        total += parseFloat(data.amount);
+      }
+    });
+
+    totalFieldx.textContent = total.toFixed(2);
+    document.getElementById("lohwaExpenses").textContent = total.toFixed(2);
+   // updateFinal();
+  });
+}
 
 
 
@@ -392,10 +555,10 @@ function lohwaAddCollect() {
   document.getElementById("reportRange").textContent = `From ${startDate} to ${endDate}`;
 
   const paymentsRef = firebase.database().ref("goldenwifi/transactions");
-//  const tableBody = document.querySelector("#payments-table tbody");
-//  const totalField = document.getElementById("table-total");
+ const tableBody = document.querySelector("#payments-table tbody");
+  const totalFieldLoCol = document.getElementById("table-total");
 
-//  tableBody.innerHTML = ""; // clear previous results
+  tableBody.innerHTML = ""; // clear previous results
   let total = 0;
 
   paymentsRef.once("value", snapshot => {
@@ -422,7 +585,7 @@ function lohwaAddCollect() {
       }
     });
 
-    totalField.textContent = total.toFixed(2);
+    totalFieldLoCol.textContent = total.toFixed(2);
     document.getElementById("lohwaAddCollect").textContent = total.toFixed(2);
     updateFinal();
   });
@@ -437,110 +600,6 @@ function lohwaAddCollect() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-function applyFilter() {
-        const startDate = document.getElementById("startDate").value;
-        const endDate = document.getElementById("endDate").value;
-        document.getElementById("reportRange").textContent = `From ${startDate} to ${endDate}`;
-
-    
-    }
-
-
-function filterPayments22() {
-  const startDate = new Date(document.getElementById("startDate").value);
-  const endDate = new Date(document.getElementById("endDate").value);
-  endDate.setHours(23, 59, 59, 999);
-
-  const expensesRef = firebase.database().ref("goldenwifi/goldenExpenses");
-  const tableBody = document.querySelector("#payments-table2 tbody");
-  const totalField = document.getElementById("table-total2");
-  tableBody.innerHTML = "";
-  let total = 0;
-
-  expensesRef.once("value", snapshot => {
-    let count = 1;
-    snapshot.forEach(child => {
-      const data = child.val();
-      const date = new Date(data.date);
-
-      if (
-        date >= startDate &&
-         date <= endDate &&
-          data.status === "new"
-        
-        ) {
-        const row = tableBody.insertRow();
-        row.insertCell(0).textContent = count++;
-        row.insertCell(1).textContent = data.date;
-        row.insertCell(2).textContent = parseFloat(data.amount).toFixed(2);
-        row.insertCell(3).textContent = data.exName || "";
-        row.insertCell(4).textContent = data.user || "";
-        total += parseFloat(data.amount);
-      }
-    });
-
-    totalField.textContent = total.toFixed(2);
-    document.getElementById("totalExpens").textContent = total.toFixed(2);
-    updateFinal();
-  });
-}
-
-
-
-
-
-
-function lohwaExpenses() {
-  const startDate = new Date(document.getElementById("startDate").value);
-  const endDate = new Date(document.getElementById("endDate").value);
-  endDate.setHours(23, 59, 59, 999);
-
-  const expensesRef = firebase.database().ref("goldenwifi/goldenExpenses");
-//  const tableBody = document.querySelector("#payments-table2 tbody");
-//  const totalField = document.getElementById("table-total2");
-//  tableBody.innerHTML = "";
-  let total = 0;
-
-  expensesRef.once("value", snapshot => {
-    let count = 1;
-    snapshot.forEach(child => {
-      const data = child.val();
-      const date = new Date(data.date);
-
-      if (
-        date >= startDate && 
-        date <= endDate &&
-        data.user === "lohwa" &&
-      //  data.actionTo ==="approved" &&
-         data.status === "new"
-
-      
-      ) {
-       
-        total += parseFloat(data.amount);
-      }
-    });
-
-    totalField.textContent = total.toFixed(2);
-    document.getElementById("lohwaExpenses").textContent = total.toFixed(2);
-    updateFinal();
-  });
-}
-
-
-
-
 function rastyExpenses() {
   const startDate = new Date(document.getElementById("startDate").value);
   const endDate = new Date(document.getElementById("endDate").value);
@@ -548,7 +607,7 @@ function rastyExpenses() {
 
   const expensesRef = firebase.database().ref("goldenwifi/goldenExpenses");
 //  const tableBody = document.querySelector("#payments-table2 tbody");
-//  const totalField = document.getElementById("table-total2");
+  const totalFieldx = document.getElementById("table-total2");
 //  tableBody.innerHTML = "";
   let total = 0;
 
@@ -572,9 +631,9 @@ function rastyExpenses() {
       }
     });
 
-    totalField.textContent = total.toFixed(2);
+    totalFieldx.textContent = total.toFixed(2);
     document.getElementById("rastyExpenses").textContent = total.toFixed(2);
-    updateFinal();
+   // updateFinal();
   });
 }
 
@@ -589,7 +648,7 @@ function adminExpenses() {
 
   const expensesRef = firebase.database().ref("goldenwifi/goldenExpenses");
 //  const tableBody = document.querySelector("#payments-table2 tbody");
-//  const totalField = document.getElementById("table-total2");
+  const totalFieldAd = document.getElementById("table-total2");
 //  tableBody.innerHTML = "";
   let total = 0;
 
@@ -614,9 +673,9 @@ function adminExpenses() {
       }
     });
 
-    totalField.textContent = total.toFixed(2);
+    totalFieldAd.textContent = total.toFixed(2);
     document.getElementById("adminExpenses").textContent = total.toFixed(2);
-    updateFinal();
+   // updateFinal();
   });
 }
 
@@ -635,11 +694,14 @@ function adminExpenses() {
 function updateFinal() {
   const collected = parseFloat(document.getElementById("totalFieldSelected").textContent) || 0;
   const collected2 = parseFloat(document.getElementById("totalCollected").textContent) || 0;
+  const collectedLo = parseFloat(document.getElementById("totalField").textContent) || 0;
 
-   const overAll = collected + collected2;
+   const overAll = collected + collected2 + collectedLo;
   const expenses = parseFloat(document.getElementById("totalExpens").textContent) || 0;
   const final = overAll - expenses;
-  document.getElementById("overAllTotal").textContent = final.toFixed(2);  
+  document.getElementById("overAllCollection").textContent = overAll.toFixed(2);
+  document.getElementById("overAllTotal").textContent = final.toFixed(2); 
+ // console.log("OverAll total:", overAll); 
 }
 
 
@@ -676,14 +738,17 @@ function saveReportAsPDF() {
   window.onload = function () {
     applyFilter();
     filterPayments();
+     lohwaBillsApproved()
     filterPayments22();
-   // loadUnpaidBillsWithFilters1();
+  //  loadUnpaidBillsWithFilters();
     selectedDateCollections();
-    lohwaBillsApproved()
+   // lohwaBillsApproved()
     lohwaExpenses();
     rastyExpenses();
     adminExpenses();
-    lohwaAddCollect();
+   // lohwaAddCollect();
+    loadUnpaidBillsWithFilters();
+    updateFinal()
   };
 </script>
 
