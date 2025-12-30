@@ -23,6 +23,9 @@
 
  <div id="backDiv" >
  <button id="backBTN"><a href="../clients/billAdmin2025.html">BACK</a></button>
+
+<button id="showPayments"><a href="viewpayments/paidbills.html">SHOW PAID BILLS</a></button>
+
   </div>
 
 
@@ -35,7 +38,7 @@
     <br>
     <input type="text" id="usernameDisplay" hidden>
     <!-- <button onclick="applyFilter()">Filter</button> -->
-    <button id="filter" onclick=" applyFilter(), filterPayments(), filterPayments22(),  lohwaBillsApproved(),  selectedDateCollections(), lohwaExpenses(), rastyExpenses(), adminExpenses(), lohwaAddCollect(), loadUnpaidBillsWithFilters()" >3.Filter</button>
+    <button id="filter" onclick=" filterPayments(), filterPayments22(),  lohwaBillsApproved(),  selectedDateCollections(), lohwaExpenses(), rastyExpenses(), adminExpenses(), lohwaAddCollect(), loadUnpaidBillsWithFilters()" >3.Filter</button>
     
     <button id="pdfBtn" onclick="saveReportAsPDF()">Save as PDF</button>
     </div>
@@ -57,8 +60,8 @@
            <p><strong>NET Income:</strong> <span id="overAllTotal">0.00</span></p>
         
          <br>
-          <p>Total bills approved by Admin:  <span id="countFieldSelected1">0</span></p>
-         <p>Total bills lohwa Approved:  <span id="countField">0</span></p>
+          <p>Total bills approved:  <span id="countFieldSelected1">0</span></p>
+         <!-- <p>Total bills lohwa Approved:  <span id="countField">0</span></p> -->
 
            <!-- <p>Total bills count from extended js:  <span id="totalFieldEx2">0</span></p> -->
            <p>Lohwa additional collections:<span id="lohwaAddCollect">0</span></p>
@@ -123,64 +126,6 @@
     <script>
 
 
-
-
-
-
-/* function loadUnpaidBillsWithFilters1() {
-  firebase.database().ref("goldenwifi/monthly-bills").once("value").then(snapshot => {
-    const startDate = new Date(document.getElementById("startDate").value);
-    const endDate = new Date(document.getElementById("endDate").value);
-    endDate.setHours(23, 59, 59, 999); // include full end day
-
-    let total = 0;
-
-    snapshot.forEach(childSnap => {
-      const billData = childSnap.val();
-      if (!billData || !billData.bills) return;
-
-    Object.keys(billData.bills).forEach(monthKey => {
-
-
-  
-  const record = billData.bills[monthKey];
-
-  const billDate = new Date(record.date);
-  const actionTo = (record.actionTo || "").trim().toLowerCase();
-  const whoApproved = (record.whoApproved || "").trim().toLowerCase();
-
-  // 🔎 debug raw amount
-  console.log(`[${monthKey}] RAW amount value:`, record.planAmount);
-
-  // clean and parse amount
-  const rawAmount = record.planAmount || "0";
-  const cleaned = rawAmount.toString().replace(/[^0-9.]/g, "");
-  const amount = cleaned ? parseFloat(cleaned) : 0;
-
-  if (
-    billDate >= startDate &&
-    billDate <= endDate &&
-    actionTo === "approved" &&
-    whoApproved === "lohwa"
-  ) {
-    console.log(`✅ Included [${monthKey}] Amount parsed: ${amount}`);
-    total += amount;
-  }
-});
-
-
-
-    console.log("🔢 Final Total:", total);
-    document.getElementById("totalField").textContent = total.toFixed(2);
-  });
-}
-
-
-  )};
- */
-
-
-
  let startInput = document.getElementById("startDate").value;
 let endInput = document.getElementById("endDate").value; 
 
@@ -205,28 +150,11 @@ if (startInput && endInput) {
 
 
 
-
-
-
-
   
   // (Optional) also update the input fields so user sees it
   document.getElementById("startDate").value = startDate.toISOString().split("T")[0];
   document.getElementById("endDate").value = endDate.toISOString().split("T")[0];
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -359,34 +287,9 @@ endDate.setHours(23, 59, 59, 999);
     });
 
 
-   // //////////////// no display total lohwa /////////////
-
-      
-    // console.log(" Final Total uproved HTML:", count);
-
-    // Show results in the DOM
-   // document.getElementById("totalField2").textContent = total.toFixed(2);
-  //  document.getElementById("countField").textContent = count; // ✅ needs an element in HTML
-   //  updateFinal();
+   
   });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -438,33 +341,6 @@ function filterPayments() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function filterPayments22() {
   const startDate = new Date(document.getElementById("startDate").value);
   const endDate = new Date(document.getElementById("endDate").value);
@@ -503,13 +379,6 @@ function filterPayments22() {
     updateFinal();
   });
 }
-
-
-
-
-
-
-
 
 
 
@@ -583,13 +452,7 @@ function lohwaAddCollect() {
         data.status === "new" &&
         data.user ==="lohwa"
       ) {
-       /*  const row = tableBody.insertRow();
-        row.insertCell(0).textContent = count++;
-        row.insertCell(1).textContent = data.date;
-        row.insertCell(2).textContent = parseFloat(data.amountNew).toFixed(2);
-        row.insertCell(3).textContent = data.clientName || "";
-        row.insertCell(4).textContent = data.address || "";
-        row.insertCell(5).textContent = data.user || ""; */
+      
         total += parseFloat(data.amountNew);
       }
     });
@@ -745,7 +608,7 @@ function saveReportAsPDF() {
 
 <script>
   window.onload = function () {
-    applyFilter();
+   //applyFilter();
     filterPayments();
      lohwaBillsApproved()
     filterPayments22();
