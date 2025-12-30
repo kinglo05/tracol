@@ -249,10 +249,14 @@ select {
 
 
 #typeSelect {
-  margin-left: 15px;
-  width: 90%;
+ margin-left: 18px;
+  width: 88%;
 }
 
+#expensesName2 {
+  margin-left: 18px;
+  width: 88%;
+}
 
 #transSelect {
   min-width: 98%;
