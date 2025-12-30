@@ -33,7 +33,23 @@
 }
 
 
+  #showPayments {
+    background-color: #14c948;
+    color: white;
+   
+   
+    cursor: pointer;
+    margin-left: 40px;
+    margin-top: 1px;
+    height: 28px;
+    width: 185px;
+    font-size: smaller;
+   
+}
 
+#showPayments:hover {
+    background-color: #ed6606;
+}
 
 
 
