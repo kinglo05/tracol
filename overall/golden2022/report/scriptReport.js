@@ -70,10 +70,10 @@ firebase.auth().onAuthStateChanged((user) => {
 function loadUnpaidBillsWithFilters() {
   firebase.database().ref("goldenwifi/monthly-bills").once("value").then(snapshot => {
 
-  const startDate = new Date(document.getElementById("startDate").value);
-    const endDate = new Date(document.getElementById("endDate").value);
+   const startDate = new Date(document.getElementById("startDate").value);
+     const endDate = new Date(document.getElementById("endDate").value);
 
-    // Convert to YYYY-MM
+  //   // Convert to YYYY-MM
     const startMonthKey = `${startDate.getFullYear()}-${String(startDate.getMonth() + 1).padStart(2, "0")}`;
     const endMonthKey = `${endDate.getFullYear()}-${String(endDate.getMonth() + 1).padStart(2, "0")}`;
 
@@ -91,9 +91,15 @@ function loadUnpaidBillsWithFilters() {
       Object.keys(billData.bills).forEach(monthKey => {
         const record = billData.bills[monthKey];
 
+        const billDate = new Date(record.date);
+
+          const newBillDate = `${billDate.getFullYear()}-${String(billDate.getMonth() + 1).padStart(2, "0")}`;
+          
+          const billMonth = newBillDate.substring(0, 7);
        // const billDate = new Date(record.date);
-        const billDate = new Date(monthKey);
+      //  const billDate = (record.date)
         const status = record.status;
+        const client = record.name;
         const actionTo = record.actionTo;
         const whoApproved = (record.whoApproved || "").trim();
         const amount = parseFloat(
@@ -104,15 +110,24 @@ function loadUnpaidBillsWithFilters() {
 
 
 
-        // if (!(billDate >= new Date(startDate) && billDate <= new Date(endDate))) {
+       //  if (!(billDate >= new Date(startDate) && billDate <= new Date(endDate))) {
 
-         if (!(monthKey >= startMonthKey && monthKey <= endMonthKey)) {
+         //  if ((!( newBillDate >= startMonthKey)) &&  (!(newBillDate <= endMonthKey))) {
+       //  if (!(record >=  new Date(startMonthKey) && record <= new Date(endMonthKey))) {
+        // if (newBillDate !== startMonthKey && newBillDate !== endMonthKey) {
 
-          // if (monthKey >= startMonthKey && monthKey <= endMonthKey)
+        // if (!(newBillDate >= (startMonthKey) && newBillDate <= (endMonthKey))) {
 
-        //  console.log(`❌ Skipped [${monthKey}] - Date out of range: ${record.date}`);
-          passed = false;
+        //  // console.log(`❌ Skipped [${monthKey}] - Date out of range: ${newBillDate}`);
+        //   passed = false;
+        // }
+          
+        if (!(billMonth >= startMonthKey && billMonth <= endMonthKey)) {
+         // console.log(`❌ Skipped [${monthKey}] - Date out of range: ${billMonth}`);
+        passed = false;
         }
+
+
         if (status !== "Paid") {
         //  console.log(`❌ Skipped [${monthKey}] - Status not 'Paid': ${status}`);
           passed = false;
@@ -126,19 +141,21 @@ function loadUnpaidBillsWithFilters() {
           passed = false;
         }
 
+        
+
         if (passed) {
-         // console.log(`✅ Included [${monthKey}] - Amount: ${amount}`);
-          
+         //   console.log("Final Total from JS:", billDate);
+       //  console.log(`✅ Included [${monthKey}] - Amount: ${amount}  - User: ${client}`);
           count++;
           total += amount;
         }
       });
     });
 
-     //  console.log("Final Total from JS:", count);
-   document.getElementById("countField").textContent = count;
+     //  console.log("Final Total from JS:", count, total); // total.toFixed(2), count);
+  document.getElementById("countField").textContent = count;
   document.getElementById("totalField").textContent = total.toFixed(2);
-// updateFinal();
+ //updateFinal();
   });
 }
 
