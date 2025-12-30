@@ -43,25 +43,25 @@ input[type="month"] {
 
 
 .babaw {
- width: 300px;
+ width: 350px;
  height: 100px;
  margin-top: 10px;
- margin-left: 20px;
- padding-left: 20px;
+ margin-left: 5px;
+ padding-left: 5px;
 }
 
 #startDate{
  width: 150px;
  height: 20px;
- margin-top: 10px;
- margin-left: 20px;
- padding-left: 10px;
+ margin-top: 1px;
+ margin-left: 5px;
+ padding-left: 5px;
 }
 
 
 #whoApp {
  width: 100px;
- height: 30px;
+ height: 25px;
  margin-top: 10px;
  margin-left: 20px;
  padding-left: 10px;
@@ -78,10 +78,16 @@ input[type="month"] {
   border-radius: 4px;
   background: #ffd6d6;
   color: #b30000;
-  font-weight: bold;
+  font-weight: small;
 }
 
 
+
+label {
+  margin-right: 2px; /* Space between label and input */
+  font-size: smaller;
+  font-weight: small;
+}
 
 
 
@@ -147,18 +153,6 @@ input:hover {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
   
 #editmerchant {
   width: 420px;
@@ -176,18 +170,6 @@ input:hover {
 
 
 
-
-
-
-
-
-
-
-
-label {
-  margin-right: 5px; /* Space between label and input */
-}
-
 #total-today {
   margin-top: 1px;
   margin-right: 10px; /* If you want space after the input too */
@@ -195,13 +177,6 @@ label {
   width: 7%; /* Table takes full width of its container */
   border-radius: 8px; /* Adjust the radius value for desired curvature */
 }
-
-
-
-
-
-
-
 
 
 
