@@ -164,6 +164,7 @@ function saveExpenses() {
   const nameInput = document.getElementById("expensesName");
   const dateInput = document.getElementById("expensesDate");
   const userIn = document.getElementById("theUser").value;
+  const expensesName2 = document.getElementById("expensesName2").value;
   const amount = amountInput.value;
   const name = nameInput.value;
   const date = dateInput.value;
@@ -175,6 +176,7 @@ function saveExpenses() {
     date: date,
     user: userIn,
     status: 'new',
+    expensesCatig: expensesName2,
     actionTo: userIn === "lohwa" || userIn === "admin" ? "approved" : "pending"
   };
 
