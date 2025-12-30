@@ -52,21 +52,6 @@ firebase.auth().onAuthStateChanged((user) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function loadUnpaidBillsWithFilters() {
   firebase.database().ref("goldenwifi/monthly-bills").once("value").then(snapshot => {
 
@@ -109,18 +94,6 @@ function loadUnpaidBillsWithFilters() {
         let passed = true;
 
 
-
-       //  if (!(billDate >= new Date(startDate) && billDate <= new Date(endDate))) {
-
-         //  if ((!( newBillDate >= startMonthKey)) &&  (!(newBillDate <= endMonthKey))) {
-       //  if (!(record >=  new Date(startMonthKey) && record <= new Date(endMonthKey))) {
-        // if (newBillDate !== startMonthKey && newBillDate !== endMonthKey) {
-
-        // if (!(newBillDate >= (startMonthKey) && newBillDate <= (endMonthKey))) {
-
-        //  // console.log(`❌ Skipped [${monthKey}] - Date out of range: ${newBillDate}`);
-        //   passed = false;
-        // }
           
         if (!(billMonth >= startMonthKey && billMonth <= endMonthKey)) {
          // console.log(`❌ Skipped [${monthKey}] - Date out of range: ${billMonth}`);
@@ -153,7 +126,7 @@ function loadUnpaidBillsWithFilters() {
     });
 
      //  console.log("Final Total from JS:", count, total); // total.toFixed(2), count);
-  document.getElementById("countField").textContent = count;
+ // document.getElementById("countField").textContent = count;
   document.getElementById("totalField").textContent = total.toFixed(2);
  //updateFinal();
   });
