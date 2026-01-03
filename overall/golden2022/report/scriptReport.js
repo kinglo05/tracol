@@ -118,14 +118,14 @@ function loadUnpaidBillsWithFilters() {
 
         if (passed) {
          //   console.log("Final Total from JS:", billDate);
-       //  console.log(`✅ Included [${monthKey}] - Amount: ${amount}  - User: ${client}`);
+      //   console.log(`✅ Included [${monthKey}] - Amount: ${amount}  - User: ${client}`);
           count++;
           total += amount;
         }
       });
     });
 
-     //  console.log("Final Total from JS:", count, total); // total.toFixed(2), count);
+   //    console.log("Final Total from JS:", count, total); // total.toFixed(2), count);
  // document.getElementById("countField").textContent = count;
   document.getElementById("totalField").textContent = total.toFixed(2);
  //updateFinal();
@@ -136,7 +136,180 @@ function loadUnpaidBillsWithFilters() {
 
 
 
+function adminTotalApproved() {
+  firebase.database().ref("goldenwifi/monthly-bills").once("value").then(snapshot => {
+
+   const startDate = new Date(document.getElementById("startDate").value);
+     const endDate = new Date(document.getElementById("endDate").value);
+
+  //   // Convert to YYYY-MM
+    const startMonthKey = `${startDate.getFullYear()}-${String(startDate.getMonth() + 1).padStart(2, "0")}`;
+    const endMonthKey = `${endDate.getFullYear()}-${String(endDate.getMonth() + 1).padStart(2, "0")}`;
+
+    
+
+    //  document.getElementById("startMonthLo").value = startMonthKey;
+    //  document.getElementById("endtMonthLo").value = endMonthKey;
+
+
+
+    let total = 0;
+    let count = 0;
+
+    snapshot.forEach(childSnap => {
+      const billData = childSnap.val();
+      if (!billData || !billData.bills) return;
+
+      Object.keys(billData.bills).forEach(monthKey => {
+        const record = billData.bills[monthKey];
+
+        const billDate = new Date(record.date);
+
+          const newBillDate = `${billDate.getFullYear()}-${String(billDate.getMonth() + 1).padStart(2, "0")}`;
+          
+          const billMonth = newBillDate.substring(0, 7);
+       // const billDate = new Date(record.date);
+      //  const billDate = (record.date)
+        const status = record.status;
+        const client = record.name;
+        const actionTo = record.actionTo;
+        const whoApproved = (record.whoApproved || "").trim();
+        const amount = parseFloat(
+          (record.planAmount || "").toString().replace(/[^0-9.]/g, "")
+        ) || 0;
+
+        let passed = true;
+
+
+          
+        if (!(billMonth >= startMonthKey && billMonth <= endMonthKey)) {
+         // console.log(`❌ Skipped [${monthKey}] - Date out of range: ${billMonth}`);
+        passed = false;
+        }
+
+
+        if (status !== "Paid") {
+        //  console.log(`❌ Skipped [${monthKey}] - Status not 'Paid': ${status}`);
+          passed = false;
+        }
+        if (actionTo !== "approved") {
+         // console.log(`❌ Skipped [${monthKey}] - actionTo not 'approved': ${actionTo}`);
+          passed = false;
+        }
+        if (whoApproved !== "admin") {
+         // console.log(`❌ Skipped [${monthKey}] - whoApproved mismatch: ${whoApproved}`);
+          passed = false;
+        }
+
+        
+
+        if (passed) {
+         //   console.log("Final Total from JS:", billDate);
+      //   console.log(`✅ Included [${monthKey}] - Amount: ${amount}  - User: ${client}`);
+          count++;
+          total += amount;
+        }
+      });
+    });
+
+       console.log("started date:", startMonthKey); // total.toFixed(2), count);
+ // document.getElementById("countField").textContent = count;
+     document.getElementById("startMonthLo").textContent = startMonthKey;
+     document.getElementById("endtMonthLo").textContent = endMonthKey;
+     
+      document.getElementById("startMonthLo1").textContent = startMonthKey;
+     document.getElementById("endtMonthLo1").textContent = endMonthKey;
+
+      document.getElementById("startMonthLo2").textContent = startMonthKey;
+     document.getElementById("endtMonthLo2").textContent = endMonthKey;
+
+  document.getElementById("totalAdmin").textContent = total.toFixed(2);
+ //updateFinal();
+  });
+}
+
+
+function testPaid() {
+  firebase.database().ref("goldenwifi/monthly-bills").once("value").then(snapshot => {
+
+   const startDate = new Date(document.getElementById("startDate").value);
+     const endDate = new Date(document.getElementById("endDate").value);
+
+  //   // Convert to YYYY-MM
+    const startMonthKey = `${startDate.getFullYear()}-${String(startDate.getMonth() + 1).padStart(2, "0")}`;
+    const endMonthKey = `${endDate.getFullYear()}-${String(endDate.getMonth() + 1).padStart(2, "0")}`;
 
 
 
 
+
+    let total = 0;
+    let count = 0;
+
+    snapshot.forEach(childSnap => {
+      const billData = childSnap.val();
+      if (!billData || !billData.bills) return;
+
+      Object.keys(billData.bills).forEach(monthKey => {
+        const record = billData.bills[monthKey];
+
+        const billDate = new Date(record.date);
+
+          const newBillDate = `${billDate.getFullYear()}-${String(billDate.getMonth() + 1).padStart(2, "0")}`;
+          
+          const billMonth = newBillDate.substring(0, 7);
+       // const billDate = new Date(record.date);
+      //  const billDate = (record.date)
+        const status = record.status;
+        const client = record.name;
+        const actionTo = record.actionTo;
+        const whoApproved = (record.whoApproved || "").trim();
+        const amount = parseFloat(
+          (record.planAmount || "").toString().replace(/[^0-9.]/g, "")
+        ) || 0;
+
+        let passed = true;
+
+
+          
+        if (!(billMonth >= startMonthKey && billMonth <= endMonthKey)) {
+         // console.log(`❌ Skipped [${monthKey}] - Date out of range: ${billMonth}`);
+        passed = false;
+        }
+
+
+        if (status !== "Paid") {
+        //  console.log(`❌ Skipped [${monthKey}] - Status not 'Paid': ${status}`);
+          passed = false;
+        }
+        if (actionTo !== "approved") {
+         // console.log(`❌ Skipped [${monthKey}] - actionTo not 'approved': ${actionTo}`);
+          passed = false;
+        }
+        // if (whoApproved !== "lohwa") {
+        //  // console.log(`❌ Skipped [${monthKey}] - whoApproved mismatch: ${whoApproved}`);
+        //   passed = false;
+        // }
+
+        
+
+        if (passed) {
+         //   console.log("Final Total from JS:", billDate);
+      //   console.log(`✅ Included [${monthKey}] - Amount: ${amount}  - User: ${client}`);
+          count++;
+          total += amount;
+        }
+      });
+    });
+
+      console.log("Final Total from JS:", count, total); // total.toFixed(2), count);
+  document.getElementById("countFieldSelected1").textContent = count;
+ // document.getElementById("totalField").textContent = total.toFixed(2);
+ //updateFinal();
+  });
+}
+
+
+
+
+     
