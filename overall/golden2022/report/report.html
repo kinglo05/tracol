@@ -38,7 +38,7 @@
     <br>
     <input type="text" id="usernameDisplay" hidden>
     <!-- <button onclick="applyFilter()">Filter</button> -->
-    <button id="filter" onclick=" filterPayments(), filterPayments22(),  lohwaBillsApproved(),  selectedDateCollections(), lohwaExpenses(), rastyExpenses(), adminExpenses(), lohwaAddCollect(), loadUnpaidBillsWithFilters()" >3.Filter</button>
+    <button id="filter" onclick=" testPaid(), filterPayments(), filterPayments22(),  lohwaBillsApproved(),  lohwaExpenses(), rastyExpenses(), adminExpenses(), lohwaAddCollect(), loadUnpaidBillsWithFilters(), adminTotalApproved(), adminAddCollect()" >3.Filter</button>
     
     <button id="pdfBtn" onclick="saveReportAsPDF()">Save as PDF</button>
     </div>
@@ -48,32 +48,36 @@
     <div id="pdf-content">
 
     <h2>Golden Transactions Report</h2>
-    <p id="reportRange">Date range will be shown here</p>
+    <!-- <p id="reportRange">Date range will be shown here</p> -->
 
     <div class="summary">
-        <p><strong>Selected date total collections:</strong> <span id="overAllCollection">0</span></p>
-        <p>Collector/Admin Collections: <span id="totalFieldSelected">0</span></p>
+        <!-- <p><strong>Selected date total collections:</strong> <span id="overAllCollection">0</span></p> -->
+        <p><strong>Total collections month of <span id="startMonthLo"></span> to  <span id="endtMonthLo">  </span> :  <span id="totalFieldSelected">0</span> </strong> (by month)</p>
+         <p>Total bills approved: <strong> <span id="countFieldSelected1">0</span></p></strong>
+
+         <p>Collector/Admin Collections month of <span id="startMonthLo1"></span> to  <span id="endtMonthLo1">  </span> : <strong> <span id="totalAdmin">0</span></p> </strong>
         
-        <p>Additional income: <span id="totalCollected" >0.00</span></p>
-        <p>Lohwa total collections:<span id="totalField">0</span></p>
-        <p><strong>Total Expenses:</strong> <span id="totalExpens">0.00</span></p>
-           <p><strong>NET Income:</strong> <span id="overAllTotal">0.00</span></p>
+       
+        <p>Lohwa total collections month of <span id="startMonthLo2"></span> to  <span id="endtMonthLo2"></span> : <strong> <span id="totalField">0</span></p> </strong>
+         <p>Total for all additional collections : <strong><span id="totalCollected" >0.00</span></p></strong>
+
+          <p>(Lohwa additional collections:<span id="lohwaAddCollect">0</span>)</p>
+           <p>(Admin additional collections:<span id="adminaAddCollect">0</span>)</p>
+       
+           <!-- <p><strong>NET Income:</strong> <span id="overAllTotal">0.00</span></p> -->
         
          <br>
-          <p>Total bills approved:  <span id="countFieldSelected1">0</span></p>
+         
          <!-- <p>Total bills lohwa Approved:  <span id="countField">0</span></p> -->
 
-           <!-- <p>Total bills count from extended js:  <span id="totalFieldEx2">0</span></p> -->
-           <p>Lohwa additional collections:<span id="lohwaAddCollect">0</span></p>
-
+        <p><strong>Total expenses for the  month of <span id="startMonthEx"></span> to  <span id="endMonthEx"> </span></strong> (by date range) </p>
           
-
-
-        <br>
         <p>Lohwa Expenses:<span id="lohwaExpenses">0</span></p>
          <p>Rasty Expenses: <span id="rastyExpenses">0</span></p>
          <p>Admin Expenses: <span id="adminExpenses">0</span></p>
         
+
+        <p><strong>Total Expenses: <span id="totalExpens">0.00</span></p></strong>
 
         <input type="text" id="theUser" hidden>  
        
@@ -154,6 +158,12 @@ if (startInput && endInput) {
   // (Optional) also update the input fields so user sees it
   document.getElementById("startDate").value = startDate.toISOString().split("T")[0];
   document.getElementById("endDate").value = endDate.toISOString().split("T")[0];
+
+   document.getElementById("startMonthEx").textContent = startDate.toISOString().split("T")[0];
+  document.getElementById("endMonthEx").textContent = endDate.toISOString().split("T")[0];
+
+   
+
 }
 
 
@@ -197,8 +207,8 @@ function selectedDateCollections() {
    // console.log("Final Total final", total, "| Count:", count);
 
     // Show results in the DOM
-    document.getElementById("totalFieldSelected").textContent = total.toFixed(2);
-    document.getElementById("countFieldSelected1").textContent = count; // ✅ needs an element in HTML
+   // document.getElementById("totalFieldSelected").textContent = total.toFixed(2);
+  //  document.getElementById("countFieldSelected1").textContent = count; // ✅ needs an element in HTML
   });
 }
 
@@ -209,20 +219,22 @@ function selectedDateCollections() {
 function applyFilter() {
         const startDate = document.getElementById("startDate").value;
         const endDate = document.getElementById("endDate").value;
-        document.getElementById("reportRange").textContent = `From ${startDate} to ${endDate}`;
+     //   document.getElementById("reportRange").textContent = `From ${startDate} to ${endDate}`;
 
     
     filterPayments();
      lohwaBillsApproved()
     filterPayments22();
   //  loadUnpaidBillsWithFilters();
-    selectedDateCollections();
+   // selectedDateCollections();
    // lohwaBillsApproved()
     lohwaExpenses();
     rastyExpenses();
     adminExpenses();
     lohwaAddCollect();
     loadUnpaidBillsWithFilters();
+    adminAddCollect();
+    testPaid();
     updateFinal()
 
 
@@ -300,7 +312,7 @@ function filterPayments() {
   const endDate = new Date(document.getElementById("endDate").value);
   endDate.setHours(23, 59, 59, 999); // Include the full end day
 
-  document.getElementById("reportRange").textContent = `From ${startDate} to ${endDate}`;
+ // document.getElementById("reportRange").textContent = `From ${startDate} to ${endDate}`;
 
   const paymentsRef = firebase.database().ref("goldenwifi/transactions");
   const tableBody = document.querySelector("#payments-table tbody");
@@ -430,7 +442,7 @@ function lohwaAddCollect() {
   const endDate = new Date(document.getElementById("endDate").value);
   endDate.setHours(23, 59, 59, 999); // Include the full end day
 
-  document.getElementById("reportRange").textContent = `From ${startDate} to ${endDate}`;
+ // document.getElementById("reportRange").textContent = `From ${startDate} to ${endDate}`;
 
   const paymentsRef = firebase.database().ref("goldenwifi/transactions");
  const tableBody = document.querySelector("#payments-table tbody");
@@ -465,7 +477,43 @@ function lohwaAddCollect() {
 
 
 
+function adminAddCollect() {
+  const startDate = new Date(document.getElementById("startDate").value);
+  const endDate = new Date(document.getElementById("endDate").value);
+  endDate.setHours(23, 59, 59, 999); // Include the full end day
 
+ // document.getElementById("reportRange").textContent = `From ${startDate} to ${endDate}`;
+
+  const paymentsRef = firebase.database().ref("goldenwifi/transactions");
+ const tableBody = document.querySelector("#payments-table tbody");
+  const totalFieldLoCol = document.getElementById("table-total");
+
+  tableBody.innerHTML = ""; // clear previous results
+  let total = 0;
+
+  paymentsRef.once("value", snapshot => {
+    let count = 1;
+
+    snapshot.forEach(child => {
+      const data = child.val();
+      const date = new Date(data.date); // assumes 'data.date' is valid ISO or Date-parsable format
+
+      if (
+        date >= startDate &&
+        date <= endDate &&
+        data.status === "new" &&
+        data.user ==="admin"
+      ) {
+      
+        total += parseFloat(data.amountNew);
+      }
+    });
+
+    totalFieldLoCol.textContent = total.toFixed(2);
+    document.getElementById("adminaAddCollect").textContent = total.toFixed(2);
+   // updateFinal();
+  });
+}
 
 
 
@@ -558,21 +606,22 @@ function adminExpenses() {
 
 
 
-
+totalAdmin
 
 
 
 
 function updateFinal() {
-  const collected = parseFloat(document.getElementById("totalFieldSelected").textContent) || 0;
-  const collected2 = parseFloat(document.getElementById("totalCollected").textContent) || 0;
+  const collectedAdmin = parseFloat(document.getElementById("totalAdmin").textContent) || 0;
+  const collectedExtra = parseFloat(document.getElementById("totalCollected").textContent) || 0;
   const collectedLo = parseFloat(document.getElementById("totalField").textContent) || 0;
+  const collectedAd = parseFloat(document.getElementById("adminaAddCollect").textContent) || 0;
 
-   const overAll = collected + collected2 + collectedLo;
+   const overAll = collectedAdmin + collectedLo + collectedExtra;
   const expenses = parseFloat(document.getElementById("totalExpens").textContent) || 0;
   const final = overAll - expenses;
-  document.getElementById("overAllCollection").textContent = overAll.toFixed(2);
-  document.getElementById("overAllTotal").textContent = final.toFixed(2); 
+ // document.getElementById("overAllCollection").textContent = overAll.toFixed(2);
+  document.getElementById("totalFieldSelected").textContent = overAll.toFixed(2); 
  // console.log("OverAll total:", overAll); 
 }
 
@@ -619,7 +668,10 @@ function saveReportAsPDF() {
     rastyExpenses();
     adminExpenses();
    // lohwaAddCollect();
+   adminAddCollect();
     loadUnpaidBillsWithFilters();
+    adminTotalApproved();
+    testPaid();
     updateFinal()
   };
 </script>
