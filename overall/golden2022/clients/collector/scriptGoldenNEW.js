@@ -118,8 +118,8 @@ const dateInput2 = document.getElementById('date2');
 const userInput2 = document.getElementById('user2'); 
 
 
-const paymentSearchInput = document.getElementById('payment-search');
-const paymentSearchInput22 = document.getElementById('payment-search2');
+////const paymentSearchInput = document.getElementById('payment-search');
+//const paymentSearchInput22 = document.getElementById('payment-search2');
 const amountCheckbox = document.getElementById('amount-checkbox');
 const amountCheckbox2 = document.getElementById('amount-checkbox2');
 const refCheckbox = document.getElementById('ref-checkbox');
@@ -403,14 +403,13 @@ database.ref('goldenwifi/transactions').on('value', (snapshot) => {
 
 
 
+ filterPayments();
 
 
-
+ 
 
 function updatePaymentsTable(data) {
 table.innerHTML = ''; // Clear the table
-
-
 
 data.forEach((payment, rowIndex) => {
   const row = table.insertRow();
@@ -513,7 +512,7 @@ if (paymentsTableNew) {
 
     document.getElementById('edit-idPay').value = rowData.firebaseKey;
     document.getElementById('edit-amount').value = rowData.amount;
-    document.getElementById('edit-amount').value = rowData.amount;
+  //  document.getElementById('edit-amount').value = rowData.amount;
     document.getElementById('address').value = rowData.address;
     document.getElementById('edit-date').value = rowData.date;
      document.getElementById('edit-clientName1').value = rowData.clientName;
@@ -640,32 +639,48 @@ merchantInputAssign.addEventListener('input', () => {
 
 
 //////////////////////// Event listener for search input in merchant table ////////////////////////
-const merchantSearchInput = document.getElementById('merchant-search');
+// const merchantSearchInput = document.getElementById('merchant-search');
 
-let timeoutId;
+// let timeoutId;
 
-paymentSearchInput.addEventListener('input', () => {
-  clearTimeout(timeoutId); // Clear any previous timeout
+// paymentSearchInput.addEventListener('input', () => {
+//   clearTimeout(timeoutId); // Clear any previous timeout
 
-  timeoutId = setTimeout(() => {
-    const searchTerm = paymentSearchInput.value.toLowerCase();
+//   timeoutId = setTimeout(() => {
+//     const searchTerm = paymentSearchInput.value.toLowerCase();
 
-    const filteredDataP = paymentsData.filter((payment) => {
-      return (
-        payment?.amount?.toString().toLowerCase().includes(searchTerm) ||
-        payment?.sender?.toString().toLowerCase().includes(searchTerm) ||
-        payment?.refNumber?.toLowerCase().includes(searchTerm) ||
-        payment?.time?.toLowerCase().includes(searchTerm) ||
-        payment?.date?.toLowerCase().includes(searchTerm) ||
-        payment?.paymentType?.toLowerCase().includes(searchTerm) ||
-        payment?.save?.toLowerCase().includes(searchTerm) ||
-        payment?.merchantP?.toLowerCase().includes(searchTerm)
-      );
-    });
+//     const filteredDataP = paymentsData.filter((payment) => {
+//       return (
+//         payment?.amount?.toString().toLowerCase().includes(searchTerm) ||
+//         payment?.sender?.toString().toLowerCase().includes(searchTerm) ||
+//         payment?.refNumber?.toLowerCase().includes(searchTerm) ||
+//         payment?.time?.toLowerCase().includes(searchTerm) ||
+//         payment?.date?.toLowerCase().includes(searchTerm) ||
+//         payment?.paymentType?.toLowerCase().includes(searchTerm) ||
+//         payment?.save?.toLowerCase().includes(searchTerm) ||
+//         payment?.merchantP?.toLowerCase().includes(searchTerm)
+//       );
+//     });
 
-    updatePaymentsTable(filteredDataP);
-  }, 250); // Adjust delay to 250ms for better UX
-});
+//     updatePaymentsTable(filteredDataP);
+//   }, 250); // Adjust delay to 250ms for better UX
+// });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -852,14 +867,14 @@ function updateDisplay() {
   let totalcollection = localStorage.getItem("totalcollection"); ////used
   let totalExpenses = localStorage.getItem("totalExpenses");
  
-  document.getElementById("totalCollected").innerText = Number(totalcollection ).toFixed(2);
-   document.getElementById("totalExpens").innerText = Number(totalExpenses).toFixed(2);
+//  document.getElementById("totalCollected").innerText = Number(totalcollection ).toFixed(2);
+  document.getElementById("totalExpenses").innerText = Number(totalExpenses).toFixed(2);
 
  
    const TananActualNabilin = Number(totalcollection - totalExpenses) || 0;
 
 
-   document.getElementById("finalNabilin").innerText = Number(TananActualNabilin).toFixed(2);
+  // document.getElementById("finalNabilin").innerText = Number(TananActualNabilin).toFixed(2);
    
   
 }
@@ -874,10 +889,16 @@ window.addEventListener("storage", function(event) {
 });
 
 
-updateDisplay();
+
+
+ 
 
 
 
 
 
-           
+
+
+ 
+
+
