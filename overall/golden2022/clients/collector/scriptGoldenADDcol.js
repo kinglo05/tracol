@@ -163,6 +163,7 @@ function saveExpensesCOL() {
   const amountInput = document.getElementById("expensesAmount");
   const nameInput = document.getElementById("expensesName");
   const dateInput = document.getElementById("expensesDate");
+  const expensesName2 = document.getElementById("expensesName2").value;
   const userIn = document.getElementById("theUser").value;
   const amount = amountInput.value;
   const name = nameInput.value;
@@ -176,6 +177,7 @@ function saveExpensesCOL() {
     exName: name,
     date: date,
     user: userIn,
+   expensesCatig: expensesName2,
     status: 'new',
     actionTo: userIn === "lohwa" || userIn === "admin" ? "approved" : "pending"
   };
