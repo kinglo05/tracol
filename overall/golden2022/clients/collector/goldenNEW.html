@@ -214,8 +214,7 @@
 
     
                <div>
-                <h3 style="color: rgb(247, 247, 252); margin-top: 5px; margin-bottom: 5px; margin-left: 10px;">
-                 Golden Collections </h3>
+               
                  
                                         
                                         <div id="newPayments-title2">                               
@@ -223,7 +222,7 @@
                                             <input  type="date" id="startDate">
                                             <label for="endDate"style="margin-left: 10px; width: 8%;">End Date:</label>
                                             <input  type="date" id="endDate">
-                                            <button id="filter" onclick="filterPayments(),filterPayments2()">Filter</button>     
+                                            <button id="filter" onclick="filterPayments(), filterPayments2(), filterCountExpenses(), updateDisplay()">Filter</button>     
                                                                                               
                                             </div>
                              
@@ -231,13 +230,13 @@
                                                          <div id="newPayments-title">
                                                              <h5 style="color: rgb(236, 228, 228); margin-top: 5px; margin-bottom: 5px; margin-left: 1px;">
                                                              Search here </h5>
-                                                             <input type="text" id="payment-search" placeholder="Search new payments" autocomplete="off"> 
+                                                             <input type="text" id="payment-search5" placeholder="Search expenses" oninput='handleMerchantSearchInput3(), updateDisplay()' autocomplete="off"> 
                                                              </div>
                                                          
 
 
 
-
+     <input type="text" id="theUser" hidden>  
 
 
 
@@ -321,43 +320,49 @@
                              
                        </div>
                 </div>
-               <div class="table-container2"> 
-                   <table id="payments-table">
-                     <ul id="itemList"></ul>
-                     <thead>
-                    <tr>
-                        <th>No.</th> 
-                        <th>Date</th>
-                        <th>Amount</th>
-                        <th>Name</th>
-                        <th>Address</th>
-                        <th>User</th>
-                        <th>Active</th>
-                        <th>Edit</th>
-                        
-                      </tr>
-                     </thead>
-                     <tbody>
-                     </tbody>
-                    <tfoot>     
-                    <td colspan="2" style="text-align: right;"><b>Total :</b></td>
-                    <td id="table-total">0.00</td>
-                     </tr>
-                     </tfoot>
-                     </table>
-                      </div>   
-
-
-                      <div id="data1" >      
-                      <button id="checkboxClaimed" type="submit" hidden></button>  
-                      </div>
 
 
 
-<div id="edit-payment-form2" class="modal hidden" >
+
+
+
+                  <div id="data">
+                  
+                   <strong> <p>Total expenses for the selected date range : <span id="totalExpenses">0</span></p></strong>
+                    
+                    <p>Gasolina Expenses : # of expenses <span id="exGasolinaC">0</span>, Total Amount = <strong><span id="exGasolina">0</span></strong></p>
+                    
+                    <p>Advance Labor : # of expenses <span id="exAdLaborC">0</span>, Total Amount = <strong> <span id="exAdLabor">0</span></strong></p>
+
+                    <p>Materials for operations : # of expenses <span id="exMaterialC">0</span>, Total Amount = <strong> <span id="exMaterial">0</span></strong></p>
+
+                    
+                     </div>
+
+
+
+
+
+
+   <div id="edit-payment-form2" class="modal hidden" >
 <div class="modal-content" id="editnewpayment2" autocomplete="off">
 
 <h3>Edit Payment NEW</h3> 
+
+<label for="expensesName2">Select Expense Name:</label>
+            <select id="expensesName2" required>
+              <option value="">-- Select Expenses Name Here --</option>
+              <option value="Gasolina">Gasolina</option>
+              <option value="Materials">Materials</option>
+              <option value="internetBill">Internet Bill</option>
+              <option value="electricBill">Electric Bill</option>
+              <option value="honorarium">Honorarium</option>
+              <option value="advanceLabor">Advance Labor</option>
+               <option value="salary/labor">Contructor Salary/Labor</option>
+              <option value="extraLabor">Extra Labor</option>
+              <option value="goldenDiv">Golden Dividends</option>
+            </select>
+
 
 <label for="exName2">Expenses Name:</label>
 <input type="text" id="exName2"><br>
@@ -382,7 +387,7 @@
 <button id="cancel-edit2">Close</button><br>
 
 
-<input type="text" id="edit-idPay2"  hidden><br>
+<input type="text" id="edit-idPay2"  ><br>
 <input type="text" id="edit-fireKey2" hidden><br>
 </div>
 </div>
@@ -390,7 +395,8 @@
 
 
 
-               <div><h3>Golden Expenses</h3></div>
+                <h3 style="color: rgb(5, 5, 135); margin-top: 5px; margin-bottom: 5px; margin-left: 10px;">
+                 Golden Expenses </h3>
                <div class="table-container"> 
                 <table id="payments-table2">
                   <ul id="itemList"></ul>
@@ -399,9 +405,10 @@
                      <th>No.</th> 
                      <th>Date</th>
                      <th>Amount</th>
-                     <th>Name</th>
+                      <th>Type</th>
+                     <th>Purpose</th>
                      <th>User</th>
-                     <th>Active</th>
+                     <th>Status</th>
                      <th>Edit</th>
                      
                    </tr>
@@ -414,14 +421,65 @@
                   </tr>
                   </tfoot>
                   </table>
-                   </div>   
+                   </div> 
 
-                   <div id="data">
-                  <h3>
-                    <p>Total Colection : <span id="totalCollected">0</span></p>
-                    <p>Total Expenses : <span id="totalExpens">0</span></p>
-                    <p>Nablilin/Kuwang : <span id="finalNabilin">0</span></p> </h3>
-                  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   <h3 style="color: rgb(5, 5, 87); margin-top: 5px; margin-bottom: 5px; margin-left: 10px;">
+                 Additional Collections </h3>
+
+
+               <div class="table-container2"> 
+                   <table id="payments-table">
+                     <ul id="itemList"></ul>
+                     <thead>
+                    <tr>
+                        <th>No.</th> 
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>User</th>
+                        <th>Status</th>
+                        <th>Edit</th>
+                        
+                      </tr>
+                     </thead>
+                     <tbody>
+                     </tbody>
+                    <tfoot>     
+                    <td colspan="2" style="text-align: right;"><b>Total :</b></td>
+                    <td id="table-total">0.00</td>
+                     </tr>
+                     </tfoot>
+                     </table>
+                      </div>   
+
+
+                      <div id="data1" >      
+                      <button id="checkboxClaimed" type="submit" hidden></button>  
+                      </div>
+
+
+
+  
+
+            
                   <button id="checkboxClaimed2" type="submit" hidden></button>  
                   </div>
 
