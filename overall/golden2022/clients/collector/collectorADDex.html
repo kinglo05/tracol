@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>GOLDEN-Add</title>
+    <title>Collector-Add</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styleGoldenADD.css">
 
@@ -118,7 +118,7 @@
             padding-left: px;
             transition: margin-left 0.3s;
             width: 100%;
-            background-color: rgb(90, 86, 86);
+            background-color: rgb(237, 180, 48);
           /*  border-top: 100px;   */
             padding: 2px;
         }
@@ -305,8 +305,26 @@
               <label>Amount:</label>
               <input type="number" id="expensesAmount" placeholder="Enter expenses amount" required>
         
-              <label>Expense Name:</label>
-              <input type="text" id="expensesName" placeholder="Enter expenses purpose" required>
+
+               <label for="expensesName2">Select Expense Catigory:</label>
+              <select id="expensesName2" required>
+              <option value="">-- Select Expenses Name Here --</option>
+              <option value="Gasolina">Gasolina</option>
+              <option value="Materials">Materials</option>
+              <option value="internetBill">Internet Bill</option>
+              <option value="advanceLabor">Advance Labor</option>
+               <option value="salary/labor">Contructor Salary/Labor</option>
+              <option value="extraLabor">Extra Labor</option>
+              <option value="others">Others (add note)</option>
+             
+              </select>
+
+
+
+
+
+              <label>Write expense purpose:</label>
+              <input type="text" id="expensesName" placeholder="Enter expenses purpose or note" required>
         
           
               <input type="date" id="expensesDate" required>
@@ -317,16 +335,7 @@
             </div>
           </div>
         
-      <!--     Popup 
-          <div class="popup" id="popup">
-            <div class="popup-content">
-              <h3 id="popupTitle">Submitted Successfully!</h3>
-              <p id="popupMessage">Your transaction has been recorded.</p>
-              <button onclick="closePopup()">OK</button>
-            </div>
-          </div> -->
-
-
+    
 
 </div>
 
