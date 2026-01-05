@@ -196,7 +196,7 @@ function handleMerchantSearchInput() {
   if (Array.isArray(merchantData)) {
     updateMerchantTable("#merchants-table", merchantData, false, searchTerm);
    // updateMerchantTable("#merchants-table3", merchantData, true, searchTerm);
-    loadSavedPayments(merchantData, searchTerm);
+    loadSavedPayments2(merchantData, searchTerm);
   } else {
     console.warn("merchantData is not an array");
   }
@@ -1988,10 +1988,11 @@ function closeModal3() {
 
 
 window.addEventListener("DOMContentLoaded", () => {
-  loadClientTable(); // load clients first
+ // loadClientTable(); // load clients first
  // sortTableByClientName();
  // updateMerchantTable3();
 });
+
 
 
 
