@@ -270,7 +270,7 @@ label {
 }
 
 input :hover {
-  background-color: #dee6e4; /* A slightly darker gray on hover */
+  background-color: #121313; /* A slightly darker gray on hover */
 }
 
 input[type="text"],
@@ -587,7 +587,7 @@ select {
 
 /* Button Styling */
 button {
-  background-color:#05e2f1; /* Blue background */
+  background-color:#ee0505; /* Blue background */
   color: white; /* White text */
   padding: 10px 15px; /* Padding around text */
   border: 1px; /* Remove default border */
@@ -626,7 +626,7 @@ button:hover {
 
 
   /* styles.css */.edit-button-assign {
-    background-color: #55edf8; 
+    background-color: #f9062f; 
     color: white;
     border: none;
    
