@@ -1,216 +1,60 @@
-/* Responsive Adjustments */
-@media screen and (max-width: 768px) {
-  .sidebar {
-      width: 40%; /* Increase width for smaller screens */
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .sidebar {
-      width: 60%; /* Even wider on very small screens */
-  }
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-  margin: 0;
- 
-  padding: 0;
-  font-family: Arial, sans-serif;
-  background-color: #cec8c8;
-}
-
-
-
-
-.main-content {
-  margin-left: 8px;
-  margin-top: 0px;
-  transition: margin-left 0.3s;
-
-  background-color: rgb(212, 206, 206);
-/*  border-top: 100px;   */
-flex-grow: 1; /* Makes inner elements stretch */
-width: 100%; /* Ensures full width */
-
-
-
-}
-
-
-#main-content {
-    min-height: 100vh; /* Ensures at least full viewport height */
-    display: flex;
-    flex-direction: column;
-}
-
-
-
-
-
-
-
-
-.sidebar-logo {
-  width: 150px; /* Adjust width as needed */
-  height: auto; /* Keeps aspect ratio */
-  max-width: 100%; /* Ensures it doesn't exceed the sidebar width */
-  margin-left: 15%;
-
-
-
-  text-align: center;
-  margin-top: 5px;
-  margin-bottom: 1px; /* Adds space between the logo and the list */
-}
-
-.sidebar-logo img {
-  width: 160px; /* Adjust width as needed */
-  height: auto; /* Keeps aspect ratio */
-  max-width: 100%; /* Ensures it doesn't exceed the sidebar width */
-  min-height: none;
-}
-
-
-
-
-.sidebar-body {
-  background: #242323;
- 
- 
- 
-}
-  
-
-
-#sidebar-body {
-  margin-top: 5px;
-  
-  border-radius: 8px; 
-  margin-bottom: 20px;
-  max-height: 290px;
-
-}
-
-#sidebar {
-  
- min-height: 600px; 
- z-index: 500; 
- 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Golden-Transsactions</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styleGoldenNEW.css">
    
- }
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-.sidebar {
-  height: 100vh; /* Full height */
-  background:  #222; /* Sidebar background color    =   #222; */
-   padding: 15px;   
-   width: 210px;
-   position: fixed;
-   left: -250px;
-   background-color: #222;
-   padding-top: 1px;
-  
-   transition: left 0.3s;
-   color: white;
-   display: fixed;
-   flex-direction: column;
-   justify-content: space-between;
-  
-   border-bottom: 1px solid #8f8d8d;
-  
-}
+   
+    <style>
+       
 
-.sidebar ul {
-   list-style-type: none;
-   padding: 0;
-   flex-grow: 1;
-   font-size: 13px; /* Adjust font size */
-   margin-left: 5px;
-   margin-top: 1px;
-  
-}
+       .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
 
-.sidebar ul li {
-   padding: 5px;
-   text-align: center;
-   width: 190px;
-}
+        /* Modal content */
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            height: 550px;
+            max-width: 600px;
+            position: relative;
+        }
 
-.sidebar ul li a {
-   color: rgb(233, 227, 227);
-   text-decoration: none;
-   display: block;
-}
+        /* Close button */
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 40px;
+            cursor: pointer;
+        }
 
-   .sidebar li a {
-
-padding: 8px;
-
-color: #333;
-border-bottom: 1px solid #8f8d8d;
-border-top: 1px solid #8f8d8d;
-border-radius: 8px; 
-align-items: right;
-}
-
-
-
-.sidebar ul li a:hover {
-   background-color: #15bcc2;
-}
-
-li.active { /* Style for the active <li> */
-background-color: #726c6c;
-border-radius: 10px; 
-padding: 2px;
-
- }
-
-
-
-
-.logout-container {
-   padding: 2px;
-   text-align: center;
-  
-  
-}
-
-#logout-container {
- height:50px;
- 
-}
-
-
-#logoutButton {
-  margin-top: 50%;
- 
-  height: 35px;
-   width: 70%;
-   padding: 10px;
-   background-color: rgba(216, 4, 4, 0.774);
-   border: none;
-   color: white;
-   cursor: pointer;
- 
-  
-}
-  
-
-
-#logoutButton:hover {
-   background-color: rgb(12, 237, 245);
-}
-
-
-/*   #logoutButton {
-
-margin-bottom: 5%;
-   }
-*/
+        /* iFrame styling */
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
 
 
 
@@ -221,38 +65,75 @@ margin-bottom: 5%;
 
 
 
+       #newPayments-title {
+                   
+                   
+                   background-color:#2e2929;
+                   color: white;
+                   display: flex;
+                   align-items: center;
+                   padding-left: 8px;
+                   border-color: #b4a5a5;
+                 
+                 
+                   height: 50px;      
+               }
+
+        #newPayments-title2 {
+                   
+                   
+                   background-color:#222;
+                   color: white;
+                   display: flex;
+                   align-items: center;
+                   padding-left: 8px;
+                   border-color: #8a8484;
+                   height: 50px; 
+                   font-size: xx-small;     
+               }
 
 
+        .menu-bar {
+            width: 100%;
+            height: 50px;
+            background-color: #3a3939;
+            color: white;
+            display: flex;
+            align-items: center;
+           
+          border-radius: 10px;
+           
+        }
+
+        .menu-bar button {
+            background-color: #158a80;
+            color: white;
+            border-color: rgb(206, 199, 199);
+            padding: 10px 15px;
+            cursor: pointer;
+            margin-left: 10px;
+            height: 35px;
+            font-size: smaller;
+           
+        }
+
+        .menu-bar button:hover {
+            background-color: #b80710;
+        }
+       
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#date-today {
-  margin-top: 0px;
- float: right;
-  background-color: #d3d8d7; /* Light gray */
-  width: 10%; /* Table takes full width of its container */
-  border-radius: 8px; /* Adjust the radius value for desired curvature */
-  min-width: 80px;
-  height: 5px;
-}
+        .menu-items {
+    display: flex;
+    gap: 15px; /* Space between menu items */
+  }
 
 
 #usernameHolder {
  
- margin-left: 10px;
+ margin-left: 2px;
+ height: 5px;
+ margin-top: 1px;
   
   
 }
@@ -260,1047 +141,381 @@ margin-bottom: 5%;
 
 
 
-
-
-
-
-label {
-  display: block;
-  margin-bottom: 1px;
-}
-
-input :hover {
-  background-color: #dee6e4; /* A slightly darker gray on hover */
-}
-
-input[type="text"],
-input[type="number"],
-input[type="email"],
-input[type="date"],
-input[type="time"],
-
-select {
-  min-width: 80px;
-  color: black;
-    padding: 8px;
-    margin-bottom: 1px;
-    border: 1px solid #8a8484;
-    width: 150px;
-    border-radius: 8px;   
-    background-color: #08eec8;
-    text-size-adjust: 2px;
-}
-
-
-
-
-
-
-
-
-
-
-#edit-payment-type {
-  width: 170px; /* Or any other value */
-}
-
-
-#editnewpayment {
-  width: 190px; /* Or any other value */
-  border-radius: 10px;
-  background-color: #9da1a1;
- 
-  padding-left: 20px;
-  color: white;
-}
-
-
-#edit-payment-formAssig {
-  width: 210px; /* Or any other value */
-  min-height: 400px;
-  padding: none;
-  border: none;
-}
-
-
-
-
-
-#editnewpaymentAssign {   /*primary container */
-  width: 300px;
-  min-height: 400px;
-  display: flex;
- 
-  align-items: center; /* Centers vertically */
-  flex-direction: column; /* Stack elements vertically */
-  text-align: center; /* Ensures text inside is centered */
-
-  border-radius: 12px;
-  background-color: #8d8888;
-  padding: 0px;
-  display: block;
-}
-
-#divrefAssign { 
-  width: 300px;
-  height: 30px;
-  border:none;
-  text-align: left;
-  margin-top: 5px;
-  margin-left: 1px;
-  font-size: 18px;
-  color: rgb(246, 246, 252); /* Change text color */
-  padding-left: 15px;
-}
-
-#divAmount { 
-  width: 300px;
-  border: 1px solid #fcf4f4;
-  height: 30px;
-  border:none;
-  margin-top: 20px;
-  margin-left: 1px;
-  font-size: 18px;
-  text-align: left;
-  color: rgb(9, 9, 10); /* Change text color */
-  padding-left: 15px;
-}
-
-#divAmount input {
-  font-size: 15px; /* Change font size */
-  color: rgb(14, 14, 19); /* Change text color */
-}
-#divrefAssign input {
-  font-size: 15px; /* Change font size */
-  color: rgb(11, 11, 12); /* Change text color */
-}
-
-
-#divNickName { 
-  border:none;
-  margin-top: 20px;
-  margin-bottom: 1px;
-  text-align: center;
-  display: block; /* Ensures the label is on its own line */
-  width: 100%;
-  height: 35px;
-  color:rgb(3, 3, 3);
-  font-size: 16px;
-  background-color: #c2b5b5;
-  padding-top: 15px;
-  font-weight: bold;
-  
-}
-
-#edit-merchantAssign label {
-  margin-top: 40px; 
-}
-
-    #edit-merchantAssign {
-      margin-top: 5px; 
-      margin-left: 50px;
-      text-align: center;
-      width: 170px;
-      color: rgb(15, 87, 15);
-      background-color:  #0df7e3; 
-      border-color: #3f3c3c; /* Slightly darker gray */
-      }
-      
-      #edit-merchantAssign:hover {
-      background-color: #c4b1b1; /* A slightly darker gray on hover */
-      border-color: #4e1221; /* Slightly darker gray */
-      border: 2px solid #fcf4f4;
-      color: white;
-      font-size: 16px;
-      }
-
-
-
-
-
-
-
-
-
-
-/* #edit-ref-numberAssign {
-  background: transparent;
-  border: none;
-  outline: none;
-  width: 2px;
- 
-
-} */
-
-
-#edit-ref-numberAssign label {
-  margin-top: 10px; 
-}
-
-#edit-ref-numberAssign {
-      margin-left: 10px;
-      text-align: center;
-      width: 90px;
-      color: rgb(15, 87, 15);
-      background-color:  #0df7e3; 
-      border-color: #3f3c3c; /* Slightly darker gray */
-      }
-      
-      #edit-ref-numberAssign:hover {
-      background-color: #c4b1b1; /* A slightly darker gray on hover */
-      border-color: #4e1221; /* Slightly darker gray */
-      border: 2px solid #fcf4f4;
-      color: rgb(77, 9, 9);
-      font-size: 16px;
-      }
-
-
-      #edit-ref-numberAssign {
-        /* Any specific styles for the input itself, if needed */
-        border: 3px solid #20854e; /* Example: A light gray border for the input */
-       
-      }
-      
- 
-
-
-
-
-
-
-
-
-#edit-amountAssign {
-  background: rgb(215, 215, 230);
-  border: 3px;
-  border-color: #07f0f8;
-  outline: red;
-  width:2px;
-  height: 20px;
-  padding-left: 10px;
-  margin-left: 28px;
-  font-size: 16px;
- 
- 
-}
-
-
-
-#timeEdit {
-  background: rgb(215, 215, 230);
-  border: 3px;
-  border-color: #07f0f8;
-  outline: red;
-  width:2px;
-  height: 20px;
-  padding-left: 10px;
-  margin-left: 50px;
-  font-size: 16px;
-  margin-bottom: 15px;
- 
-}
-
-
-#divassignTitle { 
-  border:none;
-  padding-top: 5px;
-  text-align: center;
-  text-align: center;
-  width: 100%;
-  border: 0px solid #fcf4f4;
-  height: 50px;
-  margin-top: 30px;
-  background-color: #252323;
-  font-size: medium;
-  color: rgb(250, 248, 245);
- 
- 
-}
-
-
-
-
-#divMerchantName { 
-  text-align: center;
-  width: 200px;
-  border: 0px solid #fcf4f4;
-  height: 30px;
-  margin-top: 2px;
- 
- 
-}
-
-
-#paymentsTitle {
-  width: 100%; /* Or any other value */
-  background-color: #08eec8;
-  height: 30px;
-  margin: 2px;
-  text-align: right;
-  margin-top:0px;
-}
-
-
-#save-editAssign {
-  height: 35px;
-  margin-bottom: 5px;
-  margin-right: 2px;
-  border-color: rgb(250, 242, 242);
-  border-width: 1px;
-  width: 85px;
-  font-size: 14px;  /* Adjust font size */
-  background-color:#b80606; /* Blue background */
-}
-
-
-#cancel-editAssign {
-  height: 35px;
-  border-color: rgb(250, 242, 242);
-  border-width: 1px;
-  margin-left: 2px;
-  width: 85px;
-  font-size: 14px;  /* Adjust font size */
-  background-color:#b80606; /* Blue background */
-}
-
-#save-editAssign:hover {
-  background-color: #07f0f8; /* A slightly darker gray on hover */
-  border-color: #4e1221; /* Slightly darker gray */
-  border: 2px solid #fcf4f4;
-  color: white;
-  font-size: 16px;
-  }
-  #cancel-editAssign:hover {
-    background-color: #07f0f8; /* A slightly darker gray on hover */
-    border-color: #4e1221; /* Slightly darker gray */
-    border: 2px solid #fcf4f4;
-    color: white;
-    font-size: 16px;
+        .main-content {
+            height: 100vh; /* Full height */
+            min-height: 600px;  
+            margin-left: 8px;
+            margin-top: 0px;
+            transition: margin-left 0.3s;
+            width: 100%;
+            background-color: rgb(180, 172, 172);
+          /*  border-top: 100px;   */
+          
+        }
+        
+    </style>
+
+
+
+<style>
+    body { font-family: Arial, sans-serif; padding: 1px; }
+    h2 { color: #2e2929; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+    th, td {
+        border: 1px solid #333;
+        padding: 8px;
+        text-align: left;
+        font-size: 10px;
+        height: 5px; /* 🔸 Set the desired cell height here */
     }
+    th { background-color: #f0f0f0; }
+    .totals { margin-top: 20px; }
+    .totals p { font-size: 16px; margin: 5px 0; }
+    .logo { width: 150px; margin-bottom: 20px; }
+</style>
+
+
+
+
+
+
+
+
+</head>
+<body>
+
   
 
+    <div class="sidebar" id="sidebar" >
+           <div class="sidebar-logo">
+            <img src="logo.png" alt="Tracollect Logo">
+        </div>
+        <div class="sidebar-body" id="sidebar-body">
+           <ul>
+            <li><a href="clients/billAdmin2025.html">CLIENTS/BILLS</a></li>
+              <li><a href="clients/disconnected/disconnected.html">DISCONNECTED CLIENTS</a></li>
+             <li><a href="addclient.html">ADD NEW CLIENT</a></li>
+            <li><a href="goldenADD.html">ADD NEW TRANSACTION</a></li>
+            <li><a href="report/report.html">GENERATE REPORT</a></li>
+           
+
+       </div>
+       <div hidden>    <input type="date" name="date-today" id="date-today">     </div>
+        <div class="logout-container">
+            <button id="logoutButton">Logout</button>
+        </div>
+    </div>
+
+    <div class="main-content" id="mainContent">
+        <div class="menu-bar">
+                 <button id="menubutton" onclick="toggleSidebar()"> &#9776; Menu</button>
+                 <div id="usernameHolder">  <h5 id="usernameDisplay" style="color: whitesmoke; margin-top: 1px; margin-bottom: 1px; margin-left: 10px;">Loading...</h5>  </div>
+               </div>
 
-
-
-
-
-
-/* Button Styling */
-button {
-  background-color:#05e2f1; /* Blue background */
-  color: white; /* White text */
-  padding: 10px 15px; /* Padding around text */
-  border: 1px; /* Remove default border */
-  border-radius: 8px; /* Rounded corners */
-  cursor: pointer; /* Change cursor on hover */
-  font-size: 16px;  /* Adjust font size */
-  font-family: sans-serif; /* Example font family */
-  transition: background-color 0.2s ease; /* Smooth transition for hover effect */
-  width: 80px;
-
- 
-}
-
-button:hover {
-  background-color:  #082bee; /* A slightly darker gray on hover */
-}
-
-#searchTitle {
-  width: 140px;
-  border-color: #3f3c3c; /* Slightly darker gray */
-  
-  }
-
-  /* Button Styling */
-#searchTitle {
-  padding: 10px 15px;
-  background-color: #727772;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 8px;
-}
-
-
-
-
-
-  /* styles.css */.edit-button-assign {
-    background-color: #55edf8; 
-    color: white;
-    border: none;
-   
-    cursor: pointer;
-    border-radius: 8px;
-    font-size: 16px;
-    font-family: sans-serif;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-    transition: all 0.2s ease;
-    width: 50px;
-  
-   
-  }.edit-button-assign:hover {
-    background-color: #0069d9; 
-    transform: translateY(-1px);
-   
-  }.edit-button-assign:active {
-    background-color: #0062cc;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    transform: translateY(1px);
-  
-  }
-
-
-
-#edit-new-remain {
-/* Any specific styles for the input itself, if needed */
-border: 1px solid #20854e; /* Example: A light gray border for the input */
-}
-
-#edit-new-borrowed {
-/* Any specific styles for the input itself, if needed */
-border: 1px solid #4CAF50; /* Example: A light gray border for the input */
-}
-
-#checkboxClaimed {
-/* Any specific styles for the input itself, if needed */
-border: 1px solid #eef0ee; /* Example: A light gray border for the input */
-}
-
-
-
-
-
-.modal {
-  display: none; 
-  position: fixed; 
-  z-index: 1000; 
-  left: 0;
-  top: 0;
-  width: 100%; 
-  height: 100%; 
-  overflow: auto; 
-  background-color: rgba(0, 0, 0, 0.4); 
-}
-
-.modal-content {
-  background-color: #fefefe;
-  margin: 15% auto; 
-  padding: 20px;
-  border: 1px solid #888;
-  width: 30%; 
-}
-
-.close-modal {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close-modal:hover,
-.close-modal:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.hidden {
-  display: none;
-}
-
-
-
-/* The Modal (background) */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1000; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-/* Modal Content/Box */
-.modal-content {
-  background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
-  border: 1px solid #bfbdc4;
-  width: 80%; /* Could be more or less, depending on screen size */
-}
-
-/* The Close Button */
-.close-button {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  background-color: #08eec8; /* Light gray */
- 
-  border-radius: 8px; /* Adjust the radius value for desired curvature */
-}
-
-.close-button:hover,
-.close-button:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-
-
-
-
-/* Hide the first column (ID column) */
-
-/*
-
-#merchants-table td:nth-child(1),
-#merchants-table th:nth-child(1) {
-display: none;
-}
-
-#payments-table td:nth-child(1),
-#payments-table th:nth-child(1) {
-display: none;
-}
-
-*/
-
-
-
-
-
-
-
-
-
-
-/* Container for the table with scrolling */
-.table-container {
-
-/* max-height: 450px; */
-overflow-y: auto; /* Enable vertical scrolling */
-overflow-x: auto; /* Enable horizontal scrolling if needed */
-
-
-}
-
-/* Optional: Style the scrollbar (webkit browsers) */
-.table-container::-webkit-scrollbar {
-width: 20px; /* Adjust scrollbar width */
-}
-.table-container::-webkit-scrollbar-track {
-background: #cbcfcf; /* Scrollbar track background */
-}
-.table-container::-webkit-scrollbar-thumb {
-background: #494646; /* Scrollbar thumb color */
-}
-.table-container::-webkit-scrollbar-thumb:hover {
-background: #e67c7c; /* Scrollbar thumb hover color */
-}
-
-/* Make table header sticky */
-
-
-
-
-
-/* Container for the table with scrolling */
-.table-container2 {
-
- /*  max-height: 450px; */ /* Set a maximum height for scrolling */
-  overflow-y: auto; /* Enable vertical scrolling */
-  overflow-x: auto; /* Enable horizontal scrolling if needed */
- 
-  
-  }
-  
-  /* Optional: Style the scrollbar (webkit browsers) */
-  .table-container2::-webkit-scrollbar {
-  width: 12px; /* Adjust scrollbar width */
-  }
-  .table-container2::-webkit-scrollbar-track {
-  background: #cbcfcf; /* Scrollbar track background */
-  }
-  .table-container2::-webkit-scrollbar-thumb {
-  background: #494646; /* Scrollbar thumb color */
-  }
-  .table-container2::-webkit-scrollbar-thumb:hover {
-  background: #e67c7c; /* Scrollbar thumb hover color */
-  }
-  
-  /* Make table header sticky */
-
-
-
-
-
-
-
-
-
-
-/* Table Styling */
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th,
-td {
- 
-  text-align: left;
-  border: 1px solid #c9c2c2;
-}
-
-
-#payments-table th {
- 
-
-  width: 10%;
-  font-size: 10px; /* Set font size for table headers */
- 
-  border: #3f3c3c;
-  border-radius: 3px;
- 
- /* font-weight: bold; /* Make headers bold (optional) */
-}
-
-
-  
-  #payments-table th, #payments-table td {
-
-    position: sticky;
-
-
-  text-align: center;
-  overflow: hidden;    /* Hide overflowing content */
-  text-overflow: ellipsis; /* Add ellipsis (...) for overflowing text */
-  }
-
-  #payments-table thead th {
-    position: sticky;
-    top: 0;
-    z-index: 100; /* Ensure it stays above other elements */
-    background-color: rgb(220, 240, 240); /* Or your preferred header background */
-   
-    }
     
+               <div>
+               
+                 
+                                        
+                                        <div id="newPayments-title2">                               
+                                            <label for="startDate" style="margin-right: 1px; width: 8%;">Start Date:</label>
+                                            <input  type="date" id="startDate">
+                                            <label for="endDate"style="margin-left: 10px; width: 8%;">End Date:</label>
+                                            <input  type="date" id="endDate">
+                                            <button id="filter" onclick="filterPayments(), filterPayments2(), filterCountExpenses(), updateDisplay()">Filter</button>     
+                                                                                              
+                                            </div>
+                             
+                                                       
+                                                         <div id="newPayments-title">
+                                                             <h5 style="color: rgb(236, 228, 228); margin-top: 5px; margin-bottom: 5px; margin-left: 1px;">
+                                                             Search here </h5>
+                                                             <input type="text" id="payment-search5" placeholder="Search expenses" oninput='handleMerchantSearchInput3(), updateDisplay()' autocomplete="off"> 
+                                                             </div>
+                                                         
 
 
 
-/* Footer styling */
-#payments-table tfoot {
-    position: sticky;
-    bottom: 0;
-    background-color:rgb(217, 236, 236);
-   
-}
-
-
-#payments-table td:nth-child(6) { /* Targets the 6 column */
-  text-align: left;
-}
+     <input type="text" id="theUser" hidden>  
 
 
 
-/* ////////////////////////////// 2nd table ////////////////// */
+            <div id="edit-payment-form" class="modal hidden" >
+                <div class="modal-content" id="editnewpayment" autocomplete="off">
+                 
+                    <h3>Edit Payment NEW</h3> 
+
+                    <label for="edit-clientName1">Client Name:</label>
+                     <input type="text" id="edit-clientName1"><br>
+                      <ul id="suggestionsList"></ul>
+
+                    <label for="edit-amount">Amount:</label>
+                    <input type="number" id="edit-amount"><br>
+                    
+
+                     <label for="address">Client Address:</label>
+                <select id="address" autocomplete="off"  required><br>
+                <option value="">Select Address</option>
+                 <option value="Asuncion">Asuncion</option>
+                 <option value="Amparo">Amparo</option>
+                 <option value="Isagani">Isagani</option>
+                 <option value="Macrohon">Macrohon-Proper</option>
+                 <option value="Combado">Combado</option>
+                 <option value="Lib-og">Lib-og</option>
+                 <option value="Bato-1">Bato-1</option>
+                 <option value="Bato-2">Bato-2</option>
+                 <option value="Nati">Nati</option>
+                 <option value="Acasia">Acasia</option>
+                 <option value="Baugo">Baugo</option>
+                 <option value="Lunas">Lunas</option>
+                 <option value="Cansirong">Cansirong</option>
+                 <option value="Rizal-Maasin">Rizal-Maasin</option>
+                 <option value="Cambooc">Cambooc</option>
+                 <option value="Hantag">Hantag</option>
+                  
+                 </select> <br>
+
+                <label for="edit-date">Date of Payment:</label>
+                <input type="date" id="edit-date" ><br>
+                  
+
+                    <label for="edit-status">Remove or Include</label>
+                    <select id="edit-status" autocomplete="off" required><br>
+                 
+                      <option value="new">Included</option>
+                      <option value="claimed">Remove</option>
+                  
+                 </select> <br>
 
 
 
-#payments-table2 th {
 
-  width: 10%;
-  font-size: 10px; /* Set font size for table headers */
+                    <button id="save-edit">Save</button>
+                    <button id="cancel-edit">Close</button>
 
-  border: #3f3c3c;
- 
- 
- /* font-weight: bold; /* Make headers bold (optional) */
-}
+                   
+                    <input type="text" id="edit-idPay" hidden ><br>
+                    <input type="text" id="edit-fireKey" hidden ><br>
+                </div>
+            </div>
+
+
+
+
+                      <div id="edit-payment-formAssign" class="modal hidden">
+                       <div class="modal-content" id="editnewpaymentAssign">
+                <div id="divassignTitle"  class="divassignTitle">     <h3>Assign Trader</h3>  </div>
+                <div id="divrefAssign" class="divrefAssign"> Reference :<!-- <input type="number" id="edit-ref-numberAssign" placeholder="Input 4 digit" pattern="\d{4}"  > --> </div>
+                            <div id="divAmount" class="divAmount"> Amount :  <input type="number" id="edit-amountAssign" placeholder="Enter AMOUNT"></div>
+                            <div id="divAmount" class="divAmount"> Time :  <input type="text" id="timeEdit" readonly ></div>
+                     <div id="divNickName" class="divNickName" >  <label for="edit-merchantAssign">WHATSAPP Nickname</label>   </div>  
+                     <div id="divMerchantName" class="divMerchantName"> <input type="text" id="edit-merchantAssign" placeholder="Enter merchant name" autocomplete="off" ><br> </div>
+                             <ul id="suggestionsListAssign"></ul>
+                            
+                    
+                             <input type="text" id="edit-idPayAssign"  hidden readonly><br> 
+                             <button id="save-editAssign">Save</button>
+                             <button id="cancel-editAssign">Close</button>
+                             <input type="text" id="edit-fireKeyAssign" hidden readonly><br>
+                             
+                       </div>
+                </div>
+
+
+
+
+
+
+                  <div id="data">
+                  
+                   <strong> <p>Total expenses for the selected date range : <span id="totalExpenses">0</span></p></strong>
+                    
+                    <p>Gasolina Expenses : # of expenses <span id="exGasolinaC">0</span>, Total Amount = <strong><span id="exGasolina">0</span></strong></p>
+                    
+                    <p>Advance Labor : # of expenses <span id="exAdLaborC">0</span>, Total Amount = <strong> <span id="exAdLabor">0</span></strong></p>
+
+                    <p>Materials for operations : # of expenses <span id="exMaterialC">0</span>, Total Amount = <strong> <span id="exMaterial">0</span></strong></p>
+
+                    
+                     </div>
+
+
+
+
+
+
+   <div id="edit-payment-form2" class="modal hidden" >
+<div class="modal-content" id="editnewpayment2" autocomplete="off">
+
+<h3>Edit Payment NEW</h3> 
+
+<label for="expensesName2">Select Expense Name:</label>
+            <select id="expensesName2" required>
+              <option value="">-- Select Expenses Name Here --</option>
+              <option value="Gasolina">Gasolina</option>
+              <option value="Materials">Materials</option>
+              <option value="internetBill">Internet Bill</option>
+              <option value="electricBill">Electric Bill</option>
+              <option value="honorarium">Honorarium</option>
+              <option value="advanceLabor">Advance Labor</option>
+               <option value="salary/labor">Contructor Salary/Labor</option>
+              <option value="extraLabor">Extra Labor</option>
+              <option value="goldenDiv">Golden Dividends</option>
+            </select>
+
+
+<label for="exName2">Expenses Name:</label>
+<input type="text" id="exName2"><br>
+
+<label for="edit-amount2">Amount:</label>
+<input type="number" id="edit-amount2"><br>
+
+<label for="edit-date2">Date of Payment:</label>
+                <input type="date" id="edit-date2" ><br>
+                  
+
+                    <label for="edit-status2">Remove or Include</label>
+                    <select id="edit-status2" autocomplete="off" required><br>
+                 
+                      <option value="new">Included</option>
+                      <option value="claimed">Remove</option>
+                  
+                 </select> <br>
+
+
+<button id="save-edit2">Save</button>
+<button id="cancel-edit2">Close</button><br>
+
+
+<input type="text" id="edit-idPay2"  ><br>
+<input type="text" id="edit-fireKey2" hidden><br>
+</div>
+</div>
+
+
+
+
+                <h3 style="color: rgb(5, 5, 135); margin-top: 5px; margin-bottom: 5px; margin-left: 10px;">
+                 Golden Expenses </h3>
+               <div class="table-container"> 
+                <table id="payments-table2">
+                  <ul id="itemList"></ul>
+                  <thead>
+                 <tr>
+                     <th>No.</th> 
+                     <th>Date</th>
+                     <th>Amount</th>
+                      <th>Type</th>
+                     <th>Purpose</th>
+                     <th>User</th>
+                     <th>Status</th>
+                     <th>Edit</th>
+                     
+                   </tr>
+                   </thead>
+                   <tbody>
+                   </tbody>
+                   <tfoot>     
+                   <td colspan="2" style="text-align: right;"><b>Total :</b></td>
+                   <td id="table-total2">0.00</td>
+                  </tr>
+                  </tfoot>
+                  </table>
+                   </div> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   <h3 style="color: rgb(5, 5, 87); margin-top: 5px; margin-bottom: 5px; margin-left: 10px;">
+                 Additional Collections </h3>
+
+
+               <div class="table-container2"> 
+                   <table id="payments-table">
+                     <ul id="itemList"></ul>
+                     <thead>
+                    <tr>
+                        <th>No.</th> 
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>User</th>
+                        <th>Status</th>
+                        <th>Edit</th>
+                        
+                      </tr>
+                     </thead>
+                     <tbody>
+                     </tbody>
+                    <tfoot>     
+                    <td colspan="2" style="text-align: right;"><b>Total :</b></td>
+                    <td id="table-total">0.00</td>
+                     </tr>
+                     </tfoot>
+                     </table>
+                      </div>   
+
+
+                      <div id="data1" >      
+                      <button id="checkboxClaimed" type="submit" hidden></button>  
+                      </div>
+
 
 
   
-  #payments-table2 th, #payments-table2 td {
-   
-    position: sticky;
+
+            
+                  <button id="checkboxClaimed2" type="submit" hidden></button>  
+                  </div>
+
+ <!-- ✅ REPORT BUTTON -->
+
  
-  
-  text-align: center;
-  overflow: hidden;    /* Hide overflowing content */
-  text-overflow: ellipsis; /* Add ellipsis (...) for overflowing text */
-  }
+     </div>
 
-  #payments-table2 thead th {
-    position: sticky;
-    top: 0;
-    z-index: 100; /* Ensure it stays above other elements */
-    background-color: rgb(9, 243, 243); /* Or your preferred header background */
-   
-    }
-    
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            var mainContent = document.getElementById("mainContent");
+            if (sidebar.style.left === "-250px" || sidebar.style.left === "") {
+                sidebar.style.left = "0";
+                mainContent.style.marginLeft = "250px";
+            } else {
+                sidebar.style.left = "-250px";
+                mainContent.style.marginLeft = "0";
+            }
+        }
+    </script>
 
-
-
-/* Footer styling */
-#payments-table2 tfoot {
-    position: sticky;
-    bottom: 0;
-    background-color:rgb(196, 219, 219);
-   
-}
-
-
-#payments-table2 td:nth-child(6) { /* Targets the 6 column */
-  text-align: left;
-}
+<!-- <script>
+    setInterval(() => {
+      const input = document.getElementById("edit-ref-numberAssign");
+      input.style.borderColor = input.style.borderColor === "red" ? "transparent" : "red";
+    }, 200);
+  </script> -->
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* Basic table styling    ////////// FOR new payments -search ONLY //////////////////// */
-
-#payment-search {
-  border-radius: 8px;
-  color: rgb(15, 87, 15);
-  background-color: #f0f0f0; /* Light gray */
-  border-color: #222121; /* Slightly darker gray */
-  width: 150px;
-  height: 15px;
-  margin-top: 8px;
-  margin-left: 10px;
-  }
-  
-  #payment-search:hover {
-  background-color:  #76f7dd; /* A slightly darker gray on hover */
-  }
-
-
-
-
-
-/* Basic table styling    ////////// FOR CLAIMED MERCHANTS -search ONLY //////////////////// */
-
-#merchant-search {
-color: rgb(15, 87, 15);
-background-color: #f0f0f0; /* Light gray */
-border-color: #3f3c3c; /* Slightly darker gray */
-}
-
-#merchant-search:hover {
-background-color: #e0e0e0; /* A slightly darker gray on hover */
-}
-
-
-
-
-label {
-  margin-right: 5px; /* Space between label and input */
-}
-
-
-#data1 {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 5px; /* Space between items */
-  background-color:  rgb(43, 41, 41);
- padding-top: 4px;
-  height: 20px;
-  margin-top: 0px;
- font-size: small;
- color: rgb(250, 244, 244); /* Changes text color inside the div */
-  margin-left: 0px;
- padding-left: 20px;
-}
-
-
-
-
-
-
-
-#data {
-  /* display: flex; */
-  /* flex-wrap: wrap; */
-  align-items: center;
-  gap: 5px; /* Space between items */
-  background-color:  rgb(246, 199, 28);
+    <script src="scriptGoldenNEW.js"></script>
+    <script src="scriptGoldenNEW22.js"></script>
  
-  height: 10%;
-  margin-top: 1px;
- font-size:small;
- color: rgb(37, 32, 32); /* Changes text color inside the div */
-  margin-left: 0px;
-  padding-top: 5px;
-  padding-bottom: 5px;
- padding-left: 20px;
- 
-}
-
-
-#total-today {
-  background: transparent;
-  border: none;
-  outline: none;
-  font-size: small;
-  height: 10px;
-  min-width: 60px;
-  margin-top: 1px;
-  margin-left: 4px; /* If you want space after the input too */
-  padding: 1px;
- 
-  width: 6%; /* Table takes full width of its container */
-  
-}
-
-#total-todayGcash {
-  background: transparent;
-  border: none;
-  outline: none;
-  font-size: small;
-  height: 10px;
-  min-width: 60px;
-  margin-top: 1px;
-  margin-left: 4px; /* If you want space after the input too */
-  padding: 1px;
- 
-  width: 6%; /* Table takes full width of its container */
-  
-}
-
-
-
-
-
-#total-resibo {
-  background: transparent;
-  border: none;
-  outline: none;
-  font-size: small;
-  height: 10px;
-  min-width: 40px;
-  margin-top: 1px;
-  margin-left: 1px; /* If you want space after the input too */
-  padding: 1px;
-  margin-right: 1px;
- 
-  width: 6%; /* Table takes full width of its container */
-  
-}
-
-#total-resiboGcash {
-  background: transparent;
-  border: none;
-  outline: none;
-  font-size: small;
-  height: 10px;
-  min-width: 40px;
-  margin-top: 1px;
-  margin-left: 1px; /* If you want space after the input too */
-  padding: 1px;
-  margin-right: 1px;
- 
-  width: 6%; /* Table takes full width of its container */
-  
-}
-
-
-
-
-#eight {
-  background: transparent;
-  border: none;
-  outline: none;
-  font-size: 16px;
- 
-}
-
-input[type="text"],
-
-#eight {
-   color: white;
-   font-size: small;
-  
-}
-
-
-#eight {
-  height: 10px;
-  min-width: 50px;
-  margin-top: 8px;
-  margin-left: 1px; /* If you want space after the input too */
-  font: white;
-  width: 6%; /* Table takes full width of its container */
- 
- 
-}
-#eightFive {
-  height: 10px;
-  min-width: 40px;
-  margin-top: 5px;
-  margin-left: 1px; /* If you want space after the input too */
-  background: transparent;
-  border: none;
-  outline: none;
-  font: white;
-  width: 6%; /* Table takes full width of its container */
- 
- 
-}
-
-#eightC {
-  height: 10px;
-  min-width: 40px;
-  margin-top: 5px;
-  margin-left: 1px; /* If you want space after the input too */
-  background: transparent;
-  border: none;
-  outline: none;
-  font: white;
-  width: 6%; /* Table takes full width of its container */
- 
-}
-#eightFiveC {
-  height: 10px;
-  min-width: 40px;
-  margin-top: 5px;
-  margin-left: 1px; /* If you want space after the input too */
-  background: transparent;
-  border: none;
-  outline: none;
-  font: white;
-  width: 6%; /* Table takes full width of its container */
- 
-}
-
-
-
-
-
-#total-claimed {
-  height: 10px;
-  min-width: 40px;
-  margin-top: 5px;
-  margin-left: 1px; /* If you want space after the input too */
-  background: transparent;
-  border: none;
-  outline: none;
-  font: white;
-  width: 6%; /* Table takes full width of its container */
- 
-}
-
-#total-resiboClaimed {
-  height: 10px;
-  min-width: 8px;
-  margin-top: 5px;
-  margin-left: 1px; /* If you want space after the input too */
-  background: transparent;
-  border: none;
-  outline: none;
-  font: white;
-  width: 1%; /* Table takes full width of its container */
- 
-}
-
-
-#filter {
-  margin-top: 0%;
-  margin-left: 20px;
- 
-  height: 35px;
-   width: 20%;
-   padding: 10px;
-   background-color: rgba(216, 4, 4, 0.774);
-   border: none;
-   color: white;
-   cursor: pointer;
- 
-  
-}
-  
-
-
-#filter:hover {
-   background-color: rgb(12, 237, 245);
-}
-
-
-#startDate {
-  border-radius: 2px;
-  color: rgb(15, 87, 15);
-  background-color: #f0f0f0; /* Light gray */
-  border-color: #222121; /* Slightly darker gray */
-  width: 23%;
-  height: 20px;
-  margin-top: 8px;
-  margin-left: 1px;
-  padding: 1px;
-  font-size: small;
- 
-  }
-  
-  #startDate:hover {
-  background-color:  #76f7dd; /* A slightly darker gray on hover */
-  }
-
-
-  #endDate {
-    border-radius: 2px;
-    color: rgb(15, 87, 15);
-    background-color: #f0f0f0; /* Light gray */
-    border-color: #222121; /* Slightly darker gray */
-    width: 23%;
-    height: 20px;
-    margin-top: 8px;
-    margin-left: 1px;
-    padding: 1px;
-    font-size: small;
-    }
-    
-    #endDate:hover {
-    background-color:  #76f7dd; /* A slightly darker gray on hover */
-    }
-
-
-
-
-
-
-
-
-
-
+</body>
+</html>
