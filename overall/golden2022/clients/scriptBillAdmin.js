@@ -196,6 +196,7 @@ function handleMerchantSearchInput() {
   if (Array.isArray(merchantData)) {
     updateMerchantTable("#merchants-table", merchantData, false, searchTerm);
    // updateMerchantTable("#merchants-table3", merchantData, true, searchTerm);
+   loadClientTable;
     loadSavedPayments2(merchantData, searchTerm);
   } else {
     console.warn("merchantData is not an array");
@@ -1986,13 +1987,74 @@ function closeModal3() {
 
 
 
+function totalClients() {
+  const tableDataM = [];
+  let merchantData = [];
+
+   let total = 0;
+    let count = 0;
+    let countActive = 0;
+    let countDiscon = 0;
+
+  // if (!username) {
+  //   console.error("Username is empty — please check login input.");
+  //   return;
+  // }
+
+  database.ref('goldenwifi/goldenClients/').on('value', (snapshot) => {
+    tableDataM.length = 0;
+    merchantData = [];
+
+    snapshot.forEach((childSnapshot) => {
+      const merchant = childSnapshot.val();
+      const firebaseKeyM = childSnapshot.key;
+
+     // if (merchant.status === "new") {
+        if (merchant.status) {
+        count++;
+        //  total += amount;
+      }
+
+       if (merchant.status === "new") {
+        countActive++;
+        //  total += amount;
+      }
+      
+      if (merchant.status === "disconnected") {
+        countDiscon++;
+        //  total += amount;
+      }
+
+    });
+
+   // updateMerchantTable(merchantData);
+        console.log("started date:", count,countActive,countDiscon); // total.toFixed(2), count);
+   document.getElementById("totalActive").textContent = countActive;
+   document.getElementById("totalDiscon").textContent = countDiscon;
+  
+
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
 
 window.addEventListener("DOMContentLoaded", () => {
- // loadClientTable(); // load clients first
+ // loadClientTable();
+ // loadSavedPayments2(); // load clients first
  // sortTableByClientName();
  // updateMerchantTable3();
-});
+totalClients();
 
+});
 
 
 
