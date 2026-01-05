@@ -1,5 +1,5 @@
 
-
+//const paymentSearchInput5 = document.getElementById('payment-search5');
 const editPaymentForm2 = document.getElementById('edit-payment-form2');
 
 
@@ -11,15 +11,15 @@ const tableData2= [];
 
 let paymentsData2 = []; // Store the fetched payment data
 
+
+
 function filterPayments2() {
 
- 
-
-database2.ref('goldenwifi/goldenExpenses').on('value', (snapshot) => {
+  database2.ref('goldenwifi/goldenExpenses').on('value', (snapshot) => {
   tableData2.length = 0; // Clear existing data
   paymentsData2 = [];
 
-
+  let count = 0;
    const selectedStartDate = document.getElementById("startDate").value;
   const selectedEndDate = document.getElementById("endDate").value;
 
@@ -27,12 +27,12 @@ database2.ref('goldenwifi/goldenExpenses').on('value', (snapshot) => {
   const endDate = new Date(selectedEndDate); // Example: "2024-03-25"
  
 
-  snapshot.forEach((childSnapshot) => {
+   snapshot.forEach((childSnapshot) => {
     const firebaseKey2 = childSnapshot.key; // Get the Firebase key
     const payment2 = childSnapshot.val(); // Get the payment data
 
     const paymentDate = new Date(payment2.date); // Ensure payment.date is in a valid format
-
+    const amount = (payment2.amount);
 
  
 
@@ -42,27 +42,33 @@ database2.ref('goldenwifi/goldenExpenses').on('value', (snapshot) => {
       payment2.status === 'new' &&
     //  payment2.actionTo ==='approved' &&
       paymentDate >= startDate &&
-      paymentDate <= endDate
+      paymentDate <= endDate 
     
     
     ) {
       paymentsData2.push({ id: firebaseKey2, ...payment2 });
 
       const rowData2 = {
-        firebaseKey: firebaseKey2, // Store the key
-        amount: payment2.amount,
-        date: payment2.date,
-        address: payment2.address,
-        name: payment2.exName,
-        status: payment2.status,
-        user: payment2.user,
-        actionTo: payment2.actionTo,
+        firebaseKey2: firebaseKey2, // Store the key
+        amount2: payment2.amount,
+        date2: payment2.date,
+        address2: payment2.address,
+        name2: payment2.exName,
+        status2: payment2.status,
+        user2: payment2.user,
+        amount2: payment2.amount,
+        expensesCatig2: payment2.expensesCatig,
+        actionTo2: payment2.actionTo,
+        exName2: payment2.exName,
       
       
        
       };
-
+       
       tableData2.push(rowData2);
+
+    //  count++;
+
     }
   });
 
@@ -72,10 +78,35 @@ database2.ref('goldenwifi/goldenExpenses').on('value', (snapshot) => {
     return dateTimeB - dateTimeA; // Newest first
   });
   //console.log("Sorted Payments:", paymentsData.map(p => `${p.date} ${p.time}`));
-
+ // console.log("count of all expenses:", count); // total.toFixed(2), count);
   updatePaymentsTable2(paymentsData2); // Initial table population
 });
 };
+
+
+filterPayments2();
+
+//let paymentsData2= [];
+
+
+// ======================= SEARCH HANDLER =======================
+
+// function handleMerchantSearchInput() {
+//   const searchTerm = document
+//     .getElementById("payment-search5")
+//     .value.trim()
+//     .toLowerCase();
+
+//   if (Array.isArray(paymentsData2)) {
+//     updatePaymentsTable2("payments-table2", paymentsData2, false, searchTerm);
+//    // updateMerchantTable("#merchants-table3", merchantData, true, searchTerm);
+//     loadSavedPayments2(paymentsData2, searchTerm);
+//   } else {
+//     console.warn("merchantData is not an array");
+//   }
+// }
+
+
 
 
 
@@ -85,12 +116,8 @@ database2.ref('goldenwifi/goldenExpenses').on('value', (snapshot) => {
 
 function updatePaymentsTable2(data) {
 table2.innerHTML = ''; // Clear the table
-
-
-
-data.forEach((payment2, rowIndex) => {
+data.forEach((payment2, rowIndex, searchTerm) => {
   const row = table2.insertRow();
-
 
   const rowIndexCell2 = row.insertCell();
   rowIndexCell2.textContent = rowIndex + 1;
@@ -103,7 +130,9 @@ data.forEach((payment2, rowIndex) => {
 
   const amountCell2 = row.insertCell();
   amountCell2.textContent = payment2.amount;
-
+  
+   const catigCell2 = row.insertCell();
+  catigCell2.textContent = payment2.expensesCatig;
 
   const nameCell2 = row.insertCell();
   nameCell2.textContent = payment2.exName;
@@ -130,6 +159,48 @@ data.forEach((payment2, rowIndex) => {
 /////////////////////////////////// auto add /////////////////////////////
 
 
+editCell2.addEventListener('click', (event) => {
+ //  const tableBody = paymentsTableNew.querySelector('tbody');
+  const button2 = event.target;
+  const firebaseKey2 = button2.dataset.rowIndex;
+  
+const rowData = tableData2.find(data => data.firebaseKey === firebaseKey2);
+const amount = payment2.amount;
+//const amountNew3 = parseFloat(cell.textContent) || 0;
+// const amount = tableData2.querySelectorAll('td:nth-child(3)');
+
+
+ document.getElementById('edit-idPay2').value = firebaseKey2;
+ document.getElementById('edit-amount2').value = amount;
+  document.getElementById('edit-date2').value = payment2.date;
+  document.getElementById('expensesName2').value = payment2.expensesCatig;
+
+  document.getElementById('edit-status2').value = payment2.status;
+  const exx = document.getElementById('exName2').value = payment2.exName; 
+
+  editPaymentForm2.style.display = 'block'; 
+
+  console.log("MAO ni data",rowData,amount);
+
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const paymentsTableNew2 = document.getElementById('payments-table2');
 
 // Check if the table exists before proceeding
@@ -139,6 +210,7 @@ if (paymentsTableNew2) {
     // Check if the tbody exists
     if(tableBody2){
         const totalAmountSpanNew2 = document.getElementById('table-total2');
+        const totalExpensesAbove = document.getElementById('totalExpensesAbove');
 
         function calculateTotalNew2() {
           itemList.innerHTML = ""; // Clear existing list
@@ -150,21 +222,19 @@ if (paymentsTableNew2) {
                 totalExpenses += amountNew2;
                  const forOverAllNew2 = totalExpenses.toFixed(2);
                  localStorage.setItem("totalExpenses" , totalExpenses);
-                
-                
-
-                
-
-              // console.log("DIRI   " + forOverAllNew);
+                // console.log("mao ni total",forOverAllNew2 );
+         
             });
 
             if (totalAmountSpanNew2) { // Check if the total amount span exists
                 totalAmountSpanNew2.textContent = totalExpenses.toFixed(2);
-                /* localStorage.setItem("overAllNew", forOverAllNew); */
-             //   console.log("mao ni total: ");
+             
             } else {
                 console.error("Total amount span element not found!");
             }
+            
+
+          
         }
 
         calculateTotalNew2(); // Initial calculation
@@ -179,6 +249,9 @@ if (paymentsTableNew2) {
   }
 
 ////////////////////////// test for checkbox claimed ALL /////////////////////////
+
+
+
 
 // // Your submit button
 const payTable2 = document.getElementById('payments-table2'); // Your table ID
@@ -216,27 +289,6 @@ checkboxClaimed2.addEventListener('click', () => {
 /////////////////////////////  // Event listener for Edit button22 //////////////////////////////
 /////////////////////////////  // Event listener for Edit button22 //////////////////////////////
 
-editCell2.addEventListener('click', (event) => {
-  const button2 = event.target;
-  const firebaseKey2 = button2.dataset.rowIndex;
-const rowData2 = tableData2.find(data => data.firebaseKey === firebaseKey2);
- 
-
- document.getElementById('edit-idPay2').value = firebaseKey2;
- document.getElementById('edit-amount2').value = rowData2.amount;
- document.getElementById('edit-date2').value = rowData2.date;
-
- document.getElementById('edit-status2').value = rowData2.status;
- const exx = document.getElementById('exName2').value = rowData2.name; 
-/* console.log(firebaseKey2 );
- console.log(tableData2 ); */
-
-  editPaymentForm2.style.display = 'block'; 
-
-  
-
-
-});
 
 
 /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx FINAL EDIT SAVE xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxXXXXXXXXXXXXXXXXXXXXXX */
@@ -258,15 +310,13 @@ saveEditBtn2.addEventListener('click', (event) => {
 
               const newPayKeyPar2 = document.getElementById('edit-idPay2').value;
               const newPayKey2 = newPayKeyPar2;
-              /*  const userNi =  document.getElementById("usernameDisplay").value;
-                console.log("the userni sa 222", userNi ); */
-               
 
               const updatedPaymentData = {
                 exName: document.getElementById('exName2').value,
                    amount: document.getElementById('edit-amount2').value,
                   status: document.getElementById('edit-status2').value,
-                  user: document.getElementById("theUser").value,
+                  expensesCatig: document.getElementById('expensesName2').value,
+                 
                   date: document.getElementById('edit-date2').value,
                 //  merchantKey: merchantFirebaseKey // The new merchant Firebase Key
               };
@@ -275,7 +325,6 @@ saveEditBtn2.addEventListener('click', (event) => {
               firebase.database().ref(`goldenwifi/goldenExpenses/${newPayKey2}`).update(updatedPaymentData)
                   .then(() => {
                     
-                      editPaymentForm2.style.display = 'none'; 
                  
                 Swal.fire({
                   title: "Success!",
@@ -285,22 +334,16 @@ saveEditBtn2.addEventListener('click', (event) => {
                   showConfirmButton: false
                 });
                 
-              
+                editPaymentForm2.style.display = 'none'; 
 
                   })
                   .catch(error => {
                       console.error("Error updating payment data:", error);
                   });
 
-        /*   } else {
-              alert("Merchant not found. Please check the merchant name.");
-          } */
+       
       });
 });
-
-
-
-
 
 
 
@@ -310,28 +353,283 @@ cancelEditButton2.addEventListener('click', () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-///////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////
-
-
-
   };    
 
 
 
 
+
+
+function handleMerchantSearchInput3() {
+  const searchTerm = document
+    .getElementById("payment-search5")
+    .value.trim()
+    .toLowerCase();
+
+     const table = document.getElementById("payments-table2");
+     const rows = table.querySelectorAll("tbody tr");
+     
+ rows.forEach((row) => {
+    const cells = row.querySelectorAll("td");
+    let matchFound = false;
+
+    // Check each cell for the search term
+    cells.forEach((cell) => {
+
+      if (cell.textContent.toLowerCase().includes(searchTerm)) {
+        matchFound = true;
+
+
+
+        
+      }
+      
+       
+    });
+
+    // Show or hide row based on match
+    row.style.display = matchFound ? "" : "none";
+updateDisplay()
+
+  });
+
+ 
+ 
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function loadUnpaidBillsWithFiltersXX() {
+  firebase.database().ref('goldenwifi/goldenExpenses').once("value").then(snapshot => {
+
+   const startDate = new Date(document.getElementById("startDate").value);
+     const endDate = new Date(document.getElementById("endDate").value);
+
+
+
+   // database.ref('goldenwifi/transactions').on('value', (snapshot) => {
+  // tableData.length = 0; // Clear existing data
+  // paymentsData = [];
+  const currentDate = new Date();
+
+  // const selectedStartDate = document.getElementById("startDate").value;
+  // const selectedEndDate = document.getElementById("endDate").value;
+
+  const startDateS = new Date(selectedStartDate); // Example: "2024-03-01"
+  const endDateS = new Date(selectedEndDate); // Example: "2024-03-25"
+
+
+
+
+
+
+  //   // Convert to YYYY-MM
+    // const startMonthKey = `${startDate.getFullYear()}-${String(startDate.getMonth() + 1).padStart(2, "0")}`;
+    // const endMonthKey = `${endDate.getFullYear()}-${String(endDate.getMonth() + 1).padStart(2, "0")}`;
+
+
+
+
+
+    let total = 0;
+    let count = 0;
+
+    snapshot.forEach(childSnap => {
+      const billData = childSnap.val();
+      if (!billData || !billData.bills) return;
+
+      // Object.keys(billData.bills).forEach(monthKey => {
+         const record = billData.bills;
+
+        const expensesDate = new Date(record.date);
+
+         // const newBillDate = `${billDate.getFullYear()}-${String(billDate.getMonth() + 1).padStart(2, "0")}`;
+          
+          const billMonth = newBillDate.substring(0, 7);
+       // const billDate = new Date(record.date);
+      //  const billDate = (record.date)
+        const status = record.status;
+        const user = record.user;
+        const actionTo = record.actionTo;
+        const expensesCatig = (record.expensesCatig || "").trim();
+        const amount = parseFloat(
+          (record.planAmount || "").toString().replace(/[^0-9.]/g, "")
+        ) || 0;
+
+        let passed = true;
+
+
+          
+        if (!(expensesDate >= startDateS && expensesDate <= endDateS)) {
+         // console.log(`❌ Skipped [${monthKey}] - Date out of range: ${billMonth}`);
+        passed = false;
+        }
+
+
+        if (status !== "new") {
+        //  console.log(`❌ Skipped [${monthKey}] - Status not 'Paid': ${status}`);
+          passed = false;
+        }
+        if (user !== "lohwa") {
+         // console.log(`❌ Skipped [${monthKey}] - actionTo not 'approved': ${actionTo}`);
+          passed = false;
+        }
+        if (expensesCatig !== "") {
+         // console.log(`❌ Skipped [${monthKey}] - whoApproved mismatch: ${whoApproved}`);
+          passed = false;
+        }
+
+        
+
+        if (passed) {
+         //   console.log("Final Total from JS:", billDate);
+      //   console.log(`✅ Included [${monthKey}] - Amount: ${amount}  - User: ${client}`);
+          count++;
+         // total += amount;
+        }
+      });
+    });
+
+   //    console.log("Final Total from JS:", count, total); // total.toFixed(2), count);
+ // document.getElementById("countField").textContent = count;
+//  document.getElementById("totalField").textContent = total.toFixed(2);
+ //updateFinal();
+  };
+//);
+//}
+    
+
+
+            function filterCountExpenses() {
+
+  database2.ref('goldenwifi/goldenExpenses').on('value', (snapshot) => {
+  tableData2.length = 0; // Clear existing data
+  paymentsData2 = [];
+
+  let count = 0;
+  let totalMaterials = 0;
+
+  let countGas = 0;
+  let totalGas = 0;
+
+  let countAdvance = 0;
+  let totalAdvance = 0;
+
+  let countExtra = 0;
+  let totalExtra = 0;
+
+   const selectedStartDate = document.getElementById("startDate").value;
+  const selectedEndDate = document.getElementById("endDate").value;
+
+  const startDate = new Date(selectedStartDate); // Example: "2024-03-01"
+  const endDate = new Date(selectedEndDate); // Example: "2024-03-25"
+ 
+
+   snapshot.forEach((childSnapshot) => {
+    const firebaseKey2 = childSnapshot.key; // Get the Firebase key
+    const payment2 = childSnapshot.val(); // Get the payment data
+
+    const paymentDate = new Date(payment2.date); // Ensure payment.date is in a valid format
+    const expensesCatig = payment2.expensesCatig;
+     const amountG = parseFloat(
+          (payment2.amount || "").toString().replace(/[^0-9.]/g, "")
+        ) || 0;
+
+        // const amountG = amount;
+        // const amountM = amount;
+ 
+
+
+    // Filter for payments with status 'new'
+    if (
+      payment2.status === 'new' &&
+    //  payment2.actionTo ==='approved' &&
+      paymentDate >= startDate &&
+      paymentDate <= endDate   &&
+      expensesCatig === 'Materials'
+    ) {
+      count++;
+      totalMaterials +=amountG;
+    }
+
+     if (
+      payment2.status === 'new' &&
+    //  payment2.actionTo ==='approved' &&
+      paymentDate >= startDate &&
+      paymentDate <= endDate   &&
+      expensesCatig === 'Gasolina'
+    ) {
+      countGas++;
+      totalGas += amountG;
+    }
+
+         if (
+      payment2.status === 'new' &&
+    //  payment2.actionTo ==='approved' &&
+      paymentDate >= startDate &&
+      paymentDate <= endDate   &&
+      expensesCatig === 'advanceLabor'
+    ) {
+      countAdvance++;
+      totalAdvance += amountG;
+    }
+
+
+       if (
+      payment2.status === 'new' &&
+    //  payment2.actionTo ==='approved' &&
+      paymentDate >= startDate &&
+      paymentDate <= endDate   &&
+      expensesCatig === 'extraLabor'
+    ) {
+      countExtra++;
+      totalExtra += amountG;
+    }
+
+
+
+  });
+
+  paymentsData2.sort((a, b) => {
+    const dateTimeA = new Date(`${a.date} ${a.time}`);
+    const dateTimeB = new Date(`${b.date} ${b.time}`);
+    return dateTimeB - dateTimeA; // Newest first
+  });
+  //console.log("Sorted Payments:", paymentsData.map(p => `${p.date} ${p.time}`));
+  console.log("count of all expenses:", countExtra, totalExtra.toFixed(2)); // total.toFixed(2), count);
+ // updatePaymentsTable2(paymentsData2); // Initial table population
+
+ document.getElementById("exGasolinaC").textContent = count;
+ document.getElementById("exGasolina").textContent = totalGas.toFixed(2);
+
+ document.getElementById("exAdLaborC").textContent = countAdvance;
+ document.getElementById("exAdLabor").textContent = totalAdvance.toFixed(2);
+
+ document.getElementById("exMaterialC").textContent = count;
+ document.getElementById("exMaterial").textContent = totalMaterials.toFixed(2);
+
+});
+};
+
+
+ filterCountExpenses();
 
 
