@@ -18,7 +18,7 @@ const database = firebase.database();
 
 
 // Firebase Auth Listener to Check if User is Logged In
-/* firebase.auth().onAuthStateChanged((user) => {
+firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     console.log("User is logged in:", user.uid);
 
@@ -42,44 +42,6 @@ const database = firebase.database();
       window.location.href = "index.html"; // Redirect if not logged in
   } 
 });
- */
-
-
-// Firebase Auth Listener to Check if User is Logged In
-firebase.auth().onAuthStateChanged((user) => {
-  if (user) {
-    console.log("User is logged in:", user.uid);
-
-    // Fetch user data from Firebase Database
-    firebase.database().ref("users/" + user.uid).once("value")
-    .then(snapshot => {
-       if (snapshot.exists()) {
-            const userData = snapshot.val();
-            const email = userData.email;
-            const username = email.split("@")[0];
-            document.getElementById("usernameDisplay").innerText = "Welcome, " + username;
-         
-             document.getElementById("theUser").value =username;  
-            
-             
-         
-            
-            
-        } else {
-            console.log("No user data found!");
-        }
-    })
-    .catch(error => {
-        console.error("Error fetching user data:", error);
-    });
-     
-     
-  } else {
-      console.log("No user is signed in. Redirecting to login...");
-      window.location.href = "index.html"; // Redirect if not logged in
-  } 
-});
-
 
 
 
@@ -156,8 +118,8 @@ const dateInput2 = document.getElementById('date2');
 const userInput2 = document.getElementById('user2'); 
 
 
-const paymentSearchInput = document.getElementById('payment-search');
-const paymentSearchInput22 = document.getElementById('payment-search2');
+////const paymentSearchInput = document.getElementById('payment-search');
+//const paymentSearchInput22 = document.getElementById('payment-search2');
 const amountCheckbox = document.getElementById('amount-checkbox');
 const amountCheckbox2 = document.getElementById('amount-checkbox2');
 const refCheckbox = document.getElementById('ref-checkbox');
@@ -292,7 +254,7 @@ function showAlert(message, duration = 3000) {
 }
 
 
-/* function setDefaultDates() {
+function setDefaultDates() {
   const today = new Date();
   const yesterday = new Date();
   yesterday.setDate(today.getDate() - 1); // Get yesterday's date
@@ -305,7 +267,7 @@ function showAlert(message, duration = 3000) {
 }
 
 // Run function on page load
-window.onload = setDefaultDates; */
+window.onload = setDefaultDates;
 
 
 
@@ -325,36 +287,12 @@ const dateInput22 = document.getElementById('date-today');
   const month = ('0' + (today.getMonth() + 1)).slice(-2); // Add leading zero if needed
   const day = ('0' + today.getDate()).slice(-2); // Add leading zero if needed
   const formattedDate2 = `${year}-${month}-${day}`;
-//
-//  dateInput22.value = formattedDate2; 
+
+  dateInput22.value = formattedDate2; 
 
 
 
-let startInput = document.getElementById("startDate").value;
-let endInput = document.getElementById("endDate").value;
 
-let startDate, endDate;
-
-if (startInput && endInput) {
-  // Use selected dates
-  startDate = new Date(startInput);
-  endDate = new Date(endInput);
-  endDate.setHours(23, 59, 59, 999);
-} else {
-  // Auto-set to current month
-  const today = new Date();
-
-  // 1st day of current month
-  startDate = new Date(today.getFullYear(), today.getMonth(), 1);
-
-  // Last day of current month
-  endDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-  endDate.setHours(23, 59, 59, 999);
-
-  // (Optional) also update the input fields so user sees it
-  document.getElementById("startDate").value = startDate.toISOString().split("T")[0];
-  document.getElementById("endDate").value = endDate.toISOString().split("T")[0];
-}
 
   
 /////////////////////////// POPULATE MERCHANT NAME //////////////////////// 
@@ -465,14 +403,13 @@ database.ref('goldenwifi/transactions').on('value', (snapshot) => {
 
 
 
+ filterPayments();
 
 
-
+ 
 
 function updatePaymentsTable(data) {
 table.innerHTML = ''; // Clear the table
-
-
 
 data.forEach((payment, rowIndex) => {
   const row = table.insertRow();
@@ -575,7 +512,7 @@ if (paymentsTableNew) {
 
     document.getElementById('edit-idPay').value = rowData.firebaseKey;
     document.getElementById('edit-amount').value = rowData.amount;
-    document.getElementById('edit-amount').value = rowData.amount;
+  //  document.getElementById('edit-amount').value = rowData.amount;
     document.getElementById('address').value = rowData.address;
     document.getElementById('edit-date').value = rowData.date;
      document.getElementById('edit-clientName1').value = rowData.clientName;
@@ -702,32 +639,48 @@ merchantInputAssign.addEventListener('input', () => {
 
 
 //////////////////////// Event listener for search input in merchant table ////////////////////////
-const merchantSearchInput = document.getElementById('merchant-search');
+// const merchantSearchInput = document.getElementById('merchant-search');
 
-let timeoutId;
+// let timeoutId;
 
-paymentSearchInput.addEventListener('input', () => {
-  clearTimeout(timeoutId); // Clear any previous timeout
+// paymentSearchInput.addEventListener('input', () => {
+//   clearTimeout(timeoutId); // Clear any previous timeout
 
-  timeoutId = setTimeout(() => {
-    const searchTerm = paymentSearchInput.value.toLowerCase();
+//   timeoutId = setTimeout(() => {
+//     const searchTerm = paymentSearchInput.value.toLowerCase();
 
-    const filteredDataP = paymentsData.filter((payment) => {
-      return (
-        payment?.amount?.toString().toLowerCase().includes(searchTerm) ||
-        payment?.sender?.toString().toLowerCase().includes(searchTerm) ||
-        payment?.refNumber?.toLowerCase().includes(searchTerm) ||
-        payment?.time?.toLowerCase().includes(searchTerm) ||
-        payment?.date?.toLowerCase().includes(searchTerm) ||
-        payment?.paymentType?.toLowerCase().includes(searchTerm) ||
-        payment?.save?.toLowerCase().includes(searchTerm) ||
-        payment?.merchantP?.toLowerCase().includes(searchTerm)
-      );
-    });
+//     const filteredDataP = paymentsData.filter((payment) => {
+//       return (
+//         payment?.amount?.toString().toLowerCase().includes(searchTerm) ||
+//         payment?.sender?.toString().toLowerCase().includes(searchTerm) ||
+//         payment?.refNumber?.toLowerCase().includes(searchTerm) ||
+//         payment?.time?.toLowerCase().includes(searchTerm) ||
+//         payment?.date?.toLowerCase().includes(searchTerm) ||
+//         payment?.paymentType?.toLowerCase().includes(searchTerm) ||
+//         payment?.save?.toLowerCase().includes(searchTerm) ||
+//         payment?.merchantP?.toLowerCase().includes(searchTerm)
+//       );
+//     });
 
-    updatePaymentsTable(filteredDataP);
-  }, 250); // Adjust delay to 250ms for better UX
-});
+//     updatePaymentsTable(filteredDataP);
+//   }, 250); // Adjust delay to 250ms for better UX
+// });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -788,20 +741,15 @@ saveEditBtn.addEventListener('click', (event) => {
           if (merchantFirebaseKey) {
               const newPayKeyPar = document.getElementById('edit-idPay').value;
               const newPayKey = newPayKeyPar;
-              const userNi =  document.getElementById("theUser").value;
-                console.log("the userni", userNi );
-               
+
               const updatedPaymentData = {
                   clientName: document.getElementById('edit-clientName1').value,
                    amountNew: document.getElementById('edit-amount').value,
-                    user: document.getElementById("theUser").value,
                   status: document.getElementById('edit-status').value,
                   address: document.getElementById('address').value,
                   date: document.getElementById('edit-date').value,
                   merchantKey: merchantFirebaseKey // The new merchant Firebase Key
               };
-
-
 
               // Update in Firebase (example)
               firebase.database().ref(`goldenwifi/transactions/${newPayKey}`).update(updatedPaymentData)
@@ -919,14 +867,14 @@ function updateDisplay() {
   let totalcollection = localStorage.getItem("totalcollection"); ////used
   let totalExpenses = localStorage.getItem("totalExpenses");
  
-  document.getElementById("totalCollected").innerText = Number(totalcollection ).toFixed(2);
-   document.getElementById("totalExpens").innerText = Number(totalExpenses).toFixed(2);
+//  document.getElementById("totalCollected").innerText = Number(totalcollection ).toFixed(2);
+  document.getElementById("totalExpenses").innerText = Number(totalExpenses).toFixed(2);
 
  
    const TananActualNabilin = Number(totalcollection - totalExpenses) || 0;
 
 
-   document.getElementById("finalNabilin").innerText = Number(TananActualNabilin).toFixed(2);
+  // document.getElementById("finalNabilin").innerText = Number(TananActualNabilin).toFixed(2);
    
   
 }
@@ -943,13 +891,14 @@ window.addEventListener("storage", function(event) {
 
 
 
-
-
-  window.onload = function () {
- updateDisplay();
- filterPayments();
- filterPayments2();
  
-  };
 
-           
+
+
+
+
+
+
+ 
+
+
