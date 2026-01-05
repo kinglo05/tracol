@@ -335,13 +335,17 @@ saveEditBtn2.addEventListener('click', (event) => {
                 });
                 
                 editPaymentForm2.style.display = 'none'; 
+                
 
                   })
                   .catch(error => {
                       console.error("Error updating payment data:", error);
                   });
 
-       
+                   filterCountExpenses();
+                  //  updatePaymentsTable2();
+              //  calculateTotalNew2();
+
       });
 });
 
@@ -614,7 +618,7 @@ function loadUnpaidBillsWithFiltersXX() {
     return dateTimeB - dateTimeA; // Newest first
   });
   //console.log("Sorted Payments:", paymentsData.map(p => `${p.date} ${p.time}`));
-  console.log("count of all expenses:", countExtra, totalExtra.toFixed(2)); // total.toFixed(2), count);
+ // console.log("count of all expenses:", countExtra, totalExtra.toFixed(2)); // total.toFixed(2), count);
  // updatePaymentsTable2(paymentsData2); // Initial table population
 
  document.getElementById("exGasolinaC").textContent = count;
