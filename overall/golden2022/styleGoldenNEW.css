@@ -1053,17 +1053,19 @@ label {
 
 
 #data {
-  display: flex;
-  flex-wrap: wrap;
+  /* display: flex; */
+  /* flex-wrap: wrap; */
   align-items: center;
   gap: 5px; /* Space between items */
-  background-color:  rgb(77, 74, 74);
+  background-color:  rgb(246, 199, 28);
  
-  height: 5%;
+  height: 10%;
   margin-top: 1px;
- font-size: small;
- color: rgb(250, 244, 244); /* Changes text color inside the div */
+ font-size:small;
+ color: rgb(37, 32, 32); /* Changes text color inside the div */
   margin-left: 0px;
+  padding-top: 5px;
+  padding-bottom: 5px;
  padding-left: 20px;
  
 }
