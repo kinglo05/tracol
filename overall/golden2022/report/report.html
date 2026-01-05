@@ -76,8 +76,15 @@
          <p>Rasty Expenses: <span id="rastyExpenses">0</span></p>
          <p>Admin Expenses: <span id="adminExpenses">0</span></p>
         
-
         <p><strong>Total Expenses: <span id="totalExpens">0.00</span></p></strong>
+         
+      <p style="font-family: Tahoma, sans-serif; color: blue;">
+  <strong>
+    Net income for the selected date and month :
+    <span id="netIncome"></span>
+  </strong>
+</p>
+
 
         <input type="text" id="theUser" hidden>  
        
@@ -620,8 +627,10 @@ function updateFinal() {
    const overAll = collectedAdmin + collectedLo + collectedExtra;
   const expenses = parseFloat(document.getElementById("totalExpens").textContent) || 0;
   const final = overAll - expenses;
+ 
  // document.getElementById("overAllCollection").textContent = overAll.toFixed(2);
   document.getElementById("totalFieldSelected").textContent = overAll.toFixed(2); 
+   document.getElementById("netIncome").textContent = final.toFixed(2); 
  // console.log("OverAll total:", overAll); 
 }
 
