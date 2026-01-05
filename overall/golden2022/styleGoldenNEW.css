@@ -1066,7 +1066,7 @@ label {
   margin-left: 0px;
   padding-top: 5px;
   padding-bottom: 5px;
- padding-left: 20px;
+ padding-left: 10px;
  
 }
 
@@ -1294,6 +1294,7 @@ input[type="text"],
     #endDate:hover {
     background-color:  #76f7dd; /* A slightly darker gray on hover */
     }
+
 
 
 
