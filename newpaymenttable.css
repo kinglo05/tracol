@@ -1218,11 +1218,12 @@ color: red;
   background: transparent;
   border: none;
   outline: none;
+  color: #eef0ee;
   font-size: small;
   height: 10px;
   min-width: 40px;
   margin-top: 1px;
-  margin-left: 1px; /* If you want space after the input too */
+  margin-left: 20px; /* If you want space after the input too */
   padding: 1px;
   margin-right: 1px;
  
@@ -1248,18 +1249,20 @@ color: red;
 
 
 #eight {
-  color: transparent;           /* hide text */
+  color: white;           /* hide text */
   transition: color 0.3s ease;  /* smooth effect */
 }
 
 #eight:hover {
-  color: black; /* or any visible color */
+  color: rgb(247, 236, 236); /* or any visible color */
 }
 
 
 
-
 #eight {
+  height: 30px;
+  padding-top: 2px;
+  margin-top: 2px;
   background: transparent;
   border: none;
   outline: none;
@@ -1286,6 +1289,8 @@ input[type="text"],
  
  
 }
+
+
 #eightFive {
   height: 10px;
   min-width: 40px;
@@ -1448,6 +1453,7 @@ input[type="text"],
     margin-top: 2px;
     margin-bottom: 2px;
   }
+
 
 
 
