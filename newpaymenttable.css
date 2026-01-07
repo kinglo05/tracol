@@ -1440,6 +1440,14 @@ input[type="text"],
 } 
 
 
+ p {
+    color: rgb(235, 235, 243);
+    text-indent: 30px;
+    text-transform: uppercase;
+    font-size: 12px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+  }
 
 
 
