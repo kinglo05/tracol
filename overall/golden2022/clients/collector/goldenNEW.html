@@ -192,11 +192,11 @@
         </div>
         <div class="sidebar-body" id="sidebar-body">
            <ul>
-            <li><a href="clients/billAdmin2025.html">CLIENTS/BILLS</a></li>
-              <li><a href="clients/disconnected/disconnected.html">DISCONNECTED CLIENTS</a></li>
-             <li><a href="addclient.html">ADD NEW CLIENT</a></li>
-            <li><a href="goldenADD.html">ADD NEW TRANSACTION</a></li>
-            <li><a href="report/report.html">GENERATE REPORT</a></li>
+             <li><a href="collectorNEW.html">CLIENTS BILL</a></li> 
+           <li><a href="../disconnected/disconnected2.html">DISCONNECTED CLIENTS</a></li>
+          <li><a href="addclient.html">ADD NEW CLIENT</a></li> 
+          <li><a href="collectorADDex.html">ADD NEW TRANSACTION</a> </li>
+          </ul>
            
 
        </div>
@@ -380,14 +380,15 @@
                       <option value="new">Included</option>
                       <option value="claimed">Remove</option>
                   
-                 </select> <br>
+                 </select> 
+                 <br><br>
 
 
 <button id="save-edit2">Save</button>
 <button id="cancel-edit2">Close</button><br>
 
 
-<input type="text" id="edit-idPay2"  ><br>
+<input type="text" id="edit-idPay2" hidden ><br>
 <input type="text" id="edit-fireKey2" hidden><br>
 </div>
 </div>
@@ -499,15 +500,29 @@
                 sidebar.style.left = "-250px";
                 mainContent.style.marginLeft = "0";
             }
+
+             const addItem = document.getElementById("addTransactionItem");
+     const addItem2 = document.getElementById("viewTransactions");
+    const user = document.getElementById("theCollector").value;
+
+    if (addItem && user === "rasty") {
+      addItem.style.display = "list-item";
+      console.log("naa",user);
+    } else {
+      addItem.style.display = "none";
+        console.log("wala",user);
+    }
+  
+
         }
+
+
+
+
+        
     </script>
 
-<!-- <script>
-    setInterval(() => {
-      const input = document.getElementById("edit-ref-numberAssign");
-      input.style.borderColor = input.style.borderColor === "red" ? "transparent" : "red";
-    }, 200);
-  </script> -->
+
 
 
 
