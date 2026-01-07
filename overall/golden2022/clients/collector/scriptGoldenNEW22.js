@@ -1,4 +1,11 @@
 
+
+
+
+
+
+
+
 //const paymentSearchInput5 = document.getElementById('payment-search5');
 const editPaymentForm2 = document.getElementById('edit-payment-form2');
 
@@ -154,7 +161,7 @@ data.forEach((payment2, rowIndex, searchTerm) => {
 
 
   const editCell2 = row.insertCell();
-  editCell2.innerHTML = `<button class="button2" data-row-index="${payment2.id}">Edit</button>`;
+  editCell2.innerHTML = `<button class="button2" data-row-index="${payment2.id}" disabled>Edit</button>`;
 
 /////////////////////////////////// auto add /////////////////////////////
 
@@ -335,13 +342,17 @@ saveEditBtn2.addEventListener('click', (event) => {
                 });
                 
                 editPaymentForm2.style.display = 'none'; 
+                
 
                   })
                   .catch(error => {
                       console.error("Error updating payment data:", error);
                   });
 
-       
+                   filterCountExpenses();
+                  //  updatePaymentsTable2();
+              //  calculateTotalNew2();
+
       });
 });
 
@@ -614,7 +625,7 @@ function loadUnpaidBillsWithFiltersXX() {
     return dateTimeB - dateTimeA; // Newest first
   });
   //console.log("Sorted Payments:", paymentsData.map(p => `${p.date} ${p.time}`));
-  console.log("count of all expenses:", countExtra, totalExtra.toFixed(2)); // total.toFixed(2), count);
+ // console.log("count of all expenses:", countExtra, totalExtra.toFixed(2)); // total.toFixed(2), count);
  // updatePaymentsTable2(paymentsData2); // Initial table population
 
  document.getElementById("exGasolinaC").textContent = count;
@@ -628,6 +639,8 @@ function loadUnpaidBillsWithFiltersXX() {
 
 });
 };
+
+
 
 
  filterCountExpenses();
