@@ -320,7 +320,7 @@ async function loadDisconnectionTable3(username) {
     });
 
     // 🔹 Only include clients with >= 2 unpaid bills
-    if (unpaidCount < 2) {
+    if (unpaidCount < 3) {
       return;
     }
 
@@ -1078,7 +1078,7 @@ async function loadDisconnectionTable3(username) {
     });
 
     // 🔹 Only include clients with >= 2 unpaid bills
-    if (unpaidCount < 2) {
+    if (unpaidCount < 3) {
       return;
     }
 
@@ -1226,8 +1226,8 @@ function loadUnpaidBills(clientId) {
         if (!bill || bill.status !== "Unpaid") return;
 
         const [year, month] = monthKey.split("-");
-      //  if (parseInt(year) === currentYear) {
-            if (parseInt(year)) {
+        // if (parseInt(year) === currentYear) {
+         if (parseInt(year) ) {
           unpaidBills.push({
             monthKey,
             displayMonth: new Date(`${year}-${month}-01`).toLocaleString("default", { month: "long" }),
@@ -2056,7 +2056,6 @@ window.addEventListener("DOMContentLoaded", () => {
 totalClients();
 
 });
-
 
 
 
