@@ -1226,7 +1226,8 @@ function loadUnpaidBills(clientId) {
         if (!bill || bill.status !== "Unpaid") return;
 
         const [year, month] = monthKey.split("-");
-        if (parseInt(year) === currentYear) {
+      //  if (parseInt(year) === currentYear) {
+            if (parseInt(year)) {
           unpaidBills.push({
             monthKey,
             displayMonth: new Date(`${year}-${month}-01`).toLocaleString("default", { month: "long" }),
@@ -2055,6 +2056,7 @@ window.addEventListener("DOMContentLoaded", () => {
 totalClients();
 
 });
+
 
 
 
