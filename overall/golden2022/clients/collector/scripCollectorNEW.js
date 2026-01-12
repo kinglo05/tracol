@@ -1331,7 +1331,7 @@ function loadSavedPayments3(username) {
       if (!clientBills[clientKey]) return;
 
       // ✅ Only include clients with exactly 2 unpaid bills
-      if (unpaidCounts[clientKey] < 2) {
+      if (unpaidCounts[clientKey] < 3) {
         row.style.display = "none"; // hide the row
         return;
       }
@@ -2377,6 +2377,7 @@ window.addEventListener("DOMContentLoaded", () => {
   loadClientTable(); // load clients first
  // updateMerchantTable3();
 });
+
 
 
 
