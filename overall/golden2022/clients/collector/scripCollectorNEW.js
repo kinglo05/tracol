@@ -412,18 +412,7 @@ EditSubmit.addEventListener('click', () => {
 
                editMerchantForm.style.display = 'none';
 
-    /*  Swal.fire({
-      title: "Success!",
-      text: "CHANGES SAVED SUCCESSFULLY",
-      icon: "success",
-      timer: 2000, // Closes after 3 seconds
-      showConfirmButton: false 
-    }); */
-   
-   // editMerchantForm.style.display = 'none'; 
-
-   // loadSavedPayments();
-//console.log("humana finish na :" , username);
+  
 
   })
   .catch(error => {
@@ -759,12 +748,7 @@ function addMonthlyBills() {
         }
         }
 
-           /*  loadSavedPayments();
-            loadSavedPayments2();
-            populateUnpaidMonthDropdown();
-            calculateUnpaidGrandTotalForYear();  */
-
-
+       
            loadClientTable();
            
     });
@@ -1236,20 +1220,7 @@ function loadSavedPayments(username) {
         button11.disabled = actionTo === "approved";
 
         if (!button11.disabled) {
-/*           button11.addEventListener("click", () => {
-            const confirmPaid = confirm("Confirm collection?");
-            if (!confirmPaid) return;
 
-            const newStatus = actionTo === "Collected" ? "pending" : "Collected";
-
-            firebase.database().ref(path).update({
-              actionTo: newStatus,
-              collector: username
-            }).then(() => {
-              // Reload table after updating Firebase
-        loadSavedPayments(username);
-            });
-          }); */
         }
 
         td.appendChild(button11);
@@ -1267,135 +1238,107 @@ function loadSavedPayments(username) {
 
 
 
+async function  loadSavedPayments3(username) {
+  const tableBody = document.querySelector("#merchants-table3 tbody");
+  tableBody.innerHTML = "";
+  const ngalan =  document.getElementById("theCollector").value;
 
+  // 🔹 Get monthly bills
+  const monthlyBillsSnap = await firebase.database()
+    .ref("goldenwifi/monthly-bills")
+    .get();
+  const allClientsBills = monthlyBillsSnap.val() || {};
 
+  // 🔹 Get golden clients info
+  const goldenClientsSnap = await firebase.database()
+    .ref("goldenwifi/goldenClients")
+    .get();
+  const allClientsInfo = goldenClientsSnap.val() || {};
 
+  let rowIndex = 1;
 
+  Object.keys(allClientsBills).forEach(clientKey => {
+    const clientData = allClientsBills[clientKey] || {};
+    const bills = clientData.bills || {};
 
+    // 🔹 Check if this client belongs to the current app user
+    const clientInfo = allClientsInfo[clientKey] || {};
+    if (!clientInfo) {
+      return; // skip this client
+    } 
 
-function loadSavedPayments3(username) {
-  const table = document.getElementById("merchants-table3");
-  const theadRow = table.querySelector("thead tr");
-  const rows = table.querySelectorAll("tbody tr");
+    let totalUnpaid = 0;
+    let unpaidCount = 0;
+    let latestBill = null;
 
-  firebase.database().ref("goldenwifi/monthly-bills").once("value").then(snapshot => {
-    const clients = snapshot.val();
-    if (!clients) return;
+    Object.keys(bills).forEach(monthKey => {
+      const bill = bills[monthKey];
+      
 
-    const monthMap = {};       // monthKey -> displayMonth
-    const clientBills = {};    // clientKey -> { monthKey -> status }
-    const unpaidCounts = {};   // clientKey -> number of unpaid bills
-
-    // 1. Collect bills and count unpaid
-    Object.entries(clients).forEach(([clientKey, clientData]) => {
-      const bills = clientData.bills || {};
-      if (Object.keys(bills).length === 0) return;
-
-      clientBills[clientKey] = {};
-      unpaidCounts[clientKey] = 0;
-
-      Object.entries(bills).forEach(([monthKey, bill]) => {
-        const [year, month] = monthKey.split("-");
-        const displayMonth = new Date(`${year}-${month}-01`).toLocaleString('default', { month: 'short' });
-
-        monthMap[monthKey] = displayMonth;
-
-        const status = bill.status || "Unpaid";
-        clientBills[clientKey][monthKey] = status;
-
-        if (status === "Unpaid") {
-          unpaidCounts[clientKey]++;
-        }
-      });
-    });
-
-    const existingHeaders = Array.from(theadRow.children).map(th => th.textContent.trim());
-    const sortedMonthKeys = Object.keys(monthMap).sort();
-
-    // 2. Add headers for new months
-    sortedMonthKeys.forEach(monthKey => {
-      const displayTitle = monthMap[monthKey];
-      if (!existingHeaders.includes(displayTitle)) {
-        const newTh = document.createElement("th");
-        newTh.textContent = displayTitle;
-        theadRow.appendChild(newTh);
-      }
-    });
-
-    // 3. Filter clients with exactly 2 unpaid bills and render buttons
-    rows.forEach(row => {
-      const cells = row.querySelectorAll("td");
-      if (cells.length < 2) return;
-
-      const clientKey = cells[1]?.textContent.trim();
-      if (!clientBills[clientKey]) return;
-
-      // ✅ Only include clients with exactly 2 unpaid bills
-      if (unpaidCounts[clientKey] < 3) {
-        row.style.display = "none"; // hide the row
-        return;
+      if (bill.status && bill.status.toLowerCase() === "unpaid"  && bill.areaCode  === ngalan)
+        
+        
+        {
+        const amount = parseFloat(bill.planAmount) || 0;
+        totalUnpaid += amount;
+        unpaidCount++;
       }
 
-      const currentCellCount = row.children.length;
-      if (currentCellCount >= theadRow.children.length) return;
+      latestBill = bill; // keep last one
 
-      const existingCellLabels = Array.from(row.querySelectorAll("td")).map(td => td.textContent.trim());
-
-      sortedMonthKeys.forEach(monthKey => {
-        const displayMonth = monthMap[monthKey];
-        if (!clientBills[clientKey][monthKey]) return;
-
-        if (existingCellLabels.includes(displayMonth) || row.querySelector(`[data-month="${monthKey}"]`)) {
-          return;
-        }
-
-        const status = clientBills[clientKey][monthKey];
-        const path = `goldenwifi/monthly-bills/${clientKey}/bills/${monthKey}`;
-
-        const td = document.createElement("td");
-        td.setAttribute("data-month", monthKey);
-
-        const button = document.createElement("button");
-        button.textContent = status;
-        const isPaid = status === "Paid";
-        button.style.backgroundColor = isPaid ? "green" : "";
-        button.style.color = isPaid ? "white" : "";
-
-/*         button.addEventListener("click", () => {
-          const currentStatus = button.textContent;
-          let newStatus, actionToStatus;
-
-          if (currentStatus === "Unpaid") {
-            const confirmPaid = confirm("Are you sure you want to mark this client as PAID?");
-            if (!confirmPaid) return;
-            newStatus = "Paid";
-            actionToStatus = "approved";
-          } else {
-            const redo = confirm("Are you sure you didn’t receive payment from this client?");
-            if (!redo) return;
-            newStatus = "Unpaid";
-            actionToStatus = "pending";
-          }
-
-          firebase.database().ref(path).update({ status: newStatus, actionTo: actionToStatus })
-            .then(() => {
-              button.textContent = newStatus;
-              button.style.backgroundColor = newStatus === "Paid" ? "green" : "";
-              button.style.color = newStatus === "Paid" ? "white" : "";
-            });
-        }); */
-
-        td.appendChild(button);
-        row.appendChild(td);
-      });
     });
 
-    // 4. Adjust footer colspan
-    const footerCell = document.getElementById("table-totalM");
-    if (footerCell) footerCell.colSpan = theadRow.children.length;
-  });
-  sortTableByClientName3();
+    // 🔹 Only include clients with >= 2 unpaid bills
+    if (unpaidCount < 3) {
+      return;
+    }
+
+    const clientName = clientInfo.name || "Unknown Client";
+     const status= clientInfo.status || "";
+    const plan = latestBill?.planAmount || "";
+    const address = clientInfo.address || latestBill?.address2 || "";
+    const date = latestBill?.date || "";
+    const collector = latestBill?.areaCode || "";
+    const note = latestBill?.note || "";
+
+
+    // ✅ Fix: define variable first
+let displayStatus = status;
+
+if (status.toLowerCase() === "new") {
+  displayStatus = "Active";
+} else if (status.toLowerCase() === "disconnected") {
+  displayStatus = "Disconnected";
 }
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${rowIndex++}</td>
+      <td class="hidden-col">${clientKey}</td>
+      <td>${clientName}</td>
+      <td>${plan}</td>
+      <td>${address}</td>
+      <td>${date}</td>
+      <td>${collector}</td>
+       <td>${displayStatus}</td> 
+      <td>${note}</td>
+      <td>${unpaidCount} = ${totalUnpaid}</td>
+      <td>
+    
+      
+        <button onclick="disconnectClient('${clientKey}','${clientName}','${status}')">Disconnect</button>
+      </td>
+    `;
+    tableBody.appendChild(tr);
+     
+  });
+ 
+  // 🔹 Update footer
+  const footer = document.getElementById("table-totalM");
+  footer.textContent = `For disconnection clients: ${rowIndex - 1} records loaded`;
+}
+
+
+
 
 
 
@@ -1676,9 +1619,7 @@ function calculateUnpaidForSelectedMonth() {
     })}`
 
 
-    /* // ✅ Display total unpaid
-    document.getElementById("unpaidTotalDisplay").textContent =
-      `₱ ${totalUnpaid.toFixed(2)}`; */
+ 
   });
 }
 
@@ -1783,51 +1724,8 @@ function calculateUnpaidForSelectedMonth2() {
     })}`
 
 
-    /* // ✅ Display total unpaid
-    document.getElementById("unpaidTotalDisplay").textContent =
-      `₱ ${totalUnpaid.toFixed(2)}`; */
   });
 }
-
-
-/* function displayUnpaidTotals2(totalsPerMonth) {
-  const container = document.getElementById("unpaid-monthly-summary");
-  container.innerHTML = ""; // Clear old content
-
-  const table = document.createElement("table");
-  table.innerHTML = `
-    <thead>
-      <tr><th>Month</th><th>Total Unpaid</th></tr>
-    </thead>
-    <tbody></tbody>
-  `;
-
-  const tbody = table.querySelector("tbody");
-
-  // Sort months chronologically
-  Object.keys(totalsPerMonth).sort().forEach(monthKey => {
-    const amount = totalsPerMonth[monthKey];
-    const readableMonth = new Date(monthKey + "-01").toLocaleString('default', {
-      month: 'short',
-      year: 'numeric'
-    });
-
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td>${readableMonth}</td>
-      <td>₱${amount.toLocaleString('en-PH', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
-      })}</td>
-    `;
-    tbody.appendChild(row);
-  });
-
-  container.appendChild(table);
-}
- */
-
-
 
 
 
@@ -2026,85 +1924,6 @@ function loadUnpaidBillsWithFiltersCollector() {
 
 
 
-
-
-
-/*  let selectedClientKey = "";
-  let selectedMonthKey = "";
-
-  function editPlan(clientKey, monthKey) {
-    selectedClientKey = clientKey;
-    selectedMonthKey = monthKey;
-    document.getElementById("planModal").style.display = "block";
-    //console.log("masmamsasa");
-  }
-
-  function closePlanModal() {
-    document.getElementById("planModal").style.display = "none";
-    document.getElementById("customAmount").style.display = "none";
-    document.getElementById("planSelect").value = "cash"; // reset
-    document.getElementById("customAmount").value = "";
-  }
-
-  // Show custom input when 'Custom...' is selected
-  document.getElementById("planSelect").addEventListener("change", function() {
-    const custom = document.getElementById("customAmount");
-    if (this.value === "Custom") {
-      custom.style.display = "block";
-      custom.focus();
-    } else {
-      custom.style.display = "none";
-    } 
-  });
-
-  function confirmPlanEdit() {
-    let amount = document.getElementById("planSelect").value;
-     if (amount === "Custom") {
-      amount = document.getElementById("customAmount").value;
-    }
-
-    if (!amount || isNaN(amount)) {
-      alert("Please enter a valid amount.");
-      return;
-    } 
-
-    const path = `goldenwifi/monthly-bills/${selectedClientKey}/bills/${selectedMonthKey}`;
-
-    firebase.database().ref(path).update({
-      modeOfPay: amount
-    }).then(() => {
-      closePlanModal();
-      loadUnpaidBillsWithFilters();
-      console.log(`Updated modeOfPay to ₱${amount} for ${selectedMonthKey}`);
-    });
-  }
- */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      /*     <td onclick="editPlan('${firebaseKey}')" style="cursor: pointer;">
-            ₱${amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
-          </td> */
-
-
-
 function editPlan(clientKey,monthKey) {
   const popUp = prompt("Enter new Amount:");
 //  const monthKey = `${year}-${month}`;
@@ -2123,62 +1942,6 @@ function editPlan(clientKey,monthKey) {
   }
 
  
-
-
-
-
-
-
-
-
-
-
-/* 
-function editPlan2(clientKey,monthKey) {
-  const popUp = prompt("Enter new Amount:");
- // const monthKey = `${year}-${month}`;
-  const path = `goldenwifi/monthly-bills/${clientKey}/bills/${monthKey}`;
-
-  if (popUp !== null) {
-    const amount = parseFloat(popUp);
-
-    if (isNaN(amount)) {
-      alert("Please enter a valid number.");
-      return;
-    }
-
-    const formattedAmount = parseFloat(amount.toFixed(2)); // ✅ Format to 2 decimals
-
-    firebase.database().ref(path).update({
-      planAmount: formattedAmount
-    }).then(() => {
-      loadUnpaidBillsWithFilters2();
-      console.log(`Updated planAmount to ₱${formattedAmount} for ${monthKey}`);
-    });
-  }
-} */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -2373,11 +2136,24 @@ const select33 = document.getElementById("status3");
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 window.addEventListener("DOMContentLoaded", () => {
   loadClientTable(); // load clients first
  // updateMerchantTable3();
 });
-
 
 
 
