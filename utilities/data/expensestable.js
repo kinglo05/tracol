@@ -175,7 +175,7 @@ function fetchAndDisplaySums() {
     snapshot.forEach((childSnapshot) => {
       const payment = childSnapshot.val();
       if (payment.status === "new") {
-        const merchant = payment.merchantP || "(No Name)";
+        const merchant = payment.merchantP || "(To-be-traced)";
         const amount = parseFloat(payment.amount) || 0;
 
         if (!merchantSums[merchant]) merchantSums[merchant] = 0;
@@ -292,6 +292,7 @@ document.getElementById("payment-search")?.addEventListener("input", filterTable
 fetchAndDisplaySums();
 addNoName();
 updateDisplay();
+
 
 
 
