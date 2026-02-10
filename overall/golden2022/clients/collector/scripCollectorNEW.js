@@ -1032,16 +1032,21 @@ function loadSavedPayments2(username ) {
                     const data = snapshot.val() || {};
 
                   const today = formattedDate; // assume already formatted
-                  const hasDate = data.dateOfPayment && data.dateOfPayment.trim() !== "";
-
+                 const hasDate =
+                        typeof data.dateOfPayment === "string" &&
+                        data.dateOfPayment.trim() !== "";
              
               const newStatus = actionTo === "Collected" ? "pending" : "Collected";
-             const newDate   = hasDate ? "" : today;
+            const newDate = newStatus === "pending" ? today : "";
+              // firebase.database().ref(path).update({
+              //   actionTo: newStatus,
+              //   collector: username,
+              //   dateOfPayment: newDate
 
-              firebase.database().ref(path).update({
-                actionTo: newStatus,
-                collector: username,
-                dateOfPayment: newDate
+               await ref.update({
+    actionTo: newStatus,
+    collector: username,
+    dateOfPayment: newDate
                 
                 
               }).then(() => {
@@ -2157,6 +2162,7 @@ window.addEventListener("DOMContentLoaded", () => {
   loadClientTable(); // load clients first
  // updateMerchantTable3();
 });
+
 
 
 
