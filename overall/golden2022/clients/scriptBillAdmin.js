@@ -729,7 +729,7 @@ function loadClientTable(username, searchTerm = "") {
         !clientAddress.toLowerCase().includes(normalizedSearch) &&
         !areaCode.toLowerCase().includes(normalizedSearch) &&
          !status.toLowerCase().includes(normalizedSearch) &&
-          !planAmount.toLowerCase().includes(normalizedSearch) &&
+         !String(planAmount).toLowerCase().includes(String(normalizedSearch).toLowerCase()) &&
         !noteData.toLowerCase().includes(normalizedSearch)
       ) {
         return;
@@ -2056,6 +2056,7 @@ window.addEventListener("DOMContentLoaded", () => {
 totalClients();
 
 });
+
 
 
 
