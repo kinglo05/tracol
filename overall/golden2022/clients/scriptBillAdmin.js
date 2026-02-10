@@ -320,7 +320,7 @@ async function loadDisconnectionTable3(username) {
     });
 
     // 🔹 Only include clients with >= 2 unpaid bills
-    if (unpaidCount < 3) {
+    if (unpaidCount < 2) {
       return;
     }
 
@@ -729,6 +729,7 @@ function loadClientTable(username, searchTerm = "") {
         !clientAddress.toLowerCase().includes(normalizedSearch) &&
         !areaCode.toLowerCase().includes(normalizedSearch) &&
          !status.toLowerCase().includes(normalizedSearch) &&
+         // !planAmount.toLowerCase().includes(normalizedSearch) &&
          !String(planAmount).toLowerCase().includes(String(normalizedSearch).toLowerCase()) &&
         !noteData.toLowerCase().includes(normalizedSearch)
       ) {
@@ -926,8 +927,21 @@ function loadSavedPayments2() {
   const table = document.getElementById("merchants-table2");
   const theadRow = table.querySelector("thead tr");
   const rows = table.querySelectorAll("tbody tr");
- const currentYear = new Date().getFullYear().toString();
-  
+  const currentYear = new Date().getFullYear().toString();
+
+
+ const today = new Date();
+
+  // Format the date as YYYY-MM-DD (required for input type="date")
+  const year = today.getFullYear();
+  const month = ('0' + (today.getMonth() + 1)).slice(-2); // Add leading zero if needed
+  const day = ('0' + today.getDate()).slice(-2); // Add leading zero if needed
+  const formattedDate = `${year}-${month}-${day}`;
+
+
+
+
+
   firebase.database().ref("goldenwifi/monthly-bills").once("value").then(snapshot => {
     const clients = snapshot.val();
     if (!clients) return;
@@ -941,8 +955,11 @@ function loadSavedPayments2() {
 
       Object.entries(clientData.bills).forEach(([monthKey, bill]) => {
         const [year, month] = monthKey.split("-");
-         if (year !== currentYear) return;
+
+        if (year !== currentYear) return;
+
         const displayMonth = new Date(`${year}-${month}-01`).toLocaleString('default', { month: 'short' });
+
         monthMap[monthKey] = displayMonth;
 
         if (!clientBills[clientKey]) clientBills[clientKey] = {};
@@ -998,7 +1015,7 @@ sortedMonthKeys.forEach(monthKey => {
               newStatus = "Paid";
               actionToStatus = "approved";
               whoApproved1 = username;
-              firebase.database().ref(path).update({ status: newStatus, actionTo: actionToStatus, whoApproved: whoApproved1 })
+              firebase.database().ref(path).update({ status: newStatus, actionTo: actionToStatus, whoApproved: whoApproved1, dateOfPayment:formattedDate })
                 .then(() => location.reload());
             } else {
               const redo = confirm("Are you Sure You don’t received Payment From this Client for this Month?");
@@ -1006,7 +1023,7 @@ sortedMonthKeys.forEach(monthKey => {
               newStatus = "Unpaid";
               actionToStatus = "pending";
                whoApproved1 = "";
-              firebase.database().ref(path).update({ status: newStatus, actionTo: actionToStatus,  whoApproved: whoApproved1 });
+              firebase.database().ref(path).update({ status: newStatus, actionTo: actionToStatus,  whoApproved: whoApproved1, dateOfPayment:"" });
             }
 
             button.textContent = newStatus;
@@ -1079,7 +1096,7 @@ async function loadDisconnectionTable3(username) {
     });
 
     // 🔹 Only include clients with >= 2 unpaid bills
-    if (unpaidCount < 3) {
+    if (unpaidCount < 2) {
       return;
     }
 
@@ -1227,8 +1244,7 @@ function loadUnpaidBills(clientId) {
         if (!bill || bill.status !== "Unpaid") return;
 
         const [year, month] = monthKey.split("-");
-        // if (parseInt(year) === currentYear) {
-         if (parseInt(year) ) {
+        if (parseInt(year) === currentYear) {
           unpaidBills.push({
             monthKey,
             displayMonth: new Date(`${year}-${month}-01`).toLocaleString("default", { month: "long" }),
@@ -2057,8 +2073,6 @@ window.addEventListener("DOMContentLoaded", () => {
 totalClients();
 
 });
-
-
 
 
 
