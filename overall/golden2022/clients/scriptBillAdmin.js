@@ -926,7 +926,8 @@ function loadSavedPayments2() {
   const table = document.getElementById("merchants-table2");
   const theadRow = table.querySelector("thead tr");
   const rows = table.querySelectorAll("tbody tr");
-
+ const currentYear = new Date().getFullYear().toString();
+  
   firebase.database().ref("goldenwifi/monthly-bills").once("value").then(snapshot => {
     const clients = snapshot.val();
     if (!clients) return;
@@ -940,8 +941,8 @@ function loadSavedPayments2() {
 
       Object.entries(clientData.bills).forEach(([monthKey, bill]) => {
         const [year, month] = monthKey.split("-");
+         if (year !== currentYear) return;
         const displayMonth = new Date(`${year}-${month}-01`).toLocaleString('default', { month: 'short' });
-
         monthMap[monthKey] = displayMonth;
 
         if (!clientBills[clientKey]) clientBills[clientKey] = {};
@@ -2056,6 +2057,7 @@ window.addEventListener("DOMContentLoaded", () => {
 totalClients();
 
 });
+
 
 
 
