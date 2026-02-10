@@ -1291,7 +1291,7 @@ async function  loadSavedPayments3(username) {
     });
 
     // 🔹 Only include clients with >= 2 unpaid bills
-    if (unpaidCount < 3) {
+    if (unpaidCount < 2) {
       return;
     }
 
@@ -2156,6 +2156,7 @@ window.addEventListener("DOMContentLoaded", () => {
   loadClientTable(); // load clients first
  // updateMerchantTable3();
 });
+
 
 
 
