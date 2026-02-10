@@ -14,6 +14,25 @@
        }
 
 
+#currentMonthCollection {
+  width: 95%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+#currentMonthCollection th,
+#currentMonthCollection td {
+  border: 1px solid #287ce3;
+  padding: 6px;
+}
+
+#currentMonthCollection th {
+  background-color: #16b4e4;
+  color: white;
+}
+
+
+
   #backBTN {
     background-color: #0d9046;
     color: white;
@@ -192,6 +211,7 @@ input:hover {
   margin-left: 15px;
   flex-wrap: wrap; /* allows wrap on small screens */
 }
+
 
 
 
