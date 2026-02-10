@@ -45,7 +45,7 @@
     <br>
     <input type="text" id="usernameDisplay" hidden>
     <!-- <button onclick="applyFilter()">Filter</button> -->
-    <button id="filter" onclick="filterPayments22(); currentMonthCollection()" ><strong>3. Filter </strong></button>
+    <button id="filter" onclick="filterPayments22(), currentMonthCollection()" ><strong>3. Filter </strong></button>
     
     <button id="pdfBtn" onclick="saveReportAsPDF()">Save as PDF</button>
     </div>
@@ -104,12 +104,8 @@
 
     <script>
 
-
-
-
-
  let startInput = document.getElementById("startDate").value;
-let whoApp = document.getElementById("whoApp").value; 
+ let whoApp = document.getElementById("whoApp").value; 
 
 
   const today = new Date();
@@ -117,17 +113,9 @@ let whoApp = document.getElementById("whoApp").value;
   // 1st day of current month
   startDate = new Date(today.getFullYear(), today.getMonth(), 1);
 
-  document.getElementById("startDate").value = startDate.toISOString().split("T")[0];
 
-function applyFilter() {
-      
-        const whoApp = document.getElementById("whoApp").value;
 
-document.getElementById("startDate").value =
-  new Date().toISOString().slice(0, 7);
-    const startDate = document.getElementById("startDate").value;
-document.getElementById("reportRange").textContent = `Month of ${startDate} `;
-    }
+
 
 
 
@@ -210,6 +198,9 @@ function currentMonthCollection() {
 
   firebase.database().ref("goldenwifi/monthly-bills").once("value").then(snapshot => {
     const startDate = new Date(document.getElementById("startDate").value);
+
+     
+
     const whoApp = (document.getElementById("whoApp").value);
      const dateMonthKey = `${startDate.getFullYear()}-${String(startDate.getMonth() + 1).padStart(2, "0")}`;
    // endDate.setHours(23, 59, 59, 999); // include full end day
@@ -225,7 +216,7 @@ function currentMonthCollection() {
         const record = billData.bills[monthKey];
 
         const billDate = new Date(record.date);
-        const paymentDateCol = (record.dateOfPayment);
+        const paymentDateCol = new Date(record.dateOfPayment);
         const actionTo = (record.actionTo || "").trim().toLowerCase();
         const whoApproved = (record.whoApproved || "").trim().toLowerCase();
 
@@ -235,18 +226,19 @@ function currentMonthCollection() {
 
 
         const newBillDate = `${billDate.getFullYear()}-${String(billDate.getMonth() + 1).padStart(2, "0")}`;
+        const finalDatePayment = `${paymentDateCol.getFullYear()}-${String(paymentDateCol.getMonth() + 1).padStart(2, "0")}`;
+        const selectedMonth = `${startDate.getFullYear()}-${String(startDate.getMonth() + 1).padStart(2, "0")}`;
           
           const billMonth = newBillDate.substring(0, 7);
-
-           // let passed = true;
-
-
+  
+         
 if (
-  billMonth === dateMonthKey &&
+ // billMonth === dateMonthKey &&
+  finalDatePayment === selectedMonth &&
   ["approved", "pending"].includes(actionTo)
-) {
-   
 
+) {
+      
           const row = tableBody.insertRow();
         row.insertCell(0).textContent = count++;
         row.insertCell(1).textContent = record.name;
@@ -270,10 +262,15 @@ if (
       });
     });
 
- 
+   
+
   totalField22.textContent = total.toFixed(2);
    // document.getElementById("totalExpens").textContent = total.toFixed(2);
      document.getElementById("paidTotal").textContent = total.toFixed(2);
+
+     document.getElementById("reportRange").textContent = `Month of ${startDate} `;
+
+ //  console.log("mao ni selected date" + startDate);
  
   });
 }
@@ -292,6 +289,23 @@ if (
     currentMonthCollection();
 
   };
+
+
+
+function applyFilter() {
+      
+        const whoApp = document.getElementById("whoApp").value;
+
+    document.getElementById("startDate").value =
+    new Date().toISOString().slice(0, 7);
+    const startDate = document.getElementById("startDate").value;
+   
+    }
+
+
+
+
+
 </script>
 
 
