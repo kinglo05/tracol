@@ -412,7 +412,18 @@ EditSubmit.addEventListener('click', () => {
 
                editMerchantForm.style.display = 'none';
 
-  
+    /*  Swal.fire({
+      title: "Success!",
+      text: "CHANGES SAVED SUCCESSFULLY",
+      icon: "success",
+      timer: 2000, // Closes after 3 seconds
+      showConfirmButton: false 
+    }); */
+   
+   // editMerchantForm.style.display = 'none'; 
+
+   // loadSavedPayments();
+//console.log("humana finish na :" , username);
 
   })
   .catch(error => {
@@ -748,7 +759,12 @@ function addMonthlyBills() {
         }
         }
 
-       
+           /*  loadSavedPayments();
+            loadSavedPayments2();
+            populateUnpaidMonthDropdown();
+            calculateUnpaidGrandTotalForYear();  */
+
+
            loadClientTable();
            
     });
@@ -946,7 +962,7 @@ function loadSavedPayments2(username ) {
 
       Object.entries(clientData.bills).forEach(([monthKey, bill]) => {
         const [year, month] = monthKey.split("-");
-         if (year !== currentYear) return;
+        if (year !== currentYear) return;
         const displayMonth = new Date(`${year}-${month}-01`).toLocaleString('default', { month: 'short' });
 
         monthMap[monthKey] = displayMonth;
@@ -1006,15 +1022,28 @@ function loadSavedPayments2(username ) {
           button2.disabled = actionTo === "approved";
 
           if (!button2.disabled) {
-            button2.addEventListener("click", () => {
+          //  button2.addEventListener("click", () => {
+            button2.addEventListener("click", async () => {
               const confirmPaid = confirm("Confirm collection?");
               if (!confirmPaid) return;
+               
+               const ref = firebase.database().ref(path);
+                const snapshot = await ref.once("value");
+                    const data = snapshot.val() || {};
 
+                  const today = formattedDate; // assume already formatted
+                  const hasDate = data.dateOfPayment && data.dateOfPayment.trim() !== "";
+
+             
               const newStatus = actionTo === "Collected" ? "pending" : "Collected";
+             const newDate   = hasDate ? "" : today;
 
               firebase.database().ref(path).update({
                 actionTo: newStatus,
-                collector: username
+                collector: username,
+                dateOfPayment: newDate
+                
+                
               }).then(() => {
                 location.reload();
               });
@@ -1032,6 +1061,7 @@ function loadSavedPayments2(username ) {
     if (footerCell) footerCell.colSpan = theadRow.children.length;
   });
    sortTableByClientName2();
+   console.log("date today :", formattedDate);
 }
 
 
@@ -1222,7 +1252,20 @@ function loadSavedPayments(username) {
         button11.disabled = actionTo === "approved";
 
         if (!button11.disabled) {
+/*           button11.addEventListener("click", () => {
+            const confirmPaid = confirm("Confirm collection?");
+            if (!confirmPaid) return;
 
+            const newStatus = actionTo === "Collected" ? "pending" : "Collected";
+
+            firebase.database().ref(path).update({
+              actionTo: newStatus,
+              collector: username
+            }).then(() => {
+              // Reload table after updating Firebase
+        loadSavedPayments(username);
+            });
+          }); */
         }
 
         td.appendChild(button11);
@@ -1235,6 +1278,7 @@ function loadSavedPayments(username) {
   });
    sortTableByClientName();
 }
+
 
 
 
@@ -1621,7 +1665,9 @@ function calculateUnpaidForSelectedMonth() {
     })}`
 
 
- 
+    /* // ✅ Display total unpaid
+    document.getElementById("unpaidTotalDisplay").textContent =
+      `₱ ${totalUnpaid.toFixed(2)}`; */
   });
 }
 
@@ -1726,11 +1772,11 @@ function calculateUnpaidForSelectedMonth2() {
     })}`
 
 
+    /* // ✅ Display total unpaid
+    document.getElementById("unpaidTotalDisplay").textContent =
+      `₱ ${totalUnpaid.toFixed(2)}`; */
   });
 }
-
-
-
 
 
 
@@ -1924,8 +1970,6 @@ function loadUnpaidBillsWithFiltersCollector() {
 
 
 
-
-
 function editPlan(clientKey,monthKey) {
   const popUp = prompt("Enter new Amount:");
 //  const monthKey = `${year}-${month}`;
@@ -1944,6 +1988,7 @@ function editPlan(clientKey,monthKey) {
   }
 
  
+
 
 
 
@@ -1983,10 +2028,6 @@ function markSelectedAsPaid() {
       alert("Some updates failed. Check console.");
     });
 }
-
-
-
-
 
 
 
@@ -2032,27 +2073,12 @@ function markSelectedExp() {
 
 
 
-
-
-
-
-
-
-
-
-
 document.getElementById("selectAllCheckbox").addEventListener("change", function () {
   const isChecked = this.checked;
   document.querySelectorAll(".row-checkbox").forEach(cb => {
     cb.checked = isChecked;
   });
 });
-
-
-
-
-
-
 
 
 
@@ -2098,14 +2124,10 @@ function addReminder(clientKey) {
 
 
 
-
-
-
 // Optional: Close modal when clicking the close button
 function closeModal() {
   document.getElementById("tableModal").style.display = "none";
 }
-
 
 
 
@@ -2120,10 +2142,6 @@ location.reload(); // Refresh the page
 }
 
 
-
-
-
-
   const select = document.getElementById("status");
   select.addEventListener("mousedown", e => e.preventDefault()); // Prevent opening dropdown
   select.addEventListener("focus", () => select.blur());         // Prevent keyboard focus
@@ -2135,29 +2153,10 @@ const select33 = document.getElementById("status3");
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 window.addEventListener("DOMContentLoaded", () => {
   loadClientTable(); // load clients first
  // updateMerchantTable3();
 });
-
-
 
 
 
