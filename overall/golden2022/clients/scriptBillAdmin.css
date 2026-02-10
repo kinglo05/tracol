@@ -22,7 +22,22 @@ body {
 }
 
 
+#currentMonthCollection {
+  width: 95%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
 
+#currentMonthCollection th,
+#currentMonthCollection td {
+  border: 1px solid #287ce3;
+  padding: 6px;
+}
+
+#currentMonthCollection th {
+  background-color: #16b4e4;
+  color: white;
+}
 
 
 
@@ -2037,4 +2052,5 @@ mark {
   #bills-section .delete-bill-btn:hover {
     background-color: #b02a37;
   }
+
 
