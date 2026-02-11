@@ -862,7 +862,8 @@ editButton.classList.add('edit-button-merchant');
       actionTo : "Collected",
       note: note || "",
       areaCode: areaCode,
-      createdAt: new Date().toISOString()
+      date: monthKey, //new Date().toISOString(),
+      address2 : clientAddress 
     };
 
     // ✅ Save to Firebase
@@ -1244,7 +1245,8 @@ function loadUnpaidBills(clientId) {
         if (!bill || bill.status !== "Unpaid") return;
 
         const [year, month] = monthKey.split("-");
-        if (parseInt(year) === currentYear) {
+      //  if (parseInt(year) === currentYear) {
+       if (parseInt(year)) {
           unpaidBills.push({
             monthKey,
             displayMonth: new Date(`${year}-${month}-01`).toLocaleString("default", { month: "long" }),
