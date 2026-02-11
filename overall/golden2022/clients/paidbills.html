@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>VIEW PAID BILLS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="paidbillstyle.css">
+  
+  
+
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 95%; border-collapse: collapse; margin-bottom: 20px; font-size: 12px; }
+        th, td { border: 1px solid #333; padding: 6px; text-align: left; }
+        th { background-color: #6d6060; color: white; }
+        h2, h4, p { margin: 6px 0; text-align: center; }
+        .summary { margin-top: 10px; }
+        .page-break { page-break-before: always; }
+    </style>
+
+      
+
+</head>
+<body>
+  
+
+ <div id="backDiv" >
+ <button id="backBTN"><a href="./billAdmin2025.html">BACK</a></button>
+  </div>
+   <div id="topOption" class="babaw">
+    <label>1. Select Month:</label>
+
+    <input type="month" id="startDate">
+
+
+
+<br>
+            <label for="whoApp">2. Select user:</label>
+            <select id="whoApp" required>
+              <option value="admin">Admin</option>
+              <option value="lohwa">Lohwa</option>
+             
+            </select>
+
+
+    <br>
+    <input type="text" id="usernameDisplay" hidden>
+    <!-- <button onclick="applyFilter()">Filter</button> -->
+    <!-- <button id="filter" onclick="filterPayments22(), currentMonthCollection()" ><strong>3. Filter </strong></button> -->
+    
+    <button id="pdfBtn" onclick="saveReportAsPDF()">Save as PDF</button>
+    </div>
+
+<br>
+<br>
+
+    <div id="pdf-content">
+
+    <h2>Selected month collections </h2>
+   
+
+        <input type="text" id="theUser" hidden>  
+       
+
+
+
+    <div class="page-break">
+
+         <table id="currentMonthCollection">
+            <thead>
+                <tr><th>No.</th><th>Name</th><th>Amount</th><th>Bill-Month</th><th>DateOfPayment</th><th>Status</th><th>Approved by</th></tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+                <tr><td colspan="2" style="text-align:right;"><b>Total :</b></td><td id="collection-total">0.00</td></tr>
+            </tfoot>
+        </table>
+
+
+<br>
+
+
+ <p id="reportRange">Date range will be shown here</p>
+
+    <div class="summary">
+        <p><strong>Total Paid Bills</strong> <span id="paidTotal">0</span></p>
+
+
+       
+        <table id="payments-table2">
+            <thead>
+                <tr><th>No.</th><th>Name</th><th>Amount</th><th>Bill-Month</th><th>Address</th><th>Approved By</th></tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+                <tr><td colspan="2" style="text-align:right;"><b>Total :</b></td><td id="table-total2">0.00</td></tr>
+            </tfoot>
+        </table>
+    </div>
+
+</div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <script>
+
+ let startInput = document.getElementById("startDate").value;
+ let whoApp = document.getElementById("whoApp").value; 
+
+
+  const today = new Date();
+
+  // 1st day of current month
+  startDate = new Date(today.getFullYear(), today.getMonth(), 1);
+
+
+
+
+  // document.getElementById("whoApp").addEventListener("change", function () {
+  //   filterPayments22();
+  //   currentMonthCollection();
+  // });
+
+
+function applyFilters() {
+  filterPayments22();
+  currentMonthCollection();
+}
+
+document.getElementById("whoApp").addEventListener("change", applyFilters);
+document.getElementById("startDate").addEventListener("change", applyFilters);
+
+
+
+function filterPayments22() {
+
+ const tableBody = document.querySelector("#payments-table2 tbody");
+  const totalField22 = document.getElementById("table-total2");
+  tableBody.innerHTML = "";
+
+  firebase.database().ref("goldenwifi/monthly-bills").once("value").then(snapshot => {
+    const startDate = new Date(document.getElementById("startDate").value);
+    const whoApp = (document.getElementById("whoApp").value);
+     const dateMonthKey = `${startDate.getFullYear()}-${String(startDate.getMonth() + 1).padStart(2, "0")}`;
+   // endDate.setHours(23, 59, 59, 999); // include full end day
+
+    let total = 0;
+    let count = 1; // ✅ new counter
+
+    snapshot.forEach(childSnap => {
+      const billData = childSnap.val();
+      if (!billData || !billData.bills) return;
+
+      Object.keys(billData.bills).forEach(monthKey => {
+        const record = billData.bills[monthKey];
+
+        const billDate = new Date(record.date);
+        const actionTo = (record.actionTo || "").trim().toLowerCase();
+        const whoApproved = (record.whoApproved || "").trim().toLowerCase();
+
+        const rawAmount = record.planAmount || "0";
+        const cleaned = rawAmount.toString().replace(/[^0-9.]/g, "");
+        const amount = cleaned ? parseFloat(cleaned) : 0;
+
+
+        const newBillDate = `${billDate.getFullYear()}-${String(billDate.getMonth() + 1).padStart(2, "0")}`;
+          
+          const billMonth = newBillDate.substring(0, 7);
+
+        if (
+          billMonth === dateMonthKey &&
+         
+          actionTo === "approved" 
+          && whoApproved === whoApp
+        ) {
+          // total += amount;
+          // count++; // ✅ count this bill
+
+          const row = tableBody.insertRow();
+        row.insertCell(0).textContent = count++;
+        row.insertCell(1).textContent = record.name;
+        row.insertCell(2).textContent = parseFloat(record.planAmount).toFixed(2);
+        // row.insertCell(3).textContent = record.date;
+
+           if (record.date) {
+          const date = new Date(record.date);
+          row.insertCell(3).textContent = date.toLocaleString("en-US", {
+            month: "long"
+          });
+        } else {
+          row.insertCell(4).textContent = "";
+        }
+
+        row.insertCell(4).textContent = record.address2 || "";
+        row.insertCell(5).textContent = record.whoApproved || "";
+        total += parseFloat(record.planAmount);
+
+        }
+      });
+    });
+
+ 
+  totalField22.textContent = total.toFixed(2);
+   // document.getElementById("totalExpens").textContent = total.toFixed(2);
+     document.getElementById("paidTotal").textContent = total.toFixed(2);
+ 
+  });
+}
+
+
+
+
+
+function currentMonthCollection() {
+
+ const tableBody = document.querySelector("#currentMonthCollection tbody");
+  const totalField22 = document.getElementById("collection-total");
+  tableBody.innerHTML = "";
+
+  firebase.database().ref("goldenwifi/monthly-bills").once("value").then(snapshot => {
+    const startDate = new Date(document.getElementById("startDate").value);
+
+     
+
+    const whoApp = (document.getElementById("whoApp").value);
+     const dateMonthKey = `${startDate.getFullYear()}-${String(startDate.getMonth() + 1).padStart(2, "0")}`;
+   // endDate.setHours(23, 59, 59, 999); // include full end day
+
+    let total = 0;
+    let count = 1; // ✅ new counter
+
+    snapshot.forEach(childSnap => {
+      const billData = childSnap.val();
+      if (!billData || !billData.bills) return;
+
+      Object.keys(billData.bills).forEach(monthKey => {
+        const record = billData.bills[monthKey];
+
+        const billDate = new Date(record.date);
+        const paymentDateCol = new Date(record.dateOfPayment);
+        const actionTo = (record.actionTo || "").trim().toLowerCase();
+        const whoApproved = (record.whoApproved || "").trim().toLowerCase();
+
+        const rawAmount = record.planAmount || "0";
+        const cleaned = rawAmount.toString().replace(/[^0-9.]/g, "");
+        const amount = cleaned ? parseFloat(cleaned) : 0;
+
+
+        const newBillDate = `${billDate.getFullYear()}-${String(billDate.getMonth() + 1).padStart(2, "0")}`;
+        const finalDatePayment = `${paymentDateCol.getFullYear()}-${String(paymentDateCol.getMonth() + 1).padStart(2, "0")}`;
+        const selectedMonth = `${startDate.getFullYear()}-${String(startDate.getMonth() + 1).padStart(2, "0")}`;
+          
+          const billMonth = newBillDate.substring(0, 7);
+  
+         
+if (
+ // billMonth === dateMonthKey &&
+  finalDatePayment === selectedMonth &&
+  ["approved", "pending"].includes(actionTo)
+
+) {
+      
+          const row = tableBody.insertRow();
+        row.insertCell(0).textContent = count++;
+        row.insertCell(1).textContent = record.name;
+        row.insertCell(2).textContent = parseFloat(record.planAmount).toFixed(2);
+        // row.insertCell(3).textContent = record.date;
+
+                if (record.date) {
+          const date = new Date(record.date);
+          row.insertCell(3).textContent = date.toLocaleString("en-US", {
+            month: "long"
+          });
+        } else {
+          row.insertCell(4).textContent = "";
+        }
+
+         row.insertCell(4).textContent = record.dateOfPayment || "";
+        row.insertCell(5).textContent = record.actionTo || "";
+         row.insertCell(6).textContent = record.whoApproved || "";
+        total += parseFloat(record.planAmount);
+
+        }
+      });
+    });
+
+   
+
+  totalField22.textContent = total.toFixed(2);
+   // document.getElementById("totalExpens").textContent = total.toFixed(2);
+     document.getElementById("paidTotal").textContent = total.toFixed(2);
+
+     document.getElementById("reportRange").textContent = `Month of ${startDate} `;
+
+ //  console.log("mao ni selected date" + startDate);
+ 
+  });
+}
+
+
+
+
+    </script>
+ 
+
+
+
+
+
+
+
+<script>
+  window.onload = function () {
+    applyFilter();
+
+    filterPayments22();
+    currentMonthCollection();
+
+  };
+
+
+
+function applyFilter() {
+      
+        const whoApp = document.getElementById("whoApp").value;
+
+    document.getElementById("startDate").value =
+    new Date().toISOString().slice(0, 7);
+    const startDate = document.getElementById("startDate").value;
+   
+    }
+
+
+
+
+
+</script>
+
+
+</div> <!-- end of your content -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+    
+<script src="scriptReport.js"></script>
+
+</body>
+</html>
+
+
+
+
+</body>
+</html>
