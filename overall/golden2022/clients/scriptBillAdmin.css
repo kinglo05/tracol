@@ -391,6 +391,24 @@ button:hover {
 }
  
 
+#topCollections {
+  background-color: rgba(75, 241, 224, 0.6); /* Slightly transparent red */
+  color: rgb(66, 62, 62);
+  padding: 5px 5px;
+  border-style: outset;
+  border-radius: 8px; 
+  cursor: pointer;
+  font-size: 12px;
+  font-family: verdana;
+ 
+ 
+  /* 🔄 Smooth transitions for both opacity and background */
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+ opacity: 1; 
+}
+
+
+
 
 #warning:hover {
   background-color: rgb(4, 239, 247); /* Fully opaque background */
@@ -415,7 +433,19 @@ button:hover {
   }
 
 
+ #divCollections {
+    display: flex;
+    flex-wrap: wrap;              /* allow wrapping on smaller screens */
+    gap: 10px;                    /* space between items */
+    align-items: center;          /* vertical alignment */
+    justify-content: space-between;  /* spread items evenly or change to center/start */
+    padding: 5px;
+  }
 
+  #divCollections > * {
+    flex: 1 1 auto;               /* allow items to shrink and grow */
+    min-width: 120px;             /* optional: control how narrow items can get */
+  }
 
 
 
@@ -753,9 +783,9 @@ input:hover {
 
  
 #edit-merChantId { 
-    height: 25px;
-     width: 200px; 
-     font-size: medium; 
+    height: 23px;
+     width: 180px; 
+     font-size: small; 
      margin-left: 50px;
 }
 
