@@ -45,7 +45,7 @@
     <br>
     <input type="text" id="usernameDisplay" hidden>
     <!-- <button onclick="applyFilter()">Filter</button> -->
-    <button id="filter" onclick="filterPayments22(), currentMonthCollection()" ><strong>3. Filter </strong></button>
+    <!-- <button id="filter" onclick="filterPayments22(), currentMonthCollection()" ><strong>3. Filter </strong></button> -->
     
     <button id="pdfBtn" onclick="saveReportAsPDF()">Save as PDF</button>
     </div>
@@ -55,7 +55,7 @@
 
     <div id="pdf-content">
 
-    <h2>Collections </h2>
+    <h2>Selected month collections </h2>
    
 
         <input type="text" id="theUser" hidden>  
@@ -67,7 +67,7 @@
 
          <table id="currentMonthCollection">
             <thead>
-                <tr><th>No.</th><th>Name</th><th>Amount</th><th>Bill-Month</th><th>DateOfPayment</th><th>Status</th></tr>
+                <tr><th>No.</th><th>Name</th><th>Amount</th><th>Bill-Month</th><th>DateOfPayment</th><th>Status</th><th>Approved by</th></tr>
             </thead>
             <tbody></tbody>
             <tfoot>
@@ -116,8 +116,19 @@
 
 
 
+  // document.getElementById("whoApp").addEventListener("change", function () {
+  //   filterPayments22();
+  //   currentMonthCollection();
+  // });
 
 
+function applyFilters() {
+  filterPayments22();
+  currentMonthCollection();
+}
+
+document.getElementById("whoApp").addEventListener("change", applyFilters);
+document.getElementById("startDate").addEventListener("change", applyFilters);
 
 
 
@@ -256,6 +267,7 @@ if (
 
          row.insertCell(4).textContent = record.dateOfPayment || "";
         row.insertCell(5).textContent = record.actionTo || "";
+         row.insertCell(6).textContent = record.whoApproved || "";
         total += parseFloat(record.planAmount);
 
         }
@@ -280,6 +292,12 @@ if (
 
     </script>
  
+
+
+
+
+
+
 
 <script>
   window.onload = function () {
