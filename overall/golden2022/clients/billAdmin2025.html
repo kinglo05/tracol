@@ -197,6 +197,14 @@ margin-top: 1px;
                       <button id="warning" onclick="toggleTableModal3()">Clients for disconnection</button> 
                      <button id="optionsDiv" onclick="toggleDivs(this)">SHOW MORE OPTIONS</button>           
                         </div>
+
+                         <div id="divCollections">
+                    <button id="topCollections" onclick="window.location.href='paidbills.html'">
+  Collections
+</button>
+
+                            
+                        </div>
                            <!-- ///////////////   FOR CREATING NEW BILL  ////////////// -->
 
                       <div id="create-bill-div" style="display: none;">
@@ -572,6 +580,7 @@ margin-top: 1px;
   <div class="modal-content" id="editmerchant">
     <div id="edit-title-top">Edit Client Details and Status</div>
 
+     <label for="edit-merChantId">Client ID</label>
     <input type="text" id="edit-merChantId" ><br>
     <label for="edit-client-name" class="whatsNickname">Edit Name</label>
     <b><input type="text" id="edit-merchant-name"></b><br>
