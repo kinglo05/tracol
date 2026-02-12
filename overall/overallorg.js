@@ -221,61 +221,61 @@ if (
 
   //////////////////////for overall new payments ////////////////////
 
-  function overAllNewPayments() {
-    database.ref('payments').on('value', (childSnapshot) => {
-     // tableData.length = 0; // Clear existing data
-     let overAllNewPayments = 0;
-     const currentDate = new Date();
-      const currentMonth = currentDate.getMonth() + 1; // JavaScript months are 0-based, so add 1
-      const currentYear = currentDate.getFullYear();
+//  function overAllNewPayments() {
+//    database.ref('payments').on('value', (childSnapshot) =>
+// tableData.length = 0; // Clear existing data
+//     let overAllNewPayments = 0;
+ //    const currentDate = new Date();
+  //    const currentMonth = currentDate.getMonth() + 1; // JavaScript months are 0-based, so add 1
+   //   const currentYear = currentDate.getFullYear();
       //console.log("TOP oF The Function");
     
-      childSnapshot.forEach((childSnapshot) => {
+   //   childSnapshot.forEach((childSnapshot) => {
        
-        const expens = childSnapshot.val(); // Get the payment data
+  //      const expens = childSnapshot.val(); // Get the payment data
     
     
-        const paymentDate = new Date(expens.date); // Ensure payment.date is in a valid format
-        const paymentMonth = paymentDate.getMonth() + 1;
-        const paymentYear = paymentDate.getFullYear();
-        const expenses = [];
+    //    const paymentDate = new Date(expens.date); // Ensure payment.date is in a valid format
+   //     const paymentMonth = paymentDate.getMonth() + 1;
+   //     const paymentYear = paymentDate.getFullYear();
+   //     const expenses = [];
     
-        if (
-          expens.status === "new" 
+    //    if (
+       //   expens.status === "new" 
         /*   expens.status === "paid" &&
           paymentMonth === currentMonth &&
          paymentYear ===  currentYear */
     
-        ) {
+   //     ) {
     
-          const todayLoEx = {};
-           const nameKo = (expens.status);
-           const amountLo = parseFloat(expens.amount) || 0;
+    //      const todayLoEx = {};
+      //     const nameKo = (expens.status);
+  //     const amountLo = parseFloat(expens.amount) || 0;
           
-          todayLoEx[nameKo] = 0;
-          todayLoEx[nameKo] += amountLo; 
+    //      todayLoEx[nameKo] = 0;
+     //     todayLoEx[nameKo] += amountLo; 
           
-          if (!todayLoEx[nameKo]) {
-            todayLoEx[nameKo] = 0;
-          }
-          todayLoEx[nameKo] += amountLo;
-          overAllNewPayments += amountLo;
+    //      if (!todayLoEx[nameKo]) {
+     //       todayLoEx[nameKo] = 0;
+     //     }
+      //    todayLoEx[nameKo] += amountLo;
+     //     overAllNewPayments += amountLo;
     
-        }
+  //      }
     
-      });
+ //     });
     
-    const overAllNew  = Number(overAllNewPayments) || 0;
+//    const overAllNew  = Number(overAllNewPayments) || 0;
    
-      document.getElementById("overAllNew1").innerText = overAllNew.toFixed(2);
-        localStorage.setItem("overAllNewPayments" , overAllNewPayments);
+//      document.getElementById("overAllNew1").innerText = overAllNew.toFixed(2);
+   //     localStorage.setItem("overAllNewPayments" , overAllNewPayments);
          // console.log("sud sa foreach nihdfdfdfdf", kini);
     
-      }
-    )};
+ //     }
+//    )};
      
     
-    overAllNewPayments();
+  //  overAllNewPayments();
 
 
 
@@ -905,4 +905,5 @@ rows.forEach((row, rowIndex) => {
         if (e.key === "ArrowLeft") goToSlide(currentIndexes[rowIndex] - 1);
     });
 });
+
  
