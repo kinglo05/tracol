@@ -1272,6 +1272,8 @@ function loadUnpaidBills(clientId) {
           <td>${bill.dueDate}</td>
       
           <td>
+           <button class="paid-bill-btn" data-month="${bill.monthKey}">Paid</button>
+            <br><br>
             <button class="edit-bill-btn" data-month="${bill.monthKey}">Edit</button>
             <br><br>
             <button class="delete-bill-btn" data-month="${bill.monthKey}">Delete</button>
@@ -1279,6 +1281,59 @@ function loadUnpaidBills(clientId) {
         `;
         billsTableBody.appendChild(tr);
       });
+
+
+ 
+
+
+
+       // ✅ Attach Paid listeners
+      document.querySelectorAll(".paid-bill-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          const monthKey = e.currentTarget.dataset.month;
+          const path = `goldenwifi/monthly-bills/${clientId}/bills/${monthKey}`;
+
+          // Get current data from Firebase
+          firebase.database().ref(path).once("value").then(snapshot => {
+            const billData = snapshot.val();
+              const username = document.getElementById("theUser").value
+               whoApproved1 = username;
+            if (!billData) return;
+
+            // Simple inline prompt editing (can be replaced with a modal form)
+          console.log(username,formattedDate);
+          if (confirm(`Are you sure you want to paid ${monthKey}?`)) {
+
+            // Update Firebase
+            firebase.database().ref(path).update({
+            //  planAmount: parseFloat(newAmount) || 0,
+              actionTo:"approved",
+              status: "Paid",
+              whoApproved: username,
+              dateOfPayment: formattedDate,
+
+         
+            })
+          
+            .then(() => {
+              alert(`Bill for ${monthKey} Paid successfully.`);
+              loadUnpaidBills(clientId); // refresh
+              
+            }).catch(err => {
+              console.error("Error updating bill:", err);
+              alert("Failed to Paid bill.");
+            });
+           }
+          });
+        
+        });
+
+     
+      });
+
+
+
+
 
       // ✅ Attach edit listeners
       document.querySelectorAll(".edit-bill-btn").forEach(btn => {
@@ -1346,8 +1401,7 @@ function loadUnpaidBills(clientId) {
 
 
 
-
-
+    
 
 
 
@@ -1908,18 +1962,12 @@ function markSelectedExp() {
 
 
 
-
-
 document.getElementById("selectAllCheckboxEX").addEventListener("change", function () {
   const isCheckedEX = this.checked;
   document.querySelectorAll(".row-checkbox2").forEach(cb => {
     cb.checked = isCheckedEX;
   });
 });
-
-
-
-
 
 
 
@@ -2055,15 +2103,6 @@ function totalClients() {
 
   });
 }
-
-
-
-
-
-
-
-
-
 
 
 
