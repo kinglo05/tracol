@@ -130,8 +130,6 @@ margin-top: 1px;
 }
 
 
-
-
        .main-content {
            height: 100vh; /* Full height */
            min-height: 600px;  
@@ -190,9 +188,7 @@ margin-top: 1px;
   </h4>
 </div>
 
-                   
-
-
+                
                       <div id="top2Btn">
                       <button id="warning" onclick="toggleTableModal3()">Clients for disconnection</button> 
                      <button id="optionsDiv" onclick="toggleDivs(this)">SHOW MORE OPTIONS</button>           
@@ -233,10 +229,6 @@ margin-top: 1px;
                      </div>
 
   
-                
-
-
-                  <!-- ///////////////   FOR SELECT UNPAID MONTH TOTAL  ////////////// -->
                 <!-- ///////////////   FOR SELECT UNPAID MONTH TOTAL  ////////////// -->
 
                   <div id="unpaid-month-div" style="display: none;">
@@ -250,24 +242,15 @@ margin-top: 1px;
                       </select>
                    <div id="unpaidTotalResult" style="display: none; margin-top: 2px;"></div>
                       </div>
-
-
                    </div>
-
-
                    <!--  <div id="unpaidTotalResult" style="display: none; margin-top: 2px;"></div> -->
                      <div id="unpaid-year-summary" style="display: none;"></div>
-  
-
-
                       <!-- ///////////////   FOR search UNPAID   ////////////// -->
                     <div id="newPayments-title">
                       <h5 style="color: rgb(236, 228, 228); margin-top: 5px; margin-bottom: 5px; margin-left: 1px;">
                        Search here </h5>
                        <input type="text" id="merchant-search6" placeholder="Search Unpaid Client" autocomplete="off">
                      </div>
-
-
 
        <input type="text" id="theUser" hidden>  
 
@@ -281,10 +264,7 @@ margin-top: 1px;
    <div class="modal-header2">
   <!--  <div> <span class="close2" onclick="closeTableModal1()">&times;</span></div> -->
   </div>
- 
-
-
-                      
+                   
     <h4 style="color: rgb(106, 11, 11); margin: 5px; padding-left: 5px;">  
     List of all active clients (Edit)
   </h4>
@@ -311,26 +291,20 @@ margin-top: 1px;
         <th>Collector</th>
         <th>Note</th>
         <th>Actions</th>
-       
-       
-       
-        
+           
       </tr>
     </thead>
     <tbody>
       <tr>
         <td>1</td>
         <td class="hidden-col">CL001</td>
-        <td>John Doe</td>
+        <td>Golden Clients</td>
         <td>₱500</td>
         <td>123 Main St</td>
         <td>2025-07-01</td>
         <th>Collector</th>
         <th>Note</th>
         <th>Actions</th>
-       
-       
-      
         <td>
           <button class="pay-btn">Unpaid</button>
         </td>
@@ -349,33 +323,6 @@ margin-top: 1px;
   </table>
 </div>
 </div></div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <div class="table-container"> 
  <table id="merchants-table2">
@@ -398,7 +345,7 @@ margin-top: 1px;
       <tr>
         <td>1</td>
         <td class="hidden-col">CL001</td>
-        <td>John Doe</td>
+        <td>Golden Clients</td>
         <td>₱500</td>
         <td>123 Main St</td>
         <td>Collector</td>
@@ -426,12 +373,7 @@ margin-top: 1px;
   </table>
 </div>
 
-
 <br><br>
-
-
-
- 
 <div id="collectorModal" class="modal">
   <div class="modal-content">
     
@@ -470,10 +412,7 @@ margin-top: 1px;
         </tr>
       </tfoot>
     </table>
-    <br><br>
-
-
-    
+    <br><br>  
  <div class="actions-row">
   <button id="confirmBTNex" onclick="markSelectedExp()">Mark Expenses as APPROVED</button>
   <label>
@@ -507,10 +446,6 @@ margin-top: 1px;
   </div>
 
 </div>
-
-
-
-
   <!-- ////////////////////// FOR TABLE CLIENT FOR DISCONNECTIONS 333 //////////////////////////////// -->
 
   <div id="tableModal3" class="modal">
@@ -562,45 +497,29 @@ margin-top: 1px;
   </tfoot>
 </table>
 
-
-
-
-
-
 </div> 
  </div> 
 </div>
 
-
-
-
-
-
 <div id="edit-merchant-form" class="modal hidden">
   <div class="modal-content" id="editmerchant">
     <div id="edit-title-top">Edit Client Details and Status</div>
-
      <label for="edit-merChantId">Client ID</label>
     <input type="text" id="edit-merChantId" ><br>
     <label for="edit-client-name" class="whatsNickname">Edit Name</label>
     <b><input type="text" id="edit-merchant-name"></b><br>
-
     <label for="status">Disconnect / Reconnect / Delete</label>
     <select id="status" required>
       <option value="new">Active</option>
       <option value="disconnected">Disconnected</option>
        <option value="hide">Delete</option>
     </select><br>
-
     <label for="contactNum2">Edit Number</label>
     <input type="number" id="contactNum2" placeholder="Add client number" autocomplete="off"><br>
-
     <label for="planAmount">Edit Plan Amount</label>
     <input type="number" id="planAmount" autocomplete="off"><br>
-
      <label for="dueDate">Edit Due Date</label>
     <input type="number" id="dueDate" autocomplete="off"><br>
-
     <label for="client-address1">Edit Address:</label>
     <select id="client-address1" autocomplete="off" required>
       <option value="">Select Address</option>
@@ -631,20 +550,14 @@ margin-top: 1px;
       <option value="dennis">Dennis Area-Bukid</option>
       <option value="admin">Admin</option>
     </select><br>
-
     <label for="note">Add Reminder</label>
-    <input type="text" id="note" placeholder="Say Something" autocomplete="off"><br>
-
-     
+    <input type="text" id="note" placeholder="Say Something" autocomplete="off"><br> 
     <button id="save-edit-merchant">Save</button>
     <button id="cancel-edit-merchant">Close</button>
-
-
      <input type="text" id="edit-merchant-email" hidden>
     <input type="text" id="mer-general-total" hidden><br>
     <input type="text" id="edit-new-pay" readonly hidden>
     <input type="text" id="edit-new-remain" autocomplete="off" hidden>
-   
     <input type="text" id="edit-num-paymentst" hidden>
 
     <!-- =================== NEW SECTION BELOW =================== -->
@@ -668,9 +581,6 @@ margin-top: 1px;
 <script>
   document.getElementById("currentYearLabel").textContent = new Date().getFullYear();
 </script>
-
-  <!-- =================== END NEW SECTION =================== -->
-
     <!-- =================== add bill section=================== -->
 
 <div id="add-bill-section">
@@ -684,93 +594,26 @@ margin-top: 1px;
 
   <button id="save-new-bill">💾 Add Bill</button>
 </div>
-
-
-
-
-
-
     <!-- =================== END NEW SECTION =================== -->
  <button id="cancel-edit-merchant2">Close</button>
    
   </div>
 </div>
 
-
-
-
- <!-- //////////////////////////// MERCHANT FORM EDIT TESTTING ///////////////////// -->
-
-
-
- <!-- Hidden by default -->
-<!-- <div id="editMerchantFormtTest" style="display:none;">
-  <h3>Edit Merchant</h3>
-  <form id="merchantEditForm">
-    <input type="hidden" id="edit-merChantId">
-    <label>Name</label>
-    <input type="text" id="edit-merchant-name"><br>
-    <label>Contact #</label>
-    <input type="text" id="contactNum2"><br>
-    <label>Note</label>
-    <input type="text" id="note"><br>
-    <label>Status</label>
-    <input type="text" id="status"><br>
-    <label>Plan Amount</label>
-    <input type="number" id="planAmount"><br>
-    <label>Address</label>
-    <input type="text" id="client-address1"><br>
-    <label>Area Code</label>
-    <input type="text" id="areaCodeX"><br>
-
-    <button type="submit">Save Changes</button>
-    <button type="button" onclick="closeEditForm()">Cancel</button>
-  </form>
-</div> -->
-
-
-
-
-
-
-
-
-
-
-
-
                <!--  //////////////////////// EDIT FORM FOR TABLE 333333333333//////////////// -->
-
-                
 
              <div id="edit-merchant-form3" class="modal hidden">
                 <div class="modal-content" id="editmerchant3">
-                  <div id="edit-title-top3">  Are you sure you want to disconect? </div>
-                   
+                  <div id="edit-title-top3">  Are you sure you want to disconect? </div>                
                     <label for="edit-client-name3" class="whatsNickname" >Client Name</label>
                   <b>  <input type="text" id="edit-merchant-name3" readonly> </b><br>
-                  
                     <label for="status3" >Current Status</label>
                   <input type="text" id="status3" readonly>
-                 
-
-                   
-                  
-
-                
-
-                   
-                  
                            <input type="text" id="edit-merchant-email3" hidden >
                          <input type="text" id="mer-general-total3"   hidden><br>
                     <input type="text" id="edit-new-pay"   readonly hidden>
-                
                     <input type="text" id="edit-new-remain3" autocomplete="off" hidden>
-                
                            <input type="text" id="edit-new-borrowed3"  hidden >
-
-
-
                     <button id="save-edit-merchant3">Yes</button>
                     <button id="cancel-edit-merchant3" onclick="closeEditDisconnected()">Cancel</button>
                     <input type="text" id="edit-id-m3" hidden ><br> 
@@ -780,69 +623,26 @@ margin-top: 1px;
                 </div>
             </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                <!-----/////////////////////////////  fot edit merchant name only--------------------->
      
-             
                <div id="edit-merchant-formName"class="modal hidden">
               <div class="modal-content" id="editmerchantName2">
-                <div id="edit-account-top"> EDIT TRADERS NAME AND Account</div>
-                   
-                    
+                <div id="edit-account-top"> EDIT TRADERS NAME AND Account</div>   
                      <label for="edit-merchant-nameName" >You can only change the NICKNAME if the trader has 0 remaining payments</label>
-                     
                      <input type="text" id="mer-general-totalName"  readonly><br> 
                      <label for="edit-merchant-nameName" >Edit nickname</label>
                      <b><input type="text" id="edit-merchant-nameName" autocomplete="off"> </b><br>
-
                     <label for="edit-merchant-emailName" >Edit/Add Noones Account Used:</label>
                     <input type="text" id="edit-merchant-emailName" autocomplete="off" ><br>
-
                     <label for="merchantnote" >Note about this Trader</label>
                     <input type="text" id="merchantnote"  autocomplete="off" ><br>                   
                     <input type="text" id="edit-new-remainName" hidden><br>
-        
-
-
-
-
                     <button class="edit-mer" id="save-edit-merchantName">Save</button>
                     <button class="edit-mer" id="cancel-edit-merchantName">Close</button>
                     <input type="text" id="edit-id-mName"  hidden ><br> 
                     <input type="text" id="edit-merChantIdName" hidden><br>
-        
-        
                 </div>
-            </div>
-        
-
-
-
-
-
-
-
-
-
-                        
+            </div>       
                     <!-- Modal structure -->
                     <div id="frameModal" class="modal">
                         <div class="modal-content">
@@ -850,27 +650,7 @@ margin-top: 1px;
                             <iframe id="modalFrame" src="utilities/data/expensestable.html"></iframe>
                         </div>
                     </div>
-
-
-
-
-        </div>
-
-
-
-
-       
-
-    
-
-
-
-
-
-
-
-
-     
+        </div>   
     </div>
 
     <script>
@@ -901,10 +681,8 @@ margin-top: 1px;
     }, 200);
   </script>
 
-
     <script src="scriptBillAdmin.js"></script>  
-   <!--  <script src="tableclientOnly.js"></script> -->
-
 </body>
 </html>
+
 
