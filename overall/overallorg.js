@@ -1,6 +1,5 @@
 
 
-
 ////////////////////LOGOUT BUTTON //////////////////////
 document.getElementById("logoutButton").addEventListener("click", function() {
   firebase.auth().signOut().then(() => {
@@ -10,9 +9,6 @@ document.getElementById("logoutButton").addEventListener("click", function() {
       console.error("Logout Error:", error);
   });
 });
-
-
-
 
 
 const dateInput22 = document.getElementById('date-today');
@@ -25,12 +21,6 @@ const dateInput22 = document.getElementById('date-today');
   const formattedDate2 = `${year}-${month}-${day}`;
 
   dateInput22.value = formattedDate2; 
-
-
-
-
-
-
 
  // Get elements
  var modal = document.getElementById("expensesModal");
@@ -51,18 +41,13 @@ const dateInput22 = document.getElementById('date-today');
 
  function FinalLohwaExpenses() {
   database.ref('expenses').on('value', (childSnapshot) => {
-   // tableData.length = 0; // Clear existing data
    let kini = 0;
    const currentDate = new Date();
     const currentMonth = currentDate.getMonth() + 1; // JavaScript months are 0-based, so add 1
     const currentYear = currentDate.getFullYear();
-    //console.log("TOP oF The Function");
-  
     childSnapshot.forEach((childSnapshot) => {
      
       const expens = childSnapshot.val(); // Get the payment data
-  
-  
       const paymentDate = new Date(expens.date); // Ensure payment.date is in a valid format
       const paymentMonth = paymentDate.getMonth() + 1;
       const paymentYear = paymentDate.getFullYear();
@@ -107,15 +92,13 @@ const dateInput22 = document.getElementById('date-today');
 
  function FinalOverAllExpenses() {
   database.ref('expenses').on('value', (childSnapshot) => {
-   // tableData.length = 0; // Clear existing data
    let kini = 0;
    let currentMonthExpenses = 0;
    let currentMonthExpensesNew = 0;
    const currentDate = new Date();
     const currentMonth = currentDate.getMonth() + 1; // JavaScript months are 0-based, so add 1
     const currentYear = currentDate.getFullYear();
-    //console.log("TOP oF The Function");
-  
+
     childSnapshot.forEach((childSnapshot) => {
       const expens = childSnapshot.val(); // Get the payment data
       const paymentDate = new Date(expens.date); // Ensure payment.date is in a valid format
@@ -134,7 +117,6 @@ const dateInput22 = document.getElementById('date-today');
         const todayLoEx = {};
          const nameKo = (expens.paymentType);
          const amountLo = parseFloat(expens.amount) || 0;
-        
         todayLoEx[nameKo] = 0;
         todayLoEx[nameKo] += amountLo; 
         
@@ -211,12 +193,6 @@ if (
   
 
 
-
-
-
-
-
-  
 
 
   //////////////////////for overall new payments ////////////////////
@@ -335,33 +311,21 @@ if (
                const pilakaresibo = (todatNumberPayments[paymentdate] || 0);
                const eight1 = (totalForTheDay * 0.08).toFixed(2);
                const eightPoint1 = (totalForTheDay * 0.085).toFixed(2);
-               const eight = (eight1 - 500).toFixed(2);
-               const eightPoint = (eightPoint1 - 500).toFixed(2);
-              
-  
- 
-   /*  document.getElementById('eight').value = eight;
-    document.getElementById('eightFive').value = eightPoint; */
+               const pointNine = (totalForTheDay * 0.9).toFixed(2);
+             
+            
     document.getElementById("todayNew1").innerText = Number(totalForTheDay) || 0;
     document.getElementById("todayResibo1").innerText = Number(pilakaresibo) || 0;
     localStorage.setItem("totalForTheDay" ,  totalForTheDay);
-    
+        document.getElementById("overAllNew1").innerText = eight1 + "  ******  " + eightPoint1 + " ***** " + pointNine;
     
               })
              
             })
-           // localStorage.setItem("todayNew" ,  totalForTheDay);
-           // localStorage.setItem("todayResibo" ,  pilakaresibo);
+           
           };
           dailypayments();
     
-
-
-
-
-
-
-
 
     ///////////// FOR DAILY TOTAL TRADES ///////////////// 
 
@@ -424,9 +388,6 @@ if (
     
     calculateDailyTrades();
 
-   
-
-
 
 function todayNoNames() {
   database.ref('payments').once('value', (paymentsSnapshot) => {
@@ -473,40 +434,26 @@ function todayNoNames() {
            const pilakaresibo = (todatNumberPayments[paymentdate] || 0);
            const eight1 = (totalForTheDay * 0.08).toFixed(2);
            const eightPoint1 = (totalForTheDay * 0.085).toFixed(2);
-           const eight = (eight1 - 500).toFixed(2);
-           const eightPoint = (eightPoint1 - 500).toFixed(2);
-          
-/* document.getElementById('total-today').value = totalForTheDay;
-document.getElementById('total-resibo').value = pilakaresibo; */
+
  document.getElementById("todayNoName").innerText = Number(totalForTheDay) || 0;
 document.getElementById("todayNoNameResibo").innerText = Number(pilakaresibo) || 0;
 
           })
-        //  console.log("PARA TESTING RESULT",pilakaresibo);
-         // document.getElementById("todayNoNameResibo").innerText = Number(pilakaresibo) || 0;
         })
         
         
       };
       todayNoNames();
 
-       
-
             function overAllNoNames() {
               database.ref('payments').on('value', (childSnapshot) => {
-               // tableData.length = 0; // Clear existing data
                let monthlyNoName = 0;
                let overAllNoName = 0
                const currentDate = new Date();
                 const currentMonth = currentDate.getMonth() + 1; // JavaScript months are 0-based, so add 1
-                const currentYear = currentDate.getFullYear();
-                //console.log("TOP oF The Function");
-              
+                const currentYear = currentDate.getFullYear();  
                 childSnapshot.forEach((childSnapshot) => {
-                 
                   const expens = childSnapshot.val(); // Get the payment data
-              
-              
                   const paymentDate = new Date(expens.date); // Ensure payment.date is in a valid format
                   const paymentMonth = paymentDate.getMonth() + 1;
                   const paymentYear = paymentDate.getFullYear();
@@ -515,9 +462,7 @@ document.getElementById("todayNoNameResibo").innerText = Number(pilakaresibo) ||
                   if (
                     expens.merchantP === "" &&
                     expens.status === "new" 
-                    /* paymentMonth === currentMonth &&
-                   paymentYear ===  currentYear
-               */
+                 
                   ) {
               
                     const todayLoEx = {};
@@ -560,14 +505,10 @@ document.getElementById("todayNoNameResibo").innerText = Number(pilakaresibo) ||
               
                   }
 
-
-              
                 });
                 document.getElementById("totalNoNameFinal").innerText = Number(overAllNoName) || 0;
                 document.getElementById("totalNoNameMonthly").innerText = Number(monthlyNoName) || 0;
-              
                   localStorage.setItem("overAllNoName" , overAllNoName);
-                   // console.log("sud sa foreach nihdfdfdfdf", kini);
               
                 }
               )};
@@ -575,32 +516,16 @@ document.getElementById("todayNoNameResibo").innerText = Number(pilakaresibo) ||
               
               overAllNoNames();
 
-
-
-
-
-
-              
-              
-
-   ////////////////////////////  MONTHLY TOTAL TRADES ///////////////////////////////
-
      //////////////////////for overall new payments ////////////////////
 
   function  monthlyTrades() {
     database.ref('payments').on('value', (childSnapshot) => {
-     // tableData.length = 0; // Clear existing data
      let overAllmonthlyTrades = 0;
      const currentDate = new Date();
       const currentMonth = currentDate.getMonth() + 1; // JavaScript months are 0-based, so add 1
       const currentYear = currentDate.getFullYear();
-      //console.log("TOP oF The Function");
-    
       childSnapshot.forEach((childSnapshot) => {
-       
         const expens = childSnapshot.val(); // Get the payment data
-    
-    
         const paymentDate = new Date(expens.date); // Ensure payment.date is in a valid format
         const paymentMonth = paymentDate.getMonth() + 1;
         const paymentYear = paymentDate.getFullYear();
@@ -630,23 +555,13 @@ document.getElementById("todayNoNameResibo").innerText = Number(pilakaresibo) ||
         }
     
       });
-    
-     // console.log("PARA TESTING RESULT", overAllNewOver);
       document.getElementById("monthlyTotalTrades").innerText = Number(overAllmonthlyTrades).toFixed(2);
         localStorage.setItem("overAllmonthlyTrades" , overAllmonthlyTrades);
-         // console.log("sud sa foreach nihdfdfdfdf", kini);
     
       }
     )};
      
-    
    monthlyTrades();
-
-
-
-
-  
-
 
     function gcashAccount() {
       database.ref('accounts').on('value', (snapshot) => {
@@ -660,10 +575,6 @@ document.getElementById("todayNoNameResibo").innerText = Number(pilakaresibo) ||
     
         snapshot.forEach((childSnapshot) => {
           const account = childSnapshot.val();
-    
-          // Debug output
-          console.log("Status:", account.status, "| Type:", account.accountType);
-    
           if (
             account.status?.toLowerCase() === "active" &&
             account.accountType?.toLowerCase().includes("gcash")
@@ -677,28 +588,19 @@ document.getElementById("todayNoNameResibo").innerText = Number(pilakaresibo) ||
           ) {
             activeMaya++;
           }
-
-
-
         });
         document.getElementById("gActive").innerText = activeGcashCount;
         document.getElementById("mActive").innerText = activeMaya++;;
-        console.log("✅ Total active GCash accounts:", activeMaya);
       });
     }
     
     gcashAccount();
     
-
-
-
-
 //////////////////////////////////   ALL CALCULATIONS HERE ////////////////////////
 
 
               function updateDisplay() {
                 let overAllNoName = localStorage.getItem("overAllNoName"); ////used
-                let overAllNewPayments = localStorage.getItem("overAllNewPayments");
                 let sumValue2dayResibo = localStorage.getItem("sumValue2dayResibo");
                 let overAllmonthlyTrades= localStorage.getItem("overAllmonthlyTrades"); ////used
                 let totalForTheDay = localStorage.getItem("totalForTheDay"); //used
@@ -708,23 +610,16 @@ document.getElementById("todayNoNameResibo").innerText = Number(pilakaresibo) ||
                 let expensesUnpaid = localStorage.getItem("expensesUnpaid");
                 let currentMonthExpenses = localStorage.getItem("currentMonthExpenses"); 
                 let lohwaExpenses = localStorage.getItem("lohwaExpenses");
-              
-                 const TananActualNabilin = Number(overAllNewPayments - overAllNoName) || 0;
                  const todayNabilin =  Number(totalForTheDay - todayTrades) || 0;
                  const monthlyTrades = Number(overAllmonthlyTrades* 0.08);
                  document.getElementById("todayRemainingDeposit").innerText = Number(todayNabilin).toFixed(2);
-                 document.getElementById("actualDeposit").innerText = Number(TananActualNabilin).toFixed(2);
-                 
-
+  
                  //////////// for monthly Net ///////////
                 
                   const todayNetNabilin = Number(todayNabilin* 0.08);
                   const currentMonthIn = todayNetNabilin + monthlyTrades;
                   const  minusEspense = currentMonthIn - currentMonthExpenses;
                   document.getElementById("monthlyNet").innerText = Number(minusEspense).toFixed(2);
-
-                 /* console.log("PARA TESTING RESULT today nabilin  :",currentMonthIn, "-",  currentMonthExpenses 
-                  ,"=" , minusEspense); */
               }
               
               updateDisplay();
@@ -736,11 +631,7 @@ document.getElementById("todayNoNameResibo").innerText = Number(pilakaresibo) ||
                 }
               });
               
-            
               updateDisplay();
-
-
-     
 
 /*          
 const paymentsRef = database.ref('payments');
@@ -834,10 +725,6 @@ rows.forEach((row, rowIndex) => {
 
 
  */
-
-
-
-
 
 
  const rows = document.querySelectorAll(".row");
