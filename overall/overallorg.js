@@ -311,13 +311,13 @@ if (
                const pilakaresibo = (todatNumberPayments[paymentdate] || 0);
                const eight1 = (totalForTheDay * 0.08).toFixed(2);
                const eightPoint1 = (totalForTheDay * 0.085).toFixed(2);
-               const pointNine = (totalForTheDay * 0.9).toFixed(2);
+               const pointNine = (totalForTheDay * 0.09).toFixed(2);
              
             
     document.getElementById("todayNew1").innerText = Number(totalForTheDay) || 0;
     document.getElementById("todayResibo1").innerText = Number(pilakaresibo) || 0;
     localStorage.setItem("totalForTheDay" ,  totalForTheDay);
-        document.getElementById("overAllNew1").innerText = eight1 + "  ******  " + eightPoint1 + " ***** " + pointNine;
+        document.getElementById("overAllNew1").innerText = eight1 + "  ****  " + eightPoint1 + " **** " + pointNine;
     
               })
              
@@ -794,3 +794,4 @@ rows.forEach((row, rowIndex) => {
 });
 
  
+
