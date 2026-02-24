@@ -65,6 +65,9 @@ const endDateEl = document.getElementById("endDate");
 const totalTodayEl = document.getElementById("total-today");
 const totalResiboEl = document.getElementById("total-resibo");
 const eightEl = document.getElementById("eight");
+const eightPFive = document.getElementById("eightPFive");
+const nine = document.getElementById("nine");
+
 const totalClaimedEl = document.getElementById("total-claimed");
 const totalResiboClaimedEl = document.getElementById("total-resiboClaimed");
 const eightCEl = document.getElementById("eightC");
@@ -434,9 +437,11 @@ async function computeTodayNewTotal() {
 
 
     });
-    if (totalTodayEl) totalTodayEl.value = sumToday.toFixed(2);
-    if (totalResiboEl) totalResiboEl.value = String(count);
-    if (eightEl) eightEl.value = (sumToday * 0.08).toFixed(2);
+    if (totalTodayEl) totalTodayEl.textContent = sumToday.toFixed(2);
+    if (totalResiboEl) totalResiboEl.textContent = String(countToday);
+    if (eightEl) eightEl.textContent = (sumToday * 0.08).toFixed(2);
+     if (eightPFive) eightPFive.textContent = (sumToday * 0.085).toFixed(2);
+      if (nine) nine.textContent = (sumToday * 0.09).toFixed(2);
   } catch (e) {
     console.error("computeTodayNewTotal error:", e);
   }
