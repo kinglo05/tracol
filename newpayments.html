@@ -4,17 +4,11 @@
     <title>GCASHPAY</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="newpaymenttable.css">
-   
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
-   
     <style>
-       
-
-
   /* Full screen overlay */
   .modal-overlay {
     display: none; /* hidden by default */
@@ -40,12 +34,6 @@
     box-shadow: 0 0 15px rgba(0,0,0,0.4);
     animation: fadeIn 0.3s ease;
   }
-
-
-
-
-
-
   /* Close button */
   .close-btn {
     position: absolute;
@@ -62,28 +50,6 @@
     from { opacity: 0; transform: scale(0.95); }
     to { opacity: 1; transform: scale(1); }
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #toggleBtn {
   position: fixed;
@@ -118,12 +84,6 @@
     font-size: 16px;
   }
 }
-
-
-
-
-
-
        .modal {
             display: none;
             position: fixed;
@@ -158,8 +118,6 @@
             max-width: 600px;
             position: relative;
         }
-
-
         /* Close button */
         .close {
             position: absolute;
@@ -168,16 +126,6 @@
             font-size: 40px;
             cursor: pointer;
         }
-
-      
-
-
-
-
-
-
-
-
 
        #newPayments-title {
                    
@@ -235,39 +183,17 @@
             background-color: #b80710;
         }
        
-
-
         .menu-items {
     display: flex;
     gap: 15px; /* Space between menu items */
   }
-
-/*   .date-today {
-
-    margin-right: 10px;
-  }
-
-  .date-today input {
-    padding: 5px;
-  } */
-
-
-
-
-
-
-
 #usernameHolder {
  
  margin-left: 2px;
  height: 5px;
  margin-top: 1px;
   
-  
 }
-
-
-
 
         .main-content {
             height: 100vh; /* Full height */
@@ -318,34 +244,17 @@
                  <button id="menubutton" onclick="toggleSidebar()"> &#9776; Menu</button>
                  <div id="usernameHolder">  <h5 id="usernameDisplay" style="color: whitesmoke; margin-top: 1px; margin-bottom: 1px; margin-left: 10px;">Loading...</h5>  </div>
                </div>
-
-    
                <div>
                 <h3 style="color: rgb(247, 247, 252); margin-top: 5px; margin-bottom: 5px; margin-left: 10px;">
                  NEW GCASH REALTIME </h3>
                  <a href="addUnrecord.html"> <h4 style="color: rgb(158, 6, 148); margin-top: 5px; margin-bottom: 5px; margin-left: 13px;">
                  ADD PAYMENT-MAIN </h4></a>
                 
-
-
                                 <!--   ////////////////// for date only /////////////// -->
-
                                                <div>                
-                                           
                                             <input  type="date" id="startDate2" hidden>
-                                            
-                                            <input  type="date" id="endDate2" hidden>
-                                                                                    
+                                            <input  type="date" id="endDate2" hidden>                                         
                                           </div>
-
-
-
-
-
-
-
-
-
                                         
                                         <div id="newPayments-title2">                               
                                             <label for="startDate" style="margin-right: 1px; width: 8%;">Start Date:</label>
@@ -372,10 +281,6 @@
                         </div>
                       </div>
 
-
-
-
-
             <div id="edit-payment-form" class="modal hidden" >
                 <div class="modal-content" id="editnewpayment" autocomplete="off">
                  
@@ -384,18 +289,7 @@
                     <input type="number" id="edit-amount"><br>
                  //   <label for="edit-ref-number">Reference Number:</label>
                   //  <input type="number" id="edit-ref-number" placeholder="Input 4 digit" pattern="\d{4}" required>
-                  <!--   <label  for="edit-payment-type">Payment Type:</label> -->
-                   <!--  <select id="edit-payment-type"></br>
-                        <option value="gcash">GCASH</option>
-                        <option value="cashin">CASHIN</option>
-                        <option value="bank">BANK</option>
-                    </select> <br>
-                    <label for="edit-time">Time:</label>
-                    <input type="time" id="edit-time"><br>
-                    <label for="edit-date">Date:</label>
-                    <input type="date" id="edit-date"><br>
-                    <label for="edit-user">User:</label>
-                    <input type="text" id="edit-user" readonly ><br>              -->       
+                        
                    
                     <ul id="suggestionsList"></ul>
                     <label for="edit-status">Status:</label>
@@ -409,15 +303,6 @@
                     <input type="text" id="edit-fireKey"  hidden><br>
                 </div>
             </div>
-
-
-
-
-
-
-
-
-
 
                       <div id="edit-payment-formAssign" class="modal hidden">
                        <div class="modal-content" id="editnewpaymentAssign">
@@ -481,18 +366,6 @@
                      </table>
                      </div>
                    
-
-              <!--    //////////////////       for total only ends here ///////////////// -->         
-
-
-
-
-
-
-
-
-
-
               <div class="table-container">
                    <table id="payments-table">
                      <ul id="itemList"></ul>
@@ -528,25 +401,26 @@
                      </table>
 
                       </div>   
-
-
-
-
-
-
-
                       <div id="data1" >
-                    <!--    <input type="text" id="total-today" readonly> --->
-                    <!----      <input type="text" id="eight"> --->
-                      <!--    <input type="text" id="total-resibo" readonly> -->
+                       <!-- <input type="text" id="total-today" readonly> 
+                         <input type="text" id="eight"> 
+                         <input type="text" id="eightPFive"> 
+                          <input type="text" id="nine"> 
+                        
+                       <input type="text" id="total-resibo" readonly> -->
+
+                          <p>
+                          2DY<span id="total-today">0</span>|
+                          YT<span id="eight">0</span>|
+                          YTFV<span id="eightPFive">0</span>|
+                          NE<span id="nine">0</span>|
+                          RES<span id="total-resibo">0</span>
+                        </p>
                           </div>
            
                                <button id="checkboxClaimed" type="submit" hidden></button>  
 
                       </div>    
-        
-                      
-                      
                       <br><br>
                   <b> <p style="color: red"> Amount to be traced</p> </b>  
                       <br>
@@ -558,21 +432,8 @@
                         <p>=497(lost)</p>
                      <br>
                      <p style="color: red"> Total to be trace:  1,497 </p> 
-        
-        
-        
-                     
-
+    
   </div>
-
-
-
-                  
-
-
-
-
-
 
     <script>
         function toggleSidebar() {
@@ -595,56 +456,9 @@
     }, 200);
   </script>
 
-
-
-
     <script src="scriptnewpaytable.js"></script>
-
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
