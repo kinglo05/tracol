@@ -905,9 +905,9 @@ cancelEditButtonMerchantName.addEventListener('click', () => {
    
    if (modal && !modal.contains(event.target)) {
      editMerchantForm.style.display = "none";
-    //  location.reload(); // Refresh the page
+     // location.reload(); // Refresh the page
    }
- });  
+ });
   
 
  document.addEventListener("mousedown", function(event) {
@@ -964,4 +964,5 @@ function closeModal() {
      editMerchantFormName.style.display = "none";
    }
  });  */
+
 
