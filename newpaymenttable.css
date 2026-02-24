@@ -1125,7 +1125,7 @@ label {
   height: 30px;
   margin-top: 0px;
  font-size: small;
- color: rgb(250, 244, 244); /* Changes text color inside the div */
+ color: rgb(212, 201, 201); /* Changes text color inside the div */
   margin-left: 0px;
  padding-left: 20px;
 }
@@ -1154,7 +1154,7 @@ label {
   height: 15%;
   margin-top: 1px;
  font-size: small;
- color: rgb(250, 244, 244); /* Changes text color inside the div */
+ color: rgb(159, 151, 151); /* Changes text color inside the div */
   margin-left: 0px;
  padding-left: 10px;
  
@@ -1169,7 +1169,7 @@ label {
   height: 10px;
   min-width: 60px;
   margin-top: 1px;
-  margin-left: 4px; /* If you want space after the input too */
+  margin-left: 1px; /* If you want space after the input too */
   padding: 1px;
  
   width: 6%; /* Table takes full width of its container */
@@ -1179,7 +1179,7 @@ label {
 
 #total-today {
 /*   color: transparent;  */          /* hide text */
-color: red;
+color: rgb(169, 163, 163);
   transition: color 0.3s ease;  /* smooth effect */
 }
 
@@ -1218,12 +1218,12 @@ color: red;
   background: transparent;
   border: none;
   outline: none;
-  color: #eef0ee;
+  color: #797c79;
   font-size: small;
   height: 10px;
   min-width: 40px;
   margin-top: 1px;
-  margin-left: 20px; /* If you want space after the input too */
+  margin-left:1px; /* If you want space after the input too */
   padding: 1px;
   margin-right: 1px;
  
@@ -1249,12 +1249,12 @@ color: red;
 
 
 #eight {
-  color: white;           /* hide text */
+  color: rgb(181, 172, 172);           /* hide text */
   transition: color 0.3s ease;  /* smooth effect */
 }
 
 #eight:hover {
-  color: rgb(247, 236, 236); /* or any visible color */
+  color: rgb(231, 216, 216); /* or any visible color */
 }
 
 
@@ -1284,7 +1284,7 @@ input[type="text"],
   min-width: 50px;
   margin-top: 8px;
   margin-left: 1px; /* If you want space after the input too */
-  font: white;
+  font: rgb(180, 177, 177);
   width: 6%; /* Table takes full width of its container */
  
  
@@ -1299,7 +1299,7 @@ input[type="text"],
   background: transparent;
   border: none;
   outline: none;
-  font: white;
+  font: rgb(152, 149, 149);
   width: 6%; /* Table takes full width of its container */
  
  
@@ -1313,7 +1313,7 @@ input[type="text"],
   background: transparent;
   border: none;
   outline: none;
-  font: white;
+  font: rgb(231, 217, 217);
   width: 6%; /* Table takes full width of its container */
  
 }
