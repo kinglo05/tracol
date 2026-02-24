@@ -900,15 +900,15 @@ cancelEditButtonMerchantName.addEventListener('click', () => {
 
 
 
-/*  document.addEventListener("mousedown", function(event) {
+  document.addEventListener("mousedown", function(event) {
   let modal = document.getElementById('editmerchant');
    
    if (modal && !modal.contains(event.target)) {
      editMerchantForm.style.display = "none";
-      location.reload(); // Refresh the page
+    //  location.reload(); // Refresh the page
    }
  });  
-  */
+  
 
  document.addEventListener("mousedown", function(event) {
   let modal = document.getElementById('editmerchantName2');
@@ -964,3 +964,4 @@ function closeModal() {
      editMerchantFormName.style.display = "none";
    }
  });  */
+
