@@ -3,7 +3,7 @@
 <head>
     <title>Add New Payment</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="voicestyle.css">
 
    
 
@@ -164,9 +164,11 @@
           
        
 
-       <div id="add-payment">     
+
+
+        <div id="add-payment">     
             <br>
-            <form id="payment-form">
+       
 
                  <label for="payment-type">Type of Payment:</label>
                 <select id="payment-type" autocomplete="off"><br>
@@ -178,7 +180,7 @@
                      <option value="International">International Remitance</option>
                      <option value="BPI">BPI</option>
                      <option value="BDO">BDO</option>
-                   
+                     
                      <option value="BTI">BTI</option>
                      <option value="PAY&GO">Pay@Go</option>
                      <option value="PALAWAN">Palawan</option>
@@ -192,30 +194,68 @@
                 </select> <br>
 
                  <label for="amount">Amount:</label>
-                <input type="number" id="amount" placeholder="Input amount" autocomplete="off" required><br>
+
+ <div style="display:flex; gap:8px; align-items:center;">
+                    <input 
+                        type="text"
+                        id="amount"
+                        placeholder="Enter or speak amount"
+                        inputmode="numeric"
+                        autocomplete="off"
+                        required
+                        oninput="enforceNumeric(this)"
+                    />
+                    
+                    <button id="micBtn" onclick="startVoiceInputAmount()">🎤</button>
+                    </div>
+
+
+
+
+
+              
 
                 <label for="ref-number">Reference Number:</label>
-                <input type="number" id="ref-number" placeholder="Input 5 digit" pattern="\d{5}"  autocomplete="off" required>  <!--  -->
+                    <div style="display:flex; gap:8px; align-items:center;">
+                    <input 
+                        type="text"
+                        id="ref-number"
+                        placeholder="Enter or speak reference number"
+                        inputmode="numeric"
+                        maxlength="5" 
+                        oninput="enforceNumeric(this)"
+                    />
+                    
+                    <button id="micBtn" onclick="startVoiceInput()">🎤</button>
+                    </div>
+                    <!-- FOR REFERENCE NUMBER VOICE CAPTURE -->
 
 
-                
+
+
+
+
+
                 <label for="time">Time:</label>
-                <input type="time" id="time" ><br>
+            <input type="time" id="time">
+                <button onclick="startTimeVoice()">🎤 </button>
                 <label for="date">Date:</label>
-                <input type="date" id="date" required readonly><br>
+                <input type="date" id="date" required readonly> <br>
                 <label for="user">User:</label>
                 <select id="user"><br>
                  <option value="lo">lo</option>
                 </select> <br>
 
-
+               
+               
                 <input type="text" id="merchant-pay" placeholder="Enter name/Leave blank" hidden><br>
               
                 <ul id="suggestionsListMP"></ul>
 
+
               
                 <button id="submit-payment" type="submit">SAVE</button>
-            </form>
+          
             <input type="text" id="fireKey" hidden><br>
 
             <div class="footer" id="footer">
@@ -237,10 +277,6 @@
             }
         }
     </script>
- <script src="script.js"></script>
+ <script src="voicescript.js"></script>
 </body>
 </html>
-
-
-
-
