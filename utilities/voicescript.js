@@ -168,49 +168,87 @@ const dateInput22 = document.getElementById('date-today');
 
 // --------------------VOICE RECOGNATION---------------------//
 
-function enforceNumeric(input) {
-  // Keep digits only
-  input.value = input.value.replace(/[^0-9]/g, "");
-}
+// function enforceNumeric(input) {
+//   // Keep digits only
+//   input.value = input.value.replace(/[^0-9]/g, "");
+// }
 
-function enforceFiveDigits(input) {
-  // Remove non-numeric characters
-  let value = input.value.replace(/[^0-9]/g, "");
 
-  // Limit to 5 digits
-  input.value = value.slice(0, 5);
-}
+
+
 
 function startVoiceInput() {
+  console.log("Mic button clicked");
+
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
   if (!SpeechRecognition) {
-    alert("Speech recognition not supported");
+    alert("❌ Speech Recognition NOT supported in this browser");
     return;
   }
 
   const recognition = new SpeechRecognition();
-  recognition.lang = "en-US"; // you can also try "fil-PH"
+
+  recognition.lang = "en-US";
   recognition.interimResults = false;
 
+  recognition.onstart = () => {
+    console.log("🎤 Listening started...");
+  };
+
+
+      // ---------------------- ON RESULT ------------------------------ //
+
+recognition.onresult = function (event) {
+  let transcript = event.results[0][0].transcript.toLowerCase().trim();
+  const input = document.getElementById("ref-number");
+  input.style.background = "#ffdddd"; // light red flash
+setTimeout(() => input.style.background = "", 300);
+
+  console.log("Heard:", transcript);
+
+  // ✅ CLEAR COMMANDS
+  if (
+    transcript.includes("clear") ||
+    transcript.includes("erase") ||
+    transcript.includes("reset")
+  ) {
+    input.value = "";
+    return;
+  }
+
+  // ✅ DELETE LAST DIGIT (optional but powerful)
+  if (transcript.includes("delete") || transcript.includes("backspace")) {
+    input.value = input.value.slice(0, -1);
+    return;
+  }
+
+  // ✅ Convert spoken words → numbers
+  transcript = convertWordsToNumbers(transcript);
+
+  // ✅ Keep digits only + limit to 5
+  const clean = transcript.replace(/[^0-9]/g, "").slice(0, 5);
+
+  // ✅ Append instead of replace (better UX)
+  input.value = (input.value + clean).slice(0, 5);
+};
+
+  recognition.onerror = (event) => {
+    console.error("❌ Error:", event.error);
+    alert("Error: " + event.error);
+  };
+
+  recognition.onend = () => {
+    console.log("🛑 Listening stopped");
+  };
+
   recognition.start();
-
-  recognition.onresult = function (event) {
-    let transcript = event.results[0][0].transcript;
-
-    // Convert words → digits
-    transcript = convertWordsToNumbers(transcript);
-
-    // Keep digits only
-     const clean = transcript.replace(/[^0-9]/g, "").slice(0, 5);
-
-    document.getElementById("ref-number").value = cleanNumber;
-  };
-
-  recognition.onerror = function (e) {
-    console.error("Voice error:", e.error);
-  };
 }
+
+
+
+
+
 
 
 
