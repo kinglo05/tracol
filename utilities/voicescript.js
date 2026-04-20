@@ -168,12 +168,154 @@ const dateInput22 = document.getElementById('date-today');
 
 // --------------------VOICE RECOGNATION---------------------//
 
-// function enforceNumeric(input) {
-//   // Keep digits only
-//   input.value = input.value.replace(/[^0-9]/g, "");
-// }
+//--------------------FOR AMOUNT---------------------------//
 
 
+      function startVoiceInputAmount() {
+  console.log("Mic button clicked");
+
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if (!SpeechRecognition) {
+    alert("❌ Speech Recognition NOT supported in this browser");
+    return;
+  }
+
+  const recognition = new SpeechRecognition();
+
+  recognition.lang = "en-US";
+  recognition.interimResults = false;
+
+  recognition.onstart = () => {
+    console.log("🎤 Listening started...");
+  };
+
+
+      // ---------------------- ON RESULT ------------------------------ //
+
+recognition.onresult = function (event) {
+  let transcript = event.results[0][0].transcript.toLowerCase().trim();
+  const input = document.getElementById("amount");
+  input.style.background = "#ffdddd"; // light red flash
+setTimeout(() => input.style.background = "", 300);
+
+  console.log("Heard:", transcript);
+
+  // ✅ CLEAR COMMANDS
+  if (
+    transcript.includes("clear") ||
+    transcript.includes("erase") ||
+    transcript.includes("reset")
+  ) {
+    input.value = "";
+    return;
+  }
+
+  // ✅ DELETE LAST DIGIT (optional but powerful)
+  if (transcript.includes("delete") || transcript.includes("backspace")) {
+    input.value = input.value.slice(0, -1);
+    return;
+  }
+
+ // ✅ Convert spoken words → numbers
+transcript = convertWordsToNumbersAmount(transcript);
+
+// ✅ Allow digits + ONE decimal point only
+let clean = transcript.replace(/[^0-9.]/g, "");
+
+// Remove extra dots (keep first only)
+const parts = clean.split(".");
+if (parts.length > 2) {
+  clean = parts[0] + "." + parts.slice(1).join("");
+}
+
+// ✅ Append properly
+let current = input.value;
+
+// Prevent multiple dots in existing value
+if (current.includes(".") && clean.includes(".")) {
+  clean = clean.replace(/\./g, "");
+}
+
+input.value = current + clean;
+};
+
+  recognition.onerror = (event) => {
+    console.error("❌ Error:", event.error);
+    alert("Error: " + event.error);
+  };
+
+  recognition.onend = () => {
+    console.log("🛑 Listening stopped");
+  };
+
+  recognition.start();
+}
+
+
+
+
+function convertWordsToNumbersAmount(text) {
+  const map = {
+    zero: "0",
+    one: "1",
+    two: "2",
+    three: "3",
+    four: "4",
+    five: "5",
+    six: "6",
+    seven: "7",
+    eight: "8",
+    nine: "9"
+  };
+
+  let words = text.toLowerCase().split(/\s+/);
+
+  let result = "";
+  let hasDecimal = false;
+
+  words.forEach(word => {
+    if (word === "point" || word === "dot") {
+      // ✅ Allow only ONE decimal point
+      if (!hasDecimal) {
+        result += ".";
+        hasDecimal = true;
+      }
+    } else if (map[word] !== undefined) {
+      result += map[word];
+    } else if (!isNaN(word)) {
+      // If already numeric (e.g. "123")
+      result += word;
+    }
+  });
+
+  return result;
+}
+
+
+
+
+
+
+// -------------------FOR REFERENCE NUMBER-----------------//
+
+
+const refInput = document.getElementById("ref-number");
+
+refInput.addEventListener("input", function () {
+  // ✅ Always enforce 5-digit numeric
+  this.value = this.value.replace(/[^0-9]/g, "").slice(0, 5);
+
+  console.log("Current value:", this.value);
+
+  // ✅ Optional: auto-validate or trigger action
+  if (this.value.length === 5) {
+    console.log("✅ 5-digit complete");
+
+    // Example: auto-save or call function
+    // saveReference(this.value);
+  }
+});
 
 
 
@@ -248,10 +390,6 @@ setTimeout(() => input.style.background = "", 300);
 
 
 
-
-
-
-
 function convertWordsToNumbers(text) {
   const map = {
     zero: "0",
@@ -290,6 +428,147 @@ function isValidRef() {
 
 
 //---------------END OF VOICE RECOGNATION HERE---------------//
+
+
+
+
+
+
+
+// ------------------time voive ----------------------------//
+
+function startTimeVoice() {
+
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const input = document.getElementById("time");
+    input.style.background = "#ffdddd";
+setTimeout(() => input.style.background = "", 300);
+
+// Example: 3:15 PM
+input.value = "15:15";
+
+// 🔥 Force UI update (important)
+input.dispatchEvent(new Event("input"));
+input.dispatchEvent(new Event("change"));
+
+  if (!SpeechRecognition) {
+    alert("Speech recognition not supported");
+    return;
+  }
+
+  const recognition = new SpeechRecognition();
+  recognition.lang = "en-US";
+
+  recognition.start();
+
+//---------------on result --------------------//
+
+
+
+recognition.onresult = function (event) {
+  let transcript = event.results[0][0].transcript.toLowerCase().trim();
+
+  console.log("Heard:", transcript);
+
+
+
+  const input = document.getElementById("time");
+
+  // ✅ 🔥 CLEAR COMMAND (ADD HERE)
+  if (
+    transcript.includes("clear") ||
+    transcript.includes("erase") ||
+    transcript.includes("reset")
+  ) {
+    input.value = "";
+    console.log("Time cleared");
+    return;
+  }
+
+  // Convert words → numbers
+  transcript = convertWordsToNumbers(transcript);
+
+  // Extract numbers
+  let numbers = transcript.match(/\d+/g);
+  if (!numbers) return;
+
+  let hours = parseInt(numbers[0] || "0");
+  let minutes = parseInt(numbers[1] || "0");
+
+  // Get current AM/PM
+  const now = new Date();
+  const isPM = now.getHours() >= 12;
+
+  // ✅ AM/PM + fallback logic
+  if (transcript.includes("am")) {
+    if (hours === 12) hours = 0;
+  } else if (transcript.includes("pm")) {
+    if (hours < 12) hours += 12;
+  } else {
+    if (isPM && hours < 12) hours += 12;
+    if (!isPM && hours === 12) hours = 0;
+  }
+
+  // Format
+  const hh = String(hours).padStart(2, "0");
+  const mm = String(minutes).padStart(2, "0");
+
+  const time = `${hh}:${mm}`;
+
+  console.log("Final time:", time);
+
+  input.value = time;
+};
+
+
+
+
+
+}
+
+
+
+
+
+function convertWordsToNumbers(text) {
+  const map = {
+    zero: "0",
+    one: "1",
+    two: "2",
+    three: "3",
+    four: "4",
+    five: "5",
+    six: "6",
+    seven: "7",
+    eight: "8",
+    nine: "9",
+    ten: "10",
+    eleven: "11",
+    twelve: "12",
+    thirteen: "13",
+    fourteen: "14",
+    fifteen: "15",
+    sixteen: "16",
+    seventeen: "17",
+    eighteen: "18",
+    nineteen: "19",
+    twenty: "20",
+    thirty: "30",
+    forty: "40",
+    fifty: "50"
+  };
+
+  return text
+    .split(" ")
+    .map(word => map[word] ?? word)
+    .join(" ");
+}
+
+
+
+// ---------------------EBD OF VOICE TIME -----------------------------//
+
+
 
 
 
@@ -339,24 +618,6 @@ submitNewPayment.addEventListener('click', () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function savePayment2(refNumber, amount) {  // Correctly placed *inside* the callback
 
    function formatTimeTo12Hour(timeString) {
@@ -392,7 +653,7 @@ const newPaymentKey = newPaymentRef.key;
 firebase.database().ref('payments/' + newPaymentKey).set(newPayment)
     .then(() => {
 
- 
+
         Swal.fire({
         title: "Success!",
         text: "New payment edited successfully!",
@@ -400,6 +661,11 @@ firebase.database().ref('payments/' + newPaymentKey).set(newPayment)
         timer: 3000, // Closes after 3 seconds
         showConfirmButton: false
       }); 
+
+  refNumberInput.value = "";
+    timeInput.value = "";
+    amountInput.value = "";
+
        
     })
     .catch((error) => {
@@ -414,44 +680,6 @@ firebase.database().ref('payments/' + newPaymentKey).set(newPayment)
 
 
 
-/////////////////////////// POPULATE MERCHANT NAME //////////////////////// 
-
-const merchantInputP = document.getElementById('merchant-pay');
-const suggestionsListMP = document.getElementById('suggestionsListMP');
-
-merchantInputP.addEventListener('input', () => {
-  const searchTermP = merchantInputP.value.toLowerCase();
-
-  if (searchTermP.length > 0) { 
-    database.ref('merchants')
-      .orderByChild('nameLower') // Make sure you have an index on the 'name' property in your rules
-      .startAt(searchTermP)
-      .endAt(searchTermP + '\uf8ff')
-      .limitToFirst(5)
-      .once('value')
-      .then((snapshot) => {
-        suggestionsListMP.innerHTML = ''; // Clear previous suggestions
-
-        snapshot.forEach((childSnapshot) => {
-          const merchantNameP = childSnapshot.val().name;
-          const listItem = document.createElement('li');
-          listItem.textContent = merchantNameP;
-
-          listItem.addEventListener('click', () => {
-            merchantInputP.value = merchantNameP;
-            suggestionsListMP.innerHTML = ''; 
-          });
-
-          suggestionsListMP.appendChild(listItem);
-        });
-      })
-      .catch((error) => {
-        console.error("Error getting data: ", error);
-      });
-  } else {
-    suggestionsListMP.innerHTML = ''; // Clear suggestions if input is short
-  }
-});
 
 
 
@@ -483,8 +711,4 @@ merchantInputP.addEventListener('input', () => {
 
 
 
-
-
-
-
-
+    
