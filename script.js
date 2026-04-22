@@ -650,7 +650,8 @@ function savePayment2(refNumber, amount) {  // Correctly placed *inside* the cal
 // const newPaymentKey = newPaymentRef.key;
 
 const newPaymentRef = firebase.database().ref("payments");
-const newPaymentKey = `${refNumber}_${amount}`;
+ const cents = Math.round(parseFloat(amount) * 100);
+    const newPaymentKey = `${refNumber}_${cents}`;
 
 firebase.database().ref('payments/' + newPaymentKey).set(newPayment)
     .then(() => {
