@@ -515,17 +515,21 @@ if (btnSaveAssign) {
   btnSaveAssign.addEventListener("click", async () => {
     try {
       const id = assignPayIdInput.value;
+      const forKeyMerchant = document.getElementById("edit-fireKeyAssign").value;
       const payload = {
         amount: parseFloat(assignAmountInput.value || "0"),
         refNumber: assignRefInput.value || "",
         note: assignNoteInput.value || "",
         merchantP: assignNickInput.value || "",
-       merchantKey: id
+       merchantKey: forKeyMerchant
 
       };
       await db.ref(`payments/${id}`).update(payload);
       Swal.fire({ title: "Assigned", icon: "success", timer: 1500, showConfirmButton: false });
       modalAssign.style.display = "none";
+     
+      console.log("mao ni ang trader" , forKeyMerchant);
+
     } catch (e) {
       console.error(e);
       Swal.fire({ title: "Error", text: String(e), icon: "error" });
@@ -557,13 +561,14 @@ if (merchantInput && suggestionsList) {
 
         snap.forEach(child => {
   const name = child.val()?.name;
-  const key = child.key; // THIS is the Firebase key
+  const merchantKey = child.key; // THIS is the Firebase key
   if (!name) return;
   const li = document.createElement("li");
   li.textContent = name;
   li.addEventListener("click", () => {
     merchantInputAssign.value = name;
-    merchantInputAssign.dataset.key = key; // store key in a data attribute
+     forKeyMerchant.value = merchantKey;
+    merchantInputAssign.dataset.merchantKey = merchantKey; // store key in a data attribute
     suggestionsListAssign.innerHTML = "";
   });
   suggestionsListAssign.appendChild(li);
@@ -577,6 +582,7 @@ if (merchantInput && suggestionsList) {
 }
 
 const merchantInputAssign = document.getElementById("edit-merchantAssign");
+const forKeyMerchant = document.getElementById("edit-fireKeyAssign")
 const suggestionsListAssign = document.getElementById("suggestionsListAssign");
 if (merchantInputAssign && suggestionsListAssign) {
   let t2;
@@ -595,12 +601,15 @@ if (merchantInputAssign && suggestionsListAssign) {
           .once("value");
 
         snap.forEach(child => {
+         
+         const merchantKey = child.key; // THIS is the Firebase ke
           const name = child.val()?.name;
           if (!name) return;
           const li = document.createElement("li");
           li.textContent = name;
           li.addEventListener("click", () => {
             merchantInputAssign.value = name;
+            forKeyMerchant.value = merchantKey;
             suggestionsListAssign.innerHTML = "";
           });
           suggestionsListAssign.appendChild(li);
