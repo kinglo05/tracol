@@ -552,6 +552,8 @@ function convertWordsToNumbers(text) {
 
 
 
+
+
 submitNewPayment.addEventListener('click', () => {
   const refNumber = refNumberInput.value;
   const amount = amountInput.value;
@@ -567,6 +569,10 @@ submitNewPayment.addEventListener('click', () => {
   // Check if refNumber and amount already exist in the database
   const paymentsRef = firebase.database().ref('payments');
   paymentsRef.orderByChild('refNumber').equalTo(refNumber).once('value', snapshot => {
+
+       if (snapshot.exists()) {
+        alert("⚠️ Duplicate payments from new system detected!"); }
+
       if (snapshot.exists()) {
           let duplicate = false;
           snapshot.forEach(paymentSnapshot => {
@@ -596,6 +602,17 @@ submitNewPayment.addEventListener('click', () => {
 
 
 
+function getDeviceTag() {
+  let deviceTag = localStorage.getItem("deviceTag");
+
+  if (!deviceTag) {
+    deviceTag = "WEB-" + Math.random().toString(36).substring(2, 10).toUpperCase();
+    localStorage.setItem("deviceTag", deviceTag);
+  }
+
+  return deviceTag;
+}
+
 
 
 function savePayment2(refNumber, amount) {  // Correctly placed *inside* the callback
@@ -623,12 +640,17 @@ function savePayment2(refNumber, amount) {  // Correctly placed *inside* the cal
       merchantKey: "",
       save: "manual",
       note: "no reminder",
-      status: 'new'
+      status: 'new',
+       device: getDeviceTag(), 
+       timestamp: Date.now() 
   };
 
 
-const newPaymentRef = firebase.database().ref('payments').push();
-const newPaymentKey = newPaymentRef.key;
+// const newPaymentRef = firebase.database().ref('payments').push();
+// const newPaymentKey = newPaymentRef.key;
+
+const newPaymentRef = firebase.database().ref("payments");
+const newPaymentKey = `${refNumber}_${amount}`;
 
 firebase.database().ref('payments/' + newPaymentKey).set(newPayment)
     .then(() => {
