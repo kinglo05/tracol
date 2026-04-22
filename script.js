@@ -1,4 +1,4 @@
-// Firebase Configuration (Replace with your actual config)
+
 const firebaseConfig = {
   apiKey: "AIzaSyCYe3m5O6X1-q47u1w1GQ4bT8pAvJ5tzq8",
   authDomain: "tracollector.firebaseapp.com",
