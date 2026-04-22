@@ -639,7 +639,7 @@ function savePayment2(refNumber, amount) {  // Correctly placed *inside* the cal
       merchantP: merchantInputPay.value,
       merchantKey: "",
       save: "manual",
-      note: "no reminder",
+      note: "",
       status: 'new',
        device: getDeviceTag(), 
        timestamp: Date.now() 
