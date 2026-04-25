@@ -1,6 +1,3 @@
-/**********************
- * Firebase (compat)
- **********************/
 const firebaseConfig = {
   apiKey: "AIzaSyCYe3m5O6X1-q47u1w1GQ4bT8pAvJ5tzq8",
   authDomain: "tracollector.firebaseapp.com",
@@ -89,6 +86,8 @@ const assignTimeInput = document.getElementById("timeEdit");
 const assignNoteInput = document.getElementById("note");
 const assignNickInput = document.getElementById("edit-merchantAssign");
 const assignPayIdInput = document.getElementById("edit-idPayAssign");
+
+const paymentsCache = {};
 
 /**********************
  * Helpers
@@ -253,39 +252,54 @@ function removePaymentRow(paymentId) {
   recalcNumbersAndTotals();
 }
 
-/**********************
- * Querying: ONLY the date range, then filter status on client
- * (RTDB can't do two where clauses without a composite).
- **********************/
+
 function attachPaymentsStream(startISO, endISO) {
+
   // Clean up previous listeners
   if (activeQueryRef) activeQueryRef.off();
 
-  // Only query by date (requires indexOn: ["date"])
   const q = db
     .ref("payments")
     .orderByChild("date")
     .startAt(startISO)
     .endAt(endISO);
 
-  // Save so we can .off() later
   activeQueryRef = q;
 
-  // Clear table
+  // Clear UI + cache
   if (paymentsTBody) paymentsTBody.innerHTML = "";
   rowIndexById.clear();
   currentRowsData.clear();
+  Object.keys(paymentsCache).forEach(k => delete paymentsCache[k]);
 
-  // Stream in small chunks (child events)
+  // 🔥 RENDER FUNCTION (SORTED)
+  function renderSorted() {
+    if (!paymentsTBody) return;
+
+    paymentsTBody.innerHTML = "";
+    rowIndexById.clear();
+
+    const sorted = Object.entries(paymentsCache)
+      .map(([id, p]) => ({ id, ...p }))
+      .sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0)); // 🔥 SORT HERE
+
+    sorted.forEach(p => {
+      const tr = buildRow(p.id, p);
+      paymentsTBody.appendChild(tr);
+      rowIndexById.set(p.id, tr);
+    });
+
+    recalcNumbersAndTotals();
+  }
+
+  // 🔥 CHILD ADDED
   q.on("child_added", (snap) => {
     const p = snap.val();
     const id = snap.key;
     if (!p) return;
 
-    // Only render the fields we actually need to show
-    // Filter status on client (since we already reduced to a date window)
     if (p.status === "new") {
-      upsertPaymentRow(id, {
+      paymentsCache[id] = {
         amount: p.amount ?? "",
         refNumber: p.refNumber ?? "",
         time: p.time ?? "",
@@ -298,22 +312,27 @@ function attachPaymentsStream(startISO, endISO) {
         save: p.save ?? "",
         device: p.device ?? "",
         status: p.status ?? "new",
-        sender: p.sender ?? ""
-      });
+        sender: p.sender ?? "",
+        timestamp: p.timestamp ?? 0 // 🔥 IMPORTANT
+      };
+
+      renderSorted();
     }
   });
 
+  // 🔥 CHILD CHANGED
   q.on("child_changed", (snap) => {
     const p = snap.val();
     const id = snap.key;
     if (!p) return;
 
-    // If status changed to something else, remove from current view
     if (p.status !== "new") {
-      removePaymentRow(id);
+      delete paymentsCache[id];
+      renderSorted();
       return;
     }
-    upsertPaymentRow(id, {
+
+    paymentsCache[id] = {
       amount: p.amount ?? "",
       refNumber: p.refNumber ?? "",
       time: p.time ?? "",
@@ -326,12 +345,17 @@ function attachPaymentsStream(startISO, endISO) {
       save: p.save ?? "",
       device: p.device ?? "",
       status: p.status ?? "new",
-      sender: p.sender ?? ""
-    });
+      sender: p.sender ?? "",
+      timestamp: p.timestamp ?? 0
+    };
+
+    renderSorted();
   });
 
+  // 🔥 CHILD REMOVED
   q.on("child_removed", (snap) => {
-    removePaymentRow(snap.key);
+    delete paymentsCache[snap.key];
+    renderSorted();
   });
 }
 
