@@ -52,7 +52,6 @@ if (logoutBtn) {
 const paymentsTBody = document
   .getElementById("payments-table")
   ?.getElementsByTagName("tbody")[0];
-
 const filterBtn = document.getElementById("filter");
 const startDateEl = document.getElementById("startDate");
 const endDateEl = document.getElementById("endDate");
@@ -108,75 +107,22 @@ window.addEventListener("load", setDefaultDates);
 /**********************
  * Payments table state
  **********************/
+
+
+      //--------------for highlight search--------------->>>>>>>
+
+      // 🔥 helper functions (put it here)
+const highlight = (text, q) => {
+  const regex = new RegExp(`(${q})`, "gi");
+  return String(text).replace(regex, "<span style='background:yellow'>$1</span>");
+};
+
+
 let activeQueryRef = null;                  // the active Firebase query for list streaming
-
-/**
- * Build a single row and wire events.
- */    //---------------------------------------1st changes-------->>>>>>>>>>>>>
-function buildRow333(paymentId, p) {
-  const tr = document.createElement("tr");
-
-  const col = (text = "") => {
-    const td = document.createElement("td");
-    td.textContent = text ?? "";
-    return td;
-  };
-  const idxTd = col(""); // will be filled after render
-  const assignTd = document.createElement("td");
-  const assignBtn = document.createElement("button");
-  assignBtn.className = "edit-button-assign";
-  assignBtn.textContent = "+";
-  assignBtn.addEventListener("click", () => openAssignModal(paymentId, p));
-  assignTd.appendChild(assignBtn);
-  const amountTd = col(p.amount);
-  const refTd = col(p.refNumber);
-  const timeTd = col(p.time);
-  const merchantTd = col(p.merchantP);
-  const dateTd = col(p.date);
-  const noteTd = col(p.note);
-  const typeTd = col(p.paymentType);
-  const userTd = col(p.user);
-  const textTd = col(p.message);
-  const saveTd = col(p.save);
-  const deviceTd = col(p.device);
-  const statusTd = col(p.status);
-  const senderTd = col(p.sender);
-  const tradeTd = document.createElement("td");
-  const cb = document.createElement("input");
-  cb.type = "checkbox";
-  cb.checked = p.status === "claimed";
-  cb.addEventListener("change", async (ev) => {
-    ev.stopPropagation();
-    try {
-      const newStatus = cb.checked ? "claimed" : "new";
-      await db.ref(`payments/${paymentId}`).update({ status: newStatus });
-      statusTd.textContent = newStatus;
-      if (newStatus === "claimed") cb.disabled = true;
-    } catch (e) {
-      console.error("Update status failed:", e);
-      cb.checked = !cb.checked; // revert
-    }
-  });
-  tradeTd.appendChild(cb);
-
-  const editTd = document.createElement("td");
-  const editBtn = document.createElement("button");
-  editBtn.className = "edit-button";
-  editBtn.textContent = "Edit";
-  editBtn.addEventListener("click", () => openEditModal(paymentId, p));
-  editTd.appendChild(editBtn);
-
-  [
-    idxTd, assignTd, amountTd, refTd, timeTd, merchantTd, dateTd, noteTd,
-    typeTd, userTd, textTd, saveTd, deviceTd, statusTd, senderTd, tradeTd, editTd
-  ].forEach(td => tr.appendChild(td));
-
-  return tr;
-}    //------------------------------------------NO.1 change--------->>>>
-
 
 function buildRow(paymentId, p) {
   const tr = document.createElement("tr");
+  tr.dataset.id = paymentId;   // -------------------added-------->>
 
   // 🔥 IMPORTANT: attach ID for search
   tr.dataset.id = paymentId;
@@ -411,49 +357,68 @@ if (filterBtn) filterBtn.addEventListener("click", filterPayments);
  **********************/
 
 
-if (searchInput) {
-  let timer;
+ if (searchInput) {
+ let timer;
 
-  searchInput.addEventListener("input", () => {
-    clearTimeout(timer);
+searchInput.addEventListener("input", () => {
+  clearTimeout(timer);
 
-    timer = setTimeout(() => {
-      const q = searchInput.value.toLowerCase().trim();
+  timer = setTimeout(() => {
+    const q = searchInput.value.toLowerCase().trim();
 
-      Array.from(paymentsTBody.rows).forEach((tr) => {
-        const id = tr.dataset.id;
-        const data = currentRowsData.get(id);
+    Array.from(paymentsTBody.rows).forEach((tr) => {
+      const id = tr.dataset.id;
+      const data = currentRowsData.get(id);
 
-        if (!q || !data) {
-          tr.style.display = "";
-          return;
+      if (!data) return;
+
+      // 🔍 build searchable string
+      const hay = (
+        `${data.amount} ${data.refNumber} ${data.time} ${data.date} ${data.merchantP} ${data.note} ${data.paymentType}`
+      ).toLowerCase();
+
+      const match = !q || hay.includes(q);
+
+      // 👁 show/hide row
+      tr.style.display = match ? "" : "none";
+
+      // 🔄 ALWAYS rebuild row to avoid broken buttons
+      if (match) {
+        const newTr = buildRow(id, data);
+
+        // 🔥 apply highlight AFTER rebuild
+        if (q) {
+        
+          newTr.cells[2].innerHTML = highlight(data.amount, q);
+          newTr.cells[3].innerHTML = highlight(data.refNumber, q);
+          newTr.cells[4].innerHTML = highlight(data.time, q);
+          newTr.cells[5].innerHTML = highlight(data.merchantP, q);
+          newTr.cells[6].innerHTML = highlight(data.date, q);
+          newTr.cells[7].innerHTML = highlight(data.noteTd, q);
+          newTr.cells[8].innerHTML = highlight(data.paymentType, q);
         }
 
-        const hay = (
-          `${data.amount} ${data.refNumber} ${data.time} ${data.date} ${data.merchantP}`
-        ).toLowerCase();
+        paymentsTBody.replaceChild(newTr, tr);
+      }
+    });
 
-        tr.style.display = hay.includes(q) ? "" : "none";
-      });
+    recalcNumbersAndTotals();
 
-      // 🔥 recalc total (visible only)
-      let total = 0;
-      Array.from(paymentsTBody.rows).forEach((tr) => {
-        if (tr.style.display === "none") return;
+    // 🔢 recalc total (visible only)
+    let total = 0;
+    Array.from(paymentsTBody.rows).forEach((tr) => {
+      if (tr.style.display === "none") return;
 
-       //  const totalCell = document.getElementById("table-total");
+      const amt = parseFloat(tr.cells[2]?.textContent || "0");
+      if (!isNaN(amt)) total += amt;
+    });
 
-        const amt = parseFloat(tr.cells[2]?.textContent || "0");
-        if (!isNaN(amt)) total += amt;
-      });
+    const totalCell = document.getElementById("table-total");
+    if (totalCell) totalCell.textContent = total.toFixed(2);
 
-      const totalCell = document.getElementById("table-total");
-      if (totalCell) totalCell.textContent = total.toFixed(2);
-
-    }, 250);
-  });
+  }, 250);
+});
 }
-
 
 
 /**********************
@@ -553,6 +518,13 @@ if (btnSaveEdit) {
     }
   });
 }
+
+
+
+
+
+
+
 
 if (btnSaveAssign) {
   btnSaveAssign.addEventListener("click", async () => {
