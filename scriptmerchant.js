@@ -533,10 +533,10 @@ function updatePaymentsTableC(data) {
        
    
         } else {
-          statusCellC.textContent = 'new';
-        // Update the status in your Firebase database here
-        database.ref('payments/' + paymentC.id).update({ status: 'new' });
-        console.log("ge balik" + paymentC.id);
+        //   statusCellC.textContent = 'new';
+        // // Update the status in your Firebase database here
+        // database.ref('payments/' + paymentC.id).update({ status: 'new' });
+       console.log("Di na pwdi ibalik" + paymentC.id);
         }
       })
     });
