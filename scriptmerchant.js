@@ -556,9 +556,9 @@ function updatePaymentsTableC(data) {
        
   
       } else {
-        statusCellC.textContent = 'new';
+      //  statusCellC.textContent = 'new';
         // Update the status in your Firebase database here
-        database.ref('payments/' + paymentC.id).update({ status: 'new' });
+     //   database.ref('payments/' + paymentC.id).update({ status: 'new' });
         console.log("usa gebalik " + paymentC.id);
       }
     });  
