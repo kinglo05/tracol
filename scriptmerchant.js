@@ -23,7 +23,8 @@ firebase.auth().onAuthStateChanged((user) => {
     .then(snapshot => {
         if (snapshot.exists()) {
             const userData = snapshot.val();
-            document.getElementById("usernameDisplay").innerText = "Welcome, " + userData.email;
+          //  document.getElementById("usernameDisplay").innerText = "Welcome, " + userData.email;
+           document.getElementById("usernameDisplay").innerText = "Welcome, " + "Traders;
         } else {
             console.log("No user data found!");
         }
