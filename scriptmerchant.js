@@ -21,13 +21,16 @@ firebase.auth().onAuthStateChanged((user) => {
     // Fetch user data from Firebase Database
     firebase.database().ref("users/" + user.uid).once("value")
     .then(snapshot => {
-        if (snapshot.exists()) {
+  
+  if (snapshot.exists()) {
             const userData = snapshot.val();
-         document.getElementById("usernameDisplay").innerText = "Welcome, " + userData.email;
-          
+            document.getElementById("usernameDisplay").innerText = "Welcome, " + userData.email;
+      
         } else {
             console.log("No user data found!");
         }
+
+      
     })
     .catch(error => {
         console.error("Error fetching user data:", error);
