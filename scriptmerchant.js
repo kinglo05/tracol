@@ -1,4 +1,3 @@
-// Firebase Configuration (Replace with your actual config)
 const firebaseConfig = {
   apiKey: "AIzaSyCYe3m5O6X1-q47u1w1GQ4bT8pAvJ5tzq8",
   authDomain: "tracollector.firebaseapp.com",
@@ -86,7 +85,7 @@ const editCountNoPayments = document.getElementById('edit-num-paymentst');
 //const editTotalNewPayment = document.getElementById('edit-new-pay');
 const editRemainPayment = document.getElementById('edit-new-remain');
 const editMerchantBarrowed = document.getElementById('edit-new-borrowed');
-const merGeneralTotal = document.getElementById('mer-general-total');
+//const merGeneralTotal = document.getElementById('mer-general-total');
 const editMerchantName = document.getElementById('edit-merchant-name').value;
   const editMerchantEmail = document.getElementById('edit-merchant-email').value;
   const editMerchantRemain = document.getElementById('edit-new-remain').value;
@@ -362,7 +361,7 @@ merchantSearchInput9.addEventListener('input', () => {
       document.getElementById('edit-merchant-email').value = merchant.email;
       document.getElementById('edit-new-remain').value =  merchant.remaining;
       document.getElementById('edit-new-borrowed').value = merchant.barrowed;
-    const editNewPayRead22 = document.getElementById('mer-general-total').value; 
+ //   const editNewPayRead22 = document.getElementById('mer-general-total').value; 
  
       editMerchantForm.style.display = 'block'; 
     
@@ -580,7 +579,7 @@ function updatePaymentsTableC(data) {
       
         const totalAmountSpanE = document.getElementById('edit-new-pay');
         const totalAmountSpanC = document.getElementById('table-totalC');
-        const TananTanan = document.getElementById('mer-general-total');
+      //  const TananTanan = document.getElementById('mer-general-total');
      
   
           function calculateTotalE() { 
@@ -599,7 +598,7 @@ function updatePaymentsTableC(data) {
           
               totalAmountSpanC.textContent = sum.toFixed(2);
               const maoni = Number(nanabilin) + sum;
-              TananTanan.value = maoni.toFixed(2) ;
+             // TananTanan.value = maoni.toFixed(2) ;
                 
               };
 
@@ -694,7 +693,7 @@ editMerchantBTN.addEventListener('click', () => {
           document.getElementById('edit-merchant-nameName').value = merchant.name;
           document.getElementById('edit-merchant-emailName').value = merchant.email;
           document.getElementById('merchantnote').value = merchant.note;
-         document.getElementById('mer-general-totalName').value;
+       //  document.getElementById('mer-general-totalName').value;
 
          
          
@@ -822,7 +821,7 @@ function updatePaymentsTableCName(data) {
           
            //   const totalAmountSpanEName = document.getElementById('edit-new-payName');
              
-            const TananTananName = document.getElementById('mer-general-totalName');
+          //  const TananTananName = document.getElementById('mer-general-totalName');
             const editMerchantNameName = document.getElementById('edit-merchant-nameName');
       
               function calculateTotalEName() { 
@@ -837,11 +836,11 @@ function updatePaymentsTableCName(data) {
                   });
  
             
-            const maoni = Number(nanabilin) + sum;
-            TananTananName.value = "This trader total: " +  maoni.toFixed(2)  ;
-                if (maoni >= 1) {
-                  editMerchantNameName.setAttribute('readonly', ''); 
-                }  
+            // const maoni = Number(nanabilin) + sum;
+            // TananTananName.value = "This trader total: " +  maoni.toFixed(2)  ;
+            //     if (maoni >= 1) {
+            //       editMerchantNameName.setAttribute('readonly', ''); 
+            //     }  
     
                  
                    return sum;
@@ -900,14 +899,14 @@ cancelEditButtonMerchantName.addEventListener('click', () => {
 
 
 
-  document.addEventListener("mousedown", function(event) {
-  let modal = document.getElementById('editmerchant');
+//   document.addEventListener("mousedown", function(event) {
+//   let modal = document.getElementById('editmerchant');
    
-   if (modal && !modal.contains(event.target)) {
-     editMerchantForm.style.display = "none";
-     // location.reload(); // Refresh the page
-   }
- });
+//    if (modal && !modal.contains(event.target)) {
+//      editMerchantForm.style.display = "none";
+//      // location.reload(); // Refresh the page
+//    }
+//  });
   
 
  document.addEventListener("mousedown", function(event) {
