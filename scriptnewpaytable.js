@@ -31,7 +31,9 @@ firebase.auth().onAuthStateChanged(async (user) => {
     const snap = await db.ref(`users/${user.uid}`).once("value");
     if (snap.exists()) {
       const { email } = snap.val();
+      
       const el = document.getElementById("usernameDisplay");
+        document.getElementById("toDisplayName").innerText = "Welcome, " + "Traders";
       if (el) el.innerText = email || user.email || "User";
     }
   } catch (e) {
