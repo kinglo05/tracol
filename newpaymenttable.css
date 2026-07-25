@@ -987,6 +987,11 @@ td {
 }
 
 
+#payments-table td:nth-child(8) { /* Targets the 6 column */
+ max-width: 30px;
+}
+
+
 
 
  /*  //////////////////////// for table monitor /////////////////////// */
