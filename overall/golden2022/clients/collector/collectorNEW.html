@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>System Maintenance - Golden Server</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #0b0e14;
+      color: #f4f4f5;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Ambient background glows */
+    .bg-glow-1 {
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .bg-glow-2 {
+      position: absolute;
+      bottom: -100px;
+      left: -100px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(217, 119, 6, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    header {
+      border-bottom: 1px solid rgba(39, 39, 42, 0.8);
+      background-color: rgba(11, 14, 20, 0.85);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+    }
+
+    .header-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .brand-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+    }
+
+    .badge-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      color: #fcd34d;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #f59e0b;
+      box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+      }
+      70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 6px rgba(245, 158, 11, 0);
+      }
+      100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
+      }
+    }
+
+    main {
+      flex: 1;
+      max-width: 1080px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 40px 24px;
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .hero-card {
+      background: linear-gradient(180deg, #141923 0%, #0f131a 100%);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: 16px;
+      padding: 36px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-top {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid rgba(39, 39, 42, 0.8);
+    }
+
+    @media (min-width: 768px) {
+      .hero-top {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    .hero-content {
+      max-width: 640px;
+    }
+
+    .notice-headline {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      margin: 14px 0;
+      line-height: 1.25;
+    }
+
+    .notice-desc {
+      color: #d4d4d8;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .timer-box {
+      background-color: rgba(14, 18, 25, 0.9);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      border-radius: 12px;
+      padding: 20px;
+      min-width: 250px;
+      text-align: left;
+    }
+
+    .timer-label {
+      font-size: 12px;
+      color: #a1a1aa;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .timer-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: #fbbf24;
+      letter-spacing: -0.02em;
+    }
+
+    .timer-sub {
+      font-size: 11px;
+      color: #71717a;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid #27272a;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .progress-section {
+      padding-top: 24px;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 8px;
+      background: #27272a;
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 12px 0 16px 0;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 78%;
+      background: linear-gradient(90deg, #d97706, #fcd34d);
+      border-radius: 999px;
+      transition: width 0.3s ease;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 12px;
+    }
+
+    .step-num {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+      flex-shrink: 0;
+    }
+
+    .step-num.done {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    .step-num.active {
+      background: rgba(245, 158, 11, 0.2);
+      color: #fbbf24;
+      border: 1px solid #f59e0b;
+    }
+
+    .step-num.pending {
+      background: #18181b;
+      color: #71717a;
+      border: 1px solid #27272a;
+    }
+
+    .step-title {
+      font-weight: 600;
+      color: #f4f4f5;
+    }
+
+    .step-sub {
+      color: #71717a;
+      font-size: 11px;
+    }
+
+    .grid-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 16px;
+    }
+
+    .status-card {
+      background: #12161f;
+      border: 1px solid rgba(39, 39, 42, 0.9);
+      border-radius: 12px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .status-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .status-pill {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .status-pill.maint {
+      background: rgba(245, 158, 11, 0.12);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .status-pill.ok {
+      background: rgba(16, 185, 129, 0.12);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #f4f4f5;
+    }
+
+    .card-cat {
+      font-size: 11px;
+      color: #71717a;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .card-body {
+      font-size: 12px;
+      color: #a1a1aa;
+      line-height: 1.5;
+      margin-top: 4px;
+    }
+
+    .card-foot {
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid #1f242e;
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: #52525b;
+    }
+
+    .action-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-top: 16px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s ease;
+      border: none;
+    }
+
+    .btn-gold {
+      background: #f59e0b;
+      color: #0b0e14;
+    }
+
+    .btn-gold:hover {
+      background: #fbbf24;
+    }
+
+    .btn-dark {
+      background: #18181b;
+      border: 1px solid #27272a;
+      color: #e4e4e7;
+    }
+
+    .btn-dark:hover {
+      background: #27272a;
+    }
+
+    footer {
+      border-top: 1px solid rgba(39, 39, 42, 0.8);
+      background-color: #090b10;
+      padding: 24px;
+      text-align: center;
+      font-size: 12px;
+      color: #71717a;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-glow-1"></div>
+  <div class="bg-glow-2"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+            <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+            <line x1="6" y1="6" x2="6.01" y2="6"></line>
+            <line x1="6" y1="18" x2="6.01" y2="18"></line>
+          </svg>
+        </div>
+        <span>Golden Server</span>
+      </div>
+
+      <div class="badge-pill">
+        <span class="pulse-dot"></span>
+        <span>MAINTENANCE IN PROGRESS</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Notification Hero Banner -->
+    <div class="hero-card">
+      <div class="hero-top">
+        <div class="hero-content">
+          <div class="badge-pill" style="margin-bottom: 8px;">
+            <span>INCIDENT REF: GS-MAINT-2026-0926</span>
+          </div>
+
+          <!-- The required notification line -->
+          <h1 class="notice-headline">
+            Golden server is under maintenance.
+          </h1>
+
+          <p class="notice-desc">
+            Our systems and server are having upgrades, performance patches, and storage rebalancing. Customer datasets, configuration parameters, and API credentials remain securely locked and fully protected.
+          </p>
+
+          <div class="action-row">
+            <button class="btn btn-gold" onclick="checkStatus()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+              </svg>
+              Check Status Now
+            </button>
+            <button class="btn btn-dark" onclick="alert('Notification alert subscribed! You will be notified the instant Golden Server returns.')">
+              Subscribe to Alert
+            </button>
+          </div>
+        </div>
+
+        <!-- Realtime Timer Card -->
+        <div class="timer-box">
+          <div class="timer-label">
+            <span>Estimated Completion</span>
+            <span style="color: #fbbf24;">~25 min</span>
+          </div>
+          <div class="timer-val" id="countdown">25m 00s</div>
+          <div class="timer-sub">
+            <span>Target Return:</span>
+            <strong id="targetTime" style="color: #e4e4e7;">--:--</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Execution Stepper -->
+      <div class="progress-section">
+        <div style="display: flex; justify-content: space-between; font-size: 12px; color: #a1a1aa;">
+          <span style="font-weight: 600; color: #f4f4f5;">Upgrade Progress</span>
+          <span style="font-family: 'JetBrains Mono', monospace; color: #fbbf24;">Step 2 of 4 · ~78%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill"></div>
+        </div>
+
+        <div class="steps-grid">
+          <div class="step-item">
+            <div class="step-num done">✓</div>
+            <div>
+              <div class="step-title">1. Snapshot Verified</div>
+              <div class="step-sub">Full immutable backup</div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num active">2</div>
+            <div>
+              <div class="step-title" style="color: #fbbf24;">2. Cluster Upgrades</div>
+              <div class="step-sub">Applying node patches</div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num pending">3</div>
+            <div>
+              <div class="step-title" style="color: #71717a;">3. Integrity Checks</div>
+              <div class="step-sub">End-to-end tests</div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-num pending">4</div>
+            <div>
+              <div class="step-title" style="color: #71717a;">4. Traffic Return</div>
+              <div class="step-sub">Full server restoration</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Subsystems -->
+    <div class="grid-section">
+      <div class="status-card">
+        <div>
+          <div class="status-card-header">
+            <div>
+              <div class="card-cat">Compute & Routing</div>
+              <div class="card-title">Golden Core API Cluster</div>
+            </div>
+            <span class="status-pill maint">Maintenance</span>
+          </div>
+          <p class="card-body">Routing incoming calls to graceful maintenance queue.</p>
+        </div>
+        <div class="card-foot">
+          <span>srv-api-cluster</span>
+          <span>Patching v4.9</span>
+        </div>
+      </div>
+
+      <div class="status-card">
+        <div>
+          <div class="status-card-header">
+            <div>
+              <div class="card-cat">Data Storage</div>
+              <div class="card-title">HA Database Storage</div>
+            </div>
+            <span class="status-pill maint">Syncing</span>
+          </div>
+          <p class="card-body">Applying schema partition patches & table reindexing.</p>
+        </div>
+        <div class="card-foot">
+          <span>srv-db-cluster</span>
+          <span>Read-Only</span>
+        </div>
+      </div>
+
+      <div class="status-card">
+        <div>
+          <div class="status-card-header">
+            <div>
+              <div class="card-cat">Security</div>
+              <div class="card-title">Identity & SSO Gateway</div>
+            </div>
+            <span class="status-pill maint">Paused</span>
+          </div>
+          <p class="card-body">Session tokens remain valid upon server restart.</p>
+        </div>
+        <div class="card-foot">
+          <span>srv-auth-edge</span>
+          <span>Preserved</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>Golden Server Infrastructure Incident Ref: <strong>GS-MAINT-2026-0926</strong> · HTTP 503 Maintenance</p>
+  </footer>
+
+  <script>
+    // Countdown logic
+    let remaining = 25 * 60;
+    const countdownEl = document.getElementById('countdown');
+    const targetEl = document.getElementById('targetTime');
+
+    const targetDate = new Date(Date.now() + remaining * 1000);
+    targetEl.innerText = targetDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    setInterval(() => {
+      if (remaining > 0) {
+        remaining--;
+        const m = Math.floor(remaining / 60);
+        const s = (remaining % 60).toString().padStart(2, '0');
+        countdownEl.innerText = `${m}m ${s}s`;
+      }
+    }, 1000);
+
+    function checkStatus() {
+      const btn = event.currentTarget;
+      btn.innerText = 'Checking...';
+      btn.style.opacity = '0.7';
+      setTimeout(() => {
+        btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg> Check Status Now`;
+        btn.style.opacity = '1';
+        alert('Server Status: Maintenance in progress. Cluster migration currently at ~78%. Estimated return in ~' + Math.ceil(remaining / 60) + ' minutes.');
+      }, 600);
+    }
+  </script>
+</body>
+</html>
