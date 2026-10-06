@@ -206,7 +206,7 @@ function loadGoldenClientsByUser(username) {
 
  window.onload = function () {
     const username5 = document.getElementById("theCollector");
-    if (username5.value === "rasty") {
+    if (username5.value === "artam") {
       document.getElementById("addTransactionItem").style.display = "list-item";
     } else {
       document.getElementById("addTransactionItem").style.display = "none";
