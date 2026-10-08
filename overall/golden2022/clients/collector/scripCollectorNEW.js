@@ -14,6 +14,19 @@ const firebaseConfig = {
 const app = firebase.initializeApp(firebaseConfig); 
 const database = firebase.database();
 
+const sharedAreaCodeUsernames = new Set(["rasty", "artam"]);
+
+function userCanViewAreaCode(areaCode, username) {
+  const normalizedUsername = String(username || "").trim().toLowerCase();
+  const normalizedAreaCode = String(areaCode || "").trim().toLowerCase();
+
+  if (sharedAreaCodeUsernames.has(normalizedUsername)) {
+    return sharedAreaCodeUsernames.has(normalizedAreaCode);
+  }
+
+  return normalizedAreaCode === normalizedUsername;
+}
+
 // Firebase Auth Listener to Check if User is Logged In
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
@@ -28,8 +41,7 @@ firebase.auth().onAuthStateChanged((user) => {
             const username = email.split("@")[0];
             document.getElementById("usernameDisplay").innerText = "Welcome, " + username;
             document.getElementById("theCollector").value =username;
-            document.getElementById("userTop").value = username
-            
+            document.getElementById("userTop").value = username;
               loadGoldenClientsByUser(username);
                populateUnpaidMonthDropdown();
                populateUnpaidMonthDropdown2();
@@ -39,8 +51,6 @@ firebase.auth().onAuthStateChanged((user) => {
 
 
              loadClientTable(username);
-               loadSavedPayments2(username); // Pass the username
-               loadSavedPayments(username);
    
             
             
@@ -152,6 +162,39 @@ navItems.forEach(item => {
   
 let merchantData = []; // ✅ Declare merchantData globally
 let timeoutId;
+let monthlyBillsCache = null;
+let monthlyBillsRequest = null;
+let monthlyBillsCacheTimestamp = 0;
+
+function getMonthlyBillsData() {
+  if (monthlyBillsCache && Date.now() - monthlyBillsCacheTimestamp < 60000) {
+    return Promise.resolve(monthlyBillsCache);
+  }
+
+  if (!monthlyBillsRequest) {
+    monthlyBillsRequest = firebase.database()
+      .ref("goldenwifi/monthly-bills")
+      .once("value")
+      .then(snapshot => {
+        monthlyBillsCache = snapshot.val() || {};
+        monthlyBillsCacheTimestamp = Date.now();
+        return monthlyBillsCache;
+      })
+      .catch(error => {
+        monthlyBillsRequest = null;
+        monthlyBillsCache = null;
+        throw error;
+      });
+  }
+
+  return monthlyBillsRequest;
+}
+
+function invalidateMonthlyBillsCache() {
+  monthlyBillsCache = null;
+  monthlyBillsCacheTimestamp = 0;
+  monthlyBillsRequest = null;
+}
 
 
 
@@ -171,11 +214,7 @@ function loadGoldenClientsByUser(username) {
     snapshot.forEach((childSnapshot) => {
       const merchant = childSnapshot.val();
       const firebaseKeyM = childSnapshot.key;
-     const username3 = document.getElementById("theCollector").value;
-    //  console.log("the user issss: " ,username);
-     
-
-      if (merchant.status === "new" && merchant.areaCode === username3) {
+      if (merchant.status === "new" && userCanViewAreaCode(merchant.areaCode, username)) {
         merchantData.push({ id: firebaseKeyM, ...merchant });
        
         const rowDataM = {
@@ -218,19 +257,6 @@ function loadGoldenClientsByUser(username) {
 
 
 
-
-
-
-
-
-// Load merchant data from Firebase first
- firebase.database().ref("goldenwifi/goldenClients/").once("value").then(snapshot => {
-  const data = snapshot.val();
-  
-  // Convert from object to array (if needed)
-  merchantData = Object.values(data || {});
-  
-}); 
 
 
 
@@ -372,7 +398,7 @@ button2.dataset.clientId = merchant.id; // 👈 set data attribute
   document.getElementById('planAmount').value = merchant.planAmount || "";
   document.getElementById('client-address1').value = merchant.address || "";
   document.getElementById('dueDate').value = merchant.dueDate || "";
-
+  document.getElementById('editAreaCode').value = merchant.areaCode || "";
 
   // Show the form/modal
   editMerchantForm.style.display = 'block';
@@ -404,6 +430,7 @@ EditSubmit.addEventListener('click', () => {
        planAmount:  document.getElementById('planAmount').value, 
         status:  document.getElementById('status').value,
       address: document.getElementById('client-address1').value,
+      areaCode: document.getElementById('editAreaCode').value,
       
  };
    /*  database.ref(path).update({ planAmount: planAmount2 }) */
@@ -739,6 +766,7 @@ function addMonthlyBills() {
 
         firebase.database().ref(path).set(paymentData)
           .then(() => {
+            invalidateMonthlyBillsCache();
             createdCount++;
             console.log(`✅ Bill created for ${clientName} in ${monthKey}`);
           });
@@ -759,14 +787,6 @@ function addMonthlyBills() {
         }
         }
 
-           /*  loadSavedPayments();
-            loadSavedPayments2();
-            populateUnpaidMonthDropdown();
-            calculateUnpaidGrandTotalForYear();  */
-
-
-           loadClientTable();
-           
     });
 
 
@@ -789,17 +809,15 @@ function loadClientTable(username, searchTerm = "") {
   const tableBody = document.querySelector("#merchants-table2 tbody");
   tableBody.innerHTML = "";
 
-  const monthlyBillsRef = firebase.database().ref("goldenwifi/monthly-bills");
   const goldenClientsRef = firebase.database().ref("goldenwifi/goldenClients");
 
   Promise.all([
-    monthlyBillsRef.once("value"),
+    getMonthlyBillsData(),
     goldenClientsRef.once("value")
-  ]).then(([billsSnapshot, clientsSnapshot]) => {
-    const billsData = billsSnapshot.val();
+  ]).then(([billsData, clientsSnapshot]) => {
     const notesData = clientsSnapshot.val();
-    if (!billsData) {
-      console.warn("No bills data found");
+    if (Object.keys(billsData).length === 0) {
+      console.warn("No bills data found at goldenwifi/monthly-bills.");
       return;
     }
 
@@ -812,15 +830,6 @@ function loadClientTable(username, searchTerm = "") {
   id,
   ...data
 }));
-
-
- // ✅ Load payment status table with filtered areaCode
-    loadSavedPayments2(username, billsData); // ✅ Pass both args!
-     loadSavedPayments(username, notesData); // ✅ Pass both args!
-    loadSavedPayments3(username, notesData); // ✅ Pass both args!
-  
-
-
 
 
     let index = 1;
@@ -837,7 +846,7 @@ function loadClientTable(username, searchTerm = "") {
       const [latestMonthKey, latestUnpaidBill] = unpaidBills[0];
       const clientAreaCode = latestUnpaidBill.areaCode || "";
 
-      if (clientAreaCode !== username) return; // ✅ Filter by logged-in user
+      if (!userCanViewAreaCode(clientAreaCode, username)) return;
 
       const clientName = latestUnpaidBill.name || "";
       const clientAddress1 = latestUnpaidBill.address2 || "";
@@ -896,15 +905,17 @@ function loadClientTable(username, searchTerm = "") {
 
     // ✅ After rows are ready, now add dynamic month columns with buttons
     loadSavedPayments2(username, billsData);
-     
-  // loadSavedPayments();
+    loadSavedPayments(username, billsData);
+    loadSavedPayments3(username, billsData, notesData);
 
   //   populateUnpaidMonthDropdown();
    // calculateUnpaidGrandTotalForYear();
 
-    populateUnpaidMonthDropdown();
-     populateUnpaidMonthDropdown2();
-    calculateUnpaidGrandTotalForYear();
+    populateUnpaidMonthDropdown(billsData);
+    populateUnpaidMonthDropdown2(billsData);
+    calculateUnpaidGrandTotalForYear(new Date().getFullYear(), billsData);
+  }).catch(error => {
+    console.error("Error loading client and bill data:", error);
   });
 }
 
@@ -944,14 +955,17 @@ function loadClientTable(username, searchTerm = "") {
 
 /////////////////////// LOAD SAVE ////////////////
 
-function loadSavedPayments2(username ) {
+function loadSavedPayments2(username, clientsData = null) {
   const table = document.getElementById("merchants-table2");
   const theadRow = table.querySelector("thead tr");
   const rows = table.querySelectorAll("tbody tr");
   const currentYear = new Date().getFullYear().toString();
 
-  firebase.database().ref("goldenwifi/monthly-bills").once("value").then(snapshot => {
-    const clients = snapshot.val();
+  const billsDataPromise = clientsData
+    ? Promise.resolve(clientsData)
+    : getMonthlyBillsData();
+
+  billsDataPromise.then(clients => {
     if (!clients) return;
 
     const monthMap = {};
@@ -1050,6 +1064,7 @@ function loadSavedPayments2(username ) {
                 
                 
               }).then(() => {
+                invalidateMonthlyBillsCache();
                 location.reload();
               });
             });
@@ -1160,13 +1175,16 @@ function loadSavedPayments2(username ) {
 
 
 
-function loadSavedPayments(username) {
+function loadSavedPayments(username, clientsData = null) {
   const table = document.getElementById("merchants-table");
   const theadRow = table.querySelector("thead tr");
   const rows = table.querySelectorAll("tbody tr");
 
-  firebase.database().ref("goldenwifi/monthly-bills").once("value").then(snapshot => {
-    const clients = snapshot.val();
+  const billsDataPromise = clientsData
+    ? Promise.resolve(clientsData)
+    : getMonthlyBillsData();
+
+  billsDataPromise.then(clients => {
     if (!clients) return;
 
     const monthMap = {};
@@ -1289,22 +1307,18 @@ function loadSavedPayments(username) {
 
 
 
-async function  loadSavedPayments3(username) {
+async function loadSavedPayments3(username, monthlyBillsData = null, clientsInfoData = null) {
   const tableBody = document.querySelector("#merchants-table3 tbody");
   tableBody.innerHTML = "";
-  const ngalan =  document.getElementById("theCollector").value;
+  const ngalan = document.getElementById("theCollector").value;
 
-  // 🔹 Get monthly bills
-  const monthlyBillsSnap = await firebase.database()
-    .ref("goldenwifi/monthly-bills")
-    .get();
-  const allClientsBills = monthlyBillsSnap.val() || {};
-
-  // 🔹 Get golden clients info
-  const goldenClientsSnap = await firebase.database()
-    .ref("goldenwifi/goldenClients")
-    .get();
-  const allClientsInfo = goldenClientsSnap.val() || {};
+  const [allClientsBills, allClientsInfo] = await Promise.all([
+    monthlyBillsData ? Promise.resolve(monthlyBillsData) : getMonthlyBillsData(),
+    clientsInfoData
+      ? Promise.resolve(clientsInfoData)
+      : firebase.database().ref("goldenwifi/goldenClients").once("value")
+        .then(snapshot => snapshot.val() || {})
+  ]);
 
   let rowIndex = 1;
 
@@ -1326,7 +1340,11 @@ async function  loadSavedPayments3(username) {
       const bill = bills[monthKey];
       
 
-      if (bill.status && bill.status.toLowerCase() === "unpaid"  && bill.areaCode  === ngalan)
+      if (
+        bill.status &&
+        bill.status.toLowerCase() === "unpaid" &&
+        userCanViewAreaCode(bill.areaCode, ngalan)
+      )
         
         
         {
@@ -1505,11 +1523,10 @@ function calculateTotalPlanAmount() {
 
 
 
-function populateUnpaidMonthDropdown() {
+function populateUnpaidMonthDropdown(clientsData = null) {
   const dropdown = document.getElementById("unpaidMonthSelect");
 
-  firebase.database().ref("goldenwifi/monthly-bills").once("value").then(snapshot => {
-    const clients = snapshot.val();
+  (clientsData ? Promise.resolve(clientsData) : getMonthlyBillsData()).then(clients => {
     if (!clients) return;
 
     const monthSet = new Set();
@@ -1554,11 +1571,10 @@ function populateUnpaidMonthDropdown() {
 
 
 
-function calculateUnpaidTotalsPerMonth() {
+function calculateUnpaidTotalsPerMonth(clientsData = null) {
   const totalsPerMonth = {}; // { "2025-07": 1950, ... }
 
-  firebase.database().ref("goldenwifi/monthly-bills").once("value").then(snapshot => {
-    const clients = snapshot.val();
+  (clientsData ? Promise.resolve(clientsData) : getMonthlyBillsData()).then(clients => {
     if (!clients) return;
 
     Object.entries(clients).forEach(([clientKey, clientData]) => {
@@ -1622,7 +1638,7 @@ function displayUnpaidTotals(totalsPerMonth) {
 
 
 
-function calculateUnpaidForSelectedMonth() {
+function calculateUnpaidForSelectedMonth(clientsData = null) {
   const selectedMonth = document.getElementById("unpaidMonthSelect").value;
   const currentUser = firebase.auth().currentUser;
 
@@ -1636,8 +1652,7 @@ function calculateUnpaidForSelectedMonth() {
 
 
 
-  firebase.database().ref("goldenwifi/monthly-bills").once("value").then(snapshot => {
-    const clients = snapshot.val();
+  (clientsData ? Promise.resolve(clientsData) : getMonthlyBillsData()).then(clients => {
     if (!clients) return;
 
     Object.values(clients).forEach(client => {
@@ -1649,9 +1664,13 @@ function calculateUnpaidForSelectedMonth() {
  Object.entries(client.bills).forEach(([monthKey, bill]) => {
         const status = bill.status || "Unpaid";
         const amount = parseFloat(bill.planAmount || 0);
-        const areaCode1 = (bill.areaCode || userName);
+        const areaCode = bill.areaCode || userName;
 
-        if (monthKey === selectedMonth && status === "Unpaid" && userName === areaCode1 ) {
+        if (
+          monthKey === selectedMonth &&
+          status === "Unpaid" &&
+          userCanViewAreaCode(areaCode, userName)
+        ) {
           totalUnpaid += amount;
         }
       });
@@ -1682,11 +1701,10 @@ function calculateUnpaidForSelectedMonth() {
 
    //////////////////// SECOND GROUP FOR TOTAL STARTS HERE ////////
 
-   function populateUnpaidMonthDropdown2() {
+   function populateUnpaidMonthDropdown2(clientsData = null) {
   const dropdown2 = document.getElementById("unpaidMonthSelect2");
 
-  firebase.database().ref("goldenwifi/monthly-bills").once("value").then(snapshot => {
-    const clients = snapshot.val();
+  (clientsData ? Promise.resolve(clientsData) : getMonthlyBillsData()).then(clients => {
     if (!clients) return;
 
     const monthSet = new Set();
@@ -1729,7 +1747,7 @@ function calculateUnpaidForSelectedMonth() {
 
 
 
-function calculateUnpaidForSelectedMonth2() {
+function calculateUnpaidForSelectedMonth2(clientsData = null) {
   const selectedMonth = document.getElementById("unpaidMonthSelect2").value;
   const currentUser = firebase.auth().currentUser;
 
@@ -1743,8 +1761,7 @@ function calculateUnpaidForSelectedMonth2() {
 
 
 
-  firebase.database().ref("goldenwifi/monthly-bills").once("value").then(snapshot => {
-    const clients = snapshot.val();
+  (clientsData ? Promise.resolve(clientsData) : getMonthlyBillsData()).then(clients => {
     if (!clients) return;
 
     Object.values(clients).forEach(client => {
@@ -1756,9 +1773,13 @@ function calculateUnpaidForSelectedMonth2() {
  Object.entries(client.bills).forEach(([monthKey, bill]) => {
         const status = bill.status || "Paid";
         const amount = parseFloat(bill.planAmount || 0);
-        const areaCode1 = (bill.areaCode || userName);
+        const areaCode = bill.areaCode || userName;
 
-        if (monthKey === selectedMonth && status === "Paid" && userName === areaCode1 ) {
+        if (
+          monthKey === selectedMonth &&
+          status === "Paid" &&
+          userCanViewAreaCode(areaCode, userName)
+        ) {
           totalUnpaid += amount;
         }
       });
@@ -1785,9 +1806,8 @@ function calculateUnpaidForSelectedMonth2() {
 
 
 
-function calculateUnpaidGrandTotalForYear(year = new Date().getFullYear()) {
-  firebase.database().ref("goldenwifi/monthly-bills").once("value").then(snapshot => {
-    const clients = snapshot.val();
+function calculateUnpaidGrandTotalForYear(year = new Date().getFullYear(), clientsData = null) {
+  (clientsData ? Promise.resolve(clientsData) : getMonthlyBillsData()).then(clients => {
     if (!clients) return;
 
     let grandTotal = 0;
@@ -1874,9 +1894,7 @@ function loadUnpaidBillsWithFilters() {
   totalAmountCell.textContent = "₱0.00";
   let totalAmount = 0;
 
-  firebase.database().ref("goldenwifi/monthly-bills").once("value").then(snapshot => {
-    const clients = snapshot.val();
-    if (!clients) return;
+  getMonthlyBillsData().then(clients => {
 
     Object.entries(clients).forEach(([clientKey, clientData]) => {
       const bills = clientData.bills || {};
@@ -1915,6 +1933,8 @@ tableBody.appendChild(row);
     });
 
     totalAmountCell.textContent = `₱${totalAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
+  }).catch(error => {
+    console.error("Error loading pending bills:", error);
   });
 }
 
@@ -1987,6 +2007,7 @@ function editPlan(clientKey,monthKey) {
     firebase.database().ref(path).update({
       modeOfPay: popUp
     }).then(() => {
+      invalidateMonthlyBillsCache();
       loadUnpaidBillsWithFilters();
       console.log(`Updated planAmount to ₱${popUp} for ${monthKey}`);
     });
@@ -2024,6 +2045,7 @@ function markSelectedAsPaid() {
   // Wait for all updates then reload
   Promise.all(updates)
     .then(() => {
+      invalidateMonthlyBillsCache();
       alert("Selected bills marked as Paid and Approved.");
       loadUnpaidBillsWithFilters(); // Reload table
      
@@ -2158,14 +2180,4 @@ const select33 = document.getElementById("status3");
 
 
 
-window.addEventListener("DOMContentLoaded", () => {
-  loadClientTable(); // load clients first
- // updateMerchantTable3();
-});
-
-
-
-
-
-
-
+// Data loading starts after Firebase Auth identifies the current user.
