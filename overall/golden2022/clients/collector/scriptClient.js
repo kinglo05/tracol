@@ -94,6 +94,7 @@ const planAmount = document.getElementById('planAmount');
 const clientNameIn = document.getElementById('clientNameIn');
 const clientAddress = document.getElementById('clientAddress');
 const connectionType = document.getElementById('connectionType');
+const purok = document.getElementById('purok');
 
 const dateInput = document.getElementById('date');
 const userInput = document.getElementById('userType'); 
@@ -192,6 +193,7 @@ submitNewClient.addEventListener('click', () => {
       areaCode:  userSaved.value,
       date: formattedDate,
       contactNum: contactNum.value,
+     purok: purok.value,
       note: "",
       user: userSaved.value
     
